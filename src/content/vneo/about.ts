@@ -36,6 +36,7 @@ export const about: {
           what: 'Bachelor of Mechatronics Engineering',
           where: 'Rafik Hariri University (RHU), Lebanon',
           note: 'CGPA 4.0/4.0, class valedictorian.',
+          href: 'https://www.rhu.edu.lb/media-room/news/rhu-commencement-2025-a-tribute-to-legacy-learning-and-new-beginnings',
         },
       ],
     },
@@ -46,7 +47,8 @@ export const about: {
         {
           when: '2024 – now',
           what: 'Embedded Systems & Vision Engineer',
-          where: 'Oreyeon, Coimbra (hybrid)',
+          where: 'Oreyeon, Coimbra, Portugal (hybrid)',
+          href: 'https://www.oreyeon.com/',
           note: 'Real-time vision for airport runway safety, on NVIDIA Jetson.',
         },
         {
@@ -93,8 +95,8 @@ export const about: {
         },
         {
           when: '2026',
-          what: 'Git and GitHub workshops',
-          note: 'At the CodewithSerah bootcamp (January) and the LAU Byblos Software Engineering Club (April).',
+          what: 'Bootcamp sessions and a Git workshop',
+          note: 'Two sessions at the CodewithSerah bootcamp in January, “Git & GitHub” and “The Long Way into AI”, and a hands-on Git workshop I coordinated for the LAU Byblos Software Engineering Club in April, with material by Tarek AlSaleh.',
           href: writingHref('talks-workshops-and-teaching'),
         },
       ],
@@ -141,6 +143,7 @@ export const about: {
         {
           when: '2025',
           what: 'Nazik Rafik Hariri Graduate Studies Award',
+          href: 'https://www.rhu.edu.lb/media-room/news/rhu-commencement-2025-a-tribute-to-legacy-learning-and-new-beginnings',
           note: 'Graduated valedictorian with a 4.0/4.0 CGPA and a 100% master’s scholarship.',
         },
         {

@@ -127,7 +127,7 @@ type Motion =
 /** What each project's own scene shows, for screen readers. */
 export const ownAlt = {
   demining:
-    'An illustration: a rover sweeps a planned path over a georeferenced grid and marks three finds; its stack reads sense, perceive, localize, plan, act.',
+    'An illustration: a rover sweeps a planned path over a georeferenced grid and marks what it finds; its stack reads sense, perceive, localize, plan, act.',
 } as const
 const workItem = (slug: string, motion: Motion | undefined, shows: string) => {
   const w = workBySlug(slug)!
@@ -313,10 +313,10 @@ export const community = {
   },
   workshops: {
     label: 'Workshops',
-    title: 'Git & GitHub, hands on',
+    title: 'Git, GitHub, and the long way into AI',
     items: [
-      'CodewithSerah bootcamp · January 2026',
-      'LAU Byblos Software Engineering Club · April 2026',
+      'CodewithSerah bootcamp, two sessions · January 2026',
+      'LAU Byblos SWE Club, coordinator; material by Tarek AlSaleh · April 2026',
     ],
     href: writingHref('talks-workshops-and-teaching'),
   },
@@ -416,13 +416,13 @@ export const vneo = {
       big: '2025',
       label: 'Mechatronics engineer, RHU',
       note: 'valedictorian, 4.0/4.0, full master’s scholarship',
-      href: siteConfig.education.url,
+      href: 'https://www.rhu.edu.lb/media-room/news/rhu-commencement-2025-a-tribute-to-legacy-learning-and-new-beginnings',
     },
     {
       big: 'Mentor',
       label: 'Speaker and mentor',
-      note: 'GDG DevFest Tripoli · NASA Space Apps Beirut',
-      href: writingHref('talks-workshops-and-teaching'),
+      note: 'DevFest Tripoli · NASA Space Apps · INJAZ',
+      href: `${VN}/about#about-teaching`,
     },
   ],
   work: {
@@ -430,10 +430,10 @@ export const vneo = {
     label: 'Work',
     title: 'Selected projects.',
     hot: 'projects',
-    lede: 'The most important come first and play as you arrive; hover any to see it again, or press Watch for the full view. Each says what it does, my part, and the fact to check.',
+    lede: 'The most important come first and play as you arrive; hover any to see it again, or press Watch for the full view. Each says what it does, my part, and one result.',
     /** The same, for a phone: no hover there, and the grid becomes a row to swipe. */
     ledeTouch:
-      'The most important come first, each playing as it comes into view; swipe for the rest, or press Watch for the full view. Each says what it does, my part, and the fact to check.',
+      'The most important come first, each playing as it comes into view; swipe for the rest, or press Watch for the full view. Each says what it does, my part, and one result.',
     all: 'All projects',
     open: 'Open the project',
     watch: 'Watch',
@@ -467,7 +467,7 @@ export const vneo = {
     accent: '#b7d3a8',
     pack: {
       words: ['Sense', 'Decide', 'Act'],
-      note: '36 × Unitree Go2 · on a circuit board, simulated',
+      note: 'Illustration · 36 × Unitree Go2, simulated on a circuit board',
       tracks: [30, 22, 27, 32],
       track: 'Go2',
       focus: ['Robotics', 'Computer vision', 'Embedded systems', 'Edge AI'],
@@ -494,6 +494,7 @@ export const vneoChrome = {
     { label: 'Work', href: `${HOME}#work` },
     { label: 'Community', href: `${HOME}#community` },
     { label: 'Projects', href: `${VN}/projects` },
+    { label: 'Writing', href: `${VN}/writing` },
     { label: 'About', href: `${VN}/about` },
     { label: 'Contact', href: `${HOME}#sign-off` },
   ],

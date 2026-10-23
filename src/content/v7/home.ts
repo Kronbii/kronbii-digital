@@ -124,7 +124,7 @@ export function buildChapters(base: string): Chapter[] {
       who: 'people who sign',
       label: 'For people who sign',
       name: 'OmniSign',
-      title: 'Lebanese Sign Language, turned into text in real time.',
+      title: 'Lebanese Sign Language, recognized in real time.',
       hot: 'real time',
       line: 'OmniSign reads signing from a camera and runs on phones, on the web, and on offline devices.',
       part: 'Co-founder and computer vision engineer, in a team of five',
@@ -161,9 +161,9 @@ export function buildChapters(base: string): Chapter[] {
       name: 'Brainiacs',
       title: 'Robots that see, decide, and steer themselves.',
       hot: 'steer',
-      line: 'A self-driving car built from scratch in 20 days took third of 95+ teams at the World Robot Olympiad 2023. Drones are the love: a fix of mine was merged into Betaflight, the firmware that flies FPV drones.',
+      line: 'A self-driving car built from scratch in 20 days took third in Future Engineers at WRO Lebanon 2023. Drones are the love: a fix of mine was merged into Betaflight, the firmware that flies FPV drones.',
       part: 'Team of two, with Wassim Ghaddar',
-      alt: 'The Brainiacs race car; a counter runs to 20 days, the placing lands, third of 95 or more teams, and a merged Betaflight fix follows.',
+      alt: 'The Brainiacs race car; a counter runs to 20 days, the placing lands, third in Future Engineers at WRO Lebanon, and a merged Betaflight fix follows.',
       link: {
         label: 'How the car works',
         href: workHref('brainiacs-autonomous-race-car', base),
@@ -211,7 +211,7 @@ const GROUPS: { label: string; slugs: string[] }[] = [
     label: 'Seeing better',
     slugs: ['thermal-super-resolution', '360-spherical-panorama-stitching'],
   },
-  { label: 'Communities', slugs: ['bsheel-quest-app'] },
+  { label: 'Players', slugs: ['bsheel-quest-app'] },
 ]
 
 export const buildGroups = (base: string) =>

@@ -27,7 +27,20 @@ export interface ArticleHeading {
   text: string
 }
 
-export type ArticleBlock = ArticleParagraph | ArticleHeading
+/** A picture inside an article's body: a path under /images, its alt text, and an optional caption. */
+export interface ArticleFigure {
+  kind: 'figure'
+  src: string
+  alt: string
+  caption?: string
+}
+
+/**
+ * A paragraph's text may carry inline links as [label](/path) or
+ * [label](https://…); the reader renders them, and every other use
+ * (metadata, JSON-LD, RSS descriptions, counts) keeps the label alone.
+ */
+export type ArticleBlock = ArticleParagraph | ArticleHeading | ArticleFigure
 
 export interface AuthorityBreadcrumb {
   label: string

@@ -1,4 +1,5 @@
-import { getProject, readyArticles } from '@/content/authority'
+import { inlineParts } from '@/components/vneo/inline-text'
+import { getProject, readyArticles, type ArticleBlock } from '@/content/authority'
 import { racePhoto } from '@/content/vneo/site'
 import { siteConfig } from '@/lib/site'
 
@@ -14,6 +15,28 @@ const esc = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 const attr = (s: string) => esc(s).replace(/"/g, '&quot;')
 const abs = (path: string) => `${siteConfig.url}${path}`
+const href = (h: string) => (h.startsWith('/') ? abs(h) : h)
+
+/** A paragraph's text with its [label](href) links as links. */
+const inline = (text: string) =>
+  inlineParts(text)
+    .map((p) =>
+      typeof p === 'string'
+        ? esc(p)
+        : `<a href="${attr(href(p.href))}">${esc(p.label)}</a>`
+    )
+    .join('')
+
+function block(b: ArticleBlock): string {
+  switch (b.kind) {
+    case 'p':
+      return `<p>${inline(b.text)}</p>`
+    case 'figure':
+      return `<figure><img src="${attr(href(b.src))}" alt="${attr(b.alt)}"/>${b.caption ? `<figcaption>${esc(b.caption)}</figcaption>` : ''}</figure>`
+    default:
+      return `<${b.kind}>${esc(b.text)}</${b.kind}>`
+  }
+}
 
 function content(a: (typeof readyArticles)[number]): string {
   const url = abs(`/writing/${a.slug}`)
@@ -24,9 +47,7 @@ function content(a: (typeof readyArticles)[number]): string {
     hero
       ? `<figure><img src="${attr(abs(hero.src))}" alt="${attr(hero.alt)}"/>${hero.caption ? `<figcaption>${esc(hero.caption)}</figcaption>` : ''}</figure>`
       : '',
-    ...a.body.map((b) =>
-      b.kind === 'p' ? `<p>${esc(b.text)}</p>` : `<${b.kind}>${esc(b.text)}</${b.kind}>`
-    ),
+    ...a.body.map(block),
     a.sources.length
       ? `<h2>Links</h2><ul>${a.sources
           .map((s) => `<li><a href="${attr(s.href)}">${esc(s.label)}</a></li>`)

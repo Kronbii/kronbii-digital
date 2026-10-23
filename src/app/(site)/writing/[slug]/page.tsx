@@ -3,14 +3,27 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { JsonLd } from '@/components/v2/json-ld'
-import { articleJsonLd, liveCrumbs } from '@/components/v2/schema'
+import {
+  articleEventsJsonLd,
+  articleJsonLd,
+  liveCrumbs,
+} from '@/components/v2/schema'
 import { BackButton } from '@/components/vneo/back'
+import '@/components/vneo/figures.css'
+import { Inline } from '@/components/vneo/inline'
 import { pageMeta } from '@/components/vneo/meta'
 import { TopicLinks } from '@/components/vneo/topics'
 import { getArticle, getProject, readyArticles } from '@/content/authority'
+import { mediaSize } from '@/content/v2/media-size'
 import { sourceKindLabel } from '@/content/v2/record'
 import { HOME, VN, racePhoto, workHref, writingHref } from '@/content/vneo/site'
-import { siteConfig } from '@/lib/site'
+
+/** A picture's intrinsic size, so the page does not shift as it loads. */
+const sizeOf = (m: { src: string; width?: number; height?: number }) => {
+  const [width, height] =
+    m.width && m.height ? [m.width, m.height] : (mediaSize[m.src] ?? [])
+  return width && height ? { width, height } : {}
+}
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -50,17 +63,14 @@ export default async function VneoArticle({ params }: Props) {
   const companion = project && project.state === 'ready' ? project : undefined
   const at = readyArticles.findIndex((x) => x.slug === slug)
   const next = readyArticles[(at + 1) % readyArticles.length]
+  const hero = a.heroMedia ? racePhoto(a.heroMedia) : undefined
 
   return (
     <>
       <JsonLd
         data={[
-          a.heroMedia
-            ? {
-                ...articleJsonLd(a),
-                image: `${siteConfig.url}${racePhoto(a.heroMedia).src}`,
-              }
-            : articleJsonLd(a),
+          articleJsonLd(a),
+          ...articleEventsJsonLd(a),
           liveCrumbs([
             { label: 'Home', href: '/' },
             { label: 'Writing', href: '/writing' },
@@ -95,6 +105,18 @@ export default async function VneoArticle({ params }: Props) {
               The project: {companion.title.split(' — ')[0]} →
             </Link>
           ) : null}
+          {hero ? (
+            <figure className="vn-article-hero">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={hero.src}
+                alt={hero.alt}
+                {...sizeOf(hero)}
+                fetchPriority="high"
+              />
+              {hero.caption ? <figcaption>{hero.caption}</figcaption> : null}
+            </figure>
+          ) : null}
         </header>
         <div className="vn-article-body">
           {a.body.map((b, i) =>
@@ -102,8 +124,21 @@ export default async function VneoArticle({ params }: Props) {
               <h2 key={i}>{b.text}</h2>
             ) : b.kind === 'h3' ? (
               <h3 key={i}>{b.text}</h3>
+            ) : b.kind === 'figure' ? (
+              <figure key={i} className="vn-article-figure">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={b.src}
+                  alt={b.alt}
+                  {...sizeOf(b)}
+                  loading="lazy"
+                />
+                {b.caption ? <figcaption>{b.caption}</figcaption> : null}
+              </figure>
             ) : (
-              <p key={i}>{b.text}</p>
+              <p key={i}>
+                <Inline text={b.text} />
+              </p>
             )
           )}
         </div>

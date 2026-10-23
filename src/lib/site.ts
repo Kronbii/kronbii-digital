@@ -1,9 +1,9 @@
 export const siteConfig = {
   name: 'Rami Kronbi',
   shortName: 'Rami Kronbi',
-  title: 'Rami Kronbi | Robotics & Embedded Systems Engineer',
+  title: 'Rami Kronbi | Robotics, Embedded & Systems Engineer',
   description:
-    'Rami Kronbi is a Lebanese engineer building intelligent systems for the physical world — embedded perception, real-time computer vision, and autonomous systems.',
+    'Rami Kronbi is a robotics, embedded & systems engineer in Beirut: robots, embedded control, and real-time computer vision, built for the people who use them.',
   url: 'https://ramikronbi.com',
   email: 'ramykronby@gmail.com',
   location: 'Beirut, Lebanon',

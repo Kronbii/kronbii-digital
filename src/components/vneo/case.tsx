@@ -25,11 +25,12 @@ import { siteConfig } from '@/lib/site'
 import { BackButton } from './back'
 import { TopicLinks } from './topics'
 import { CaseShot } from './case-shot'
+import { HeroDiagram, hasDiagram } from './hero-diagram'
 
 /*
  * A project in Vneo: who it is for and what it does, beside its picture in
  * motion (its chapter's scene, or its reel shot, or its own photograph
- * coming into focus); then the short answer and the steps for everyone; the
+ * coming into focus, or its architecture diagram); then the short answer and the steps for everyone; the
  * engineering folded under "For engineers" (v3's idea); its links, always
  * visible.
  */
@@ -74,6 +75,10 @@ export function Case({ slug }: { slug: string }) {
   const article = getArticle(p.articleSlug)
   const note =
     article && article.state === 'ready' ? writingHref(article.slug) : undefined
+  // the car's page opens on its own reel shot (the camera reading the course), not its chapter's scene
+  const ownShot = chapter?.id === 'machines' ? shot : undefined
+  const diagram =
+    p.hero.kind === 'diagram' && hasDiagram(p.hero.diagramId) ? p.hero : undefined
   const src =
     p.sources.find((s) => s.kind === 'demo') ??
     p.sources.find((s) => s.kind === 'repository')
@@ -146,12 +151,20 @@ export function Case({ slug }: { slug: string }) {
               replay="Play again"
               note="Illustration"
             />
+          ) : ownShot ? (
+            <CaseShot id={ownShot.id} label={ownShot.alt} />
           ) : chapter ? (
             <SceneFor chapter={chapter} />
           ) : shot ? (
             <CaseShot id={shot.id} label={shot.alt} />
           ) : lead ? (
             <Plate src={lead.src} alt={lead.alt} />
+          ) : diagram ? (
+            <HeroDiagram
+              id={diagram.diagramId}
+              caption={diagram.caption}
+              alt={diagram.alt}
+            />
           ) : (
             <Plate text={p.title.split(' — ')[0]} />
           )}

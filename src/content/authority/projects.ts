@@ -4,11 +4,11 @@ export const projects: ProjectRecord[] = [
   {
     slug: 'five-inch-carbon-fiber-fpv-drone',
     state: 'ready',
-    title: '5-inch Carbon-Fiber FPV Drone',
+    title: '5-inch carbon-fiber FPV drone',
     metaTitle:
-      '5-inch carbon-fiber FPV drone — designed, built, and tuned in Betaflight',
+      '5-inch carbon-fiber FPV drone, built and tuned in Betaflight',
     metaDescription:
-      'A 5-inch carbon-fiber FPV drone designed and built by Rami Kronbi: propulsion and power sized from thrust, weight, and current calculations, and Betaflight PID loops, flight modes, GPS, and return-to-home configured and tuned.',
+      'A 5-inch carbon-fiber FPV drone Rami Kronbi designed and built, sized from thrust, weight and current, with Betaflight PIDs, GPS and return-to-home tuned.',
     summary:
       'A 5-inch carbon-fiber quadcopter I designed and built. I sized its propulsion and power from thrust, weight, and current calculations, configured and tuned Betaflight (PID loops, flight modes, GPS features, return-to-home), and evaluated GPS accuracy, RF link quality, and flight performance under GNSS jamming and IMU/GNSS integration constraints.',
     role: 'Designer and builder.',
@@ -82,7 +82,7 @@ export const projects: ProjectRecord[] = [
   {
     slug: '360-spherical-panorama-stitching',
     state: 'ready',
-    title: '360° Spherical Panorama Stitching',
+    title: '360° spherical panorama stitching',
     metaTitle: '360° Spherical Panorama Stitching — CPU-only OpenCV pipeline',
     metaDescription:
       'A CPU-only Python and OpenCV pipeline that turns handheld phone video into an equirectangular panorama and a self-contained Three.js viewer.',
@@ -105,7 +105,7 @@ export const projects: ProjectRecord[] = [
       problem:
         'General-purpose stitchers hide the geometric decisions behind a single call, which makes it hard to explain why a panorama tilts, ghosts, or drifts under real handheld capture.',
       how: 'Frames are extracted, matched with ORB features and RANSAC, related by homography under a pure-rotation camera model, projected back onto a sphere, and rendered in a browser viewer. Temporal smoothing damps the pitch and roll wobble left after per-pair estimation.',
-      role: 'I built the pipeline, the viewer, the tests, and the technical documentation on my own.',
+      role: 'I built the pipeline, the viewer, the 186 tests, and the technical documentation on my own.',
     },
     stages: [
       {
@@ -134,12 +134,18 @@ export const projects: ProjectRecord[] = [
       },
       {
         step: '05',
+        title: 'Blend',
+        detail:
+          'Overlaps are blended, multiband, feathered, or sharp, and the parts of the sphere the sweep never saw are inpainted from their surroundings.',
+      },
+      {
+        step: '06',
         title: 'Smooth',
         detail:
           'A moving average over the chained global rotations damps per-pair pitch and roll wobble. It is deliberately simple: not bundle adjustment, loop closure, or exposure matching.',
       },
       {
-        step: '06',
+        step: '07',
         title: 'View',
         detail:
           'The final 4096 × 2048 panorama is served through a self-contained Three.js viewer that makes the recovered geometry directly inspectable in a browser.',
@@ -203,23 +209,23 @@ export const projects: ProjectRecord[] = [
       {
         src: '/images/authority/spherical-panorama/stage1-frame.jpg',
         alt: 'A single extracted phone-video frame that becomes an input to the pipeline.',
-        caption: 'Stage 1 — frame extraction.',
+        caption: 'Extract — one frame pulled from the phone video.',
       },
       {
         src: '/images/authority/spherical-panorama/stage2-matches.jpg',
         alt: 'A pair of adjacent frames with ORB feature matches drawn between them.',
-        caption: 'Stage 2 — ORB matches surviving Lowe’s ratio and RANSAC.',
+        caption: 'Match — ORB matches that survive Lowe’s ratio and RANSAC.',
       },
       {
         src: '/images/authority/spherical-panorama/stage3-many.jpg',
         alt: 'A mosaic of intermediate stitched frames laid onto the equirectangular canvas.',
-        caption: 'Stage 3 — chained per-pair rotations before smoothing.',
+        caption: 'Rotate and warp — every frame placed on the equirectangular canvas by its chained rotation, before smoothing.',
       },
       {
         src: '/images/authority/spherical-panorama/side-by-side.jpg',
         alt: 'Side-by-side comparison of the panorama with and without temporal smoothing.',
         caption:
-          'Smoothing comparison — long horizontal edges before and after.',
+          'Smooth — long horizontal edges before and after.',
       },
       {
         src: '/images/authority/spherical-panorama/pano-on-band.jpg',
@@ -229,7 +235,7 @@ export const projects: ProjectRecord[] = [
       {
         src: '/images/authority/spherical-panorama/goat.webp',
         alt: 'Interactive Three.js viewer showing the reconstructed panorama being explored.',
-        caption: 'Three.js viewer — the reconstructed geometry, in a browser.',
+        caption: 'View — the reconstructed geometry in the Three.js viewer.',
       },
     ],
     sources: [
@@ -355,6 +361,11 @@ export const projects: ProjectRecord[] = [
     ],
     sources: [
       {
+        label: 'easyPID tuning guide',
+        href: 'https://github.com/Kronbii/easyPID/blob/main/docs/tuning_guide.md',
+        kind: 'documentation',
+      },
+      {
         label: 'GitHub — easyPID',
         href: 'https://github.com/Kronbii/easyPID',
         kind: 'repository',
@@ -389,10 +400,10 @@ export const projects: ProjectRecord[] = [
   {
     slug: 'brainiacs-autonomous-race-car',
     state: 'ready',
-    title: 'Brainiacs Autonomous Race Car',
+    title: 'Brainiacs autonomous race car',
     metaTitle: 'Brainiacs autonomous race car — WRO Future Engineers 2023',
     metaDescription:
-      'A dual-processor WRO Future Engineers vehicle that splits perception on a Jetson Nano from real-time control on an Arduino Mega, with OpenCV traffic-sign logic and PID steering.',
+      'A WRO Future Engineers car that splits perception on a Jetson Nano from real-time control on an Arduino Mega, with OpenCV sign logic and PID steering.',
     summary:
       'A WRO Future Engineers vehicle dividing Jetson Nano perception from Arduino Mega real-time control, with OpenCV traffic-sign logic, PID steering, an MPU6050 IMU, and TCS34725 color sensing.',
     role: 'Built with Wassim Ghaddar; I worked on system architecture, vision, sensor integration, and embedded control.',
@@ -408,7 +419,7 @@ export const projects: ProjectRecord[] = [
       },
     },
     answer: {
-      what: 'A dual-processor autonomous vehicle built for the 2023 World Robot Olympiad Future Engineers challenge.',
+      what: 'A dual-processor autonomous vehicle built for the Future Engineers category of WRO Lebanon 2023, the national round of the World Robot Olympiad.',
       problem:
         'A twenty-day build had to combine visual understanding, traffic-marker logic, obstacle avoidance, and reliable motion on limited compute and a student budget.',
       how: 'Perception runs in Python and OpenCV on a Jetson Nano and is sent as compact events to an Arduino Mega, which owns the time-sensitive steering PID and drivetrain commands. A TCS34725 color sensor and MPU6050 IMU close gaps the camera cannot handle alone.',
@@ -449,12 +460,12 @@ export const projects: ProjectRecord[] = [
       {
         label: 'Placement',
         value: 'Third, Future Engineers',
-        context: 'World Robot Olympiad, July 2023',
+        context: 'WRO Lebanon national round, July 2023',
       },
       {
-        label: 'Competition size',
+        label: 'Event size',
         value: '>95 teams / >250 participants',
-        context: 'WRO Future Engineers, as RHU reported',
+        context: 'the whole national event, across four categories',
       },
     ],
     limits: [
@@ -497,7 +508,7 @@ export const projects: ProjectRecord[] = [
     ],
     articleSlug: 'building-an-autonomous-race-car-in-twenty-days',
     topics: [
-      'robotics',
+      'robotics-perception',
       'embedded-systems',
       'computer-vision',
       'control-systems',
@@ -515,9 +526,9 @@ export const projects: ProjectRecord[] = [
   {
     slug: 'thermal-super-resolution',
     state: 'ready',
-    title: 'Thermal Super-Resolution',
+    title: 'Thermal super-resolution',
     metaTitle:
-      'Thermal super-resolution — IMDN adapted to single-channel thermal imagery',
+      'Thermal super-resolution: IMDN adapted to thermal imagery',
     metaDescription:
       'An IMDN-derived thermal super-resolution pipeline trained with thermal-specific objectives and optimized for edge inference on NVIDIA Jetson hardware.',
     summary:
@@ -615,7 +626,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     articleSlug: 'adapting-super-resolution-to-thermal-imagery',
-    topics: ['computer-vision', 'edge-ai', 'robotics-perception'],
+    topics: ['computer-vision', 'edge-ai', 'robotics-perception', 'applied-ai'],
     keywords: [
       'thermal super-resolution',
       'IMDN',
@@ -627,7 +638,7 @@ export const projects: ProjectRecord[] = [
   {
     slug: 'pid-light-tracking-robot',
     state: 'ready',
-    title: 'PID Light Tracker',
+    title: 'PID light tracker',
     metaTitle:
       'PID light tracker — a two-axis Arduino experiment in real control',
     metaDescription:
@@ -638,12 +649,20 @@ export const projects: ProjectRecord[] = [
     form: 'diagram',
     schemaType: 'SoftwareSourceCode',
     hero: {
-      kind: 'diagram',
-      diagramId: 'light-tracker',
-      caption:
-        'The tracker as a control loop: four LDRs form the error signal, a PID controller drives the yaw and pitch servos, and the assembly’s new pose feeds back into the sensor readings.',
-      alt: 'Diagram of a two-axis light-tracker control loop showing four light-dependent resistors, a PID controller block, yaw and pitch servos, and the feedback path from mechanical pose back to the sensor.',
+      kind: 'image',
+      media: {
+        src: '/images/authority/pid-light-tracker/cad.jpg',
+        alt: 'CAD render of the light tracker: a 3D-printed base, a pan servo, a tilt bracket, and a mount carrying four light sensors behind a cross-shaped shade.',
+        caption: 'The tracker in CAD: two MG995 servos for pan and tilt, and four LDRs split by a shade so each axis sees a difference in light.',
+      },
     },
+    media: [
+      {
+        src: '/images/authority/pid-light-tracker/schematic.jpg',
+        alt: 'Circuit schematic: four LDR voltage dividers with 10 kΩ resistors feeding the Arduino Uno’s analog inputs, and two servos on PWM pins 6 and 9.',
+        caption: 'The circuit, simulated in Proteus: four LDR dividers into an Arduino Uno, two servos on PWM.',
+      },
+    ],
     answer: {
       what: 'An Arduino two-axis light-tracking robot that runs a PID controller against a small light-sensor array.',
       problem:
@@ -694,7 +713,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     articleSlug: 'what-a-two-axis-light-tracker-teaches-about-pid-control',
-    topics: ['robotics', 'embedded-systems', 'control-systems'],
+    topics: ['robotics-perception', 'embedded-systems', 'control-systems'],
     keywords: [
       'PID tuning',
       'light tracker',
@@ -706,11 +725,11 @@ export const projects: ProjectRecord[] = [
   {
     slug: 'fine-crack-tracing-toolkit',
     state: 'ready',
-    title: 'Fine Crack Tracing Toolkit',
+    title: 'Fine crack tracing toolkit',
     metaTitle:
-      'Fine crack tracing — turning segmentation masks into measurable paths',
+      'Fine crack tracing: from segmentation masks to measurable paths',
     metaDescription:
-      'An installable Python package and CLI that turns pre-segmented crack masks into ordered lines, splines, overlays, and evaluation metrics for infrastructure inspection.',
+      'A Python package and CLI that turns crack masks into ordered lines, splines, overlays, and metrics for infrastructure inspection.',
     summary:
       'An installable Python package and CLI for turning pre-segmented crack masks into ordered lines, optional splines, visual overlays, and evaluation metrics.',
     role: 'Owner and maintainer.',
@@ -720,9 +739,9 @@ export const projects: ProjectRecord[] = [
       kind: 'image',
       media: {
         src: '/images/authority/fine-crack/test-frame.png',
-        alt: 'Test frame containing a thin crack across a rough surface, used as an input to the tracing toolkit.',
+        alt: 'A segmentation mask of a thin crack, red on black: the input the tracing toolkit starts from.',
         caption:
-          'Test frame from the repository — a starting point for the tracing pipeline.',
+          'The input: a crack mask from a segmentation model, before it is traced into an ordered path.',
       },
     },
     answer: {
@@ -778,7 +797,6 @@ export const projects: ProjectRecord[] = [
     articleSlug: 'turning-segmented-cracks-into-measurable-paths',
     topics: [
       'computer-vision',
-      'infrastructure-inspection',
       'open-source-engineering',
     ],
     keywords: [
@@ -875,7 +893,7 @@ export const projects: ProjectRecord[] = [
     state: 'ready',
     title: 'Daleel',
     metaTitle:
-      'Daleel — a verifiable Lebanese parliamentary-election information platform',
+      'Daleel: verifiable Lebanese election information',
     metaDescription:
       'An independent multilingual Lebanese parliamentary-election information platform designed around source archiving, append-only history, and verifiable records.',
     summary:
@@ -938,12 +956,12 @@ export const projects: ProjectRecord[] = [
       },
       {
         label: 'Technical documentation (TECHNICAL.md)',
-        href: 'https://github.com/Kronbii/daleel/blob/main/TECHNICAL.md',
+        href: 'https://github.com/Kronbii/daleel/blob/main/docs/technical.md',
         kind: 'documentation',
       },
     ],
     articleSlug: 'designing-election-information-for-verifiability',
-    topics: ['civic-technology', 'information-integrity', 'full-stack-systems'],
+    topics: ['civic-technology', 'open-source-engineering'],
     keywords: [
       'civic technology',
       'Lebanese elections',
@@ -1451,7 +1469,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     articleSlug: 'building-real-time-lebanese-sign-language-translation',
-    topics: ['computer-vision', 'edge-ai', 'embedded-systems'],
+    topics: ['computer-vision', 'edge-ai', 'embedded-systems', 'applied-ai'],
     keywords: [
       'Lebanese Sign Language',
       'gesture recognition',
@@ -1464,7 +1482,7 @@ export const projects: ProjectRecord[] = [
     state: 'ready',
     title: 'Smart Interactive Desk (BEMO)',
     metaTitle:
-      'Smart Interactive Desk (BEMO) — a posture-aware classroom workstation',
+      'Smart Interactive Desk (BEMO), a posture-aware classroom desk',
     metaDescription:
       'A posture-estimation prototype that closes a physical loop with a motorized desk.',
     summary:
@@ -1522,8 +1540,8 @@ export const projects: ProjectRecord[] = [
     measurements: [
       {
         label: 'Award',
-        value: 'Best Senior Project',
-        context: 'senior graduation project, 2024–2025',
+        value: 'Best Graduating Project',
+        context: 'RHU Engineering Jury, 2025',
       },
     ],
     limits: [
@@ -1551,9 +1569,9 @@ export const projects: ProjectRecord[] = [
     state: 'ready',
     title: 'Jetson-powered runway-inspection UAV',
     metaTitle:
-      'Jetson-powered runway-inspection UAV — onboard FOD detection in simulation',
+      'Runway-inspection UAV: onboard FOD detection, in simulation',
     metaDescription:
-      'A simulated runway-inspection UAV by Rami Kronbi: a lightweight YOLOv11 foreign-object-debris detector running onboard a Jetson at about 30 FPS, trained on online and synthetic data, with similarity matching and false-positive filtering.',
+      'A simulated runway-inspection UAV: a YOLOv11 debris detector onboard a Jetson at about 30 FPS, with similarity matching and false-positive filtering.',
     summary:
       'A runway-inspection UAV I’m building as a simulation project. A lightweight YOLOv11 detector for foreign object debris (FOD) runs onboard on a Jetson at about 30 FPS. I trained it on online and synthetically generated data, reached 75–80% model accuracy, and added similarity matching and false-positive filtering for in-flight tests that simulate runway conditions.',
     role: 'My own project; I develop and test it.',
@@ -1619,7 +1637,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     articleSlug: 'running-fod-detection-on-a-uav',
-    topics: ['edge-ai', 'robotics-perception', 'computer-vision'],
+    topics: ['edge-ai', 'robotics-perception', 'computer-vision', 'applied-ai'],
     keywords: [
       'FOD detection',
       'foreign object debris',
@@ -1636,9 +1654,9 @@ export const projects: ProjectRecord[] = [
     state: 'ready',
     title: 'Edge emotion-recognition prototype for children with autism',
     metaTitle:
-      'Emotion recognition for children with autism — a real-time prototype on Jetson Orin Nano',
+      'Real-time emotion recognition for children with autism',
     metaDescription:
-      'A real-time facial-landmark and CNN emotion-recognition pipeline Rami Kronbi developed on Jetson Orin Nano in 2022–2023 as a support tool for children with autism, reaching about 92% development accuracy on cleaned data from CALMED, Kaggle, and other sources.',
+      'A real-time facial-landmark and CNN pipeline on a Jetson Orin Nano, built as a support tool for children with autism, at about 92% development accuracy.',
     summary:
       'A real-time emotion-recognition pipeline I developed in 2022–2023 as a support tool for children with autism. It pairs facial landmarks with a convolutional neural network and runs on a Jetson Orin Nano. After I combined and cleaned image and video data from CALMED, Kaggle, and other sources, it reached about 92% development accuracy. The prototype and the concept were later acquired following a Gulf-region competition.',
     role: 'I developed the pipeline and combined and cleaned its training data.',
@@ -1714,7 +1732,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     articleSlug: 'lessons-from-an-edge-emotion-recognition-prototype',
-    topics: ['edge-ai', 'computer-vision'],
+    topics: ['edge-ai', 'computer-vision', 'applied-ai'],
     keywords: [
       'emotion recognition',
       'autism',
@@ -1730,11 +1748,11 @@ export const projects: ProjectRecord[] = [
     state: 'ready',
     title: 'Upstream fixes to Betaflight, PX4, and OpenFront',
     metaTitle:
-      'Upstream open-source contributions — Betaflight, PX4 EKF2, OpenFront',
+      'Upstream contributions to Betaflight, PX4, and OpenFront',
     metaDescription:
       'Small, test-backed fixes contributed upstream to Betaflight flight-controller firmware, the PX4 EKF2 estimator, and the OpenFront browser game.',
     summary:
-      'Bug fixes contributed to three upstream open-source projects: a Redpine CC2500 debug-mode fix and a W25M flash read fix in Betaflight, an EKF2 range-height reset fix in PX4, and two HUD fixes in OpenFront.',
+      'Fixes and one feature contributed to three upstream open-source projects: a Redpine CC2500 debug-mode fix and a W25M flash read fix in Betaflight, an EKF2 range-height reset fix in PX4, and a HUD feature and a HUD fix in OpenFront.',
     role: 'Sole author of each contribution; reviewed and merged, revised, or closed by the upstream maintainers.',
     form: 'diagram',
     schemaType: 'CreativeWork',
@@ -1750,26 +1768,26 @@ export const projects: ProjectRecord[] = [
       problem:
         'Flight-controller firmware and estimators fail in narrow, hardware-dependent ways: a debug channel that two drivers write with different meanings, a flash read that silently returns short, a height fusion path that never refreshes its timeout. The same discipline applies to a browser game HUD that a mobile browser can zoom into a stuck state.',
       how: 'I read the code path until the mechanism is explicit, reproduce or reason through the fault, change the smallest surface that removes it, add a regression test where the project has a test harness, and write the pull request so a maintainer can check the reasoning without re-deriving it.',
-      role: 'I wrote each pull request. Betaflight #15706, OpenFront #4868, and OpenFront #4985 were merged by the maintainers; Betaflight #15705 is open; PX4 #28286 was closed without merge.',
+      role: 'I wrote each pull request. Betaflight #15706, OpenFront #4868, and OpenFront #4985 were merged by the maintainers; Betaflight #15705 is approved by three maintainers and waiting to merge; PX4 #28286 was closed as a duplicate of #28283, which applies the same fix and was merged.',
     },
     stages: [
       {
         step: '01',
         title: 'Betaflight #15706 — Redpine CC2500 debug mode',
         detail:
-          'The FrSky and Redpine CC2500 drivers both wrote the same debug channel with different meanings for indices 0–3, and a blackbox log records only the numeric debug mode, so the two layouts could not be told apart afterwards. The fix gives the Redpine driver its own debug mode. Merged 2026-09-16; 3 files, +24/−11.',
+          'The FrSky and Redpine CC2500 drivers both wrote the same debug channel with different meanings for indices 0, 1, and 2, and a blackbox log records only the numeric debug mode, so the two layouts could not be told apart afterwards. The fix gives the Redpine driver its own debug mode. Merged 2026-09-16; 3 files, +24/−11.',
       },
       {
         step: '02',
         title: 'Betaflight #15705 — short die reads in W25M flash',
         detail:
-          'The W25M wrapper split reads at die boundaries but assumed the die driver returned the full requested length. The W25N01G die driver clamps each transfer to a NAND page, so multi-page reads left the tail of the buffer unfilled while reporting success. The fix honours the returned count. Open at the time of writing; 1 file, +16/−15.',
+          'The W25M wrapper split reads at die boundaries but assumed the die driver returned the full requested length. The W25N01G die driver clamps each transfer to a NAND page, so multi-page reads left the tail of the buffer unfilled while reporting success. The fix honours the returned count. Approved by three Betaflight maintainers and waiting to merge, as of 23 October 2026; 1 file, +16/−15.',
       },
       {
         step: '03',
         title: 'PX4 #28286 — recurring EKF2 range height resets',
         detail:
-          'When a range finder was the only active height source, successful range fusion did not refresh the estimator’s global height-fusion timestamp, so altitude reset every five seconds. The proposed fix refreshes the timestamp on successful range height fusion and adds regression coverage; the new test failed before the change and passed after it (187 of 187 tests). Closed by the maintainers without merge; 5 files, +40/−5.',
+          'When a range finder was the only active height source, successful range fusion did not refresh the estimator’s global height-fusion timestamp, so altitude reset every five seconds. The proposed fix refreshes the timestamp on successful range height fusion and adds regression coverage; the new test failed before the change and passed after it (187 of 187 tests). Closed on 2026-08-19 as a duplicate of #28283, which was opened first and applies the same fix; #28283 was merged on 2026-09-09. Mine was 5 files, +40/−5.',
       },
       {
         step: '04',
@@ -1782,20 +1800,20 @@ export const projects: ProjectRecord[] = [
       {
         label: 'Pull requests',
         value: '5',
-        context: 'three merged, one open, one closed',
+        context: 'three merged, one approved and waiting, one closed as a duplicate of a merged fix',
       },
       { label: 'Betaflight #15706', value: 'merged', context: '2026-09-16' },
       { label: 'OpenFront #4868', value: 'merged', context: '2026-08-07' },
       { label: 'OpenFront #4985', value: 'merged', context: '2026-08-13' },
       {
         label: 'PX4 #28286',
-        value: 'closed',
-        context: 'not merged; test-backed',
+        value: 'duplicate',
+        context: 'same fix merged as #28283',
       },
     ],
     limits: [
-      'These are small fixes, not features or architecture work; the value is in the diagnosis and the tests, not the line count.',
-      'The PX4 change was not merged. I still list it, because the diagnosis and the test are the useful part, but I don’t count it as an accepted contribution.',
+      'These are small changes, not architecture work; the value is in the diagnosis and the tests, not the line count.',
+      'My PX4 pull request was not the one merged: the maintainers kept #28283, opened first with the same fix, so I don’t count mine as an accepted contribution.',
     ],
     sources: [
       {
@@ -1811,6 +1829,11 @@ export const projects: ProjectRecord[] = [
       {
         label: 'PX4 PR #28286',
         href: 'https://github.com/PX4/PX4-Autopilot/pull/28286',
+        kind: 'repository',
+      },
+      {
+        label: 'PX4 PR #28283 (the merged fix)',
+        href: 'https://github.com/PX4/PX4-Autopilot/pull/28283',
         kind: 'repository',
       },
       {
@@ -2289,7 +2312,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     articleSlug: 'a-first-mechatronic-loop-without-a-pump',
-    topics: ['robotics', 'embedded-systems', 'control-systems'],
+    topics: ['robotics-perception', 'embedded-systems', 'control-systems'],
     keywords: [
       'Arduino',
       'mechatronics',
@@ -2304,9 +2327,9 @@ export const projects: ProjectRecord[] = [
     state: 'ready',
     title: 'Bsheel — a gamified quest app for Lebanon',
     metaTitle:
-      'Bsheel — a real-world quest app with moderated proof and a staged AI proof check',
+      'Bsheel: a real-world quest app with checked proof',
     metaDescription:
-      'Bsheel, co-founded by Rami Kronbi with Razan Hasbini and Tayseer Laz, gives players real-world quests and awards XP once their photo or video proof is approved. Flutter clients on a self-hosted NestJS backend, with an automated proof check that starts in shadow mode.',
+      'Bsheel, co-founded with Razan Hasbini and Tayseer Laz, awards XP once quest proof is approved; Rami built its staged AI proof check, in shadow mode.',
     summary:
       'Bsheel is a game you play in the real world. It hands you three random quests, you pick one, do it before its timer runs out, and post a photo or video as proof; XP lands once the proof is approved. I co-founded it with Razan Hasbini and Tayseer Laz. It is live on Google Play and at bsheel.app, and my largest piece of the code is the automated proof check that sits in front of the moderators.',
     role: 'Co-founder, systems engineer, and product manager, with Razan Hasbini and Tayseer Laz.',
@@ -2473,9 +2496,10 @@ export const projects: ProjectRecord[] = [
     slug: 'quadrotor-rotor-fault-recovery',
     state: 'ready',
     title: 'Rotor-fault detection and recovery for a quadrotor',
-    metaTitle: 'Rotor-fault detection and recovery for a 5-inch quadrotor — simulation and PX4 SITL',
+    metaTitle:
+      'Rotor-fault detection and recovery for a quadrotor, in simulation',
     metaDescription:
-      'How a 5-inch quadrotor can detect a weakened or lost rotor within tens of milliseconds and keep flying: a Kalman-filter estimator, a CUSUM detector and a yaw-relaxed controller, tested in simulation and on PX4 software-in-the-loop.',
+      'Detecting a weakened or lost rotor within tens of milliseconds and flying on: a Kalman estimator, a CUSUM detector, and a yaw-relaxed controller, in simulation.',
     summary:
       'A reproducible study of rotor-fault tolerance for a 5-inch quadrotor: estimate how well each rotor still works, detect and isolate a loss within tens of milliseconds, and recover, including from the complete loss of one rotor. Validated offline on PX4 software-in-the-loop flights; the test on the real vehicle is prepared, not done.',
     role: 'Sole author: vehicle model, estimator, detector, controllers, simulator, experiments, PX4 software-in-the-loop automation, analysis and the paper.',
@@ -2595,9 +2619,10 @@ export const projects: ProjectRecord[] = [
     slug: 'esp32-barn-door-star-tracker',
     state: 'ready',
     title: 'ESP32 barn-door star tracker',
-    metaTitle: 'ESP32 barn-door star tracker — firmware that removes the tangent error',
+    metaTitle:
+      'ESP32 barn-door star tracker that removes the tangent error',
     metaDescription:
-      'A 3D-printed star tracker whose ESP32 firmware removes the barn door’s tangent error by timing every microstep from the mechanism’s geometry, with an error model that predicts the longest sharp exposure. Designed and tested in software; not yet built.',
+      'A 3D-printed star tracker whose ESP32 times every microstep from the mechanism’s geometry to remove the tangent error. Designed and simulated; not yet built.',
     summary:
       'A 3D-printed barn-door tracker for photographing the Orion Nebula with a DSLR. The ESP32 firmware times every microstep from the exact geometry of the mechanism, a Python model predicts the longest sharp exposure for each lens, and a planner picks the night. Designed, compiled and tested in software; not yet built.',
     role: 'Sole designer and developer: mechanism and CAD, electronics, firmware, error model, planner and documentation.',
@@ -2701,9 +2726,10 @@ export const projects: ProjectRecord[] = [
     slug: 'drone-control-bootcamp',
     state: 'ready',
     title: 'Teach it: a drone-control bootcamp',
-    metaTitle: 'Teach it — a seven-evening drone-control bootcamp, from PID to rotor-fault tolerance',
+    metaTitle:
+      'A seven-evening drone-control bootcamp, from PID to rotor faults',
     metaDescription:
-      'A seven-evening course that takes engineering students from PID on an RC circuit to a quadrotor that survives losing a rotor, with auto-checked notebooks, Arduino labs on a seesaw rig and a cohort plan. Ready for a first cohort; not taught yet.',
+      'A course from PID on an RC circuit to a quadrotor that survives losing a rotor, with auto-checked notebooks and Arduino labs. Designed; not yet taught.',
     summary:
       'A seven-evening course that takes engineering students from PID on an RC circuit to a quadrotor that survives losing a rotor, taught with my easyPID library and my rotor-fault study. Every session has notes, an auto-checked notebook, a lab, a quiz and slides. It is ready for a first cohort and has not been taught yet.',
     role: 'Sole author: curriculum, notebooks, Python package, Arduino labs, rig design, slides and cohort plan.',
@@ -2776,7 +2802,7 @@ export const projects: ProjectRecord[] = [
       {
         label: 'Kit per team',
         value: 'USD 96–168',
-        context: 'bench kit and rig, a planning range before shipping and contingency',
+        context: 'estimated from a parts list for the bench kit and rig, before shipping and contingency',
       },
     ],
     limits: [
@@ -2819,11 +2845,12 @@ export const projects: ProjectRecord[] = [
     slug: 'road-speed-audit',
     state: 'ready',
     title: 'Road-speed audit from one fixed camera',
-    metaTitle: 'Road-speed audit — measuring vehicle speeds with one fixed camera, validated on simulated video',
+    metaTitle:
+      'Road-speed audit from one fixed camera, on simulated video',
     metaDescription:
-      'An offline tool that measures vehicle speeds on one road segment with one fixed camera, stores numbers rather than images, and reports mean speed, V85 and share over the limit with uncertainty. Accuracy characterised on simulated video with exact ground truth; not yet field-validated.',
+      'Vehicle speeds from one fixed camera, with mean, V85 and share over the limit, each with its uncertainty. Tested on simulated video; not yet on a real road.',
     summary:
-      'An offline, open-source tool that measures vehicle speeds on one road segment from one fixed camera and gives a municipality the numbers it plans with: mean speed, the 85th-percentile speed, the share over the limit and flow, each with an uncertainty. Its accuracy, and where it fails, is measured on simulated video with exact ground truth. It has not been checked against radar on a real road yet.',
+      'An offline, open-source tool that measures vehicle speeds on one road segment from one fixed camera and gives a municipality the numbers it plans with: mean speed, the 85th-percentile speed, the share over the limit and flow, each with an uncertainty. Its accuracy, and where it fails, is measured on simulated video with exact ground truth. It has not been checked against radar on a real road yet. I built it in October 2026.',
     role: 'Sole author: calibration, detection and tracking, speed estimation, uncertainty, the video simulator, the experiments and the report.',
     form: 'artifact',
     schemaType: 'SoftwareSourceCode',
@@ -2933,12 +2960,12 @@ export const projects: ProjectRecord[] = [
     state: 'ready',
     title: 'Landmine detection and extraction robot',
     metaTitle:
-      'Landmine detection and extraction robot — a ROS 2 autonomy stack, field-tested with dummy mines',
+      'Landmine detection and extraction robot: ROS 2 autonomy',
     metaDescription:
-      'The ROS 2 autonomy stack Rami Kronbi developed for a mine-detection rover with a 6-DoF extraction arm, a Lebanese Army initiative (2024–2025), validated with dummy mines in field tests with the Lebanese Armed Forces in Mechref.',
+      'The ROS 2 autonomy stack for a mine-detection rover with a 6-DoF arm, with 3D LiDAR SLAM, field-tested with dummy mines with the Lebanese Armed Forces.',
     summary:
-      'A Lebanese Army initiative, 2024–2025. I developed the ROS 2 autonomy stack for a mine-detection rover with a 6-DoF extraction arm: sensor drivers and calibration, vision and LiDAR perception, localization and sensor fusion, satellite-map georeferencing, path planning, autonomous mission execution, rover-base communications, and test tooling. I validated the integrated system with dummy mines during field tests conducted with the Lebanese Armed Forces in Mechref.',
-    role: 'Developed the ROS 2 autonomy stack, from sensor drivers to mission execution and test tooling.',
+      'A Lebanese Army initiative, 2024–2025. I developed the ROS 2 autonomy stack for a mine-detection rover with a 6-DoF extraction arm: sensor drivers and calibration, vision and LiDAR perception, 3D LiDAR SLAM and sensor fusion, satellite-map georeferencing, path planning, autonomous mission execution, rover-base communications, and test tooling. I validated the integrated system with dummy mines during field tests conducted with the Lebanese Armed Forces in Mechref.',
+    role: 'Developed the ROS 2 autonomy stack: 3D LiDAR SLAM, fusion, planning, and mission execution, from sensor drivers to test tooling.',
     form: 'diagram',
     schemaType: 'CreativeWork',
     hero: {
@@ -2952,7 +2979,7 @@ export const projects: ProjectRecord[] = [
       what: 'A mine-detection rover with a 6-DoF extraction arm, from a Lebanese Army initiative in 2024–2025. I developed its ROS 2 autonomy stack.',
       problem:
         'A mine-detection rover has to sense its surroundings, know where it is, plan a path and carry out its mission on its own, while staying in contact with its base.',
-      how: 'The stack runs on ROS 2: sensor drivers and calibration, vision and LiDAR perception, localization and sensor fusion, georeferencing against satellite maps, path planning, autonomous mission execution, and communications between the rover and its base, with test tooling around it.',
+      how: 'The stack runs on ROS 2: sensor drivers and calibration, vision and LiDAR perception, 3D LiDAR SLAM and sensor fusion for localization, georeferencing against satellite maps, path planning, autonomous mission execution, and communications between the rover and its base, with test tooling around it.',
       role: 'I developed the autonomy stack and validated the integrated system with dummy mines during field tests conducted with the Lebanese Armed Forces in Mechref.',
     },
     stages: [
@@ -2961,7 +2988,7 @@ export const projects: ProjectRecord[] = [
       {
         step: '03',
         title: 'Localize',
-        detail: 'Localization and sensor fusion, with georeferencing against satellite maps.',
+        detail: '3D LiDAR SLAM and sensor fusion for localization, georeferenced against satellite maps.',
       },
       {
         step: '04',
@@ -2988,6 +3015,7 @@ export const projects: ProjectRecord[] = [
       'autonomy stack',
       'landmine detection',
       'demining robot',
+      '3D LiDAR SLAM',
       'LiDAR',
       'sensor fusion',
       'path planning',
@@ -2999,9 +3027,9 @@ export const projects: ProjectRecord[] = [
     state: 'ready',
     title: 'Four-cylinder engine simulator',
     metaTitle:
-      'Four-cylinder engine simulator — slider-crank kinematics to gear ratios, in MATLAB',
+      'Four-cylinder engine simulator in MATLAB',
     metaDescription:
-      'MATLAB scripts by Rami Kronbi that simulate a four-stroke, four-cylinder spark-ignition engine over a 720° cycle: slider-crank kinematics, a single-zone thermodynamic cycle, crank torque, flywheel sizing, performance figures and eight gear ratios.',
+      'MATLAB scripts that simulate a four-cylinder spark-ignition engine: slider-crank kinematics, a thermodynamic cycle, crank torque, a flywheel, and gear ratios.',
     summary:
       'MATLAB scripts I wrote for an automotive course assignment at RHU in fall 2024. They simulate a four-stroke, four-cylinder spark-ignition engine at 2000 rpm over a full 720° cycle: the slider-crank kinematics, a single-zone thermodynamic cycle, the crank torque of one cylinder and of all four, a flywheel to smooth it, the engine’s performance figures, and the ratios of an eight-speed gearbox.',
     role: 'Sole author, for a course assignment.',

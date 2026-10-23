@@ -21,7 +21,7 @@ const copy = {
   description:
     'Every project Rami Kronbi has published: robots and drones, vision and AI, health, civic, open-source work, and tools, each in one plain sentence with one fact to check.',
   lede: (n: number) =>
-    `${n} projects. Each in a sentence, with the one fact you can check; the whole story is a click away.`,
+    `${n} projects. Each in a sentence, with one result; the whole story is a click away.`,
   all: 'All',
 }
 

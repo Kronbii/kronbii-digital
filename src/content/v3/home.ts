@@ -208,7 +208,7 @@ export const v3Home = {
     points: [
       {
         when: '2023',
-        what: 'Third place at the World Robot Olympiad',
+        what: 'Third place at WRO Lebanon',
         note: 'Future Engineers, with Wassim Ghaddar: a self-driving car in twenty days.',
         href: workHref('brainiacs-autonomous-race-car'),
       },
@@ -221,7 +221,7 @@ export const v3Home = {
       {
         when: '2024',
         what: 'Joined Oreyeon',
-        note: 'Embedded Systems Engineer: real-time vision for runway-safety systems.',
+        note: 'Embedded Systems & Vision Engineer: real-time vision for runway-safety systems.',
         href: siteConfig.employer.url,
       },
       {

@@ -7,7 +7,7 @@ export const articles: ArticleRecord[] = [
     title: 'Engineering a five-inch FPV drone from first principles',
     metaTitle: 'Engineering a five-inch FPV drone from first principles',
     metaDescription:
-      'How Rami Kronbi designed and built a 5-inch carbon-fiber FPV drone: propulsion and power sized from thrust, weight, and current, Betaflight tuned through GPS and return-to-home, and the link and GPS tested under jamming.',
+      'How Rami Kronbi built a 5-inch carbon-fiber FPV drone: sized from thrust, weight, and current, tuned in Betaflight through GPS and return-to-home.',
     dek: 'Building a five-inch FPV drone is an exercise in coupled constraints: every part you choose changes what the others have to do.',
     heroMedia: {
       src: '/images/authority/fpv-drone/build.jpg',
@@ -31,7 +31,7 @@ export const articles: ArticleRecord[] = [
       { kind: 'h2', text: 'The build' },
       {
         kind: 'p',
-        text: 'The components went together on a 5-inch carbon-fiber frame. The build photo on the project page catches it halfway: the frame and its four motors on an ESD mat, with the electronics, a battery, the radio transmitter, and a pair of calipers beside it.',
+        text: 'The components went together on a 5-inch carbon-fiber frame. The photo above catches it halfway: the frame and its four motors on an ESD mat, with the electronics, a battery, the radio transmitter, and a pair of calipers beside it.',
       },
       { kind: 'h2', text: 'Tuning in Betaflight' },
       {
@@ -57,7 +57,7 @@ export const articles: ArticleRecord[] = [
       },
       {
         kind: 'p',
-        text: 'A five-inch quad packs a lot of engineering into a small frame: the arithmetic of power and weight, a fast feedback controller, a radio link, and sensors that each fail in their own way. Betaflight is also where some of my open-source work lives; the small fixes I have contributed to its firmware are written up separately.',
+        text: 'A five-inch quad packs a lot of engineering into a small frame: the arithmetic of power and weight, a fast feedback controller, a radio link, and sensors that each fail in their own way. Betaflight is also where some of my open-source work lives; the small fixes I have contributed to its firmware are [written up separately](/writing/what-small-upstream-fixes-teach-about-firmware).',
       },
     ],
     sources: [
@@ -78,7 +78,7 @@ export const articles: ArticleRecord[] = [
     title: 'Building a 360° panorama stitcher from a phone sweep',
     metaTitle: 'Building a 360° panorama stitcher from a phone sweep',
     metaDescription:
-      'A phone video, a pure-rotation camera model, and a stubborn question about how much of a 360° reconstruction pipeline can be made explicit instead of hidden behind a stitching API.',
+      'A phone video, a pure-rotation camera model, and how much of a 360° stitching pipeline can be made explicit instead of hidden behind an API.',
     dek: 'A phone video, a pure-rotation camera model, and a stubborn question: how much of a 360° reconstruction pipeline can be made explicit instead of hidden behind a stitching API?',
     heroMedia: {
       src: '/images/authority/spherical-panorama/pano-on-band.jpg',
@@ -89,6 +89,12 @@ export const articles: ArticleRecord[] = [
       {
         kind: 'p',
         text: 'A panorama looks simple only after it works. Before that, it is a chain of small geometric errors. A few bad correspondences tilt the camera estimate. A fraction of a degree of pitch error accumulates into a staircase along a ceiling. A handheld step sideways introduces parallax that no homography can honestly explain.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/spherical-panorama/stage2-matches.jpg',
+        alt: 'Two adjacent frames from the phone video with ORB feature matches drawn between them.',
+        caption: 'ORB matches between two neighbouring frames, after Lowe’s ratio test and RANSAC.',
       },
       {
         kind: 'p',
@@ -113,6 +119,12 @@ export const articles: ArticleRecord[] = [
         text: 'On the sample run, independent pairwise estimates left only small pitch and roll errors. They were still enough to turn long architectural edges into a visible staircase. A moving average over the chained rotations reduced pitch wobble by 13.5× and roll wobble by 5.2× on that run.',
       },
       {
+        kind: 'figure',
+        src: '/images/authority/spherical-panorama/side-by-side.jpg',
+        alt: 'The same panorama without and with temporal smoothing: long horizontal edges step like a staircase before, and run straight after.',
+        caption: 'Before and after smoothing: the staircase on long edges, then the same edges straightened.',
+      },
+      {
         kind: 'p',
         text: 'That fix is deliberately modest. It does not replace global bundle adjustment or close the loop around a full sweep. It solves the instability that was actually visible while keeping the pipeline easy to inspect.',
       },
@@ -131,7 +143,7 @@ export const articles: ArticleRecord[] = [
       },
       {
         kind: 'p',
-        text: 'The result is useful because it is inspectable. Every stage has a module, the run records its resolved configuration and intrinsics, more than 200 tests cover the pipeline, and the browser viewer makes the final geometry tangible. It is less a magic panorama button than a working map of the decisions behind one.',
+        text: 'The result is useful because it is inspectable. Every stage has a module, the run records its resolved configuration and intrinsics, 186 tests cover the pipeline, and the browser viewer makes the final geometry tangible. It is less a magic panorama button than a working map of the decisions behind one.',
       },
     ],
     sources: [
@@ -204,6 +216,11 @@ export const articles: ArticleRecord[] = [
         kind: 'p',
         text: 'easyPID is distributed through Arduino Library Manager as a contributed Device Control library and remains small enough for Uno-class AVR boards. Its main design lesson is broader than PID: reusable embedded code should expose timing, limits, state, and failure modes. The equation is the easy part. The contract around it is what makes it reusable.',
       },
+      { kind: 'h2', text: 'Releases' },
+      {
+        kind: 'p',
+        text: 'easyPID 1.0.0 went into the Arduino Library Manager on 15 January 2026, and 1.1.0 followed on 9 August 2026. The [tuning guide](https://github.com/Kronbii/easyPID/blob/main/docs/tuning_guide.md) covers choosing gains and the sample time, and the [two-axis light tracker](/projects/pid-light-tracking-robot) is the project it grew out of.',
+      },
     ],
     sources: [
       { label: 'GitHub — easyPID', href: 'https://github.com/Kronbii/easyPID', kind: 'repository' },
@@ -242,7 +259,13 @@ export const articles: ArticleRecord[] = [
       },
       {
         kind: 'p',
-        text: 'The Brainiacs vehicle was built for the 2023 World Robot Olympiad Future Engineers challenge. It had to read the track, react to traffic markers, avoid obstacles, and keep moving reliably. The practical answer was not one powerful computer doing everything. We divided the problem between a Jetson Nano and an Arduino Mega.',
+        text: 'The Brainiacs vehicle was built for the Future Engineers category of WRO Lebanon 2023, the national round of the World Robot Olympiad. It had to read the track, react to traffic markers, avoid obstacles, and keep moving reliably. The practical answer was not one powerful computer doing everything. We divided the problem between a Jetson Nano and an Arduino Mega.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/race-car/schematic.png',
+        alt: 'Wiring schematic of the car, July 2023: an Arduino Mega linked to the Jetson Nano, an Arduino Nano reading a TCS34725 color sensor, an MPU6050 IMU, the steering servo, and the drive motor through an L298N driver.',
+        caption: 'The final circuit: the Arduino Mega in the middle, talking to the Jetson Nano, the IMU, the color sensor, the steering servo, and the motor driver.',
       },
       {
         kind: 'p',
@@ -268,7 +291,7 @@ export const articles: ArticleRecord[] = [
       },
       {
         kind: 'p',
-        text: 'Rafik Hariri University reported that Wassim Ghaddar and I placed third in the Future Engineers category in July 2023, and noted that its teams built their robots from scratch in twenty days.',
+        text: 'In July 2023 Wassim Ghaddar and I placed third in the Future Engineers category, with a car we had built from scratch in twenty days.',
       },
       {
         kind: 'p',
@@ -288,7 +311,7 @@ export const articles: ArticleRecord[] = [
       },
     ],
     projectSlug: 'brainiacs-autonomous-race-car',
-    topics: ['robotics', 'embedded-systems', 'computer-vision', 'control-systems'],
+    topics: ['robotics-perception', 'embedded-systems', 'computer-vision', 'control-systems'],
     keywords: ['WRO Future Engineers', 'Jetson Nano', 'PID steering', 'MPU6050'],
   },
   {
@@ -301,8 +324,8 @@ export const articles: ArticleRecord[] = [
     dek: 'Upscaling a thermal frame is not the same problem as enlarging an RGB photograph, especially when the result must run beside the rest of a perception stack.',
     heroMedia: {
       src: '/images/authority/thermal-super-resolution/x3-showcase.webp',
-      alt: 'Side-by-side ×3 thermal super-resolution comparison from the project results directory.',
-      caption: '×3 thermal super-resolution — comparison from the results directory.',
+      alt: 'A low-resolution thermal frame beside its ×3 super-resolved output.',
+      caption: 'The low-resolution input beside the ×3 output.',
     },
     body: [
       {
@@ -427,7 +450,7 @@ export const articles: ArticleRecord[] = [
       },
     ],
     projectSlug: 'pid-light-tracking-robot',
-    topics: ['robotics', 'embedded-systems', 'control-systems'],
+    topics: ['robotics-perception', 'embedded-systems', 'control-systems'],
     keywords: ['PID tuning', 'sensor noise', 'servo saturation', 'settling'],
   },
   {
@@ -436,7 +459,7 @@ export const articles: ArticleRecord[] = [
     title: 'Turning segmented cracks into measurable paths',
     metaTitle: 'Turning segmented cracks into measurable paths',
     metaDescription:
-      'A segmentation mask says which pixels belong to a crack. Inspection work often needs the next layer: an ordered line, a trace, and measurements that can be compared.',
+      'A segmentation mask says which pixels belong to a crack. Inspection needs the next layer: an ordered line and measurements you can compare.',
     dek: 'A segmentation mask says which pixels belong to a crack. Inspection work often needs the next layer: an ordered line, a trace, and measurements that can be compared.',
     heroMedia: {
       src: '/images/authority/fine-crack/test-frame.png',
@@ -562,11 +585,11 @@ export const articles: ArticleRecord[] = [
     body: [
       {
         kind: 'p',
-        text: 'Daleel—Arabic for “guide”—is a Lebanese parliamentary-election information project built around a simple principle: political information should be inspectable. A candidate profile or district record is more useful when a reader can see where it came from and when it changed.',
+        text: 'Daleel—Arabic for “guide”—is a Lebanese parliamentary-election information project built around a simple principle: political information should be inspectable. I led its development; Layth Ayache worked on the frontend and built a separate backend that ingests content. A candidate profile or district record is more useful when a reader can see where it came from and when it changed.',
       },
       {
         kind: 'p',
-        text: 'That requirement changes the architecture. An ordinary content system optimizes for the current value. Daleel’s design treats history and sources as first-class data. Its public repository describes archived sources, append-only records, and immutable data models intended to preserve a verifiable trail.',
+        text: 'That requirement changes the architecture. An ordinary content system optimizes for the current value. Daleel’s design treats history and sources as first-class data. I built it around archived sources, append-only records, and immutable data models intended to preserve a verifiable trail.',
       },
       { kind: 'h3', text: 'Neutrality needs mechanisms' },
       {
@@ -579,7 +602,7 @@ export const articles: ArticleRecord[] = [
       },
       {
         kind: 'p',
-        text: 'The documented stack pairs a Next.js frontend with an Express backend and Prisma/PostgreSQL. Authentication, CSRF protection, rate limiting, and immutable models support the public information layer. The security work matters for the same reason: a single unauthorized change would undermine the central promise.',
+        text: 'The stack pairs a Next.js frontend with an Express backend and Prisma/PostgreSQL. Authentication, CSRF protection, rate limiting, and immutable models support the public information layer. The security work matters for the same reason: a single unauthorized change would undermine the central promise.',
       },
       { kind: 'h3', text: 'What Daleel is not' },
       {
@@ -599,7 +622,7 @@ export const articles: ArticleRecord[] = [
       { label: 'GitHub — daleel', href: 'https://github.com/Kronbii/daleel', kind: 'repository' },
       {
         label: 'TECHNICAL.md',
-        href: 'https://github.com/Kronbii/daleel/blob/main/TECHNICAL.md',
+        href: 'https://github.com/Kronbii/daleel/blob/main/docs/technical.md',
         kind: 'documentation',
       },
     ],
@@ -908,7 +931,7 @@ export const articles: ArticleRecord[] = [
       },
       {
         kind: 'p',
-        text: 'The Smart Interactive Desk, codenamed BEMO, was our senior graduation project at Rafik Hariri University: Bassam Kousa, Ali Daaboul, Mohamad Berjawi, Mohamad Hariri, and me as team lead. It won the Best Senior Project award. The code and a demo video are linked below; the team’s formal report and test results live outside the repository.',
+        text: 'The Smart Interactive Desk, codenamed BEMO, was our senior graduation project at Rafik Hariri University: Bassam Kousa, Ali Daaboul, Mohamad Berjawi, Mohamad Hariri, and me as team lead. It won Best Graduating Project from the RHU Engineering Jury. The code and a demo video are linked below.',
       },
     ],
     sources: [
@@ -925,7 +948,7 @@ export const articles: ArticleRecord[] = [
     title: 'Running FOD detection on a UAV',
     metaTitle: 'Running FOD detection on a UAV — YOLOv11 onboard a Jetson',
     metaDescription:
-      'How Rami Kronbi runs a lightweight YOLOv11 foreign-object-debris detector onboard a Jetson at about 30 FPS in a simulated runway-inspection UAV, trained on online and synthetic data and cleaned up with similarity matching and false-positive filtering.',
+      'Running a lightweight YOLOv11 debris detector onboard a Jetson at about 30 FPS in a simulated runway-inspection UAV, and filtering its false positives.',
     dek: 'Looking for debris on a runway from a drone means finding small things on a big surface, from a camera that never stops moving, with only the compute the drone can carry.',
     body: [
       {
@@ -977,9 +1000,10 @@ export const articles: ArticleRecord[] = [
     slug: 'lessons-from-an-edge-emotion-recognition-prototype',
     state: 'ready',
     title: 'Lessons from an edge emotion-recognition prototype',
-    metaTitle: 'Lessons from an edge emotion-recognition prototype for children with autism',
+    metaTitle:
+      'Lessons from an edge emotion-recognition prototype',
     metaDescription:
-      'Rami Kronbi on building a real-time emotion-recognition pipeline on Jetson Orin Nano for children with autism: combining CALMED, Kaggle, and other data, reaching about 92% development accuracy, and keeping it a support tool rather than a diagnosis.',
+      'Real-time emotion recognition on a Jetson Orin Nano for children with autism: combined datasets, ~92% development accuracy, support not diagnosis.',
     dek: 'Most of the work in an emotion-recognition prototype is in the data, and most of the care is in what you let the output mean.',
     body: [
       {
@@ -1039,7 +1063,7 @@ export const articles: ArticleRecord[] = [
     body: [
       {
         kind: 'p',
-        text: 'From 2021 to 2024 I was lead technical organizer for NASA Space Apps in Beirut, supporting roughly 250–400 participants a year with a volunteer team of 10–15 people. The work included technical bootcamps using NASA datasets, problem selection, prototyping, competition requirements, and submission strategy. Over three consecutive years, teams we supported earned six Global Top 10 placements. Rafik Hariri University’s 2022 report on the event names me as the university’s student volunteer.',
+        text: 'From 2021 to 2024 I was lead technical organizer for NASA Space Apps in Beirut, supporting roughly 250–400 participants a year with a volunteer team of 10–15 people. The work included technical bootcamps using NASA datasets, problem selection, prototyping, competition requirements, and submission strategy. Over three consecutive years, teams we supported earned six Global Top 10 placements.',
       },
       {
         kind: 'p',
@@ -1091,7 +1115,7 @@ export const articles: ArticleRecord[] = [
       },
     ],
     sources: [
-      { label: 'GitHub — nasna', href: 'https://github.com/1homsi/nasna', kind: 'repository' },
+      { label: 'GitHub — nasna', href: 'https://github.com/voxire/nasna', kind: 'repository' },
       { label: 'nasna.world', href: 'https://nasna.world', kind: 'demo' },
     ],
     projectSlug: '',
@@ -1102,9 +1126,10 @@ export const articles: ArticleRecord[] = [
     slug: 'turning-physics-outreach-into-a-multi-university-program',
     state: 'ready',
     title: 'Turning physics outreach into a multi-university program',
-    metaTitle: 'Turning physics outreach into a multi-university program — National Physics Day',
+    metaTitle:
+      'Physics outreach across four universities: National Physics Day',
     metaDescription:
-      'How Rami Kronbi, society lead of the Physics & Astronomy Club in Beirut from 2021 to 2024, founded National Physics Day across four universities, built hands-on double-slit, electrical, and telescope experiments, and made demonstrations for Moe Abbas’s outreach.',
+      'How Rami Kronbi founded National Physics Day across four universities and built hands-on double-slit, electrical, and telescope experiments.',
     dek: 'Good science outreach gives people something they can manipulate and question.',
     body: [
       {
@@ -1160,12 +1185,12 @@ export const articles: ArticleRecord[] = [
       { kind: 'h2', text: 'A read that returned success early' },
       {
         kind: 'p',
-        text: 'The W25M flash wrapper split reads at die boundaries and assumed the die driver returned the whole requested length. The W25N01G die driver clamps every transfer to a NAND page and returns the clamped count. The wrapper checked only that the count was non-zero, advanced by the full length it had asked for, and reported success, so any read across a page boundary left the tail of the buffer unfilled. #15705 honours the returned count. It is open at the time of writing.',
+        text: 'The W25M flash wrapper split reads at die boundaries and assumed the die driver returned the whole requested length. The W25N01G die driver clamps every transfer to a NAND page and returns the clamped count. The wrapper checked only that the count was non-zero, advanced by the full length it had asked for, and reported success, so any read across a page boundary left the tail of the buffer unfilled. #15705 honours the returned count. As of 23 October 2026 three Betaflight maintainers have approved it, and it is waiting to merge.',
       },
       { kind: 'h2', text: 'A timeout that was never refreshed' },
       {
         kind: 'p',
-        text: 'In PX4’s EKF2, when a range finder was the only active height source, successful range height fusion did not refresh the estimator’s global height-fusion timestamp. The estimator then treated all height sources as timed out and reset altitude every five seconds. #28286 refreshes the timestamp on successful fusion and adds a regression test that failed before the change and passed after it. The maintainers closed it without merging. I include it here because the diagnosis and the test are the useful part, and because a record of contributions that lists only accepted ones is not honest.',
+        text: 'In PX4’s EKF2, when a range finder was the only active height source, successful range height fusion did not refresh the estimator’s global height-fusion timestamp. The estimator then treated all height sources as timed out and reset altitude every five seconds. #28286 refreshes the timestamp on successful fusion and adds a regression test that failed before the change and passed after it. The maintainers closed it as a duplicate: #28283, opened first, applies the same fix, and it was merged on 9 September 2026. So the diagnosis was right and the fix is upstream, just not under my name, which is why I don’t count it as one of mine.',
       },
       { kind: 'h2', text: 'The same discipline in a browser HUD' },
       {
@@ -1356,16 +1381,17 @@ export const articles: ArticleRecord[] = [
       { label: 'GitHub — water-shooting-robot', href: 'https://github.com/Kronbii/water-shooting-robot', kind: 'repository' },
     ],
     projectSlug: 'water-shooting-robot',
-    topics: ['robotics', 'embedded-systems', 'control-systems'],
+    topics: ['robotics-perception', 'embedded-systems', 'control-systems'],
     keywords: ['Arduino', 'mechatronics', 'control'],
   },
   {
     slug: 'moderation-is-the-product-in-a-quest-app',
     state: 'ready',
     title: 'Moderation is the product in a quest app',
-    metaTitle: 'Moderation is the product in a quest app — building proof checks for Bsheel',
+    metaTitle:
+      'Moderation is the product in a quest app',
     metaDescription:
-      'How Rami Kronbi built the proof checks behind Bsheel, a real-world quest app: a review state machine with one appeal, a forensics-first AI cascade that never rejects on a cheap verdict, and shadow mode scored against human moderators.',
+      'How Rami Kronbi built Bsheel’s proof checks: one appeal, a forensics-first AI cascade, and shadow mode scored against human moderators.',
     dek: 'A quest only counts when someone has looked at the proof. Most of the engineering in Bsheel follows from that.',
     body: [
       {
@@ -1486,7 +1512,7 @@ export const articles: ArticleRecord[] = [
     title: 'What losing a rotor teaches about estimation',
     metaTitle: 'What losing a rotor teaches about estimation',
     metaDescription:
-      'A quadrotor that loses a rotor has a fraction of a second to notice. Why detecting it is an estimation problem, and why the hard part is knowing what the healthy machine looks like.',
+      'A quadrotor that loses a rotor has a fraction of a second to notice. Why that is an estimation problem, and why the healthy machine is the hard part.',
     dek: 'A quadrotor that loses a rotor has a fraction of a second to notice. Noticing turns out to be an estimation problem, and most of it is about what you assume the healthy machine is.',
     body: [
       {
@@ -1601,7 +1627,7 @@ export const articles: ArticleRecord[] = [
     title: 'A barn-door tracker that does the maths',
     metaTitle: 'A barn-door star tracker that does the maths',
     metaDescription:
-      'The barn-door tracker’s tangent error is pure geometry, so an ESP32 can remove it exactly by timing every microstep, and an error model shows what limits the exposure next.',
+      'The barn-door tangent error is pure geometry, so an ESP32 can remove it by timing every microstep; an error model shows what limits exposure next.',
     dek: 'The barn-door tracker’s famous tangent error is pure geometry, so the firmware can remove it exactly instead of the mechanics approximating it.',
     body: [
       {
@@ -1675,7 +1701,7 @@ export const articles: ArticleRecord[] = [
     title: 'Teaching drone control from an RC circuit up',
     metaTitle: 'Teaching drone control from an RC circuit up',
     metaDescription:
-      'How a seven-evening course gets engineering students from PID on an RC circuit to a quadrotor that survives losing a rotor, and why every lab is predicted in a notebook before it is measured.',
+      'A seven-evening course from PID on an RC circuit to a quadrotor that survives losing a rotor, with every lab predicted before it is measured.',
     dek: 'A drone is a stack of feedback loops. The course builds that stack one loop at a time, starting where mistakes are cheap.',
     body: [
       {
@@ -1692,7 +1718,7 @@ export const articles: ArticleRecord[] = [
       },
       {
         kind: 'p',
-        text: 'Every lab uses easyPID, my Arduino library, and the notebooks use a Python port of it. The port is tested against the compiled C++ library on 3,274 randomised updates, so a gain found in a notebook means the same thing in a sketch. Building those tests also found a real flaw: the library’s relay autotuner reports a high ultimate gain on its first run from rest, about 42 against an exact 29, and a good one on the second. The lab now runs it twice.',
+        text: 'Every lab uses [easyPID, my Arduino library](/projects/easypid-arduino-library), and the notebooks use a Python port of it. The port is tested against the compiled C++ library on 3,274 randomised updates, so a gain found in a notebook means the same thing in a sketch. Building those tests also found a real flaw: the library’s relay autotuner reports a high ultimate gain on its first run from rest, about 42 against an exact 29, and a good one on the second. The lab now runs it twice.',
       },
       {
         kind: 'h2',
@@ -1754,7 +1780,7 @@ export const articles: ArticleRecord[] = [
     title: 'Measuring road speed with one camera, and knowing how wrong it is',
     metaTitle: 'Measuring road speed with one camera, and knowing how wrong it is',
     metaDescription:
-      'A fixed camera can measure vehicle speeds cheaply, but a speed survey is only useful if its error is known. How simulated video with exact ground truth shows where the method holds and where it breaks.',
+      'A fixed camera measures vehicle speeds cheaply, but only a known error makes a survey useful. Simulated video shows where the method holds and breaks.',
     dek: 'A camera on a pole is the cheapest speed survey a street can get. The hard part is not measuring speed; it is knowing how far to trust the number.',
     body: [
       {
@@ -1833,7 +1859,7 @@ export const articles: ArticleRecord[] = [
     title: 'Simulating an engine from crank to gearbox',
     metaTitle: 'Simulating a four-cylinder engine from crank to gearbox in MATLAB',
     metaDescription:
-      'How a chain of MATLAB scripts follows a four-cylinder engine from its slider-crank geometry through a converging thermodynamic cycle to crank torque, a flywheel and an eight-speed gearbox, and what the model leaves out.',
+      'MATLAB scripts that follow a four-cylinder engine from slider-crank geometry through its gas cycle to torque, a flywheel, and a gearbox.',
     dek: 'One chain of scripts that follows a four-cylinder engine from the geometry of its crank, through the gas in its cylinders, to the gear ratios of the car it drives.',
     body: [
       {
@@ -1909,7 +1935,7 @@ export const articles: ArticleRecord[] = [
     title: 'AI Should Serve Society — Not Just Industry and Billionaires',
     metaTitle: 'AI Should Serve Society — Not Just Industry and Billionaires',
     metaDescription:
-      'An essay by Rami Kronbi on who AI actually serves: technology is never neutral, building for society is a choice, and what that looked like when his team built OmniSign for Lebanese Sign Language.',
+      'An essay on who AI actually serves: technology is never neutral, building for society is a choice, and what that meant when we built OmniSign.',
     dek: 'Build with purpose. Others will follow.',
     body: [
       { kind: 'p', text: 'AI is moving fast. It is moving faster than our laws, faster than our ethics, and often, faster than our collective sense of responsibility.' },

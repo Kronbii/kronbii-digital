@@ -10,6 +10,8 @@ const nextConfig = {
     return [
       { source: '/vneo', destination: '/', permanent: true },
       { source: '/vneo/:path*', destination: '/:path*', permanent: true },
+      // a topic taken off the site
+      { source: '/topics/local-first-software', destination: '/topics', permanent: true },
       // projects taken off the site whose write-ups stay
       ...[
         ['basira-retinal-screening', 'designing-a-council-of-models-for-retinal-screening'],

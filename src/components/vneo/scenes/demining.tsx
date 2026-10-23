@@ -134,7 +134,7 @@ export function DeminingScene({
         <span className="t">Sense · perceive · localize · plan · act</span>
         <span className="dm-tags">
           <span className="dm-tag">Vision + LiDAR</span>
-          <span className="dm-tag">Sensor fusion</span>
+          <span className="dm-tag">3D LiDAR SLAM</span>
           <span className="dm-tag">Path planning</span>
           <span className="dm-tag">Mission</span>
         </span>

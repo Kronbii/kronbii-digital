@@ -47,7 +47,7 @@ export const plain: Record<string, PlainWork> = {
     kind: 'Robotics · demining',
     line: 'A mine-detection rover with a 6-DoF extraction arm, for a Lebanese Army initiative; I built its autonomy software.',
     proof: 'Field-tested with dummy mines, with the Lebanese Armed Forces',
-    part: 'Developed the ROS 2 autonomy stack',
+    part: 'Built its ROS 2 autonomy: 3D LiDAR SLAM, fusion, planning',
     field: 'machines',
   },
   'runway-inspection-uav': {
@@ -81,7 +81,7 @@ export const plain: Record<string, PlainWork> = {
   'brainiacs-autonomous-race-car': {
     kind: 'Robotics · competition',
     line: 'A self-driving model car that reads the course’s traffic signs and steers itself, built from scratch in 20 days.',
-    proof: '3rd of 95+ teams · World Robot Olympiad 2023',
+    proof: '3rd in Future Engineers · WRO Lebanon 2023',
     part: 'Team of two, with Wassim Ghaddar',
     field: 'machines',
     image: {
@@ -104,7 +104,7 @@ export const plain: Record<string, PlainWork> = {
   'posture-aware-classroom-desk': {
     kind: 'Robotics · product',
     line: 'A desk that sees how you sit and adjusts its own height and tilt, with instant light feedback and a dashboard of longer-term patterns.',
-    proof: 'Best Senior Project · team lead',
+    proof: 'Best Graduating Project · RHU Engineering Jury',
     part: 'Team lead in a team of five',
     field: 'machines',
     image: {
@@ -126,7 +126,7 @@ export const plain: Record<string, PlainWork> = {
   'daleel-lebanese-election-information': {
     kind: 'Civic tech',
     line: 'Lebanese election information you can trace back to its source, kept with its full history, in Arabic, English, and French.',
-    proof: 'Lead developer',
+    proof: 'Arabic, English, and French, every fact with its source',
     part: 'Lead developer, with Layth Ayache',
     field: 'civic',
     image: {
@@ -163,7 +163,7 @@ export const plain: Record<string, PlainWork> = {
   },
   'omnisign-lebanese-sign-language': {
     kind: 'AI · accessibility',
-    line: 'Translates Lebanese Sign Language in real time, on phones, on the web, and on offline devices.',
+    line: 'Recognizes Lebanese Sign Language from a camera in real time, the alphabet and everyday words, and turns it into text on phones, the web, and offline devices.',
     proof: 'Co-founder',
     part: 'Computer vision engineer in a team of five',
     field: 'vision',
@@ -184,7 +184,7 @@ export const plain: Record<string, PlainWork> = {
   },
   'pid-light-tracking-robot': {
     kind: 'Robotics',
-    line: 'A two-axis robot that turns to follow a light, steadied by the same control loop as the arrows on the home page.',
+    line: 'A two-axis robot that turns to follow a light, steadied by a PID control loop on each axis.',
     proof: 'Demonstration video',
     part: 'Led the software, with Wassim Ghaddar on hardware',
     field: 'machines',
@@ -275,7 +275,7 @@ export const plain: Record<string, PlainWork> = {
   'esp32-barn-door-star-tracker': {
     kind: 'Embedded · astrophotography',
     line: 'A 3D-printed camera mount that turns with the sky, so long night-sky photos stay sharp; designed, not yet built.',
-    proof: '±0.32″ from the sky over two hours, in simulation',
+    proof: 'Designed, not built; the firmware cancels the barn-door tangent error',
     part: 'Sole designer',
     field: 'machines',
     image: {
@@ -286,7 +286,7 @@ export const plain: Record<string, PlainWork> = {
   'drone-control-bootcamp': {
     kind: 'Teaching · control',
     line: 'A seven-evening course that takes students from a simple circuit to a drone that survives losing a propeller; ready, not yet taught.',
-    proof: '41 auto-checked exercises, every one tested',
+    proof: 'Designed, not yet taught',
     part: 'Sole author',
     field: 'machines',
     image: {
