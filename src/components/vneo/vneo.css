@@ -562,6 +562,14 @@
     height: clamp(400px, 58svh, 600px);
   }
 }
+/* the preflight's name is set like this one (.vn-name), so it lands on it letter for letter */
+[data-v7][data-vneo] [data-intro-overlay] :is([data-part='n1'], [data-part='n2']) {
+  font-weight: 700;
+  line-height: 0.86;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  font-variation-settings: 'opsz' 96;
+}
 /* the preflight lands on this name; the slam waits for its own entrance */
 [data-vneo][data-intro='on'] #vneo-name,
 [data-vneo][data-intro='playing'] #vneo-name,
