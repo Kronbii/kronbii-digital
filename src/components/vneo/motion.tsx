@@ -8,6 +8,7 @@ import { ShipShot } from '@/components/v6/scenes/ship'
 import { TraceShot } from '@/components/v6/scenes/trace'
 import { TuneShot } from '@/components/v6/scenes/tune'
 import { ShotModeContext } from '@/components/v6/shot'
+import { DeminingScene } from '@/components/vneo/scenes/demining'
 import { SceneFor } from '@/components/v7/chapter'
 import { SceneHostContext } from '@/components/v7/scene'
 import { chapters, type ReelId } from '@/content/vneo/site'
@@ -42,6 +43,12 @@ const hoverable = () =>
 export type MotionRef =
   | { kind: 'shot'; id: ReelId }
   | { kind: 'scene'; id: Chapter['id'] }
+  | { kind: 'own'; id: 'demining' }
+
+/** Scenes that belong to one project rather than to a community chapter. */
+const OWN = {
+  demining: DeminingScene,
+}
 
 export function Motion({
   motion,
@@ -60,6 +67,14 @@ export function Motion({
       <ShotModeContext.Provider value={autoplay ? CALM : STILL}>
         <S label={label} />
       </ShotModeContext.Provider>
+    )
+  }
+  if (motion.kind === 'own') {
+    const S = OWN[motion.id]
+    return (
+      <SceneHostContext.Provider value={autoplay ? SCENE_ON : SCENE_STILL}>
+        <S label={label} replay="Play again" note="Illustration" />
+      </SceneHostContext.Provider>
     )
   }
   const ch = chapters.find((c) => c.id === motion.id)!

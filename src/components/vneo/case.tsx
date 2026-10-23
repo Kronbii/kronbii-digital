@@ -5,6 +5,7 @@ import { JsonLd } from '@/components/v2/json-ld'
 import { liveCrumbs, projectJsonLd } from '@/components/v2/schema'
 import { SceneFor } from '@/components/v7/chapter'
 import { Plate } from '@/components/v7/plate'
+import { DeminingScene } from '@/components/vneo/scenes/demining'
 import { getArticle } from '@/content/authority'
 import { projectImages, sourceKindLabel } from '@/content/v2/record'
 import { workBySlug, works } from '@/content/v3/work'
@@ -12,6 +13,7 @@ import {
   HOME,
   VN,
   chapterOf,
+  ownAlt,
   RACE_PHOTO,
   racePhoto,
   reel,
@@ -138,7 +140,13 @@ export function Case({ slug }: { slug: string }) {
               ) : null}
             </p>
           </div>
-          {chapter ? (
+          {slug === 'landmine-detection-extraction-robot' ? (
+            <DeminingScene
+              label={ownAlt.demining}
+              replay="Play again"
+              note="Illustration"
+            />
+          ) : chapter ? (
             <SceneFor chapter={chapter} />
           ) : shot ? (
             <CaseShot id={shot.id} label={shot.alt} />

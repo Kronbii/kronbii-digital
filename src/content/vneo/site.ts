@@ -122,6 +122,13 @@ export type ReelId = (typeof reel)[number]['id']
 type Motion =
   | { kind: 'shot'; id: ReelId }
   | { kind: 'scene'; id: Chapter['id'] }
+  | { kind: 'own'; id: 'demining' }
+
+/** What each project's own scene shows, for screen readers. */
+export const ownAlt = {
+  demining:
+    'An illustration: a rover sweeps a planned path over a georeferenced grid and marks three finds; its stack reads sense, perceive, localize, plan, act.',
+} as const
 const workItem = (slug: string, motion: Motion | undefined, shows: string) => {
   const w = workBySlug(slug)!
   return {
@@ -137,7 +144,9 @@ const workItem = (slug: string, motion: Motion | undefined, shows: string) => {
     alt:
       motion?.kind === 'shot'
         ? shotAlt[motion.id]
-        : (chapters.find((c) => c.id === motion?.id)?.alt ?? w.plain.line),
+        : motion?.kind === 'own'
+          ? ownAlt[motion.id]
+          : (chapters.find((c) => c.id === motion?.id)?.alt ?? w.plain.line),
   }
 }
 export type WorkItem = ReturnType<typeof workItem>
@@ -167,6 +176,15 @@ export const showcase: ShowItem[] = [
       src: '/images/authority/fpv-drone/build.jpg',
       position: '50% 54%',
     },
+  },
+  {
+    ...workItem(
+      'landmine-detection-extraction-robot',
+      { kind: 'own', id: 'demining' },
+      ''
+    ),
+    size: 'big',
+    area: 'mine',
   },
   {
     ...workItem(

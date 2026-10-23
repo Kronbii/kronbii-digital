@@ -149,9 +149,11 @@ export function Work() {
               aria-hidden="true"
               data-fit={
                 // every piece fills its tile, except the upstream graph, which needs its whole width,
-                // and a square explainer in a tall tile, which would lose its sides
+                // a square explainer in a tall tile, which would lose its sides, and a project's own scene,
+                // whose figure and stack sit at its edges
                 (item.motion?.kind === 'shot' && item.motion.id === 'ship') ||
-                (item.motion?.kind === 'scene' && item.size === 'tall')
+                (item.motion?.kind === 'scene' && item.size === 'tall') ||
+                item.motion?.kind === 'own'
                   ? 'full'
                   : 'crop'
               }
