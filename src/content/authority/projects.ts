@@ -1763,6 +1763,23 @@ export const projects: ProjectRecord[] = [
         'Each contribution follows the same path: a reported fault, an explicit root cause, the smallest fix, a regression test, and a written rationale for the maintainers.',
       alt: 'Diagram of the contribution workflow: reported issue, root cause, minimal fix, regression test, written rationale, and maintainer review.',
     },
+    media: [
+      {
+        src: '/images/authority/upstream/betaflight-15706.jpg',
+        alt: 'GitHub page of Betaflight pull request #15706, “give the Redpine CC2500 driver its own debug mode”, marked Merged, with three maintainer approvals.',
+        caption: 'Betaflight #15706, merged by the maintainers on 16 September 2026.',
+      },
+      {
+        src: '/images/authority/upstream/betaflight-15705.jpg',
+        alt: 'GitHub page of Betaflight pull request #15705, “honour short die reads in w25m_readBytes”, open with approvals from blckmn, haslinghuis, and nerdCopter.',
+        caption: 'Betaflight #15705, approved by three maintainers and waiting to merge.',
+      },
+      {
+        src: '/images/authority/upstream/openfront-4868.jpg',
+        alt: 'GitHub page of OpenFront pull request #4868, “Make the end timer warnings more visible”, marked Merged.',
+        caption: 'OpenFront #4868, the end-of-game timer warnings, merged in August 2026.',
+      },
+    ],
     answer: {
       what: 'A set of small upstream pull requests to Betaflight, PX4, and OpenFront, each fixing a specific reported fault.',
       problem:

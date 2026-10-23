@@ -124,6 +124,10 @@ export default async function VneoArticle({ params }: Props) {
               <h2 key={i}>{b.text}</h2>
             ) : b.kind === 'h3' ? (
               <h3 key={i}>{b.text}</h3>
+            ) : b.kind === 'code' ? (
+              <pre key={i} className="vn-article-code" data-lang={b.lang}>
+                <code>{b.text}</code>
+              </pre>
             ) : b.kind === 'figure' ? (
               <figure key={i} className="vn-article-figure">
                 {/* eslint-disable-next-line @next/next/no-img-element */}

@@ -249,7 +249,7 @@ export function ArticleBodyContent({ blocks }: ArticleBodyProps) {
         if (block.kind === 'h2') {
           return <h2 key={index}>{block.text}</h2>
         }
-        if (block.kind === 'figure') {
+        if (block.kind === 'figure' || block.kind === 'code') {
           return null
         }
         return <h3 key={index}>{block.text}</h3>

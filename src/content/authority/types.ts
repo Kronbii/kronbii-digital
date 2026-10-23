@@ -40,7 +40,14 @@ export interface ArticleFigure {
  * [label](https://…); the reader renders them, and every other use
  * (metadata, JSON-LD, RSS descriptions, counts) keeps the label alone.
  */
-export type ArticleBlock = ArticleParagraph | ArticleHeading | ArticleFigure
+/** A short code listing, shown as written. */
+export interface ArticleCode {
+  kind: 'code'
+  lang: string
+  text: string
+}
+
+export type ArticleBlock = ArticleParagraph | ArticleHeading | ArticleFigure | ArticleCode
 
 export interface AuthorityBreadcrumb {
   label: string

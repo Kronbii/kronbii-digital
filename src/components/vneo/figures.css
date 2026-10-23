@@ -181,3 +181,20 @@
 [data-vneo] .vn-inline-link:hover {
   text-decoration-color: var(--sage);
 }
+
+/* a short code listing inside a write-up */
+[data-vneo] .vn-article-code {
+  margin: 28px 0;
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: rgba(var(--ink-rgb), 0.04);
+  box-shadow: 0 0 0 1px var(--hair);
+  overflow-x: auto;
+  font: 13.5px/1.6 var(--f-mono);
+  color: var(--ink2);
+  tab-size: 2;
+}
+[data-vneo] .vn-article-code code {
+  font: inherit;
+  white-space: pre;
+}

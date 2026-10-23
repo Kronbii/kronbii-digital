@@ -1,6 +1,9 @@
 /** Generated from public/ by measuring each file; regenerate when media changes. */
 
 export const mediaSize: Record<string, [number, number]> = {
+  '/images/authority/upstream/betaflight-15706.jpg': [1920, 570],
+  '/images/authority/upstream/betaflight-15705.jpg': [1920, 570],
+  '/images/authority/upstream/openfront-4868.jpg': [1920, 570],
   '/images/authority/pid-light-tracker/cad.jpg': [433, 358],
   '/images/authority/pid-light-tracker/schematic.jpg': [1263, 680],
   '/images/authority/daleel/hero.jpeg': [1600, 777],

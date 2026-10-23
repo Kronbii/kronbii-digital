@@ -31,6 +31,8 @@ function block(b: ArticleBlock): string {
   switch (b.kind) {
     case 'p':
       return `<p>${inline(b.text)}</p>`
+    case 'code':
+      return `<pre><code>${esc(b.text)}</code></pre>`
     case 'figure':
       return `<figure><img src="${attr(href(b.src))}" alt="${attr(b.alt)}"/>${b.caption ? `<figcaption>${esc(b.caption)}</figcaption>` : ''}</figure>`
     default:

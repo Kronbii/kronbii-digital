@@ -216,6 +216,30 @@ export const articles: ArticleRecord[] = [
         kind: 'p',
         text: 'easyPID is distributed through Arduino Library Manager as a contributed Device Control library and remains small enough for Uno-class AVR boards. Its main design lesson is broader than PID: reusable embedded code should expose timing, limits, state, and failure modes. The equation is the easy part. The contract around it is what makes it reusable.',
       },
+      {
+        kind: 'p',
+        text: 'In a sketch it is a constructor, a begin, and one update per sample. This is the library’s own BasicPID example, adapted to read a sensor on A0 and drive pin 9:',
+      },
+      {
+        kind: 'code',
+        lang: 'cpp',
+        text: `#include <easyPID.h>
+
+// Kp, Ki, Kd, and the output limits of a PWM pin
+PIDController pid(2.0, 0.5, 0.1, 0.0, 255.0);
+
+void setup() {
+  pid.begin();
+  pid.setAntiWindup(ANTIWINDUP_CLAMP);
+}
+
+void loop() {
+  float measurement = analogRead(A0) / 4.0;
+  float output = pid.update(100.0, measurement);  // setpoint, measurement
+  analogWrite(9, (int)output);
+  delay(100);  // a fixed 10 Hz loop
+}`,
+      },
       { kind: 'h2', text: 'Releases' },
       {
         kind: 'p',
