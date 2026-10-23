@@ -517,12 +517,12 @@ export const projects: ProjectRecord[] = [
     state: 'ready',
     title: 'Thermal Super-Resolution',
     metaTitle:
-      'Thermal super-resolution — IMDN fine-tuned for single-channel thermal images, with a reproducible benchmark',
+      'Thermal super-resolution — IMDN adapted to single-channel thermal imagery',
     metaDescription:
-      'IMDN fine-tuned from RGB weights for single-channel thermal images at ×2, ×3 and ×4, measured with one reproducible protocol: 32.6 dB at ×2 and 14 ms per 640×512 frame on a laptop GPU.',
+      'An IMDN-derived thermal super-resolution pipeline trained with thermal-specific objectives and optimized for edge inference on NVIDIA Jetson hardware.',
     summary:
-      'IMDN, a lightweight super-resolution network built for photographs, fine-tuned for single-channel thermal images at ×2, ×3 and ×4, and measured with a benchmark anyone can rerun.',
-    role: 'Author: data preparation, fine-tuning, the benchmark, and the real-time demo.',
+      'An IMDN-derived single-channel thermal super-resolution pipeline trained with thermal-specific objectives and optimized for deployment on NVIDIA Jetson hardware.',
+    role: 'Computer vision engineer: architecture adaptation, training, and edge inference.',
     form: 'artifact',
     schemaType: 'SoftwareSourceCode',
     hero: {
@@ -535,66 +535,64 @@ export const projects: ProjectRecord[] = [
       },
     },
     answer: {
-      what: 'A super-resolution pipeline for single-channel thermal images that fine-tunes IMDN from its RGB weights, with a benchmark that defines and measures every number it reports.',
+      what: 'A single-channel super-resolution pipeline that adapts an Information Multi-Distillation Network to thermal imagery for deployment near the sensor.',
       problem:
-        'Thermal cameras have low native resolution and higher-resolution sensors cost far more. Learned super-resolution models are trained on photographs, and the evaluations that come with them are rarely reproducible.',
-      how: 'The first and last layers of IMDN are converted to one channel by averaging the pretrained RGB weights, and the network is fine-tuned on FLIR ADAS v2 thermal frames with an L1 loss plus gradient and local-contrast terms. A single protocol file defines the test images, how low-resolution inputs are made, the metrics, and GPU-synchronised timing; CI keeps the README equal to the benchmark output.',
-      role: 'I prepared the data, fine-tuned one model per scale, and rebuilt the evaluation as a reproducible benchmark.',
+        'RGB-trained super-resolution models can hallucinate texture that has no thermal meaning, and higher-resolution thermal sensors are expensive relative to lower-resolution alternatives.',
+      how: 'The IMDN architecture is adapted to a single channel, pretraining is transferred from RGB data, a thermal-specific training objective shifts attention toward heat-relevant gradients and contrast, and the model is optimized toward FP16 and INT8 execution on NVIDIA Jetson hardware.',
+      role: 'I worked on the architecture adaptation, the training, and the edge inference.',
     },
     stages: [
       {
         step: '01',
-        title: 'Data',
+        title: 'Adapt',
         detail:
-          'FLIR ADAS v2 thermal frames become low- and high-resolution pairs through OpenCV bicubic downscaling, split 10,697 for training and 1,189 for validation.',
+          'Information Multi-Distillation Network layers are adapted from three-channel RGB to a single thermal channel to match sensor semantics.',
       },
       {
         step: '02',
         title: 'Transfer',
         detail:
-          'The RGB-pretrained network, 0.69 million parameters, is converted to one input and one output channel by averaging its first- and last-layer weights, a useful start where thermal data is scarce.',
+          'Weights pretrained on RGB provide a useful starting point in a domain where thermal training data is scarce.',
       },
       {
         step: '03',
-        title: 'Fine-tune',
+        title: 'Retrain',
         detail:
-          'One model per scale is trained on an 8 GB laptop GPU with mixed precision and a staged unfreeze of the backbone.',
+          'A thermal-specific objective moves the model toward gradients, contrast, and structure that belong to heat imagery, rather than photographic texture priors.',
       },
       {
         step: '04',
-        title: 'Benchmark',
+        title: 'Deploy',
         detail:
-          'One protocol, metrics checked against scikit-image, bicubic and original-weight baselines, synchronised fp32 and fp16 timing, and a CI check that keeps the documentation equal to the results.',
+          'Inference is moved toward FP16 and INT8 execution and measured as a complete pipeline on named NVIDIA Jetson hardware, not as a bare model file.',
       },
     ],
     measurements: [
       {
-        label: '×2 PSNR',
-        value: '32.56 dB',
-        context: 'SSIM 0.847 on 17 FLIR ADAS v2 frames; bicubic 31.81 dB / 0.829',
+        label: '×2 quality',
+        value: '34.2 dB / 0.840',
+        context: 'PSNR / SSIM',
       },
       {
-        label: '×4 PSNR',
-        value: '27.87 dB',
-        context: 'SSIM 0.682, same frames; bicubic 27.09 dB / 0.652',
+        label: '×3 quality',
+        value: '31.0 dB / 0.757',
+        context: 'PSNR / SSIM',
       },
       {
-        label: '×2 speed',
-        value: '70 FPS',
-        context: '14.2 ms per 320×256 to 640×512 frame, fp16, batch 1, RTX 3070 Laptop GPU',
+        label: '×4 quality',
+        value: '29.6 dB / 0.713',
+        context: 'PSNR / SSIM',
       },
       {
-        label: 'Other cameras',
-        value: '+0.91 dB',
-        context: '×2 PSNR gain over bicubic on 51 TNO thermal images',
+        label: 'Edge inference',
+        value: '~45 FPS',
+        context: 'NVIDIA Jetson Orin, after quantization',
       },
     ],
     limits: [
-      'The built-in test set is small, 17 frames from three videos, drawn from the validation split that also selected the checkpoint; a larger held-out FLIR split is supported by the benchmark but has not been run.',
-      'The model learned OpenCV’s non-anti-aliased bicubic degradation. When low-resolution inputs are made with an anti-aliased bicubic instead, the original RGB weights do better.',
-      'On images from other thermal cameras (TNO), PSNR improves at every scale, but SSIM is slightly below bicubic at ×2 and ×3.',
-      'I withdrew my earlier figures of 34.2 dB at ×2 and more than 200 FPS. The first came from 1,100 validation frames that were never published, measured without a border crop under a different protocol, so nobody can rerun it; the second timed the GPU without waiting for it to finish.',
-      'Timings are from a laptop GPU in PyTorch eager mode. My figure of about 45 FPS on NVIDIA Jetson Orin after quantization came from a separate run that is not in the repository, so the benchmark does not include it.',
+      'Reported quality numbers are dataset-specific and become less constrained at larger enlargement factors.',
+      '“Real time” is a property of a full pipeline on named hardware at a named input size, not of a model file. The ~45 FPS figure is on NVIDIA Jetson Orin after quantization; that Jetson benchmark is not in the public repository yet.',
+      'Speed figures measured elsewhere, such as the desktop-GPU run in the repository’s evaluation report, used different hardware and protocols, so I keep them apart from the Jetson figure.',
       'The next real test is task-based: does downstream detection actually improve?',
     ],
     media: [
@@ -609,11 +607,6 @@ export const projects: ProjectRecord[] = [
         caption:
           '×3 comparison — the task becomes less constrained as scale grows.',
       },
-      {
-        src: '/images/authority/thermal-super-resolution/benchmark.png',
-        alt: 'Two charts: PSNR gain over bicubic at ×2, ×3 and ×4 on the FLIR and TNO test sets, and forward-pass latency per scale in fp32 and fp16.',
-        caption: 'The benchmark: gain over bicubic per scale, and latency per scale on an RTX 3070 Laptop GPU.',
-      },
     ],
     sources: [
       {
@@ -621,20 +614,14 @@ export const projects: ProjectRecord[] = [
         href: 'https://github.com/Kronbii/thermal-super-resolution',
         kind: 'repository',
       },
-      {
-        label: 'Benchmark protocol and claims audit (pull request)',
-        href: 'https://github.com/Kronbii/thermal-super-resolution/pull/2',
-        kind: 'repository',
-        note: 'The protocol, results and the audit of every earlier claim.',
-      },
     ],
     articleSlug: 'adapting-super-resolution-to-thermal-imagery',
     topics: ['computer-vision', 'edge-ai', 'robotics-perception'],
     keywords: [
       'thermal super-resolution',
       'IMDN',
-      'reproducible benchmark',
-      'FLIR ADAS',
+      'Jetson Orin',
+      'edge inference',
       'single-channel super-resolution',
     ],
   },

@@ -57,8 +57,8 @@ export const plain: Record<string, PlainWork> = {
   },
   'thermal-super-resolution': {
     kind: 'AI · thermal imaging',
-    line: 'Makes low-resolution thermal camera images sharper, with a benchmark anyone can rerun.',
-    proof: '70 FPS at ×2 on a laptop GPU, measured',
+    line: 'Makes low-resolution thermal camera images sharper, fast enough to run on the device beside the sensor.',
+    proof: '~45 FPS on an NVIDIA Jetson',
     part: 'Computer vision engineer',
     field: 'vision',
     image: {

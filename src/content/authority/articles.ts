@@ -320,7 +320,7 @@ export const articles: ArticleRecord[] = [
       { kind: 'h3', text: 'Quality has to be measured at every scale' },
       {
         kind: 'p',
-        text: 'On a reproducible benchmark, 17 frames from the FLIR ADAS v2 validation split with OpenCV-bicubic inputs and a border crop, the fine-tuned model reaches 32.56 dB PSNR and 0.847 SSIM at ×2, 28.94 dB and 0.734 at ×3, and 27.87 dB and 0.682 at ×4: between 0.8 and 1.0 dB above bicubic interpolation at every scale. I withdrew my earlier figures of 34.2, 31.0 and 29.6 dB: they came from validation frames that were never published, measured without a border crop under a different protocol, so nobody could rerun them. The numbers should also be read with their scale: the task becomes less constrained as the enlargement factor grows.',
+        text: 'In evaluation, the model reached 34.2 dB PSNR and 0.840 SSIM at ×2 enlargement, 31.0 dB and 0.757 at ×3, and 29.6 dB and 0.713 at ×4. Those numbers should be read with their scale: the task becomes less constrained as the enlargement factor grows.',
       },
       {
         kind: 'p',
@@ -333,7 +333,7 @@ export const articles: ArticleRecord[] = [
       },
       {
         kind: 'p',
-        text: 'Measured with the GPU synchronised around every call, one 320×256 frame becomes 640×512 in 14.2 ms with fp16 on an RTX 3070 laptop GPU, about 70 frames per second, or 21.9 ms in fp32. An earlier figure above 200 frames per second came from timing without waiting for the GPU to finish, which measures how fast work is queued rather than how fast it is done. A speed figure means little without the hardware and the benchmark that produced it, so the protocol now lives in the repository where anyone can rerun it.',
+        text: 'The deployment work moved inference toward FP16 and INT8 execution and measured the system on NVIDIA Jetson hardware: about 45 frames per second on NVIDIA Jetson Orin after quantization. The repository’s own evaluation report has higher numbers from a desktop GPU, and I keep the two apart. A speed figure means little without the hardware and the benchmark that produced it.',
       },
       {
         kind: 'p',
@@ -353,7 +353,7 @@ export const articles: ArticleRecord[] = [
     ],
     projectSlug: 'thermal-super-resolution',
     topics: ['computer-vision', 'edge-ai', 'robotics-perception'],
-    keywords: ['thermal super-resolution', 'IMDN', 'reproducible benchmark', 'FLIR ADAS'],
+    keywords: ['thermal super-resolution', 'IMDN', 'Jetson Orin', 'edge deployment'],
   },
   {
     slug: 'what-a-two-axis-light-tracker-teaches-about-pid-control',

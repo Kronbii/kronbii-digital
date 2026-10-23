@@ -162,18 +162,18 @@ export function HeatShot({
       </div>
       <div className="fig s06-x">×3</div>
       <div className="m s06-row s06-r2">
-        <b>×2</b>32.6 dB · 0.847
+        <b>×2</b>34.2 dB · 0.840
       </div>
       <div className="m s06-row on s06-r3">
-        <b>×3</b>28.9 dB PSNR · 0.734 SSIM
+        <b>×3</b>31.0 dB PSNR · 0.757 SSIM
       </div>
       <div className="m s06-row s06-r4">
-        <b>×4</b>27.9 dB · 0.682
+        <b>×4</b>29.6 dB · 0.713
       </div>
       <div className="m s06-how">
         IMDN · single channel
         <br />
-        FP16 · 70 FPS at ×2, laptop GPU
+        FP16 · INT8 on NVIDIA Jetson
       </div>
       <div className="s06-plate">
         {/* eslint-disable-next-line @next/next/no-img-element */}

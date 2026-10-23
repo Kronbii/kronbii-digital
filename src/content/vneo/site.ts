@@ -80,7 +80,7 @@ export const reel = (
       id: 'heat',
       tab: 'Heat',
       slug: 'thermal-super-resolution',
-      line: 'A low-resolution thermal image, upscaled three times by a model with under a million parameters.',
+      line: 'A low-resolution thermal image, upscaled three times by a model small enough to run beside the sensor.',
     },
     {
       id: 'tune',
