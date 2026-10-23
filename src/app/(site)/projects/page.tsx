@@ -12,7 +12,6 @@ import {
   HOME,
   VN,
   racePhoto,
-  showcase,
   workHref,
   works,
 } from '@/content/vneo/site'
@@ -26,9 +25,6 @@ const copy = {
   all: 'All',
 }
 
-/** Imagen's photographs belong to its client. */
-const PRIVATE_MEDIA = new Set(['imagen-raw-to-edit-dataset-pipeline'])
-
 export const metadata: Metadata = pageMeta({
   path: '/projects',
   title: 'Projects — Rami Kronbi',
@@ -37,13 +33,9 @@ export const metadata: Metadata = pageMeta({
 
 export default function VneoProjects() {
   const items: GridItem[] = works
-    // REE is superseded by Juno
-    .filter(({ project: p }) => p.slug !== 'ree-personal-finance-tracker')
     .map(({ project: p, plain }) => {
-      const raw = PRIVATE_MEDIA.has(p.slug)
-        ? undefined
-        : (plain.image ??
-          projectImages(p).find((m) => !/\.(gif|svg)$/.test(m.src)))
+      const raw =
+        plain.image ?? projectImages(p).find((m) => !/\.(gif|svg)$/.test(m.src))
       const img = raw ? racePhoto(raw) : undefined
       return {
         slug: p.slug,
@@ -62,20 +54,6 @@ export default function VneoProjects() {
           : undefined,
       }
     })
-  const juno = showcase.find((t) => t.slug === 'juno')!
-  items.push({
-    slug: juno.slug,
-    title: juno.title,
-    kind: juno.kind,
-    line: juno.line,
-    proof: juno.proof,
-    field: 'tools',
-    href: juno.href,
-    external: true,
-    image: juno.image
-      ? { src: juno.image.src, position: juno.image.position }
-      : undefined,
-  })
   return (
     <>
       <JsonLd

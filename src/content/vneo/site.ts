@@ -46,7 +46,13 @@ export const chapters: Chapter[] = buildChapters(VN).map((c) => ({
           position: '50% 50%',
         }
       : c.plate,
-  link: { ...c.link, href: intoVneo(c.link.href) },
+  link:
+    c.id === 'clinics'
+      ? {
+          label: 'How Basira works',
+          href: writingHref('designing-a-council-of-models-for-retinal-screening'),
+        }
+      : { ...c.link, href: intoVneo(c.link.href) },
   more: c.more ? { ...c.more, href: intoVneo(c.more.href) } : undefined,
 }))
 export const groups = buildGroups(VN)
@@ -147,15 +153,6 @@ export type ShowItem = WorkItem & {
   external?: boolean
 }
 
-/** Juno, the new version of my finance app, shown by its screenshot. */
-const juno: ShowItem = {
-  ...workItem('juno', undefined, ''),
-  alt: 'Juno’s home screen with demo data: the month’s spending, budgets, and accounts.',
-  size: 'wide',
-  area: 'juno',
-  image: { src: '/images/vneo/juno-home.jpg', position: '0% 0%' },
-}
-
 /**
  * The work, as one tight grid, by importance: the biggest tiles for the work
  * that matters most (the drone, then the car, OmniSign, and the thermal
@@ -244,26 +241,32 @@ export const showcase: ShowItem[] = [
     area: 'crk',
   },
   {
-    ...workItem('imagen-raw-to-edit-dataset-pipeline', undefined, ''),
-    size: 'wide',
-    area: 'img',
-    figure: {
-      from: '2–3',
-      fromNote: 'a day, team of three',
-      to: '~40',
-      toNote: 'a day, per person',
+    ...workItem('drone-control-bootcamp', undefined, ''),
+    size: 'one',
+    area: 'boot',
+    image: {
+      src: '/images/authority/drone-control-bootcamp/plate.png',
+      position: '50% 42%',
     },
   },
   {
-    ...workItem('lebanese-motorcycle-theory-trainer', undefined, ''),
-    size: 'one',
-    area: 'moto',
+    ...workItem('quadrotor-rotor-fault-recovery', undefined, ''),
+    size: 'wide',
+    area: 'rot',
     image: {
-      src: '/images/authority/motorcycle-trainer/sign-127.webp',
+      src: '/images/authority/quadrotor-rotor-fault-recovery/plate.png',
       fit: 'contain',
     },
   },
-  juno,
+  {
+    ...workItem('road-speed-audit', undefined, ''),
+    size: 'wide',
+    area: 'road',
+    image: {
+      src: '/images/authority/road-speed-audit/plate.png',
+      fit: 'contain',
+    },
+  },
 ]
 /** How many of the first motion tiles play in turn when the grid arrives. */
 export const FEATURED = 4
@@ -309,7 +312,7 @@ export const community = {
   read: 'Read more',
 }
 
-/** Already shown above, so "More of the work" lists only the rest; REE is superseded by Juno. */
+/** Already shown above, so "More of the work" lists only the rest. */
 export const shownAbove = new Set([
   ...showcase.map((t) => t.slug),
   'basira-retinal-screening',
@@ -339,6 +342,7 @@ const build = {
  * Vneo: only the turning points, so not the talk or the single upstream fix.
  */
 const LOG_SKIP = new Set([
+  'Co-founded Evoid',
   'Spoke at GDG DevFest Tripoli',
   'A fix merged into Betaflight',
 ])
@@ -380,20 +384,20 @@ export const vneo = {
   glance: [
     {
       big: 'Now',
-      label: 'Embedded Systems Engineer at Oreyeon',
+      label: 'Embedded Systems & Vision Engineer at Oreyeon',
       note: 'real-time vision for runway safety',
       href: siteConfig.employer.url,
     },
     {
-      big: '3×',
+      big: '2×',
       label: 'Co-founder',
-      note: 'Evoid · NASNA · OmniSign',
+      note: 'NASNA · OmniSign',
       href: `${HOME}#community`,
     },
     {
       big: '2025',
       label: 'Mechatronics engineer, RHU',
-      note: 'graduated with a full master’s scholarship',
+      note: 'valedictorian, 4.0/4.0, full master’s scholarship',
       href: siteConfig.education.url,
     },
     {
@@ -472,6 +476,7 @@ export const vneoChrome = {
     { label: 'Work', href: `${HOME}#work` },
     { label: 'Community', href: `${HOME}#community` },
     { label: 'Projects', href: `${VN}/projects` },
+    { label: 'About', href: `${VN}/about` },
     { label: 'Contact', href: `${HOME}#sign-off` },
   ],
   footer: {
@@ -479,6 +484,7 @@ export const vneoChrome = {
       { label: 'Projects', href: '/projects' },
       { label: 'Writing', href: '/writing' },
       { label: 'Topics', href: '/topics' },
+      { label: 'About', href: '/about' },
     ],
     copyright: `© 2026 ${siteConfig.name} · ${siteConfig.location}`,
   },

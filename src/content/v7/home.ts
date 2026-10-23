@@ -186,14 +186,16 @@ export const chapters = buildChapters(V7)
 /** Everything else that is ready, grouped by who it is for. */
 const GROUPS: { label: string; slugs: string[] }[] = [
   {
-    label: 'Health',
+    label: 'Safety',
     slugs: [
-      'lumiscan-lesion-dashboard',
-      'multilingual-medical-prescription-ocr',
-      'hantawatch-outbreak-dashboard',
+      'quadrotor-rotor-fault-recovery',
+      'landmine-detection-extraction-robot',
+      'runway-inspection-uav',
+      'road-speed-audit',
     ],
   },
-  { label: 'Learners', slugs: ['lebanese-motorcycle-theory-trainer'] },
+  { label: 'Learners', slugs: ['drone-control-bootcamp'] },
+  { label: 'Care', slugs: ['emotion-recognition-autism-support'] },
   {
     label: 'Engineers and makers',
     slugs: [
@@ -201,25 +203,15 @@ const GROUPS: { label: string; slugs: string[] }[] = [
       'upstream-open-source-contributions',
       'pid-light-tracking-robot',
       'fine-crack-tracing-toolkit',
-      'water-shooting-robot',
+      'ice-engine-simulator',
+      'esp32-barn-door-star-tracker',
     ],
   },
   {
     label: 'Seeing better',
-    slugs: [
-      'thermal-super-resolution',
-      '360-spherical-panorama-stitching',
-      'imagen-raw-to-edit-dataset-pipeline',
-    ],
+    slugs: ['thermal-super-resolution', '360-spherical-panorama-stitching'],
   },
-  {
-    label: 'Tools and ventures',
-    slugs: [
-      'ree-personal-finance-tracker',
-      'local-first-ai-support-triage',
-      'evoid-applied-vision-venture',
-    ],
-  },
+  { label: 'Communities', slugs: ['bsheel-quest-app'] },
 ]
 
 export const buildGroups = (base: string) =>

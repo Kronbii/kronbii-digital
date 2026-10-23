@@ -14,10 +14,6 @@ export const topics: TopicRecord[] = [
       'Which of them run in real time or on edge hardware?',
       'Which projects expose reusable open-source code?',
     ],
-    reviewMentions: [
-      'Raspberry Pi runway-inspection UAV (in review)',
-      'Edge emotion-recognition prototype (in review)',
-    ],
   },
   {
     slug: 'robotics-perception',
@@ -32,9 +28,6 @@ export const topics: TopicRecord[] = [
       'How does perception timing interact with control cadence?',
       'What has Rami Kronbi actually deployed near a sensor?',
     ],
-    reviewMentions: [
-      'Raspberry Pi runway-inspection UAV (in review)',
-    ],
   },
   {
     slug: 'embedded-systems',
@@ -48,9 +41,6 @@ export const topics: TopicRecord[] = [
       'Which embedded control systems has Rami Kronbi built?',
       'Where does reusable open-source code live?',
       'How are timing and saturation treated as first-class concerns?',
-    ],
-    reviewMentions: [
-      'Raspberry Pi runway-inspection UAV (in review)',
     ],
   },
   {
@@ -79,10 +69,6 @@ export const topics: TopicRecord[] = [
       'Which models has Rami Kronbi deployed on Jetson-class hardware?',
       'What speed and quality figures are attached to which hardware?',
       'How is “real time” bounded by hardware and input size?',
-    ],
-    reviewMentions: [
-      'Raspberry Pi runway-inspection UAV (in review)',
-      'Edge emotion-recognition prototype (in review)',
     ],
   },
   {

@@ -333,7 +333,7 @@ export const articles: ArticleRecord[] = [
       },
       {
         kind: 'p',
-        text: 'The deployment work moved inference toward FP16 and INT8 execution and measured the system on NVIDIA Jetson hardware: about 45 frames per second on NVIDIA Jetson Orin after quantization. The repository’s own evaluation report has higher numbers from a desktop GPU, and I keep the two apart. A speed figure means little without the hardware and the benchmark that produced it.',
+        text: 'The deployment work moved inference to FP16 and INT8 and measured the whole system on NVIDIA Jetson AGX Orin: about 45 frames per second. A speed figure means little without the hardware that produced it, so I always give the two together.',
       },
       {
         kind: 'p',
@@ -349,6 +349,26 @@ export const articles: ArticleRecord[] = [
         label: 'GitHub — thermal-super-resolution',
         href: 'https://github.com/Kronbii/thermal-super-resolution',
         kind: 'repository',
+      },
+      {
+        label: 'Also on Medium',
+        href: 'https://medium.com/@ramikronbi/seeing-in-the-dark-real-time-thermal-super-resolution-that-actually-runs-on-edge-devices-5d95b4bab7b2',
+        kind: 'article',
+      },
+      {
+        label: 'Also on DEV',
+        href: 'https://dev.to/ramikronbi/seeing-in-the-dark-real-time-thermal-super-resolution-that-actually-runs-on-edge-devices-3nc7',
+        kind: 'article',
+      },
+      {
+        label: 'Also on Hashnode',
+        href: 'https://ramis-blog.hashnode.dev/seeing-in-the-dark-real-time-thermal-super-resolution-that-actually-runs-on-edge-devices',
+        kind: 'article',
+      },
+      {
+        label: 'Also on Substack',
+        href: 'https://kronbii.substack.com/p/seeing-in-the-dark-real-time-thermal',
+        kind: 'article',
       },
     ],
     projectSlug: 'thermal-super-resolution',
@@ -472,7 +492,7 @@ export const articles: ArticleRecord[] = [
   },
   {
     slug: 'extracting-medicine-names-from-multilingual-prescriptions',
-    state: 'ready',
+    state: 'hold',
     title: 'Extracting medicine names from multilingual prescriptions',
     metaTitle: 'Extracting medicine names from multilingual prescriptions',
     metaDescription:
@@ -589,7 +609,7 @@ export const articles: ArticleRecord[] = [
   },
   {
     slug: 'building-an-adaptive-motorcycle-theory-trainer-for-lebanon',
-    state: 'ready',
+    state: 'hold',
     title: 'Building an adaptive motorcycle theory trainer for Lebanon',
     metaTitle: 'Building an adaptive motorcycle theory trainer for Lebanon',
     metaDescription:
@@ -641,7 +661,7 @@ export const articles: ArticleRecord[] = [
   },
   {
     slug: 'building-a-local-first-ai-support-triage-council',
-    state: 'ready',
+    state: 'hold',
     title: 'Building a local-first AI support triage council',
     metaTitle: 'Building a local-first AI support triage council',
     metaDescription:
@@ -697,7 +717,7 @@ export const articles: ArticleRecord[] = [
   },
   {
     slug: 'designing-an-offline-first-personal-finance-desktop-app',
-    state: 'ready',
+    state: 'hold',
     title: 'Designing an offline-first personal finance desktop app',
     metaTitle: 'Designing an offline-first personal finance desktop app',
     metaDescription:
@@ -758,7 +778,7 @@ export const articles: ArticleRecord[] = [
   },
   {
     slug: 'rebuilding-my-finance-app-around-local-first-sync',
-    state: 'ready',
+    state: 'hold',
     title: 'Rebuilding my finance app around local-first sync',
     metaTitle: 'Rebuilding my finance app around local-first sync',
     metaDescription:
@@ -855,6 +875,16 @@ export const articles: ArticleRecord[] = [
     sources: [
       { label: 'Team project page — Layth Ayache', href: 'https://laythayache.com/projects/omnisign', kind: 'article' },
       { label: 'Team project page — Tayseer Laz', href: 'https://tayseerlaz.com/work/omnisign/', kind: 'article' },
+      {
+        label: 'Also on Medium',
+        href: 'https://medium.com/@ramikronbi/we-built-sign-language-ai-for-a-language-with-almost-no-dataset-c4a60df1cf96',
+        kind: 'article',
+      },
+      {
+        label: 'Also on DEV',
+        href: 'https://dev.to/ramikronbi/we-built-sign-language-ai-for-a-language-with-almost-no-dataset-heres-what-that-actually-looks-kem',
+        kind: 'article',
+      },
     ],
     projectSlug: 'omnisign-lebanese-sign-language',
     topics: ['computer-vision', 'edge-ai', 'embedded-systems'],
@@ -890,56 +920,114 @@ export const articles: ArticleRecord[] = [
     keywords: ['posture estimation', 'ESP32', 'motorized desk'],
   },
   {
-    slug: 'running-fod-detection-on-a-raspberry-pi-uav',
-    state: 'review',
-    title: 'Running FOD detection on a Raspberry Pi UAV',
-    metaTitle: 'Running FOD detection on a Raspberry Pi UAV (editorial review)',
-    metaDescription: 'Editorial review draft. Not indexable.',
-    dek: 'A Raspberry Pi 5B UAV prototype runs a lightweight FOD detector at the edge.',
+    slug: 'running-fod-detection-on-a-uav',
+    state: 'ready',
+    title: 'Running FOD detection on a UAV',
+    metaTitle: 'Running FOD detection on a UAV — YOLOv11 onboard a Jetson',
+    metaDescription:
+      'How Rami Kronbi runs a lightweight YOLOv11 foreign-object-debris detector onboard a Jetson at about 30 FPS in a simulated runway-inspection UAV, trained on online and synthetic data and cleaned up with similarity matching and false-positive filtering.',
+    dek: 'Looking for debris on a runway from a drone means finding small things on a big surface, from a camera that never stops moving, with only the compute the drone can carry.',
     body: [
       {
         kind: 'p',
-        text: 'Runway foreign-object-debris inspection is a useful edge-AI problem because the system has to see small hazards while moving, under tight compute and power limits. The canonical project record describes a Raspberry Pi 5B UAV prototype running a lightweight YOLOv11 detector at approximately 45 frames per second, trained with online and synthetic data and tested in parking-lot environments used to simulate runway conditions.',
+        text: 'Foreign object debris, or FOD, is anything loose on a runway that shouldn’t be there. This is my own simulation project, ongoing since 2026: a runway-inspection UAV that runs a lightweight FOD detector onboard, on a Jetson, at about 30 frames per second.',
       },
+      { kind: 'h2', text: 'Why onboard' },
       {
         kind: 'p',
-        text: 'The project joins airframe constraints, onboard inference, camera motion, false-positive filtering, and flight testing. A detector that works on static images can fail when the vehicle vibrates, changes altitude, or sees repeated pavement texture. Similarity matching and explicit false-positive handling were included to make the flight behavior more useful than a raw stream of boxes.',
+        text: 'Running the detector on the drone keeps the whole chain on the aircraft: the camera, the model, and the filtering that decides what counts as a find. The price is that the model has to be small enough to keep up on the compute a drone can carry. That is why it is a lightweight YOLOv11 detector, and about 30 frames per second is what it runs at onboard.',
       },
+      { kind: 'h2', text: 'The data' },
       {
         kind: 'p',
-        text: 'Before publication, the repository, exact model variant and input size, data rights, evaluation split, meaning of the reported 75–80% accuracy, flight-test ownership, and separation from employer work need confirmation.',
+        text: 'I trained the detector on online and synthetically generated data, and it reached 75–80% model accuracy. Images of debris lying on runways are not easy to find in quantity, and synthetic data is one way to fill out a training set for an object that is small, varied, and rare.',
+      },
+      { kind: 'h2', text: 'More than a stream of boxes' },
+      {
+        kind: 'p',
+        text: 'A detector on its own returns a box for every frame where it thinks it sees something. From a moving drone, the same object turns up frame after frame, and pavement texture, markings, and shadows can look like debris for a moment. So on top of the raw detections I added similarity matching and false-positive filtering, so that what comes out of a flight is a shorter list of likely FOD rather than every box the model drew.',
+      },
+      { kind: 'h2', text: 'Testing in simulation' },
+      {
+        kind: 'p',
+        text: 'The in-flight tests simulate runway conditions. Simulation lets me repeat a test under the same conditions, and it is also the project’s limit: the 75–80% describes the model on online and synthetic data, and real debris on a real runway is the test still ahead.',
       },
     ],
-    sources: [],
-    projectSlug: 'raspberry-pi-runway-inspection-uav',
+    sources: [
+      {
+        label: 'Ultralytics YOLO11',
+        href: 'https://docs.ultralytics.com/models/yolo11',
+        kind: 'documentation',
+        note: 'The detector family the onboard model comes from.',
+      },
+    ],
+    projectSlug: 'runway-inspection-uav',
     topics: ['edge-ai', 'computer-vision', 'robotics-perception'],
-    keywords: ['FOD detection', 'YOLOv11', 'Raspberry Pi 5B'],
+    keywords: [
+      'FOD detection',
+      'foreign object debris',
+      'YOLOv11',
+      'NVIDIA Jetson',
+      'UAV',
+      'synthetic data',
+      'edge inference',
+    ],
   },
   {
     slug: 'lessons-from-an-edge-emotion-recognition-prototype',
-    state: 'review',
+    state: 'ready',
     title: 'Lessons from an edge emotion-recognition prototype',
-    metaTitle: 'Lessons from an edge emotion-recognition prototype (editorial review)',
-    metaDescription: 'Editorial review draft. Not indexable.',
-    dek: 'Facial expression is not a direct measurement of internal emotional state.',
+    metaTitle: 'Lessons from an edge emotion-recognition prototype for children with autism',
+    metaDescription:
+      'Rami Kronbi on building a real-time emotion-recognition pipeline on Jetson Orin Nano for children with autism: combining CALMED, Kaggle, and other data, reaching about 92% development accuracy, and keeping it a support tool rather than a diagnosis.',
+    dek: 'Most of the work in an emotion-recognition prototype is in the data, and most of the care is in what you let the output mean.',
     body: [
       {
         kind: 'p',
-        text: 'The canonical project record describes a facial-landmark and convolutional-neural-network pipeline developed on Jetson Orin Nano for a prototype intended to support work with children with autism. It reached approximately 92% development accuracy after combining and cleaning image and video data from CALMED, Kaggle, and other sources.',
+        text: 'Between 2022 and 2023 I developed a real-time emotion-recognition pipeline for children with autism. It pairs facial landmarks with a convolutional neural network and runs on a Jetson Orin Nano, a small computer that can sit right next to the camera.',
+      },
+      { kind: 'h2', text: 'The data came first' },
+      {
+        kind: 'p',
+        text: 'I combined image and video data from CALMED, Kaggle, and other sources and cleaned it into one training set. CALMED is the one built for this problem: a dataset for emotion detection in children with autism. Combining sources like these is most of the work. They label emotions in their own ways and record faces in different conditions, and they have to be cleaned into something one model can learn from.',
       },
       {
         kind: 'p',
-        text: 'The most important publication question is not the architecture. It is the responsible framing. Facial expression is not a direct measurement of a person’s internal emotional state, and performance on a curated dataset does not establish clinical validity. Any useful system must communicate uncertainty, avoid diagnostic claims, and be evaluated with the people and contexts it is intended to support.',
+        text: 'With the data combined and cleaned, the pipeline reached about 92% development accuracy.',
       },
+      { kind: 'h2', text: 'Running it live' },
       {
         kind: 'p',
-        text: 'Before publication, the team credits, dataset licenses, class definitions, evaluation protocol, acquisition language, intended users, and clinical review must be confirmed. The final article should be a careful engineering retrospective, not a claim that emotion can be read reliably from a face.',
+        text: 'The Jetson Orin Nano runs the pipeline in real time: facial landmarks describe the shape of the face, and the CNN classifies the expression. The code for the network is public. It trains a small Keras CNN on 48×48 grayscale face crops, runs it on a live camera feed, and evaluates it with a confusion matrix and a classification report. The dataset itself isn’t included.',
+      },
+      { kind: 'h2', text: 'What the output means' },
+      {
+        kind: 'p',
+        text: 'A facial expression is not a direct reading of what someone feels, and about 92% on development data says how the model does on that data, not how it will do with one child in one room. So I built it as a support tool: a signal that can help the people around a child, never a diagnosis.',
+      },
+      { kind: 'h2', text: 'Afterwards' },
+      {
+        kind: 'p',
+        text: 'The prototype and the concept were later acquired following a Gulf-region competition.',
       },
     ],
-    sources: [],
+    sources: [
+      {
+        label: 'GitHub — CNN-Emotion-Detection',
+        href: 'https://github.com/Kronbii/CNN-Emotion-Detection',
+        kind: 'repository',
+        note: 'The CNN training, live-test, and evaluation code.',
+      },
+      {
+        label: 'CALMED dataset paper',
+        href: 'https://arxiv.org/abs/2307.13706',
+        kind: 'article',
+        note: 'A dataset for emotion detection in children with autism.',
+      },
+    ],
     projectSlug: 'emotion-recognition-autism-support',
     topics: ['edge-ai', 'computer-vision'],
-    keywords: ['emotion recognition', 'Jetson Orin Nano', 'responsible AI'],
+    keywords: ['emotion recognition', 'autism', 'Jetson Orin Nano', 'CNN', 'CALMED', 'edge inference'],
   },
   {
     slug: 'what-four-years-of-technical-mentoring-taught-me',
@@ -1012,29 +1100,45 @@ export const articles: ArticleRecord[] = [
   },
   {
     slug: 'turning-physics-outreach-into-a-multi-university-program',
-    state: 'review',
+    state: 'ready',
     title: 'Turning physics outreach into a multi-university program',
-    metaTitle: 'Turning physics outreach into a multi-university program (editorial review)',
-    metaDescription: 'Editorial review draft. Not indexable.',
+    metaTitle: 'Turning physics outreach into a multi-university program — National Physics Day',
+    metaDescription:
+      'How Rami Kronbi, society lead of the Physics & Astronomy Club in Beirut from 2021 to 2024, founded National Physics Day across four universities, built hands-on double-slit, electrical, and telescope experiments, and made demonstrations for Moe Abbas’s outreach.',
     dek: 'Good science outreach gives people something they can manipulate and question.',
     body: [
       {
         kind: 'p',
-        text: 'The canonical record describes founding and leading National Physics Day across four universities, expanding hands-on physics and astronomy activities through double-slit, electrical, and telescope experiments, and developing demonstrations used in university outreach.',
+        text: 'From 2021 to 2024 I was society lead of the Physics & Astronomy Club in Beirut. In that time I founded National Physics Day and led it across four universities. I expanded the club’s hands-on physics and astronomy activities with double-slit, electrical, and telescope experiments, and I developed demonstrations for the LAU presentations and Cosmic Dome outreach of Mohamad (Moe) Abbas, an astrophysics researcher at NYU Abu Dhabi.',
       },
+      { kind: 'h2', text: 'Something to manipulate and question' },
       {
         kind: 'p',
-        text: 'Good science outreach gives people something they can manipulate and question. A double-slit experiment turns an abstract account of interference into a visible pattern. A telescope makes scale and observation immediate. The organizing work is in creating stations that are robust, safe, explainable, and still interesting when many groups move through them.',
+        text: 'Good science outreach gives people something they can manipulate and question. A double-slit experiment turns an abstract account of interference into a pattern you can see: light through two narrow openings lands as bright and dark bands, not two simple stripes, and changing the slits changes the pattern. An electrical experiment lets someone change a circuit with their own hands and watch what happens. A telescope makes scale and observation immediate in a way a slide cannot.',
       },
+      { kind: 'h2', text: 'One day, four universities' },
       {
         kind: 'p',
-        text: 'Before indexing, the event dates, participating institutions, collaborator credits, participant scale, photographs, and public references need confirmation. The final piece should document how the program was designed and repeated, not claim institutional impact that has not been measured.',
+        text: 'Founding National Physics Day meant taking that idea beyond one club and one campus, and leading it across four universities. An experiment at an outreach event has to work again and again, survive curious hands, and be explainable in a minute to someone who has never thought about interference. That is an engineering problem as much as a teaching one.',
+      },
+      { kind: 'h2', text: 'Demonstrations for someone else’s talk' },
+      {
+        kind: 'p',
+        text: 'Building demonstrations for Moe Abbas’s presentations at LAU and for the Cosmic Dome outreach was a different kind of work. A demonstration inside someone else’s talk has to show one idea clearly at the moment it comes up, then get out of the way of the story the speaker is telling.',
       },
     ],
     sources: [],
     projectSlug: '',
     topics: [],
-    keywords: ['physics outreach', 'astronomy', 'multi-university'],
+    keywords: [
+      'physics outreach',
+      'National Physics Day',
+      'astronomy outreach',
+      'double-slit experiment',
+      'telescope',
+      'science communication',
+      'Beirut',
+    ],
   },
   {
     slug: 'what-small-upstream-fixes-teach-about-firmware',
@@ -1123,7 +1227,7 @@ export const articles: ArticleRecord[] = [
   },
   {
     slug: 'building-an-outbreak-dashboard-from-public-sources',
-    state: 'ready',
+    state: 'hold',
     title: 'Building an outbreak dashboard from public sources',
     metaTitle: 'Building an outbreak dashboard from public sources',
     metaDescription: 'Hantawatch aggregates public outbreak sources into one linked, shareable map and feed; the design rule is that nothing appears without its source.',
@@ -1195,7 +1299,7 @@ export const articles: ArticleRecord[] = [
   },
   {
     slug: 'making-tenant-isolation-the-only-path',
-    state: 'ready',
+    state: 'hold',
     title: 'Making tenant isolation the only path',
     metaTitle: 'Making tenant isolation the only path',
     metaDescription: 'For the Lumiscan clinical platform, tenant isolation is structural: organization scoping on every row, one service layer for two front doors, and a language model that only narrates.',
@@ -1257,32 +1361,109 @@ export const articles: ArticleRecord[] = [
   },
   {
     slug: 'moderation-is-the-product-in-a-quest-app',
-    state: 'review',
+    state: 'ready',
     title: 'Moderation is the product in a quest app',
-    metaTitle: 'Moderation is the product in a quest app',
-    metaDescription: 'Why Bsheel’s architecture puts proof review, appeals, and XP accounting at the center, and how a small team self-hosts it.',
-    dek: 'A quest only counts when a person has looked at the proof. Everything in Bsheel’s backend follows from that.',
+    metaTitle: 'Moderation is the product in a quest app — building proof checks for Bsheel',
+    metaDescription:
+      'How Rami Kronbi built the proof checks behind Bsheel, a real-world quest app: a review state machine with one appeal, a forensics-first AI cascade that never rejects on a cheap verdict, and shadow mode scored against human moderators.',
+    dek: 'A quest only counts when someone has looked at the proof. Most of the engineering in Bsheel follows from that.',
     body: [
-      { kind: 'p', text: 'Bsheel gives a user three real-world quests, one of which they complete inside a timer and prove with a photo or video. XP is awarded only after a moderator approves the proof. I co-founded the product and worked on it as systems engineer and product manager with Razan Hasbini and Tayseer Laz; it is published on Google Play and the App Store.' },
-      { kind: 'h2', text: 'The review state machine' },
-      { kind: 'p', text: 'The submissions domain owns proof metadata, a review state machine, appeals, and the XP transaction. Moderators work from a queue with reviewer context; rejected users can appeal; an XP reconciliation audit in the admin console catches drift. Treating XP as a transaction rather than a counter is what makes the audit possible.' },
-      { kind: 'h2', text: 'One API, layered the same way everywhere' },
-      { kind: 'p', text: 'Two Flutter clients, mobile and admin, talk to one self-hosted NestJS API over versioned HTTPS and a WebSocket. Every domain is split into presentation, application, domain, and infrastructure: controllers stay thin, services orchestrate, repositories are the only place SQL exists, and a repository never calls another domain’s repository. Cross-domain effects are events. A domain becomes its own service only when measured scaling justifies it.' },
-      { kind: 'h2', text: 'Work that must not run on the phone' },
-      { kind: 'p', text: 'Push notifications fan out from a durable BullMQ queue on Redis, in a worker built from the same codebase as the API and scaled separately. Private media lives in S3-compatible storage. PostgreSQL is authoritative; Redis holds only queues, locks, and disposable coordination state. nginx handles rate limiting and WebSocket upgrades in front of stateless API replicas.' },
-      { kind: 'p', text: 'The social layer, feed with hot ordering, votes, threaded comments, mentions, follows, blocks, collab groups, and leaderboards, sits on top of that core. The core is the part I would defend: moderation, appeals, and accounting are the product; the rest is what makes it fun.' },
+      {
+        kind: 'p',
+        text: 'Bsheel hands you three random real-world quests. You pick one, do it before its timer runs out, and post a photo or video as proof. The XP arrives only after the proof is approved. I co-founded it with Razan Hasbini and Tayseer Laz, and I work on it as systems engineer and product manager. It is live on Google Play and at bsheel.app.',
+      },
+      { kind: 'h2', text: 'From a hackathon app to a real backend' },
+      {
+        kind: 'p',
+        text: 'Bsheel started in March 2026 as a hackathon app built on Supabase. In September 2026 we rebuilt it on a self-hosted NestJS backend: Flutter clients for the app and the admin console, PostgreSQL as the source of truth, Redis and BullMQ for queues and locks, S3-compatible storage for proof media, and a worker built from the same codebase as the API. Every domain is layered the same way, from presentation down to infrastructure, and slow or cross-domain effects go through a transactional outbox to idempotent workers.',
+      },
+      { kind: 'h2', text: 'A quest counts when a person has seen the proof' },
+      {
+        kind: 'p',
+        text: 'The core is a small state machine. Submitting proof marks the quest as submitted and the proof as pending. A moderator approves it, and the XP is awarded once, or rejects it. A rejected player can appeal once: the submission goes back to pending with the appeal spent, and a second rejection is final. Those rules are enforced on the server, not in the app.',
+      },
+      {
+        kind: 'p',
+        text: 'The feed, votes, comments, collab groups, and leaderboards all sit on top of that. They are what make Bsheel fun, but they only mean something if the proof underneath them is honest. That is why the admin console is built around a review queue, appeals, and an XP reconciliation audit.',
+      },
+      { kind: 'h2', text: 'Asking a photo only what it can answer' },
+      {
+        kind: 'p',
+        text: 'The part of Bsheel I spent the most time on is automated proof checking. My first pass was a single vision-model call with a generic prompt. The prompt was not the problem. When I went through the quest catalogue and asked of each quest whether a photo could prove it, roughly a third could not. A photo of a book does not show you read twenty pages. “Spend an hour with no phone” cannot be proven by a picture the phone took. A model asked anyway still answers, with a confidence score attached, and that is how an automated reviewer confidently rejects an honest player.',
+      },
+      {
+        kind: 'p',
+        text: 'So every quest now carries a verification contract: either the image can show the task, or it can only show whether the photo is authentic, or nothing about it bears on the task. The check runs in stages. Forensics come first and cost almost nothing: capture time, exact-byte and near-duplicate matching, screen dimensions, and markers of generated content. Then a cheap model, and a stronger one only where the cheap one could not tell. Most submissions stop early. Before any rejection, the most capable model has to agree; a confident verdict from a cheaper tier is never enough to reject.',
+      },
+      {
+        kind: 'p',
+        text: 'I keep two numbers apart: how sure the model is of its verdict, and how relevant the media is to the quest. A photo of a coffee cup is irrelevant to “compliment a stranger”, and the submission is still honest. So relevance can hold back an automatic approval, but it can never cause a rejection.',
+      },
+      { kind: 'h2', text: 'Shadow mode, and a number to earn' },
+      {
+        kind: 'p',
+        text: 'The pipeline runs in shadow mode by default: it records what it would have decided, and a person still decides. Moderators see the agent’s read beside the proof, including what it looked for and did not find, because “no sunrise in this frame” is usually the line that matters. To know whether it deserves to act, I built an evaluation that scores its verdicts against decisions moderators already made. It includes a backfill over submissions reviewed before the agent existed, so its verdict could not have influenced the decision it is scored against.',
+      },
+      { kind: 'h2', text: 'Bugs you only find by leaving it running' },
+      {
+        kind: 'p',
+        text: 'The hardest bugs showed up after the pipeline had been running for a while, not when I read the code. A run interrupted by a restart could never be picked up again, because the claim on it was a label, not a lease that expires. A decision could be recorded and then quietly never applied. Both are fixed: claims expire, and a decision that fails to apply fails the run, so a retry is a real retry.',
+      },
+      {
+        kind: 'p',
+        text: 'The perceptual hash that catches re-used photos was the strangest bug. It records whether each pixel is brighter than its neighbour, so a dark screenshot, a white wall, and a night sky all hash to the same value. Two unrelated people photographing two unrelated blank things looked like one stolen photo. It never rejected anyone, because automatic rejection was switched off, but it would have the moment that changed. Those frames now get no hash at all. A fingerprint that a whole class of images shares is not a fingerprint.',
+      },
+      { kind: 'h2', text: 'The rest of my part' },
+      {
+        kind: 'p',
+        text: 'Around the proof check I built business accounts for places on the map, granted by membership rather than by an admin role, with a partner dashboard as its own web app. I added an event store for the top of the funnel, kept apart from completions because a phone saying it showed a quest card is not something the server can confirm. I also built admin tools for quest chains and collections, and keyset pagination for the admin lists. Much of the app itself is Tayseer’s and Razan’s work.',
+      },
+      {
+        kind: 'p',
+        text: 'In a game about doing things in the real world, the playful features are the easy part. Trust in the proof is the product, and the moderation behind it is where most of the engineering went.',
+      },
     ],
     sources: [
       { label: 'bsheel.app', href: 'https://bsheel.app/', kind: 'demo' },
-      { label: 'BSHEEL on Google Play', href: 'https://play.google.com/store/apps/details?id=com.questapp.mobile_app', kind: 'listing' },
+      {
+        label: 'BSHEEL on Google Play',
+        href: 'https://play.google.com/store/apps/details?id=com.questapp.mobile_app',
+        kind: 'listing',
+      },
+      {
+        label: 'Bsheel source on GitHub',
+        href: 'https://github.com/razanhasbini/bsheel-',
+        kind: 'repository',
+      },
+      {
+        label: 'AI proof verification pull request',
+        href: 'https://github.com/razanhasbini/bsheel-/pull/54',
+        kind: 'repository',
+        note: 'The staged cascade and per-quest verification contract.',
+      },
+      {
+        label: 'Making the pipeline safe to leave running',
+        href: 'https://github.com/razanhasbini/bsheel-/pull/70',
+        kind: 'repository',
+        note: 'Leases, silent decisions, and the perceptual-hash fix.',
+      },
     ],
     projectSlug: 'bsheel-quest-app',
-    topics: ['product-engineering', 'full-stack-systems', 'local-first-software'],
-    keywords: ['moderation', 'NestJS', 'Flutter', 'gamification'],
+    topics: ['applied-ai'],
+    keywords: [
+      'content moderation',
+      'proof verification',
+      'vision models',
+      'shadow mode',
+      'perceptual hash',
+      'NestJS',
+      'Flutter',
+      'gamification',
+    ],
   },
   {
     slug: 'a-ride-is-data-about-the-bike',
-    state: 'review',
+    state: 'hold',
     title: 'A ride is data about the bike',
     metaTitle: 'A ride is data about the bike',
     metaDescription: 'The central design decision behind Moto 961, an early-stage motorcycle app for Lebanon: rides feed maintenance, not leaderboards.',
@@ -1382,7 +1563,7 @@ export const articles: ArticleRecord[] = [
       },
       {
         kind: 'p',
-        text: 'The limits of the evidence are just as clear. The noise in the simulation is white and the turbulence a simple random process; the vibration on a real 5-inch frame is narrow-band, much larger and tied to motor speed. The detection numbers describe what the method does when its model is right.',
+        text: 'The limits of the study are just as clear. The noise in the simulation is white and the turbulence a simple random process; the vibration on a real 5-inch frame is narrow-band, much larger and tied to motor speed. The detection numbers describe what the method does when its model is right.',
       },
       {
         kind: 'p',
@@ -1543,7 +1724,7 @@ export const articles: ArticleRecord[] = [
       },
       {
         kind: 'p',
-        text: 'Nobody has taken the course yet. The notebooks run, the sketches compile and the tests pass, but no rig has been built from the documents, and the rig’s parameters come from simulation. The pilot plan lists what the first cohort will measure; until then the course claims nothing about what students learn.',
+        text: 'Nobody has taken the course yet. The notebooks run, the sketches compile and the tests pass, but no rig has been built from the documents, and the rig’s parameters come from simulation. The pilot plan lists what the first cohort will measure; until then I can’t say what students learn from it.',
       },
     ],
     sources: [
@@ -1645,6 +1826,162 @@ export const articles: ArticleRecord[] = [
       caption: 'A frame from the simulator, with measured and true speeds. Simulated, not a real road.',
     },
     keywords: ['vehicle speed measurement', 'traffic camera', 'homography', 'V85', 'road safety'],
+  },
+  {
+    slug: 'simulating-an-engine-from-crank-to-gearbox',
+    state: 'ready',
+    title: 'Simulating an engine from crank to gearbox',
+    metaTitle: 'Simulating a four-cylinder engine from crank to gearbox in MATLAB',
+    metaDescription:
+      'How a chain of MATLAB scripts follows a four-cylinder engine from its slider-crank geometry through a converging thermodynamic cycle to crank torque, a flywheel and an eight-speed gearbox, and what the model leaves out.',
+    dek: 'One chain of scripts that follows a four-cylinder engine from the geometry of its crank, through the gas in its cylinders, to the gear ratios of the car it drives.',
+    body: [
+      {
+        kind: 'p',
+        text: 'For an automotive course assignment at RHU in fall 2024, I wrote a simulator for a four-stroke, four-cylinder spark-ignition engine running at 2000 rpm. It covers one full cycle, 720° of crank rotation, and it is built as a chain in which every stage takes the previous one’s output as its input. The geometry gives the volume, the volume gives the pressure, the pressure gives the torque, and the torque sizes the flywheel and the gearbox.',
+      },
+      { kind: 'h2', text: 'One file of numbers' },
+      {
+        kind: 'p',
+        text: 'Every parameter lives in constants.m: link lengths and masses, the engine speed, the timing of intake, compression, combustion, expansion and exhaust in crank degrees, the gas properties, and the flywheel and transmission constants. Each later script loads what the one before it saved, so a change there runs through every result downstream.',
+      },
+      { kind: 'h2', text: 'The slider-crank' },
+      {
+        kind: 'p',
+        text: 'part1.m solves the slider-crank at every crank angle: piston position, velocity and acceleration, the angle of the connecting rod, and the cylinder volume. It does this twice, once with the cylinder axis passing through the crankshaft and once with the two offset by −18 mm, with compression ratios of 9.8 and 10.1. The same pass computes the rod’s angular velocity and acceleration and the accelerations of each part’s centre of mass, which the torque calculation needs later.',
+      },
+      { kind: 'h2', text: 'A cycle that has to agree with itself' },
+      {
+        kind: 'p',
+        text: 'part2.m runs a single-zone thermodynamic cycle over that volume. Compression and expansion are polytropic. Combustion takes 60° around top dead centre: a constant-volume heat addition from the fuel’s heating value gives the temperature at the end of combustion, and a Wiebe function, with a = 5 and m = 2, sets how much of the charge has burned at each angle in between.',
+      },
+      {
+        kind: 'p',
+        text: 'The gas exchange is where the cycle loops back on itself. Exhaust blowdown and intake are modelled as compressible flow through a valve orifice, and the gas left over from the exhaust mixes with the fresh charge. That mixture sets the temperature at the start of the next compression, which changes everything after it. So the script runs the cycle again until the temperature at the end of intake matches the one it started compression with.',
+      },
+      { kind: 'h2', text: 'From gas pressure to crank torque' },
+      {
+        kind: 'p',
+        text: 'With the pressure known, the torque comes from the forces on the mechanism. At every crank angle the script writes the force and moment balances for the crank, the connecting rod and the piston, including their masses, the rod’s rotational inertia, gravity and the gas force on the piston, as an 8×8 linear system, and solves it for the torque on the crank.',
+      },
+      {
+        kind: 'p',
+        text: 'That is one cylinder. The other three are the same curve shifted by 180°, 360° and 540°, and their sum is the torque of the engine.',
+      },
+      { kind: 'h2', text: 'Flywheel and gearbox' },
+      {
+        kind: 'p',
+        text: 'A cylinder’s torque swings above and below its mean over a cycle. The script integrates the energy of that excess between the crossings of the mean and sizes a flywheel to hold the speed fluctuation to a coefficient of 0.04, as a steel disc 50 mm thick; its radius follows from the inertia it needs.',
+      },
+      {
+        kind: 'p',
+        text: 'The same run reports the engine’s performance: work per cycle from the pressure–volume loop, indicated and brake power, mean effective pressure and brake mean effective pressure, efficiencies, specific fuel consumption, volumetric efficiency and mean piston speed.',
+      },
+      {
+        kind: 'p',
+        text: 'The last step designs an eight-speed gearbox. The top gear is set by a top speed of 245 km/h, the first gear by what it takes to move a 2600 kg vehicle up a 7 % grade while accelerating, and fsolve finds the two factors of a progressive series of ratios between them.',
+      },
+      { kind: 'h2', text: 'Watching it run' },
+      {
+        kind: 'p',
+        text: 'animation.m draws the four slider-cranks moving together and flashes each cylinder as it fires. It makes the phase shift that the torque sum depends on visible.',
+      },
+      { kind: 'h2', text: 'What it leaves out' },
+      {
+        kind: 'p',
+        text: 'These are coursework scripts. Friction is a flat 10 % of indicated power. There is no heat loss to the cylinder walls, no emissions model and no knock. The engine turns at one fixed speed, and the speed-fluctuation curve is an idealised sine between the flywheel’s limits rather than a simulation of the shaft. The repository has no write-up of the results; they print when the scripts run.',
+      },
+    ],
+    sources: [
+      {
+        label: 'GitHub — ICE-matlab-simulator',
+        href: 'https://github.com/Kronbii/ICE-matlab-simulator',
+        kind: 'repository',
+      },
+    ],
+    projectSlug: 'ice-engine-simulator',
+    topics: [],
+    keywords: ['MATLAB', 'engine simulation', 'slider-crank', 'Wiebe function', 'flywheel', 'gear ratios'],
+  },
+  {
+    slug: 'ai-should-serve-society',
+    state: 'ready',
+    title: 'AI Should Serve Society — Not Just Industry and Billionaires',
+    metaTitle: 'AI Should Serve Society — Not Just Industry and Billionaires',
+    metaDescription:
+      'An essay by Rami Kronbi on who AI actually serves: technology is never neutral, building for society is a choice, and what that looked like when his team built OmniSign for Lebanese Sign Language.',
+    dek: 'Build with purpose. Others will follow.',
+    body: [
+      { kind: 'p', text: 'AI is moving fast. It is moving faster than our laws, faster than our ethics, and often, faster than our collective sense of responsibility.' },
+      { kind: 'p', text: 'The real question isn’t how powerful AI can become.' },
+      { kind: 'p', text: 'The question that keeps me up at night is: who does it actually serve?' },
+      { kind: 'p', text: 'Right now, the vast majority of AI innovation is optimized for three things: scale, profit, and market dominance.' },
+      { kind: 'p', text: 'And look — that’s not inherently wrong. Businesses need to grow. But it is incomplete.' },
+      { kind: 'p', text: 'When AI serves only industry titans and billionaires, we miss out on its most profound potential: the ability to uplift society at large.' },
+      { kind: 'h2', text: 'Technology is never neutral' },
+      { kind: 'p', text: 'We have to stop pretending that algorithms are objective.' },
+      { kind: 'p', text: 'Every model we train, every dataset we curate, and every deployment strategy we choose reflects a human choice.' },
+      { kind: 'p', text: 'We are constantly answering silent questions:' },
+      { kind: 'p', text: 'What problem are we solving? Who actually benefits from this solution? And who gets left behind?' },
+      { kind: 'p', text: 'When we design purely for efficiency or revenue, technology naturally gravitates toward the people who already have money and power. It follows the path of least resistance.' },
+      { kind: 'p', text: 'But society’s hardest problems — accessibility, safety, healthcare gaps, educational inequality, and the climate crisis — rarely sit at the top of a revenue roadmap.' },
+      { kind: 'p', text: 'That is exactly why leadership matters.' },
+      { kind: 'h2', text: 'Using AI for society is a choice' },
+      { kind: 'p', text: 'Building AI for social good doesn’t mean abandoning technical excellence or innovation. It means redirecting that brilliance with intention.' },
+      { kind: 'p', text: 'True leadership in this space — whether you are an engineer, a researcher, or a founder — isn’t about who builds the biggest model.' },
+      { kind: 'p', text: 'It’s about choosing problems that matter, even if they don’t scale immediately.' },
+      { kind: 'p', text: 'It’s about designing systems people can understand and trust, rather than black boxes that alienate them.' },
+      { kind: 'p', text: 'It’s about measuring success by the impact you leave on a community, not just the valuation you raise in a seed round.' },
+      { kind: 'h2', text: 'How we actually do this' },
+      { kind: 'p', text: 'So how do we move this from an abstract ideal to reality?' },
+      { kind: 'p', text: 'It starts by getting out of the bubble — building from real human pain points, not tech-first ideas looking for a problem.' },
+      { kind: 'p', text: 'It means collaborating outside the tech echo chamber: sitting down with educators, doctors, and community leaders who understand the nuance of the problems we’re trying to solve.' },
+      { kind: 'p', text: 'It means designing for constraints and accessibility, not just for the ideal user with the fastest internet connection.' },
+      { kind: 'p', text: 'Sometimes, the most revolutionary thing you can do is ship a smaller, focused solution that solves one real problem incredibly well.' },
+      { kind: 'h2', text: 'Building where nothing existed: a personal example' },
+      { kind: 'p', text: 'My team and I experienced this firsthand when we built OmniSign.' },
+      { kind: 'p', text: 'We saw a massive gap in accessibility for the Deaf community in Lebanon — there was no real-time tool to bridge the communication barrier.' },
+      { kind: 'p', text: 'But when we started, we hit a wall. There wasn’t even a dataset for Lebanese Sign Language.' },
+      { kind: 'p', text: 'The resources didn’t exist because the market hadn’t deemed it “profitable enough” to build them.' },
+      { kind: 'p', text: 'We could have stopped there.' },
+      { kind: 'p', text: 'Instead, we realized that if we wanted AI to serve this community, we had to do the heavy lifting ourselves.' },
+      { kind: 'p', text: 'We built the dataset from scratch and developed the model to translate Lebanese Sign Language in real time.' },
+      { kind: 'p', text: 'We didn’t wait for permission. We didn’t wait for big tech. We built it because it was necessary.' },
+      { kind: 'p', text: 'For more insight, visit the official project website, linked below.' },
+      { kind: 'h2', text: 'The kind of AI we should be proud of' },
+      { kind: 'p', text: 'The AI worth building isn’t just faster — it’s safer.' },
+      { kind: 'p', text: 'It doesn’t blindly replace people. It empowers them.' },
+      { kind: 'p', text: 'It reaches those usually written off as “not the target market.”' },
+      { kind: 'p', text: 'This isn’t about rejecting industry. It’s about expanding our definition of responsibility.' },
+      { kind: 'h2', text: 'Final thought' },
+      { kind: 'p', text: 'AI is going to shape society whether we intend it to or not.' },
+      { kind: 'p', text: 'The difference between a future of exploitation and one of empowerment is who leads the conversation.' },
+      { kind: 'p', text: 'If you are building AI today, you are already shaping that future.' },
+      { kind: 'p', text: 'The real power move isn’t optimizing for the top 1%. It’s choosing to build for the rest of us.' },
+      { kind: 'p', text: 'Build with purpose. Others will follow.' },
+    ],
+    sources: [
+      {
+        label: 'Medium — AI Should Serve Society',
+        href: 'https://medium.com/@ramikronbi/ai-should-serve-society-not-just-industry-and-billionaires-52d6b685e35d',
+        kind: 'article',
+        note: 'First published here on 9 January 2026.',
+      },
+      {
+        label: 'DEV — AI Should Serve Society',
+        href: 'https://dev.to/ramikronbi/ai-should-serve-society-not-just-industry-and-billionaires-37c9',
+        kind: 'article',
+        note: 'Also published on DEV the same day.',
+      },
+      {
+        label: 'OmniSign — team project page',
+        href: 'https://laythayache.com/projects/omnisign',
+        kind: 'article',
+      },
+    ],
+    projectSlug: '',
+    topics: ['applied-ai', 'civic-technology'],
+    keywords: ['AI for social good', 'responsible AI', 'technology ethics', 'accessibility', 'OmniSign', 'Lebanese Sign Language'],
   },
 ]
 

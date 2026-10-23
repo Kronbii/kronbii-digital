@@ -121,3 +121,12 @@
   this branch.
 - To drop a project: delete its record in `projects.ts`, its article in `articles.ts`, its entry in
   `src/content/v3/work.ts` and its folder in `public/images/authority/`.
+
+## 2026-10-23 — Rami's keep/drop pass over everything
+
+- A local-only board (/curate, never committed) listed 131 items from a fresh census of ~/repos, GitHub (Kronbii, evoid-AI, TwoSign; Oreyeon-LDA names only), the 14 Oct CV and the notes. Rami marked each one.
+- New publication state `hold`: kept in the record, never rendered, not even locally. Dropped: prescription OCR, motorcycle trainer, AI support council, REE, Juno, Hantawatch, Lumiscan, Moto 961, and their write-ups. Project pages held with their write-ups kept: Basira, Evoid, Imagen, water robot. Their old URLs redirect (next.config.js).
+- Published: runway-inspection UAV (rewritten to the 14 Oct CV: Jetson, simulation, ~30 FPS; renamed from the Raspberry Pi slugs, which were never public), emotion recognition, Bsheel, the physics-outreach article. New: landmine robot (short page, CV text only, on Rami's explicit choice, which overrides the earlier hold), the ICE engine simulator, and the essay "AI Should Serve Society". The thermal, OmniSign and essay pages link the Medium/DEV/Hashnode/Substack copies.
+- Thermal: the CV figures stay (the Oct 10 benchmark swap is reverted); thermal-super-resolution PR #3 brings its README to the same figures.
+- New /about page: education, work, teaching, community (Space² included), awards, certificates. Home: the grid drops Imagen, the motorcycle trainer and Juno for the bootcamp, rotor-fault and road-speed tiles; "2× co-founder" (NASNA, OmniSign); the Evoid flight-log entry is gone; the Basira tile opens its write-up.
+- Checks: tsc, production build (68 pages), every sitemap URL 200, every internal link 200, no meta-language, no dropped project named anywhere, no overflow at 390/1440.

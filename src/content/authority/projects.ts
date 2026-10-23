@@ -586,13 +586,12 @@ export const projects: ProjectRecord[] = [
       {
         label: 'Edge inference',
         value: '~45 FPS',
-        context: 'NVIDIA Jetson Orin, after quantization',
+        context: 'NVIDIA Jetson AGX Orin, FP16/INT8',
       },
     ],
     limits: [
       'Reported quality numbers are dataset-specific and become less constrained at larger enlargement factors.',
-      '“Real time” is a property of a full pipeline on named hardware at a named input size, not of a model file. The ~45 FPS figure is on NVIDIA Jetson Orin after quantization; that Jetson benchmark is not in the public repository yet.',
-      'Speed figures measured elsewhere, such as the desktop-GPU run in the repository’s evaluation report, used different hardware and protocols, so I keep them apart from the Jetson figure.',
+      '“Real time” is a property of a full pipeline on named hardware at a named input size, not of a model file. The ~45 FPS is on NVIDIA Jetson AGX Orin with FP16/INT8 inference.',
       'The next real test is task-based: does downstream detection actually improve?',
     ],
     media: [
@@ -792,7 +791,7 @@ export const projects: ProjectRecord[] = [
   },
   {
     slug: 'multilingual-medical-prescription-ocr',
-    state: 'ready',
+    state: 'hold',
     title: 'Multilingual Medical Prescription OCR',
     metaTitle:
       'Multilingual medical prescription OCR — CLI and FastAPI service',
@@ -955,7 +954,7 @@ export const projects: ProjectRecord[] = [
   },
   {
     slug: 'lebanese-motorcycle-theory-trainer',
-    state: 'ready',
+    state: 'hold',
     title: 'Lebanese Motorcycle Theory Trainer',
     metaTitle: 'Lebanese motorcycle theory trainer — an Arabic RTL study tool',
     metaDescription:
@@ -1078,7 +1077,7 @@ export const projects: ProjectRecord[] = [
   },
   {
     slug: 'local-first-ai-support-triage',
-    state: 'ready',
+    state: 'hold',
     title: 'AI Customer Support Council',
     metaTitle:
       'AI Customer Support Council — a local-first internal triage console',
@@ -1165,7 +1164,7 @@ export const projects: ProjectRecord[] = [
   },
   {
     slug: 'ree-personal-finance-tracker',
-    state: 'ready',
+    state: 'hold',
     title: 'REE Personal Finance Tracker',
     metaTitle: 'REE — an offline-first personal finance desktop app',
     metaDescription:
@@ -1260,7 +1259,7 @@ export const projects: ProjectRecord[] = [
   },
   {
     slug: 'juno',
-    state: 'ready',
+    state: 'hold',
     title: 'Juno',
     metaTitle:
       'Juno — a local-first personal and household finance tracker for Linux and iPhone',
@@ -1548,139 +1547,182 @@ export const projects: ProjectRecord[] = [
     keywords: ['posture estimation', 'ESP32', 'motorized desk', 'closed loop'],
   },
   {
-    slug: 'raspberry-pi-runway-inspection-uav',
-    state: 'review',
-    title: 'Raspberry Pi runway-inspection UAV',
-    metaTitle: 'Raspberry Pi runway-inspection UAV (editorial review)',
+    slug: 'runway-inspection-uav',
+    state: 'ready',
+    title: 'Jetson-powered runway-inspection UAV',
+    metaTitle:
+      'Jetson-powered runway-inspection UAV — onboard FOD detection in simulation',
     metaDescription:
-      'Editorial review draft. Not indexable. A UAV prototype running lightweight FOD detection at the edge with parking-lot flight tests.',
+      'A simulated runway-inspection UAV by Rami Kronbi: a lightweight YOLOv11 foreign-object-debris detector running onboard a Jetson at about 30 FPS, trained on online and synthetic data, with similarity matching and false-positive filtering.',
     summary:
-      'A Raspberry Pi 5B UAV prototype running a lightweight YOLOv11 foreign-object-debris detector, trained with online and synthetic data and tested in parking-lot environments used to simulate runway conditions.',
-    role: 'Contributor. Public repository, model variant, dataset rights, evaluation split, and separation from employer work require confirmation.',
+      'A runway-inspection UAV I’m building as a simulation project. A lightweight YOLOv11 detector for foreign object debris (FOD) runs onboard on a Jetson at about 30 FPS. I trained it on online and synthetically generated data, reached 75–80% model accuracy, and added similarity matching and false-positive filtering for in-flight tests that simulate runway conditions.',
+    role: 'My own project; I develop and test it.',
     form: 'diagram',
     schemaType: 'CreativeWork',
     hero: {
       kind: 'diagram',
       diagramId: 'uav-fod',
       caption:
-        'A Raspberry Pi 5B UAV runs an onboard detector at the edge, applies similarity matching and false-positive filtering, and returns tracked detections.',
-      alt: 'Diagram of a Raspberry Pi 5B UAV foreign-object-debris pipeline: onboard camera, YOLOv11 inference, similarity matching, false-positive filtering, and tracked detections.',
+        'A lightweight YOLOv11 detector runs onboard on a Jetson at about 30 FPS; similarity matching and false-positive filtering clean up its detections during in-flight tests that simulate runway conditions.',
+      alt: 'Diagram of the runway-inspection UAV pipeline: the UAV’s camera feeds a YOLOv11 FOD detector running onboard on a Jetson, followed by similarity matching and false-positive filtering; below, the training data (online and synthetic), the simulated runway flight tests, and the filtered detections.',
     },
     answer: {
-      what: 'A UAV prototype for runway foreign-object-debris detection at the edge.',
+      what: 'A simulated prototype of a drone that inspects a runway for foreign object debris, with the detector running onboard.',
       problem:
-        'Vehicle vibration, altitude changes, and repeated pavement texture can turn a detector that works on static images into a stream of false positives.',
-      how: 'A Raspberry Pi 5B onboard a UAV runs a lightweight YOLOv11 variant, trained on a mix of online and synthetic data, with similarity matching and explicit false-positive handling. Parking-lot flight tests simulate runway conditions.',
-      role: 'Rami Kronbi’s contribution scope, employer separation, and public repository are all pending editorial confirmation.',
+        'Foreign object debris is anything loose on a runway that shouldn’t be there. Spotting it from a drone means finding small objects on a large surface, from a moving camera, with only the compute the aircraft can carry.',
+      how: 'A lightweight YOLOv11 detector runs onboard on a Jetson at about 30 FPS. I trained it on online and synthetically generated data, and on top of its raw detections I added similarity matching and false-positive filtering. The in-flight tests simulate runway conditions.',
+      role: 'It’s my own project, ongoing since 2026: I trained the detector, run it onboard, and built the matching and filtering around it.',
     },
     stages: [
       {
         step: '01',
-        title: 'Fly',
+        title: 'Train',
         detail:
-          'A UAV moves the sensor over a paved area at controlled altitude.',
+          'A lightweight YOLOv11 FOD detector, trained on online and synthetically generated data to 75–80% model accuracy.',
       },
       {
         step: '02',
-        title: 'See',
-        detail: 'The Raspberry Pi 5B runs a YOLOv11 detector onboard.',
+        title: 'Detect',
+        detail: 'The detector runs onboard on a Jetson at about 30 FPS.',
       },
       {
         step: '03',
-        title: 'Match',
+        title: 'Filter',
         detail:
-          'Similarity matching and false-positive filtering trim noisy detections.',
+          'Similarity matching and false-positive filtering clean up the raw detections.',
       },
       {
         step: '04',
-        title: 'Track',
-        detail: 'A tracked detection stream is produced for downstream review.',
+        title: 'Fly',
+        detail: 'In-flight tests simulate runway conditions.',
       },
     ],
+    measurements: [
+      { label: 'Onboard speed', value: '~30 FPS', context: 'YOLOv11 on a Jetson' },
+      {
+        label: 'Model accuracy',
+        value: '75–80%',
+        context: 'trained on online and synthetic data',
+      },
+      { label: 'Status', value: 'Ongoing', context: 'simulation project, since 2026' },
+    ],
     limits: [
-      'Exact model variant, input size, data rights, evaluation split, meaning of the reported 75–80% development accuracy, and flight-test ownership are pending editorial review.',
-      'Confidential employer work is intentionally not expanded in this draft.',
+      'It’s a simulation project: the flight tests simulate runway conditions rather than fly over a real runway.',
+      'The model learned from online and synthetic images, so the 75–80% says how it does on that kind of data. Real debris on a real runway is the harder test.',
     ],
     sources: [
       {
-        label: 'Canonical CV (2026)',
-        href: 'https://ramikronbi.com',
-        kind: 'cv',
+        label: 'Ultralytics YOLO11',
+        href: 'https://docs.ultralytics.com/models/yolo11',
+        kind: 'documentation',
+        note: 'The detector family the onboard model comes from.',
       },
     ],
-    articleSlug: 'running-fod-detection-on-a-raspberry-pi-uav',
+    articleSlug: 'running-fod-detection-on-a-uav',
     topics: ['edge-ai', 'robotics-perception', 'computer-vision'],
-    keywords: ['FOD detection', 'Raspberry Pi 5B', 'YOLOv11', 'edge inference'],
+    keywords: [
+      'FOD detection',
+      'foreign object debris',
+      'runway inspection',
+      'UAV',
+      'YOLOv11',
+      'NVIDIA Jetson',
+      'edge inference',
+      'synthetic data',
+    ],
   },
   {
     slug: 'emotion-recognition-autism-support',
-    state: 'review',
-    title: 'Edge emotion-recognition prototype',
-    metaTitle: 'Edge emotion-recognition prototype (editorial review)',
+    state: 'ready',
+    title: 'Edge emotion-recognition prototype for children with autism',
+    metaTitle:
+      'Emotion recognition for children with autism — a real-time prototype on Jetson Orin Nano',
     metaDescription:
-      'Editorial review draft. Not indexable. A Jetson Orin Nano facial-landmark and CNN prototype intended to support work with children with autism.',
+      'A real-time facial-landmark and CNN emotion-recognition pipeline Rami Kronbi developed on Jetson Orin Nano in 2022–2023 as a support tool for children with autism, reaching about 92% development accuracy on cleaned data from CALMED, Kaggle, and other sources.',
     summary:
-      'A facial-landmark and convolutional-neural-network pipeline developed on Jetson Orin Nano as a prototype intended to support work with children with autism.',
-    role: 'Contributor. Team credits, dataset licenses, class definitions, evaluation protocol, and clinical review are pending confirmation.',
+      'A real-time emotion-recognition pipeline I developed in 2022–2023 as a support tool for children with autism. It pairs facial landmarks with a convolutional neural network and runs on a Jetson Orin Nano. After I combined and cleaned image and video data from CALMED, Kaggle, and other sources, it reached about 92% development accuracy. The prototype and the concept were later acquired following a Gulf-region competition.',
+    role: 'I developed the pipeline and combined and cleaned its training data.',
     form: 'diagram',
     schemaType: 'CreativeWork',
     hero: {
       kind: 'diagram',
       diagramId: 'emotion-pipeline',
       caption:
-        'A facial-landmark extractor feeds a small CNN on Jetson Orin Nano. Predictions are qualified with confidence and framed as engineering signals, not diagnostic labels.',
-      alt: 'Diagram of an edge emotion-recognition prototype: camera input, facial-landmark extraction, CNN classifier, confidence estimation, and a qualified engineering output rather than a clinical label.',
+        'Facial landmarks and a CNN run in real time on a Jetson Orin Nano, trained on combined and cleaned data from CALMED, Kaggle, and other sources. The output is there to support, not to diagnose.',
+      alt: 'Diagram of the emotion-recognition pipeline: a camera, face and facial-landmark extraction, and a CNN on a Jetson Orin Nano; below, the combined training data, the real-time output, and a note that it is a support tool, not a diagnosis.',
     },
     answer: {
-      what: 'A Jetson Orin Nano prototype for edge emotion recognition, intended to support work with children with autism.',
+      what: 'A real-time emotion-recognition prototype for children with autism, running on a Jetson Orin Nano.',
       problem:
-        'Facial expression is not a direct measurement of a person’s internal emotional state, and curated-dataset accuracy does not establish clinical validity.',
-      how: 'A facial-landmark extractor feeds a small convolutional neural network trained on cleaned and combined data from CALMED, Kaggle, and other sources, running on Jetson Orin Nano at the edge.',
-      role: 'Rami Kronbi’s contribution scope and team credits are pending editorial review; clinical framing must be resolved before publication.',
+        'A support tool that reads facial expressions has to work for the children it is meant for, which means learning from data that includes them, and it has to keep up in real time on a small device.',
+      how: 'Facial landmarks and a convolutional neural network run together on a Jetson Orin Nano in real time. I trained the network on image and video data from CALMED, Kaggle, and other sources that I combined and cleaned, and it reached about 92% development accuracy.',
+      role: 'I developed the pipeline in 2022–2023 and prepared the data it learned from. The prototype and the concept were later acquired following a Gulf-region competition.',
     },
     stages: [
       {
         step: '01',
-        title: 'Detect',
-        detail: 'A camera captures the face; landmarks are extracted.',
+        title: 'Gather',
+        detail:
+          'Image and video data from CALMED, Kaggle, and other sources, combined and cleaned into one training set.',
       },
       {
         step: '02',
-        title: 'Classify',
+        title: 'Train',
         detail:
-          'A CNN produces a candidate label at the edge on Jetson Orin Nano.',
+          'A convolutional neural network learns expressions from the cleaned data, reaching about 92% development accuracy.',
       },
       {
         step: '03',
-        title: 'Qualify',
-        detail:
-          'Predictions are qualified with confidence and framed as engineering signals.',
+        title: 'Run',
+        detail: 'Facial landmarks and the CNN run live on a Jetson Orin Nano.',
       },
       {
         step: '04',
-        title: 'Review',
-        detail:
-          'Any useful system must communicate uncertainty and be evaluated with the people and contexts it is intended to support.',
+        title: 'Support',
+        detail: 'The result is meant to support, never to diagnose.',
+      },
+    ],
+    measurements: [
+      {
+        label: 'Development accuracy',
+        value: '~92%',
+        context: 'after combining and cleaning the data',
+      },
+      { label: 'Hardware', value: 'Jetson Orin Nano', context: 'real time' },
+      {
+        label: 'Outcome',
+        value: 'Acquired',
+        context: 'prototype and concept, following a Gulf-region competition',
       },
     ],
     limits: [
-      'Team credits, dataset licenses, class definitions, evaluation protocol, acquisition language, intended users, and clinical review are pending confirmation.',
-      'Approximately 92% development accuracy is a development-set figure, not clinical validation.',
+      'The ~92% is development accuracy on the data I combined. It doesn’t tell you how it will do with one particular child in one particular room.',
+      'It reads facial expressions, and an expression is not always what someone feels. It is a support tool, not a diagnosis.',
     ],
     sources: [
       {
-        label: 'Canonical CV (2026)',
-        href: 'https://ramikronbi.com',
-        kind: 'cv',
+        label: 'GitHub — CNN-Emotion-Detection',
+        href: 'https://github.com/Kronbii/CNN-Emotion-Detection',
+        kind: 'repository',
+        note: 'The CNN training, live-test, and evaluation code. The dataset isn’t included.',
+      },
+      {
+        label: 'CALMED dataset paper',
+        href: 'https://arxiv.org/abs/2307.13706',
+        kind: 'article',
+        note: 'One of the datasets I trained on, built for emotion detection in children with autism.',
       },
     ],
     articleSlug: 'lessons-from-an-edge-emotion-recognition-prototype',
     topics: ['edge-ai', 'computer-vision'],
     keywords: [
-      'edge inference',
       'emotion recognition',
+      'autism',
       'Jetson Orin Nano',
-      'responsible AI',
+      'CNN',
+      'facial landmarks',
+      'CALMED',
+      'edge inference',
     ],
   },
   {
@@ -1799,7 +1841,7 @@ export const projects: ProjectRecord[] = [
   },
   {
     slug: 'hantawatch-outbreak-dashboard',
-    state: 'ready',
+    state: 'hold',
     title: 'Hantawatch — outbreak situational-awareness dashboard',
     metaTitle:
       'Hantawatch — an OSINT dashboard for the 2026 MV Hondius hantavirus outbreak',
@@ -1880,7 +1922,7 @@ export const projects: ProjectRecord[] = [
   },
   {
     slug: 'basira-retinal-screening',
-    state: 'ready',
+    state: 'hold',
     title: 'Basira — retinal screening decision support',
     metaTitle:
       'Basira — a council-of-models retinal screening prototype for eye clinics',
@@ -1962,7 +2004,7 @@ export const projects: ProjectRecord[] = [
   },
   {
     slug: 'imagen-raw-to-edit-dataset-pipeline',
-    state: 'ready',
+    state: 'hold',
     title: 'Imagen — learning a photographer’s edit from RAW brackets',
     metaTitle:
       'Imagen — a RAW-to-retouched dataset pipeline and HDRNet training for real-estate photography',
@@ -2043,7 +2085,7 @@ export const projects: ProjectRecord[] = [
   },
   {
     slug: 'lumiscan-lesion-dashboard',
-    state: 'ready',
+    state: 'hold',
     title: 'Lumiscan dashboard — tracking skin lesions across scans',
     metaTitle:
       'Lumiscan dashboard — a multi-tenant clinical platform for a lesion-scanning device',
@@ -2119,7 +2161,7 @@ export const projects: ProjectRecord[] = [
   },
   {
     slug: 'evoid-applied-vision-venture',
-    state: 'ready',
+    state: 'hold',
     title: 'Evoid — an applied computer-vision venture',
     metaTitle:
       'Evoid — co-founding a small applied AI and computer-vision venture in Beirut',
@@ -2190,7 +2232,7 @@ export const projects: ProjectRecord[] = [
   },
   {
     slug: 'water-shooting-robot',
-    state: 'ready',
+    state: 'hold',
     title: 'Water-shooting robot',
     metaTitle: 'Water-shooting robot — an Arduino mechatronic targeting system',
     metaDescription:
@@ -2259,15 +2301,15 @@ export const projects: ProjectRecord[] = [
   },
   {
     slug: 'bsheel-quest-app',
-    state: 'review',
+    state: 'ready',
     title: 'Bsheel — a gamified quest app for Lebanon',
     metaTitle:
-      'Bsheel — a gamified real-world quest app with moderated proof and a self-hosted backend',
+      'Bsheel — a real-world quest app with moderated proof and a staged AI proof check',
     metaDescription:
-      'Bsheel gives users three real-world quests a day, accepts photo or video proof, and awards XP after moderation; Flutter clients on a self-hosted NestJS, PostgreSQL, and Redis backend.',
+      'Bsheel, co-founded by Rami Kronbi with Razan Hasbini and Tayseer Laz, gives players real-world quests and awards XP once their photo or video proof is approved. Flutter clients on a self-hosted NestJS backend, with an automated proof check that starts in shadow mode.',
     summary:
-      'A gamified quest app, published on Google Play and the App Store, in which users pick one of three real-world challenges, complete it inside a timer, submit photo or video proof, and earn XP after moderator approval, with a social feed, collab groups, and leaderboards.',
-    role: 'Co-founder; systems engineer and product manager, with Razan Hasbini and Tayseer Laz.',
+      'Bsheel is a game you play in the real world. It hands you three random quests, you pick one, do it before its timer runs out, and post a photo or video as proof; XP lands once the proof is approved. I co-founded it with Razan Hasbini and Tayseer Laz. It is live on Google Play and at bsheel.app, and my largest piece of the code is the automated proof check that sits in front of the moderators.',
+    role: 'Co-founder, systems engineer, and product manager, with Razan Hasbini and Tayseer Laz.',
     form: 'diagram',
     schemaType: 'SoftwareSourceCode',
     hero: {
@@ -2278,48 +2320,49 @@ export const projects: ProjectRecord[] = [
       alt: 'Diagram of the Bsheel quest loop: three quests, proof upload, moderation and XP, feed and votes, worker queue, and admin console.',
     },
     answer: {
-      what: 'A consumer mobile app that turns everyday routine into short real-world quests with proof and moderation.',
+      what: 'A mobile app that turns everyday life into short real-world quests: pick one of three, do it inside a timer, prove it with a photo or video, and earn XP once the proof is approved.',
       problem:
-        'Gamified apps are easy to fake and hard to moderate. Bsheel’s premise is that a quest counts only when a person has reviewed the proof, which makes moderation, appeals, and XP accounting the core of the system rather than an afterthought.',
-      how: 'Flutter mobile and admin clients talk to one self-hosted NestJS API over versioned HTTPS and a WebSocket. PostgreSQL is authoritative; Redis backs queues and locks; private media lives in S3-compatible storage; a BullMQ worker built from the same codebase handles fan-out. Each backend domain is layered as presentation, application, domain, and infrastructure, and cross-domain effects are events.',
-      role: 'Rami Kronbi co-founded the product and worked as systems engineer and product manager alongside Razan Hasbini and Tayseer Laz.',
+        'A game about doing things in the real world is easy to cheat and slow to moderate. Every quest needs someone to look at the proof, and a wrong rejection punishes an honest player, so the review step decides whether the game means anything.',
+      how: 'Flutter clients for the app and the admin console talk to one self-hosted NestJS API over HTTPS and a WebSocket. PostgreSQL is the source of truth, Redis and BullMQ carry queues and locks, proof media sits in S3-compatible storage, and a worker built from the same codebase handles fan-out. Before a moderator sees a submission, a staged check runs cheap forensics first, then vision models, against what each quest’s proof can actually show.',
+      role: 'I co-founded Bsheel with Razan Hasbini and Tayseer Laz and work on it as systems engineer and product manager. In the code, I built the automated proof-verification pipeline and its evaluation tooling, business accounts and the partner dashboard, the analytics event store, and admin tools for quest chains and paged lists.',
     },
     stages: [
       {
         step: '01',
         title: 'Pick',
         detail:
-          'Three random quests across fitness, creativity, social, learning, and adventure; one is chosen and a per-quest timer set by the admin starts.',
+          'Three random quests across fitness, creativity, social, learning, and adventure. The player picks one, and a timer set per quest starts.',
       },
       {
         step: '02',
         title: 'Prove',
         detail:
-          'Photo or video proof goes to private object storage; proof metadata and a review state machine live in the submissions domain.',
+          'Photo or video proof goes to private object storage, and the submission enters review as pending.',
       },
       {
         step: '03',
-        title: 'Review',
+        title: 'Check',
         detail:
-          'Moderators approve or reject with reviewer context; appeals exist; XP is written as a transaction and reconciled by an audit in the admin console.',
+          'Forensics run first: capture time, exact and near-duplicate matching, screen dimensions. A cheap vision model looks next, a stronger one only where it could not tell, and only the most capable model may conclude a photo is fake.',
       },
       {
         step: '04',
-        title: 'Share',
+        title: 'Review',
         detail:
-          'Approved quests enter a keyset-paginated feed with hot ordering, votes, threaded comments, mentions, follows, blocks, and reporting.',
+          'A moderator approves or rejects, with the agent’s read beside the proof. XP is awarded once. A rejected player gets one appeal, and a second rejection is final.',
       },
       {
         step: '05',
-        title: 'Operate',
+        title: 'Share',
         detail:
-          'Push notifications fan out from a durable queue; the API and worker scale independently; nginx handles rate limiting and WebSocket upgrades.',
+          'Approved quests enter the feed with votes, comments, follows, collab groups, a world map, and leaderboards; notifications fan out from a durable queue, not from the phone.',
       },
     ],
     limits: [
-      'User metrics, revenue, and growth figures are not published here.',
-      'Handles personal data by design (accounts, proof media, consent); the privacy policy and GDPR export and deletion queue are part of the product, not described in detail on this page.',
-      'The repository is private; architecture is described from its documentation.',
+      'Roughly a third of the quest catalogue cannot be proven by a photo at all: a picture of a book does not show you read twenty pages, and “spend an hour with no phone” is photographed by the phone. For those quests the check only judges whether the photo is authentic, and a person still decides.',
+      'The automated check runs in shadow mode by default. It records what it would have decided while a moderator makes the call, and it should act on its own only once its verdicts agree with enough real moderator decisions.',
+      'Some partner analytics, like a quest card being shown, are reported by the phone and cannot be confirmed by the server, so the dashboard keeps them apart from completions the backend recorded itself.',
+      'My part of the public repository is about thirty merged pull requests, most of them from September 2026. Much of the app is Tayseer’s and Razan’s work.',
     ],
     sources: [
       { label: 'bsheel.app', href: 'https://bsheel.app/', kind: 'demo' },
@@ -2328,26 +2371,38 @@ export const projects: ProjectRecord[] = [
         href: 'https://play.google.com/store/apps/details?id=com.questapp.mobile_app',
         kind: 'listing',
       },
+      {
+        label: 'Bsheel source on GitHub',
+        href: 'https://github.com/razanhasbini/bsheel-',
+        kind: 'repository',
+        note: 'The app, admin console, and NestJS backend.',
+      },
+      {
+        label: 'My pull requests to Bsheel',
+        href: 'https://github.com/razanhasbini/bsheel-/pulls?q=is%3Apr+author%3AKronbii',
+        kind: 'repository',
+        note: 'Proof verification, evaluation, business accounts, and admin tooling.',
+      },
     ],
     articleSlug: 'moderation-is-the-product-in-a-quest-app',
-    topics: [
-      'product-engineering',
-      'full-stack-systems',
-      'local-first-software',
-    ],
+    topics: ['applied-ai'],
     keywords: [
+      'Bsheel',
+      'quest app',
+      'gamification',
+      'content moderation',
+      'proof verification',
       'Flutter',
       'NestJS',
       'PostgreSQL',
       'Redis',
-      'gamification',
-      'moderation',
+      'BullMQ',
       'Lebanon',
     ],
   },
   {
     slug: 'moto-961-bikey',
-    state: 'review',
+    state: 'hold',
     title: 'Moto 961 (Bikey) — a motorcycle app for Lebanon',
     metaTitle:
       'Moto 961 (Bikey) — ride tracking as maintenance data for motorcyclists in Lebanon',
@@ -2725,7 +2780,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'Not taught yet: no student has taken the course, so it claims no learning outcomes. A pilot plan says what the first cohort will measure.',
+      'Not taught yet: no student has taken the course, so I can’t say yet what students learn from it. A pilot plan says what the first cohort will measure.',
       'No rig has been built from the documents. The printable parts have not been printed, and the sketches’ motor and IMU drivers have been compiled but not run on hardware.',
       'Rig parameters, capstone pass limits and performance figures come from simulation with assumed values; session timings are estimates.',
       'Testing easyPID for the course found a first-run bias in its relay autotuner: an ultimate gain of about 42 on the first run and 28 on the second, against an exact 29. The lab runs it twice; the library is unchanged so far.',
@@ -2872,6 +2927,167 @@ export const projects: ProjectRecord[] = [
     articleSlug: 'measuring-road-speed-with-one-camera',
     topics: ['computer-vision', 'civic-technology'],
     keywords: ['vehicle speed measurement', 'homography', 'multi-object tracking', 'V85', 'road safety', 'traffic camera'],
+  },
+  {
+    slug: 'landmine-detection-extraction-robot',
+    state: 'ready',
+    title: 'Landmine detection and extraction robot',
+    metaTitle:
+      'Landmine detection and extraction robot — a ROS 2 autonomy stack, field-tested with dummy mines',
+    metaDescription:
+      'The ROS 2 autonomy stack Rami Kronbi developed for a mine-detection rover with a 6-DoF extraction arm, a Lebanese Army initiative (2024–2025), validated with dummy mines in field tests with the Lebanese Armed Forces in Mechref.',
+    summary:
+      'A Lebanese Army initiative, 2024–2025. I developed the ROS 2 autonomy stack for a mine-detection rover with a 6-DoF extraction arm: sensor drivers and calibration, vision and LiDAR perception, localization and sensor fusion, satellite-map georeferencing, path planning, autonomous mission execution, rover-base communications, and test tooling. I validated the integrated system with dummy mines during field tests conducted with the Lebanese Armed Forces in Mechref.',
+    role: 'Developed the ROS 2 autonomy stack, from sensor drivers to mission execution and test tooling.',
+    form: 'diagram',
+    schemaType: 'CreativeWork',
+    hero: {
+      kind: 'diagram',
+      diagramId: 'demining-stack',
+      caption:
+        'The autonomy stack in ROS 2: sensing, perception, localization and fusion, planning, mission execution, and the link to the base.',
+      alt: 'Diagram of the ROS 2 autonomy stack: sensor drivers and calibration, vision and LiDAR perception, localization and sensor fusion with satellite-map georeferencing, path planning, autonomous mission execution, rover-base communications, the 6-DoF extraction arm, test tooling, and field tests with dummy mines.',
+    },
+    answer: {
+      what: 'A mine-detection rover with a 6-DoF extraction arm, from a Lebanese Army initiative in 2024–2025. I developed its ROS 2 autonomy stack.',
+      problem:
+        'A mine-detection rover has to sense its surroundings, know where it is, plan a path and carry out its mission on its own, while staying in contact with its base.',
+      how: 'The stack runs on ROS 2: sensor drivers and calibration, vision and LiDAR perception, localization and sensor fusion, georeferencing against satellite maps, path planning, autonomous mission execution, and communications between the rover and its base, with test tooling around it.',
+      role: 'I developed the autonomy stack and validated the integrated system with dummy mines during field tests conducted with the Lebanese Armed Forces in Mechref.',
+    },
+    stages: [
+      { step: '01', title: 'Sense', detail: 'Sensor drivers and calibration.' },
+      { step: '02', title: 'Perceive', detail: 'Vision and LiDAR perception.' },
+      {
+        step: '03',
+        title: 'Localize',
+        detail: 'Localization and sensor fusion, with georeferencing against satellite maps.',
+      },
+      {
+        step: '04',
+        title: 'Plan and execute',
+        detail: 'Path planning and autonomous mission execution.',
+      },
+      { step: '05', title: 'Connect', detail: 'Communications between the rover and its base.' },
+      {
+        step: '06',
+        title: 'Test',
+        detail:
+          'Test tooling, then field tests of the integrated system with dummy mines, conducted with the Lebanese Armed Forces in Mechref.',
+      },
+    ],
+    limits: [
+      'This was defense work, so this summary is as much as I can share: no hardware details, images, or test data.',
+      'The field tests used dummy mines.',
+    ],
+    sources: [],
+    articleSlug: '',
+    topics: ['robotics-perception', 'embedded-systems'],
+    keywords: [
+      'ROS 2',
+      'autonomy stack',
+      'landmine detection',
+      'demining robot',
+      'LiDAR',
+      'sensor fusion',
+      'path planning',
+      'georeferencing',
+    ],
+  },
+  {
+    slug: 'ice-engine-simulator',
+    state: 'ready',
+    title: 'Four-cylinder engine simulator',
+    metaTitle:
+      'Four-cylinder engine simulator — slider-crank kinematics to gear ratios, in MATLAB',
+    metaDescription:
+      'MATLAB scripts by Rami Kronbi that simulate a four-stroke, four-cylinder spark-ignition engine over a 720° cycle: slider-crank kinematics, a single-zone thermodynamic cycle, crank torque, flywheel sizing, performance figures and eight gear ratios.',
+    summary:
+      'MATLAB scripts I wrote for an automotive course assignment at RHU in fall 2024. They simulate a four-stroke, four-cylinder spark-ignition engine at 2000 rpm over a full 720° cycle: the slider-crank kinematics, a single-zone thermodynamic cycle, the crank torque of one cylinder and of all four, a flywheel to smooth it, the engine’s performance figures, and the ratios of an eight-speed gearbox.',
+    role: 'Sole author, for a course assignment.',
+    form: 'diagram',
+    schemaType: 'SoftwareSourceCode',
+    hero: {
+      kind: 'diagram',
+      diagramId: 'engine-pipeline',
+      caption:
+        'Each stage feeds the next: one file of parameters, then the kinematics, the gas cycle, the torque, and the flywheel and gearbox it sizes.',
+      alt: 'Diagram of the simulator pipeline: geometry and parameters, slider-crank kinematics, thermodynamic cycle, crank torque summed over four cylinders, flywheel sizing, and gear ratios.',
+    },
+    answer: {
+      what: 'A MATLAB model of a four-stroke, four-cylinder spark-ignition engine through one full cycle, from the geometry of its crank to the gear ratios of the car it drives.',
+      problem:
+        'An engine is one chain of dependencies: the crank geometry sets the cylinder volume, the volume sets the pressure, the pressure and the moving masses set the torque, and the torque decides the flywheel and the gearbox. Simulating it means following that chain end to end.',
+      how: 'One file holds every parameter. A slider-crank solution gives piston motion and cylinder volume at each crank angle. A single-zone cycle with polytropic strokes, Wiebe combustion and orifice-flow gas exchange is iterated until its temperature converges. A linear force and moment solve gives the crank torque, four phase-shifted cylinders are summed, and the result sizes a flywheel and an eight-speed gearbox.',
+      role: 'I wrote the simulator, for an automotive course assignment at RHU in fall 2024.',
+    },
+    stages: [
+      {
+        step: '01',
+        title: 'Parameters',
+        detail:
+          'One file holds every input: link lengths and masses, 2000 rpm, valve and combustion timing in crank degrees, gas properties, and the flywheel and transmission constants.',
+      },
+      {
+        step: '02',
+        title: 'Kinematics',
+        detail:
+          'Piston position, velocity and acceleration, connecting-rod angle and cylinder volume at every crank angle, for a cylinder axis through the crankshaft (compression ratio 9.8) and one offset by −18 mm (10.1).',
+      },
+      {
+        step: '03',
+        title: 'Thermodynamic cycle',
+        detail:
+          'Polytropic compression and expansion; a Wiebe burn (a = 5, m = 2) over 60° around top dead centre toward a constant-volume end-of-combustion state; exhaust blowdown and intake as compressible orifice flow with residual-gas mixing; repeated until the cycle temperature converges.',
+      },
+      {
+        step: '04',
+        title: 'Torque',
+        detail:
+          'At each crank angle an 8×8 linear system of forces and moments, with masses, rod inertia, gravity and gas force, gives the crank torque; four cylinders shifted by 180° are summed.',
+      },
+      {
+        step: '05',
+        title: 'Flywheel and performance',
+        detail:
+          'A flywheel sized from the torque-excess energy for a 0.04 speed-fluctuation coefficient, as a steel disc 50 mm thick; work, indicated and brake power, MEP and BMEP, efficiencies, specific fuel consumption, volumetric efficiency and piston speed.',
+      },
+      {
+        step: '06',
+        title: 'Gearbox',
+        detail:
+          'Eight gear ratios solved with fsolve between a top speed of 245 km/h and a first gear for a 2600 kg vehicle on a 7 % grade.',
+      },
+      {
+        step: '07',
+        title: 'Animation',
+        detail: 'The four slider-cranks drawn moving together, each cylinder flashing as it fires.',
+      },
+    ],
+    limits: [
+      'These are coursework scripts with no README and no write-up of the results; the figures print when you run them.',
+      'Friction is a flat 10 % of indicated power, and there is no heat transfer to the cylinder walls, no emissions model and no knock.',
+      'The engine turns at one fixed speed, and the speed-fluctuation curve is an idealised sine between the flywheel’s limits, not a simulation of the shaft.',
+    ],
+    sources: [
+      {
+        label: 'GitHub — ICE-matlab-simulator',
+        href: 'https://github.com/Kronbii/ICE-matlab-simulator',
+        kind: 'repository',
+      },
+    ],
+    articleSlug: 'simulating-an-engine-from-crank-to-gearbox',
+    topics: [],
+    keywords: [
+      'MATLAB',
+      'internal combustion engine',
+      'four-stroke engine',
+      'slider-crank',
+      'engine thermodynamics',
+      'Wiebe function',
+      'flywheel design',
+      'gear ratios',
+    ],
   },
 ]
 

@@ -1,4 +1,5 @@
-export type PublicationState = 'ready' | 'review'
+/** ready: public. review: a draft, local builds only. hold: kept in the record, never rendered. */
+export type PublicationState = 'ready' | 'review' | 'hold'
 
 export interface AuthorityMedia {
   src: string

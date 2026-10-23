@@ -43,6 +43,41 @@ export interface PlainWork {
 }
 
 export const plain: Record<string, PlainWork> = {
+  'landmine-detection-extraction-robot': {
+    kind: 'Robotics · demining',
+    line: 'A mine-detection rover with a 6-DoF extraction arm, for a Lebanese Army initiative; I built its autonomy software.',
+    proof: 'Field-tested with dummy mines, with the Lebanese Armed Forces',
+    part: 'Developed the ROS 2 autonomy stack',
+    field: 'machines',
+  },
+  'runway-inspection-uav': {
+    kind: 'Drones · vision',
+    line: 'A drone that looks for debris on a runway, with the detector running onboard; a simulation project.',
+    proof: '~30 FPS onboard a Jetson, 75–80% model accuracy',
+    part: 'My own project, ongoing',
+    field: 'machines',
+  },
+  'emotion-recognition-autism-support': {
+    kind: 'AI · support tool',
+    line: 'Reads facial expressions in real time on a small device, as a support tool for children with autism.',
+    proof: '~92% development accuracy; prototype later acquired',
+    part: 'Developed the pipeline and its data',
+    field: 'health',
+  },
+  'bsheel-quest-app': {
+    kind: 'App · co-founder',
+    line: 'A game you play in the real world: pick a quest, do it, prove it with a photo, earn XP once it is checked.',
+    proof: 'Live on Google Play',
+    part: 'Co-founder, with Razan Hasbini and Tayseer Laz; I built the proof checks',
+    field: 'tools',
+  },
+  'ice-engine-simulator': {
+    kind: 'Simulation · automotive',
+    line: 'A MATLAB model of a four-cylinder engine, from the motion of its pistons to the gear ratios of the car it drives.',
+    proof: 'Public on GitHub · MATLAB',
+    part: 'Sole author · course assignment',
+    field: 'machines',
+  },
   'brainiacs-autonomous-race-car': {
     kind: 'Robotics · competition',
     line: 'A self-driving model car that reads the course’s traffic signs and steers itself, built from scratch in 20 days.',

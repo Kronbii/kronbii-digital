@@ -43,7 +43,7 @@ export function projectJsonLd(project: ProjectRecord) {
     const repo = project.sources.find((s) => s.kind === 'repository')
     if (repo) schema.codeRepository = repo.href
     schema.programmingLanguage = project.keywords.filter((k) =>
-      /python|typescript|flutter|c\+\+|arduino|react|fastapi/i.test(k),
+      /python|typescript|flutter|c\+\+|arduino|react|fastapi|matlab/i.test(k),
     )
   }
   const plate = projectPlate(project)

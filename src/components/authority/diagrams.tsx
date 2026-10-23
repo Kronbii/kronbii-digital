@@ -152,16 +152,16 @@ function uavFod() {
   return (
     <div className={styles.diagram}>
       <div className={styles.diagramRow}>
-        <Node title="Airframe" detail="Raspberry Pi 5B UAV carries the camera at low altitude." />
+        <Node title="UAV camera" detail="The drone carries a camera over a simulated runway." />
         <Arrow />
-        <Node title="YOLOv11" detail="Lightweight variant runs onboard at the edge." />
+        <Node title="YOLOv11 on Jetson" detail="Lightweight FOD detector running onboard at ~30 FPS." />
         <Arrow />
-        <Node title="Similarity match" detail="Reduces false positives across consecutive frames." />
+        <Node title="Matching & filtering" detail="Similarity matching and false-positive filtering on the raw detections." />
       </div>
       <div className={styles.diagramRowThree} style={{ marginTop: '1rem' }}>
-        <Node title="Detections" detail="Tracked FOD candidates with position." />
-        <Node title="Flight test" detail="Parking-lot environments simulate runway conditions." />
-        <Node title="Human review" detail="Detections are inspected before action." />
+        <Node title="Training data" detail="Online and synthetically generated data; 75–80% model accuracy." />
+        <Node title="Flight tests" detail="In-flight tests simulate runway conditions." />
+        <Node title="Detections" detail="The FOD candidates that make it through the filtering." />
       </div>
     </div>
   )
@@ -190,16 +190,16 @@ function emotionPipeline() {
   return (
     <div className={styles.diagram}>
       <div className={styles.diagramRow}>
-        <Node title="Camera" detail="Face is captured in the target context." />
+        <Node title="Camera" detail="A live view of the child’s face." />
         <Arrow />
-        <Node title="Landmarks" detail="Facial-landmark extractor produces geometric features." />
+        <Node title="Face & landmarks" detail="Facial landmarks describe the shape of the face." />
         <Arrow />
-        <Node title="CNN" detail="Small CNN runs on Jetson Orin Nano." />
+        <Node title="CNN" detail="Classifies the expression on a Jetson Orin Nano." />
       </div>
       <div className={styles.diagramRowThree} style={{ marginTop: '1rem' }}>
-        <Node title="Confidence" detail="Predictions are qualified rather than reported as certain." />
-        <Node title="Boundary" detail="Not a diagnostic tool; not a substitute for a clinician." />
-        <Node title="Context evaluation" detail="Any use must be evaluated with the intended people and settings." />
+        <Node title="Training data" detail="CALMED, Kaggle, and other image and video sources, combined and cleaned." />
+        <Node title="Real time" detail="Runs live on the device; ~92% development accuracy." />
+        <Node title="Support" detail="A support tool, not a diagnosis." />
       </div>
     </div>
   )
@@ -385,7 +385,56 @@ function bikeLoop() {
   )
 }
 
+function deminingStack() {
+  return (
+    <div className={styles.diagram}>
+      <div className={styles.diagramRow}>
+        <Node title="Sensors" detail="Drivers and calibration." />
+        <Arrow />
+        <Node title="Perception" detail="Vision and LiDAR." />
+        <Arrow />
+        <Node title="Localization" detail="Sensor fusion and satellite-map georeferencing." />
+      </div>
+      <div className={styles.diagramRow} style={{ marginTop: '1rem' }}>
+        <Node title="Path planning" />
+        <Arrow />
+        <Node title="Mission execution" detail="Autonomous." />
+        <Arrow />
+        <Node title="Base link" detail="Rover-base communications." />
+      </div>
+      <div className={styles.diagramRowThree} style={{ marginTop: '1rem' }}>
+        <Node title="6-DoF extraction arm" detail="Carried by the mine-detection rover." />
+        <Node title="Test tooling" detail="Built alongside the stack." />
+        <Node title="Field tests" detail="Integrated system validated with dummy mines, with the Lebanese Armed Forces in Mechref." />
+      </div>
+    </div>
+  )
+}
+
+function enginePipeline() {
+  return (
+    <div className={styles.diagram}>
+      <div className={styles.diagramRow}>
+        <Node title="Geometry" detail="One file of parameters: links, masses, 2000 rpm, valve and combustion timing." />
+        <Arrow />
+        <Node title="Kinematics" detail="Slider-crank position, velocity, acceleration and cylinder volume at every crank angle." />
+        <Arrow />
+        <Node title="Thermodynamic cycle" detail="Polytropic strokes, Wiebe combustion, orifice gas exchange; iterated to convergence." />
+      </div>
+      <div className={styles.diagramRow} style={{ marginTop: '1rem' }}>
+        <Node title="Torque" detail="An 8×8 force and moment solve per crank angle; four cylinders summed 180° apart." />
+        <Arrow />
+        <Node title="Flywheel" detail="Sized for a 0.04 speed-fluctuation coefficient as a steel disc 50 mm thick." />
+        <Arrow />
+        <Node title="Gearbox" detail="Eight ratios between a 245 km/h top speed and a 7 % grade." />
+      </div>
+    </div>
+  )
+}
+
 const RENDERERS: Record<string, () => JSX.Element> = {
+  'demining-stack': deminingStack,
+  'engine-pipeline': enginePipeline,
   'quest-loop': questLoop,
   'bike-loop': bikeLoop,
   'osint-feed': osintFeed,
