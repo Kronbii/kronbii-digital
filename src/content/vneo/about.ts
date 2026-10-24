@@ -14,6 +14,8 @@ export interface AboutSection {
   id: string
   title: string
   entries: AboutEntry[]
+  /** a few photos shown under the section's heading */
+  photos?: { src: string; alt: string; caption?: string }[]
 }
 
 export const about: {
@@ -74,17 +76,30 @@ export const about: {
     {
       id: 'teaching',
       title: 'Teaching and mentoring',
+      photos: [
+        {
+          src: '/images/authority/injaz/award.jpg',
+          alt: 'Rami Kronbi on stage at the INJAZ Lebanon final with two others, each holding an award plaque.',
+          caption: 'The INJAZ final, 2026.',
+        },
+        {
+          src: '/images/authority/injaz/dosely-booth.jpg',
+          alt: 'Rami Kronbi standing with the Dosely team at their booth, a table with their pillbox and bracelet prototypes, at the INJAZ Lebanon exhibition.',
+          caption: 'With the Dosely team at their booth.',
+        },
+      ],
       entries: [
         {
           when: '2026',
           what: 'Technical mentor, INJAZ Al-Arab Company Program',
           href: writingHref('mentoring-two-healthcare-teams-at-injaz'),
-          note: 'I mentored two healthcare teams from first idea to working prototype: a melanoma-detection device, and an elderly-care set of a wearable bracelet, a pillbox, and an app. Both teams won awards: Best Community Impact and Best Healthcare Innovation.',
+          note: 'I mentored two school teams in healthcare from first idea to working prototype: LumiScan (Ahliah School), a melanoma-detection device, and Dosely (Saint Joseph School), an elderly-care set of a wearable bracelet, a pillbox, and an app. Both teams won awards: Best Community Impact and Best Healthcare Innovation.',
         },
         {
           when: '2022 – 2025',
           what: 'Robotics competitions at RHU',
-          note: 'I organized the university’s robotics competitions, including IEEE Micromouse, and mentored teams for the World Robot Olympiad and other competitions.',
+          href: 'https://www.rhu.edu.lb/media-room/news/rafik-hariri-university-is-set-to-make-history-by-hosting-lebanons-first-ever-micromouse-competition',
+          note: 'I organized the university’s robotics competitions, including IEEE Micromouse in 2023–2024, the first in Lebanon, held at RHU in May 2024, where I mentored a number of the teams. I also mentored teams for the World Robot Olympiad and other competitions.',
         },
         {
           when: 'Dec 2025',
@@ -104,11 +119,23 @@ export const about: {
     {
       id: 'community',
       title: 'Community',
+      photos: [
+        {
+          src: '/images/authority/space-apps/hackathon-hall.jpg',
+          alt: 'Rami Kronbi taking a selfie in front of a hall full of teams working at laptops during NASA Space Apps Beirut.',
+          caption: 'NASA Space Apps Beirut, during the hackathon.',
+        },
+        {
+          src: '/images/authority/space-apps/volunteering-certificate-2024.jpg',
+          alt: 'NASA Space Apps Beirut Exceptional Volunteering Certification awarded to Rami Kronbi for the 2024 edition.',
+          caption: 'Space Apps Beirut’s Exceptional Volunteering Certification, 2024.',
+        },
+      ],
       entries: [
         {
           when: '2021 – 2024',
           what: 'Lead technical organizer and participant, NASA Space Apps Beirut',
-          note: 'Technical bootcamps on NASA data and mentoring for 250–400 participants a year; teams I mentored reached the global top 10 six times. I competed too: our team won a Distinctive Team Award in 2021.',
+          note: 'Technical bootcamps on NASA data and mentoring for 250–400 participants a year; teams I mentored reached the global top 10 six times. I competed too: our team won a Distinctive Team Award in 2021. Space Apps Beirut gave me its Exceptional Volunteering Certification in 2024.',
           href: writingHref('what-four-years-of-technical-mentoring-taught-me'),
         },
         {
@@ -152,6 +179,18 @@ export const about: {
     {
       id: 'awards',
       title: 'Awards',
+      photos: [
+        {
+          src: '/images/authority/awards/with-trophy.jpg',
+          alt: 'Rami Kronbi holding a large trophy in the RHU mechanical engineering lab, in front of a table of competition robots.',
+          caption: 'With one of our competition trophies, in front of the robots that won them.',
+        },
+        {
+          src: '/images/authority/awards/trophies-shelf.jpg',
+          alt: 'A row of seven gold trophies on a shelf in the RHU engineering lab.',
+          caption: 'The trophies my teams and I brought back to RHU’s lab.',
+        },
+      ],
       entries: [
         {
           when: '2025',
@@ -171,15 +210,21 @@ export const about: {
           href: workHref('omnisign-lebanese-sign-language', VN),
         },
         {
+          when: '2025',
+          what: 'CRDP certificate of appreciation',
+          note: 'From CRDP Lebanon, in April 2025, for my volunteer work with the NASA Space Apps Beirut team.',
+        },
+        {
           when: '2024',
-          what: 'Disaster Assistance and Response Engineering (DARE) at LAU',
+          what: 'Third place, Disaster Assistance and Response Engineering (DARE) at LAU',
           note: 'For the landmine detection and extraction robot, with the RHU Robotics and Technology Club team.',
           href: workHref('landmine-detection-extraction-robot', VN),
         },
         {
-          when: '2024',
-          what: 'CRDP honorary recognition',
-          note: 'From CRDP Lebanon, for my contributions to NASA Space Apps.',
+          when: '2023',
+          what: 'Second place in Lebanon, ASME EFx',
+          note: 'A quick-build vehicle competition at NDU, with Ibrahim and Wassim Ghaddar.',
+          href: 'https://rhu.edu.lb/media-room/news/rhu-achieves-a-glorious-win-in-the-2023-asme-efx-competition',
         },
         {
           when: '2023',

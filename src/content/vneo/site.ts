@@ -311,6 +311,10 @@ export const community = {
       'On-Device Multimodal Assistants: Can We Fit GPT-Vision on Small Hardware?',
     note: 'Quantization, memory budgets, and hardware acceleration, ending with a live demo.',
     demo: 'Live demo',
+    image: {
+      src: '/images/authority/talks/devfest-title.jpg',
+      alt: 'The talk’s opening slide, “Can we make Jarvis real?”, at GDG DevFest Tripoli 2025.',
+    },
     href: writingHref('talks-workshops-and-teaching'),
   },
   workshops: {
@@ -326,7 +330,11 @@ export const community = {
     label: 'Mentoring',
     title: 'INJAZ Al-Arab and NASA Space Apps',
     years: ['2021', '2022', '2023', '2024', '2026'],
-    note: 'Technical mentor to two INJAZ healthcare teams, both awarded in 2026; lead technical organizer of NASA Space Apps Beirut, 2021–2024.',
+    note: 'Technical mentor to two INJAZ healthcare teams, LumiScan and Dosely, both awarded in 2026; lead technical organizer of NASA Space Apps Beirut, 2021–2024.',
+    image: {
+      src: '/images/authority/injaz/dosely-booth.jpg',
+      alt: 'Rami Kronbi with the Dosely team at their INJAZ Lebanon booth.',
+    },
     href: writingHref('mentoring-two-healthcare-teams-at-injaz'),
   },
   read: 'Read more',

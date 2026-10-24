@@ -122,6 +122,17 @@ export default function VneoAbout() {
         {about.sections.map((s) => (
           <section key={s.id} className="vn-about-sec" aria-labelledby={`about-${s.id}`}>
             <h2 id={`about-${s.id}`}>{s.title}</h2>
+            {s.photos?.length ? (
+              <div className="vn-about-photos">
+                {s.photos.map((ph) => (
+                  <figure key={ph.src}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={ph.src} alt={ph.alt} loading="lazy" />
+                    {ph.caption ? <figcaption>{ph.caption}</figcaption> : null}
+                  </figure>
+                ))}
+              </div>
+            ) : null}
             <ol className="vn-about-list">
               {s.entries.map((e) => (
                 <li key={e.what}>

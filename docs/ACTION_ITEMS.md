@@ -21,7 +21,7 @@ What's left to do on the site and around it, from the 23–24 October 2026 audit
 ### Add to the CV
 - [ ] **Award name:** "Nazik Rafik Hariri Graduate Studies Award", RHU's wording, instead of "Nazek Hariri Academic Excellence Award".
 - [ ] **WRO:** "World Robot Olympiad (WRO) Lebanon, Future Engineers, 2nd place, 2023" (the CV says 2024).
-- [ ] **New awards:** OmniSign, 1st prize Public Choice, National FYP Demo Day 2025; CRDP honorary recognition, 2024.
+- [ ] **New awards:** OmniSign, 1st prize Public Choice, National FYP Demo Day 2025; CRDP certificate of appreciation, April 2025 (for NASA Space Apps Beirut volunteering); DARE @ LAU, 3rd place, 2024; Space Apps Beirut Exceptional Volunteering Certification, 2024; ASME EFx 2023, 2nd place in Lebanon (with Ibrahim and Wassim Ghaddar).
 - [ ] **OmniSign:** add the co-founder title.
 - [ ] **NASNA:** keep "Co-founder & Operations Lead".
 - [ ] **360° stitching:** describe it as 3D mapping of environments without LiDAR (it started as real estate).

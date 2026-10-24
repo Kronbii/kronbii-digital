@@ -1099,6 +1099,12 @@ void loop() {
         text: 'From 2021 to 2024 I was lead technical organizer for NASA Space Apps in Beirut, supporting roughly 250–400 participants a year with a volunteer team of 10–15 people. The work included technical bootcamps using NASA datasets, problem selection, prototyping, competition requirements, and submission strategy. Over three consecutive years, teams we supported earned six Global Top 10 placements.',
       },
       {
+        kind: 'figure',
+        src: '/images/authority/space-apps/hackathon-hall.jpg',
+        alt: 'Rami Kronbi taking a selfie in front of a hall full of teams working at laptops during NASA Space Apps Beirut.',
+        caption: 'The hall during a Space Apps Beirut weekend.',
+      },
+      {
         kind: 'p',
         text: 'The useful lesson is that technical mentoring is not solving a participant’s project for them. It is building enough structure that a team can narrow a problem, understand the evidence, choose a tractable prototype, and tell the truth about what it achieved in a short weekend.',
       },
@@ -1106,8 +1112,19 @@ void loop() {
         kind: 'p',
         text: 'The placements belong to the teams and the wider community. Mentoring created the conditions, not the results. I know the other side too: I competed as well, and our team won a Distinctive Team Award in 2021.',
       },
+      {
+        kind: 'p',
+        text: 'Space Apps Beirut gave me its Exceptional Volunteering Certification for the 2024 edition. In April 2025, CRDP Lebanon, the national Center for Educational Research and Development, gave me a certificate of appreciation for my volunteer work with the Space Apps Beirut team, which helped Lebanese teams reach top global rankings.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/space-apps/crdp-certificate.jpg',
+        alt: 'Certificate of appreciation in Arabic from CRDP Lebanon to Rami Kronbi for volunteering with the NASA Space Apps Beirut team, dated 11 April 2025.',
+        caption: 'CRDP Lebanon’s certificate of appreciation, April 2025.',
+      },
     ],
     sources: [
+      { label: 'CRDP Lebanon — ceremony honouring the NASA Space Apps Beirut team (April 2025)', href: 'https://www.crdp.org/node/33693', kind: 'institution' },
       { label: 'RHU — RHU team makes it to the final stages of NASA Space Apps (2022)', href: 'https://www.rhu.edu.lb/media-room/news/rhu-team-makes-it-to-the-final-stages-of-the-nasa-space-apps-annual-international-competition', kind: 'institution' },
     ],
     projectSlug: '',
@@ -1262,6 +1279,22 @@ void loop() {
       {
         kind: 'p',
         text: 'On 20 December 2025 I spoke at DevFest Tripoli 2025, organized by GDG North Lebanon at Beirut Arab University’s Tripoli campus, in the 11:10–11:50 slot. The talk, “On-Device Multimodal Assistants: Can We Fit GPT-Vision on Small Hardware?”, covered quantization, memory budgets, and hardware acceleration for running vision-language models on consumer hardware, and ended with a live demo.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/talks/devfest-title.jpg',
+        alt: 'Title slide of the DevFest Tripoli 2025 talk, “Can we make Jarvis real?”, with a photo of Rami Kronbi holding a trophy.',
+        caption: 'The opening slide: can we make Jarvis real?',
+      },
+      {
+        kind: 'p',
+        text: 'I framed it around one question: can we build Jarvis, Tony Stark’s assistant, at home? The first part showed how a multimodal system works: encoders turn images, text, and speech into one shared vector space, and a language model reasons over the fused tokens. The second part was about what every optimization trades: a smaller, faster model costs some accuracy, and the job is to choose that trade on purpose. Then came Meta’s SAM 3, which segments anything from a text prompt, cross-modal attention across vision, sound, and text, and the techniques that make it fit on small hardware: quantization from FP16 down to 4-bit and 2-bit, pruning, and distillation.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/talks/devfest-be-an-engineer.jpg',
+        alt: 'Closing slide titled “Be an engineer”: think in systems, not in models; design around constraints, not benchmarks; combine modalities, not APIs; expect tradeoffs, measure them.',
+        caption: 'Where I ended: four rules for building it yourself.',
       },
       { kind: 'h2', text: 'CodewithSerah Pre-Winter Sprint Bootcamp, January 2026' },
       {
@@ -2076,7 +2109,7 @@ void loop() {
     title: 'Mentoring two healthcare teams at INJAZ',
     metaTitle: 'Mentoring two healthcare teams at INJAZ Al-Arab',
     metaDescription:
-      'How Rami Kronbi mentored two INJAZ Al-Arab Company Program teams from first idea to working prototype: a melanoma-detection device and an elderly-care system.',
+      'How Rami Kronbi mentored two INJAZ Lebanon school teams, LumiScan and Dosely, from first idea to award-winning prototype: a melanoma-detection device and an elderly-care system.',
     dek: 'Two student teams, two healthcare products, and one job: get them from an idea to something that works in front of judges.',
     body: [
       {
@@ -2086,7 +2119,13 @@ void loop() {
       { kind: 'h2', text: 'Two products' },
       {
         kind: 'p',
-        text: 'One team built a melanoma-detection device. The other built an IoT-connected elderly-care system: a wearable bracelet, a pillbox, and a mobile app that work together to monitor health and well-being. Both are hardware, software, and a real person on the other end, which is exactly where a first prototype tends to break.',
+        text: 'The teams were school students. LumiScan, from Ahliah School, built a melanoma-detection device. Dosely, from Saint Joseph School, built an IoT-connected elderly-care system: a wearable bracelet, a pillbox, and a mobile app that work together to monitor health and well-being. Both are hardware, software, and a real person on the other end, which is exactly where a first prototype tends to break.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/injaz/dosely-booth.jpg',
+        alt: 'Rami Kronbi standing with the Dosely team at their booth, a table with their pillbox and bracelet prototypes, at the INJAZ Lebanon exhibition.',
+        caption: 'With Dosely at their booth: the pillbox, the bracelet and the app on the table.',
       },
       { kind: 'h2', text: 'How I ran it' },
       {
@@ -2100,6 +2139,24 @@ void loop() {
       {
         kind: 'p',
         text: 'It is the same lesson as running technical mentoring at NASA Space Apps, with more time and higher stakes: structure beats answers. A team that knows what it is trying to prove can usually find its own way to prove it.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/injaz/lumiscan-team.jpg',
+        alt: 'The LumiScan team from Ahliah School on stage at the INJAZ Lebanon final, wearing medals, in front of a screen showing their logo.',
+        caption: 'LumiScan on stage at the final.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/injaz/dosely-team.jpg',
+        alt: 'The Dosely team from Saint Joseph School on stage at the INJAZ Lebanon final, wearing medals, in front of a screen showing their logo.',
+        caption: 'Dosely on stage at the final.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/injaz/award.jpg',
+        alt: 'Rami Kronbi on stage at the INJAZ Lebanon final with two others, each holding an award plaque.',
+        caption: 'Closing the program at the INJAZ Lebanon final.',
       },
     ],
     sources: [],

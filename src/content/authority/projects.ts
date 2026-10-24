@@ -3183,7 +3183,7 @@ export const projects: ProjectRecord[] = [
     measurements: [
       { label: 'Phases', value: '2', context: 'indoor 2D prototype, then outdoor 3D with GNSS' },
       { label: 'Field tests', value: 'Mechref', context: 'with the Lebanese Armed Forces, dummy mines' },
-      { label: 'Recognition', value: 'DARE @ LAU', context: 'April 2024, the first universities robotics competition' },
+      { label: 'DARE @ LAU', value: '3rd place', context: 'April 2024, the first universities robotics competition' },
     ],
     limits: [
       'The outdoor tests were small, early trials with dummy mines; there are no quantified outdoor results yet.',

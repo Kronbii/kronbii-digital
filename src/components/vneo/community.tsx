@@ -84,6 +84,8 @@ function Talk() {
         className="vn-tile-link"
         aria-label={`${t.label}, ${t.event}: ${t.title}`}
       />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img className="vn-ctile-photo" src={t.image.src} alt={t.image.alt} loading="lazy" />
       <div className="vn-talk-slide" aria-hidden="true">
         <span className="vn-talk-event">
           {t.event} · {t.when}
@@ -176,6 +178,8 @@ function Mentoring() {
         className="vn-tile-link"
         aria-label={`${m.label}: ${m.title}`}
       />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img className="vn-ctile-photo" src={m.image.src} alt={m.image.alt} loading="lazy" />
       <div className="vn-years" aria-hidden="true">
         <span className="vn-years-line" />
         {m.years.map((y) => (
