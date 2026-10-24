@@ -141,6 +141,21 @@ export const articles: ArticleRecord[] = [
         kind: 'p',
         text: 'The other limit is parallax. The model assumes the phone rotates around its optical center. Translate while sweeping past a nearby object and the scene no longer has a single homography. Blank walls and repeated textures also weaken matching. There is no bundle adjustment or exposure matching in the current version, so drift and brightness changes are still on the list.',
       },
+      { kind: 'h3', text: 'A second version: a gyro and bundle adjustment' },
+      {
+        kind: 'p',
+        text: 'The next version adds the two things the first one lacks. A gyro, integrated between frames, predicts each camera’s orientation. That prediction narrows where a feature can land in the next frame, so matching only searches a small window, and it tells the pipeline which frames a full turn apart should overlap, which is how loop closures are found without comparing every image with every other. Each matched pair is fitted with a rotation-only model, and bundle adjustment then solves every orientation and one shared focal length together, with a robust loss, starting from the gyro.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/spherical-panorama/v2-rotation-error.png',
+        alt: 'Log-scale plot of rotation error per frame against ground truth for gyro only, pairwise chaining and bundle adjustment on a simulated 73-frame sweep.',
+        caption: 'Rotation error per frame on a simulated sweep, against ground truth.',
+      },
+      {
+        kind: 'p',
+        text: 'So far it runs on simulated data: frames rendered from a known panorama as a camera turns 396°, and a 200 Hz gyro with bias, drift and noise. Against ground truth, the gyro alone ends 4.3° off and chaining pairs ends 2.1° off; bundle adjustment keeps the mean error at 0.04° and recovers a focal length that started 3.5% short to within 0.02%. Without the global solve, the rotation-only chain is worse than the first version’s, so bundle adjustment is what earns the improvement. A real capture still needs a synced sensor log and the camera-to-gyro alignment, and the simulation leaves out lens distortion, rolling shutter and parallax.',
+      },
       {
         kind: 'p',
         text: 'The result is useful because it is inspectable. Every stage has a module, the run records its resolved configuration and intrinsics, 186 tests cover the pipeline, and the browser viewer makes the final geometry tangible. It is less a magic panorama button than a working map of the decisions behind one.',

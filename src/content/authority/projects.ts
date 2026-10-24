@@ -100,11 +100,20 @@ export const projects: ProjectRecord[] = [
           'Equirectangular panorama recovered from a 309-frame phone sweep. 4096 × 2048 output; 36.9% of the sphere imaged.',
       },
     },
+    videos: [
+      {
+        src: '/images/authority/spherical-panorama/v2-sweep.mp4',
+        poster: '/images/authority/spherical-panorama/v2-sweep-poster.jpg',
+        alt: 'Simulated camera sweep: frames from a turning camera are placed into a panorama strip using the gyro, then bundle adjustment moves all 73 orientations into alignment while an error plot compares methods.',
+        caption:
+          'The second version, on a simulated sweep. Frames are first placed with the integrated gyro, then bundle adjustment solves all orientations and the focal length together. Mean rotation error: gyro 2.01°, pairwise chain 1.35°, bundle adjusted 0.04°.',
+      },
+    ],
     answer: {
       what: 'A CPU-only Python and OpenCV pipeline that turns handheld phone video or stills into an equirectangular panorama and generates a self-contained Three.js viewer.',
       problem:
         'General-purpose stitchers hide the geometric decisions behind a single call, which makes it hard to explain why a panorama tilts, ghosts, or drifts under real handheld capture.',
-      how: 'Frames are extracted, matched with ORB features and RANSAC, related by homography under a pure-rotation camera model, projected back onto a sphere, and rendered in a browser viewer. Temporal smoothing damps the pitch and roll wobble left after per-pair estimation.',
+      how: 'Frames are extracted, matched with ORB features and RANSAC, related by homography under a pure-rotation camera model, projected back onto a sphere, and rendered in a browser viewer. Temporal smoothing damps the pitch and roll wobble left after per-pair estimation. A second version uses a gyro to guide matching and find loop closures, then bundle-adjusts every orientation and the focal length at once; so far it runs on simulated sweeps.',
       role: 'I built the pipeline, the viewer, the 186 tests, and the technical documentation on my own.',
     },
     stages: [
@@ -152,6 +161,11 @@ export const projects: ProjectRecord[] = [
       },
     ],
     measurements: [
+      {
+        label: 'Rotation error, v2',
+        value: '0.04°',
+        context: 'mean, bundle adjusted, on a simulated 73-frame sweep; 2.01° gyro only, 1.35° pairwise chaining',
+      },
       {
         label: 'Sample frames',
         value: '309',
@@ -202,10 +216,20 @@ export const projects: ProjectRecord[] = [
       'Pure-rotation camera model — translation while sweeping introduces parallax that no homography can explain.',
       'A phone-height horizontal sweep sees a band around the viewer, so the poles are never captured; filling is not reconstruction.',
       'Blank walls and repeated textures weaken ORB matching and can force interpolation.',
-      'No bundle adjustment or global loop closure; drift is damped rather than corrected.',
+      'The phone pipeline has no bundle adjustment or loop closure; drift is damped rather than corrected. The gyro-guided, bundle-adjusted version has only run on simulated data: no lens distortion, rolling shutter, or camera-gyro time offset, and a real capture would need a synced sensor log.',
       'No exposure matching; brightness changes remain visible across seams.',
     ],
     media: [
+      {
+        src: '/images/authority/spherical-panorama/v2-rotation-error.png',
+        alt: 'Log-scale plot of rotation error per frame against ground truth for gyro only, pairwise chaining and bundle adjustment on a simulated 73-frame sweep.',
+        caption: 'Simulated: the gyro drifts to 4.3° by the last frame and pairwise chaining ends 2.1° off; bundle adjustment stays under 0.14° throughout.',
+      },
+      {
+        src: '/images/authority/spherical-panorama/v2-loop-seam.webp',
+        alt: 'Side-by-side close-up where the end of a simulated sweep meets its start: misaligned and doubled without bundle adjustment, continuous with it.',
+        caption: 'Simulated: where the sweep meets its start, chaining leaves a 2.09° break; after bundle adjustment it is 0.03°.',
+      },
       {
         src: '/images/authority/spherical-panorama/stage1-frame.jpg',
         alt: 'A single extracted phone-video frame that becomes an input to the pipeline.',

@@ -50,4 +50,6 @@ export const mediaSize: Record<string, [number, number]> = {
   '/images/authority/road-speed-audit/a40-speed-fits.png': [1320, 506],
   '/images/authority/fine-crack/centreline-trace.png': [620, 960],
   '/images/authority/fine-crack/trace-comparison.png': [1350, 960],
+  '/images/authority/spherical-panorama/v2-rotation-error.png': [1500, 780],
+  '/images/authority/spherical-panorama/v2-loop-seam.webp': [1800, 960],
 }

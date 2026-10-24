@@ -13,7 +13,7 @@ What's left to do on the site and around it, from the 23–24 October 2026 audit
 ### Outside the site
 - [ ] **Backlinks:** add a credit line linking to ramikronbi.com on the Evoid, Basira, NASNA and Bsheel sites.
 - [ ] **Tayseer's OmniSign page:** ask Tayseer to link your name to ramikronbi.com/projects/omnisign-lebanese-sign-language.
-- [ ] **Post the corrected OmniSign article on DEV and Medium:** Claude drafts it, you post it.
+- [ ] **Post the corrected OmniSign article on DEV and Medium:** the draft is in docs/crosspost/omnisign-corrected.md; you post it.
 - [ ] **Merge the thermal repo pull request:** github.com/Kronbii/thermal-super-resolution/pull/3, which brings the README to one set of figures.
 - [ ] **Google Search Console:** request indexing of the home page once this branch is live, so Google picks up the new favicon and image.
 - [ ] **Medium:** fix the display-name capitalisation in Settings ("Rami kronbi" → "Rami Kronbi").
@@ -30,9 +30,9 @@ What's left to do on the site and around it, from the 23–24 October 2026 audit
 - [ ] **Remove** the runway-inspection UAV line if it stays off the site.
 
 ## For Claude, from Rami's answers
-- [ ] **Remove Daleel:** take the project and its write-up off the site, with redirects.
-- [ ] **Remove the runway-inspection UAV:** take the project and its write-up off the site, with redirects.
-- [ ] **Landmine robot:** rewrite from Rami's account:
+- [x] **Remove Daleel:** take the project and its write-up off the site, with redirects.
+- [x] **Remove the runway-inspection UAV:** take the project and its write-up off the site, with redirects.
+- [x] **Landmine robot:** rewrite from Rami's account:
   - phase 1 indoors: 2D LiDAR, wheel odometry, IMU, 2D SLAM, Nav2
   - phase 2 outdoors: 3D LiDAR, GNSS, fused SLAM, segmentation and detection camera
   - the arm as a proof of concept and an obstacle remover
@@ -40,24 +40,29 @@ What's left to do on the site and around it, from the 23–24 October 2026 audit
   - an RHU project, supervised by a professor, with Rami leading all software
   - add his videos (navigation, object detection, robotic hand) and graphics from the ARIVE deck
   - research public mentions for links.
-- [ ] **OmniSign:**
+- [x] **OmniSign:**
   - use the team pages' figures, media and demo video
   - devices: iPhone 13 Pro, Raspberry Pi 5, Jetson, a DX Robotics board, phones
   - LSTM model, co-founder, on the Demo Day team
   - draft the corrected DEV and Medium posts.
-- [ ] **Race car:** WRO 2023 2nd place everywhere, plus the RHU article and its photos.
-- [ ] **BEMO:** a camera model for posture, the other sensors for desk height; update the repo README.
-- [ ] **Bsheel:** run the app locally and take screenshots.
-- [ ] **Rotor-fault study:** run the simulations, validate them, and show the evidence.
-- [ ] **Road-speed audit:** test on real road footage from public videos and show the evidence.
-- [ ] **Engine simulator:** run the scripts (Octave or a port) and add plots and an animation.
-- [ ] **Crack toolkit:** generate clean overlays and metrics from the repo.
-- [ ] **360° stitching:** rebuild the IMU-assisted, bundle-adjusted version, validate it on simulated data, and add a demo video.
-- [ ] **Space²:** "run along with alghadlana.com".
-- [ ] **Public CV:** publish a downloadable CV on the site (Rami: "don't hide anything").
-- [ ] **GitHub:** set every public repo's homepage to its page on the site and add a write-up link to each README; replace the thermal repo's description.
-- [ ] **SEO calls Rami left to Claude:**
+- [x] **Race car:** WRO 2023 2nd place everywhere, plus the RHU article and its photos.
+- [x] **BEMO:** a camera model for posture, the other sensors for desk height; update the repo README.
+- [x] **Bsheel:** run the app locally and take screenshots.
+- [x] **Rotor-fault study:** run the simulations, validate them, and show the evidence.
+- [x] **Road-speed audit:** test on real road footage from public videos and show the evidence.
+- [x] **Engine simulator:** run the scripts (Octave or a port) and add plots and an animation.
+- [x] **Crack toolkit:** generate clean overlays and metrics from the repo.
+- [x] **360° stitching:** rebuild the IMU-assisted, bundle-adjusted version, validate it on simulated data, and add a demo video. Done on the local branch `imu-bundle-adjustment` of the 360 repo (not pushed yet).
+- [ ] **360° stitching, real capture:** run the v2 path on a real phone video with its gyro log.
+- [x] **Space²:** "run along with alghadlana.com".
+- [x] **Public CV:** publish a downloadable CV on the site (Rami: "don't hide anything").
+- [x] **GitHub:** set every public repo's homepage to its page on the site and add a write-up link to each README; replace the thermal repo's description.
+- [x] **SEO calls Rami left to Claude:**
   - make ramikronbi.com the canonical source for cross-posted articles
   - add Substack to the profile links
   - rewrite the home-page description around the current lead projects.
-- [ ] **Thermal figures:** pending Rami's answer on the board ("which speed").
+- [x] **Thermal figures:** ~130 FPS laptop / 20–30 FPS Jetson, on the site and in PR #3.
+
+### Added 25 October
+- [ ] **Rami: push the 360 repo's `imu-bundle-adjustment` branch** (or tell Claude to), so the site can link the v2 code.
+- [ ] **Rami: INJAZ and DevFest posts:** nothing public names the teams or the talk; if INJAZ or GDG post them, send the links.
