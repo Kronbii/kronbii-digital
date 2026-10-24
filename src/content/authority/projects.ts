@@ -802,7 +802,22 @@ export const projects: ProjectRecord[] = [
           'Outputs can be evaluated with precision, recall, F1, IoU, mean and maximum distance, and RMS error, and exported to CSV and JSON.',
       },
     ],
+    media: [
+      {
+        src: '/images/authority/fine-crack/centreline-trace.png',
+        alt: 'Three crack shapes on a dark background, with a green polyline traced through each crack and pixel lengths labelled beside them.',
+        caption:
+          'Given a thin crack image, Shi-Tomasi corners ordered by a minimum spanning tree follow the centreline, 5–10 % short of a skeleton reference. The frame here is a 3 px skeleton of the mask, standing in for a fine crack.',
+      },
+      {
+        src: '/images/authority/fine-crack/trace-comparison.png',
+        alt: 'The same three crack masks traced three ways: default ORB with almost no path, Shi-Tomasi with MST following the outline, and a skeleton reference in pink.',
+        caption:
+          'The same mask used as the frame. With default settings, ORB finds almost no corners on a flat mask and one crack is recorded as 0 px; Shi-Tomasi with MST ordering traces the mask’s outline rather than its centreline.',
+      },
+    ],
     limits: [
+      'It needs a frame that shows the crack itself. Given only a thick mask, it traces the mask’s outline, not its centreline, and the default ORB corners can be too few to draw a path at all.',
       'The toolkit begins after segmentation and is not a crack detector.',
       'Validation at dataset scale, across crack types, widths, and imaging conditions, is the next step.',
       'The metrics keep their standard definitions; the package does not redefine them.',
@@ -2420,6 +2435,12 @@ export const projects: ProjectRecord[] = [
         'Quest selection, timed completion, proof upload, moderation, XP, feed, and the admin console that keeps the loop honest.',
       alt: 'Diagram of the Bsheel quest loop: three quests, proof upload, moderation and XP, feed and votes, worker queue, and admin console.',
     },
+    media: [
+      { src: '/images/authority/bsheel/bsheel-quest-picker.jpg', alt: 'Bsheel’s quest picker offering three real-world quests, each with a category, time limit and XP reward.', caption: 'Three random quests; choosing one starts its timer.' },
+      { src: '/images/authority/bsheel/bsheel-active-quest.jpg', alt: 'Bsheel home screen with an active quest, a countdown timer and its XP reward.', caption: 'An active quest, with the time left and the XP it is worth.' },
+      { src: '/images/authority/bsheel/bsheel-proof-upload.jpg', alt: 'Submitting proof for a drawing quest: one image attached, a caption, and a toggle to show it in the feed.', caption: 'Submitting proof: the image, a caption, and whether it goes to the feed.' },
+      { src: '/images/authority/bsheel/bsheel-feed.jpg', alt: 'An approved quest post in the Bsheel feed, with the proof image, XP earned and the caption.', caption: 'Once approved, the proof lands in the feed with the XP it earned.' },
+    ],
     answer: {
       what: 'A mobile app that turns everyday life into short real-world quests: pick one of three, do it inside a timer, prove it with a photo or video, and earn XP once the proof is approved.',
       problem:
@@ -2597,6 +2618,15 @@ export const projects: ProjectRecord[] = [
           'Simulation: one rotor stops at 2 s. The nominal controller flips; the pipeline raises the alarm, switches to the yaw-relaxed controller and recovers.',
       },
     },
+    videos: [
+      {
+        src: '/images/authority/quadrotor-rotor-fault-recovery/rotor-loss-sim.mp4',
+        poster: '/images/authority/quadrotor-rotor-fault-recovery/rotor-loss-sim-poster.jpg',
+        alt: 'Side-by-side 3D animation of a quadrotor losing one rotor: the left one flips and is lost; the right one tilts, spins and holds near its hover point, with the detection statistic crossing its threshold underneath.',
+        caption:
+          'Complete loss of the front-right rotor in hover, simulated. The nominal controller flips within 0.3 s; the pipeline flags the fault in 22 ms, switches to a yaw-relaxed controller at 58 ms and keeps the drone within 39 cm of its hover point.',
+      },
+    ],
     answer: {
       what: 'A detect, isolate and recover pipeline for rotor faults on a small quadrotor, built and evaluated in a 6-DOF simulator and then replayed on PX4 software-in-the-loop flights.',
       problem:
@@ -2666,6 +2696,12 @@ export const projects: ProjectRecord[] = [
       'The tethered test on the real quadrotor is planned, not done.',
     ],
     media: [
+      {
+        src: '/images/authority/quadrotor-rotor-fault-recovery/detection-delay.png',
+        alt: 'Scatter plot: detection delay falls from about 90 ms at 20 % rotor loss to about 22 ms at 90 %, median 30 ms over 200 runs. In PX4 SITL, all 40 partial and 16 complete losses are detected at medians of 120 and 132 ms, against 664 ms for PX4’s own detector.',
+        caption:
+          'How fast a fault is caught: a 30 ms median over 200 simulated faults, and 120–132 ms in PX4 software-in-the-loop, where PX4’s own detector took 664 ms.',
+      },
       {
         src: '/images/authority/quadrotor-rotor-fault-recovery/sitl-complete.png',
         alt: 'Chart of 16 complete rotor losses in PX4 software-in-the-loop: the diagnoser alarm at about 120 to 145 ms on every run, the vehicle tilting past 90 degrees at about 450 to 540 ms, and PX4’s failure detector at about 640 to 690 ms.',
@@ -2946,6 +2982,15 @@ export const projects: ProjectRecord[] = [
           'A frame from the simulator, which knows every vehicle’s true speed. Measured speed beside the truth for each tracked vehicle. Simulated, not a real road.',
       },
     },
+    videos: [
+      {
+        src: '/images/authority/road-speed-audit/a40-speed-overlay.mp4',
+        poster: '/images/authority/road-speed-audit/a40-speed-overlay-poster.jpg',
+        alt: 'Overpass view of a two-carriageway motorway, with tracked cars boxed and labelled with speeds: about 40 km/h on the left carriageway and about 100 km/h on the right.',
+        caption:
+          'The tool on a public clip of Germany’s A40 (Kathinka Engels, CC BY 3.0, via Wikimedia Commons; annotations added). The scale comes from standard lane-marking lengths, not a survey, and there is no reference measurement, so these speeds are unvalidated. It gave 8 valid speeds, sent 3 to review and rejected 31 fragments.',
+      },
+    ],
     answer: {
       what: 'A camera, a calibration and a tracker that measure vehicle speeds on one road segment, with an uncertainty on every number, a human review queue for doubtful records, and the statistics a municipality uses.',
       problem:
@@ -3008,13 +3053,18 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'Every figure comes from simulated video: a flat, straight road, an ideal lens and box-shaped vehicles. The tool has not been checked against radar or GPS on a real road; a field protocol for that is written.',
+      'Every figure comes from simulated video: a flat, straight road, an ideal lens and box-shaped vehicles. The tool has not been checked against radar or GPS on a real road; a field protocol for that is written. Its first run on real footage, a public motorway clip, has no reference speeds to compare against.',
       'The method was tuned on the same simulator, on other seeds, so real video will likely do worse than these numbers.',
       'Accuracy falls quickly with distance: at 75 m the 95th-percentile error is 7.6 km/h and fewer than half the vehicles are measured. A lamp post in the line of sight cut the share measured from 86 % to 50 %.',
       'Dusk and scenes without cast shadows raise the error to about 1.8 km/h and make the stated uncertainty too small.',
       'It is an audit tool for planning, not a certified enforcement device.',
     ],
     media: [
+      {
+        src: '/images/authority/road-speed-audit/a40-speed-fits.png',
+        alt: 'Two panels of position against time: six vehicles approaching at 35–43 km/h and two leaving at 99 and 112 km/h, each a straight line through tracked points.',
+        caption: 'The A40 clip: each valid vehicle’s position along the road over time; the slope of its fitted line is its speed.',
+      },
       {
         src: '/images/authority/road-speed-audit/distance.png',
         alt: 'Plot of the 95th-percentile speed error against the distance of the measurement zone from the pole, rising from about 0.8 km/h at 25 m to about 11 km/h at 95 m, with the share of vehicles measured at each distance.',
@@ -3032,6 +3082,12 @@ export const projects: ProjectRecord[] = [
         href: 'https://github.com/Kronbii/road-speed-audit',
         kind: 'repository',
         note: 'Code, the simulator, every experiment’s results and the field protocol.',
+      },
+      {
+        label: 'Wikimedia Commons — Motorway A40, on bridge above the traffic',
+        href: 'https://commons.wikimedia.org/wiki/File:Motorway_A40_-_on_bridge_above_the_traffic.webm',
+        kind: 'video',
+        note: 'The public clip in the demo, by Kathinka Engels, CC BY 3.0.',
       },
     ],
     articleSlug: 'measuring-road-speed-with-one-camera',

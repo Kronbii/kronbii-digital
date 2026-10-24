@@ -8,6 +8,7 @@ import { Plate } from '@/components/v7/plate'
 import { AutoVideo } from '@/components/vneo/auto-video'
 import { DeminingScene } from '@/components/vneo/scenes/demining'
 import { getArticle } from '@/content/authority'
+import { mediaSize } from '@/content/v2/media-size'
 import { projectImages, sourceKindLabel } from '@/content/v2/record'
 import { workBySlug, works } from '@/content/v3/work'
 import {
@@ -58,6 +59,15 @@ const T = {
 
 /** Imagen's photographs belong to its client; that page shows none. */
 const PRIVATE_MEDIA = new Set(['imagen-raw-to-edit-dataset-pipeline'])
+
+/** Gallery tiles crop to 4:3; a phone screen keeps its own shape, and a chart far from 4:3 is shown whole. */
+function tileFit(src: string): 'tall' | 'whole' | undefined {
+  const size = mediaSize[src]
+  if (!size) return undefined
+  const r = size[0] / size[1]
+  if (r < 0.8) return 'tall'
+  return Math.abs(r / (4 / 3) - 1) > 0.03 ? 'whole' : undefined
+}
 
 export function Case({ slug }: { slug: string }) {
   const w = workBySlug(slug)
@@ -255,7 +265,7 @@ export function Case({ slug }: { slug: string }) {
                 </figure>
               ))}
               {images.slice(0, 6).map((m) => (
-                <figure key={m.src}>
+                <figure key={m.src} data-fit={tileFit(m.src)}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={m.src} alt={m.alt} loading="lazy" />
                   {m.caption ? <figcaption>{m.caption}</figcaption> : null}

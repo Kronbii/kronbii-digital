@@ -229,3 +229,15 @@
     animation: none;
   }
 }
+
+/* gallery tiles: phone screens at their own shape, off-ratio charts shown whole */
+[data-v7] .v7-media {
+  align-items: start;
+}
+[data-v7] .v7-media figure[data-fit='tall'] img {
+  aspect-ratio: auto;
+  height: auto;
+}
+[data-v7] .v7-media figure[data-fit='whole'] img {
+  object-fit: contain;
+}
