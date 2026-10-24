@@ -1918,6 +1918,12 @@ void loop() {
         kind: 'p',
         text: 'The gas exchange is where the cycle loops back on itself. Exhaust blowdown and intake are modelled as compressible flow through a valve orifice, and the gas left over from the exhaust mixes with the fresh charge. That mixture sets the temperature at the start of the next compression, which changes everything after it. So the script runs the cycle again until the temperature at the end of intake matches the one it started compression with.',
       },
+      {
+        kind: 'figure',
+        src: '/images/authority/ice-engine/pressure-crank-angle.webp',
+        alt: 'Cylinder pressure against crank angle, with intake, compression, combustion, expansion, and exhaust shaded.',
+        caption: 'Pressure over one 720° cycle, peaking near 34 atm just after top dead centre.',
+      },
       { kind: 'h2', text: 'From gas pressure to crank torque' },
       {
         kind: 'p',
@@ -1927,10 +1933,22 @@ void loop() {
         kind: 'p',
         text: 'That is one cylinder. The other three are the same curve shifted by 180°, 360° and 540°, and their sum is the torque of the engine.',
       },
+      {
+        kind: 'figure',
+        src: '/images/authority/ice-engine/torque-four-cylinder.webp',
+        alt: 'Crank torque of four cylinders 180° apart, summed, with its mean.',
+        caption: 'The four cylinders and their sum: a mean of about 146 N·m.',
+      },
       { kind: 'h2', text: 'Flywheel and gearbox' },
       {
         kind: 'p',
         text: 'A cylinder’s torque swings above and below its mean over a cycle. The script integrates the energy of that excess between the crossings of the mean and sizes a flywheel to hold the speed fluctuation to a coefficient of 0.04, as a steel disc 50 mm thick; its radius follows from the inertia it needs.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/ice-engine/torque-flywheel.webp',
+        alt: 'Torque before and after adding the flywheel, with the surplus-energy area shaded.',
+        caption: 'The surplus energy the flywheel absorbs, about 370 J per cycle, gives a radius of 13.6 cm.',
       },
       {
         kind: 'p',
@@ -1938,7 +1956,17 @@ void loop() {
       },
       {
         kind: 'p',
+        text: 'For the engine in the assignment, that comes to about 460 J of work per cylinder per cycle, 30.6 kW of indicated power from four cylinders, and a fuel conversion efficiency of 28 %.',
+      },
+      {
+        kind: 'p',
         text: 'The last step designs an eight-speed gearbox. The top gear is set by a top speed of 245 km/h, the first gear by what it takes to move a 2600 kg vehicle up a 7 % grade while accelerating, and fsolve finds the two factors of a progressive series of ratios between them.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/ice-engine/gear-ratios.webp',
+        alt: 'Bar chart of the eight gear ratios from 5.38 in first to 0.64 in eighth.',
+        caption: 'The eight ratios, from 5.38 in first to 0.64 in eighth.',
       },
       { kind: 'h2', text: 'Watching it run' },
       {
@@ -1948,7 +1976,7 @@ void loop() {
       { kind: 'h2', text: 'What it leaves out' },
       {
         kind: 'p',
-        text: 'These are coursework scripts. Friction is a flat 10 % of indicated power. There is no heat loss to the cylinder walls, no emissions model and no knock. The engine turns at one fixed speed, and the speed-fluctuation curve is an idealised sine between the flywheel’s limits rather than a simulation of the shaft. The repository has no write-up of the results; they print when the scripts run.',
+        text: 'These are coursework scripts. Friction is a flat 10 % of indicated power. There is no heat loss to the cylinder walls, no emissions model and no knock. The engine turns at one fixed speed, and the speed-fluctuation curve is an idealised sine between the flywheel’s limits rather than a simulation of the shaft. The mean effective pressures it prints are also about half what they should be, because the displacement constant is smaller than the engine’s swept volume of about 503 cc.',
       },
     ],
     sources: [

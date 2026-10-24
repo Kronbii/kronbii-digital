@@ -661,6 +661,26 @@ export const projects: ProjectRecord[] = [
         caption: 'The tracker in CAD: two MG995 servos for pan and tilt, and four LDRs split by a shade so each axis sees a difference in light.',
       },
     },
+    videos: [
+      {
+        src: '/images/authority/pid-light-tracker/video-two-axis-final.mp4',
+        poster: '/images/authority/pid-light-tracker/video-two-axis-final-poster.jpg',
+        alt: 'The finished two-axis tracker turning to follow a desk lamp as it is moved by hand.',
+        caption: 'The finished tracker following a moving lamp on two axes.',
+      },
+      {
+        src: '/images/authority/pid-light-tracker/video-single-axis-pid.mp4',
+        poster: '/images/authority/pid-light-tracker/video-single-axis-pid-poster.jpg',
+        alt: 'An early prototype following a desk lamp, first on one axis, then on two axes with PID control.',
+        caption: 'The prototype: one axis first, then two axes with PID.',
+      },
+      {
+        src: '/images/authority/pid-light-tracker/video-two-axis-build.mp4',
+        poster: '/images/authority/pid-light-tracker/video-two-axis-build-poster.jpg',
+        alt: 'Close-ups of the two-axis frame: the light-sensor boards under a printed shade, and the servos.',
+        caption: 'The two-axis build: four light sensors under a shade, two servos.',
+      },
+    ],
     media: [
       {
         src: '/images/authority/pid-light-tracker/schematic.jpg',
@@ -3160,6 +3180,22 @@ export const projects: ProjectRecord[] = [
         'Each stage feeds the next: one file of parameters, then the kinematics, the gas cycle, the torque, and the flywheel and gearbox it sizes.',
       alt: 'Diagram of the simulator pipeline: geometry and parameters, slider-crank kinematics, thermodynamic cycle, crank torque summed over four cylinders, flywheel sizing, and gear ratios.',
     },
+    videos: [
+      {
+        src: '/images/authority/ice-engine/four-cylinder-animation.mp4',
+        poster: '/images/authority/ice-engine/four-cylinder-animation-poster.jpg',
+        alt: 'Four slider-cranks turning together through one 720° cycle, each cylinder’s chamber flashing as it fires in the order 1-3-4-2, with a crank-angle readout.',
+        caption: 'The four-cylinder animation from the simulator: one full cycle, firing order 1-3-4-2.',
+      },
+    ],
+    media: [
+      { src: '/images/authority/ice-engine/pv-diagram.webp', alt: 'Pressure–volume diagram of one cylinder over a full cycle, coloured by phase.', caption: 'The P–V loop of one cylinder: the work per cycle is its area, about 460 J.' },
+      { src: '/images/authority/ice-engine/pressure-crank-angle.webp', alt: 'Cylinder pressure against crank angle, with intake, compression, combustion, expansion, and exhaust shaded.', caption: 'Pressure over the 720° cycle, peaking near 34 atm after ignition.' },
+      { src: '/images/authority/ice-engine/torque-four-cylinder.webp', alt: 'Crank torque of four cylinders 180° apart, summed, with its mean.', caption: 'Four cylinders 180° apart: a mean of about 146 N·m.' },
+      { src: '/images/authority/ice-engine/torque-flywheel.webp', alt: 'Torque before and after adding the flywheel, with the surplus-energy area shaded.', caption: 'The flywheel absorbs about 370 J of surplus energy per cycle.' },
+      { src: '/images/authority/ice-engine/piston-velocity.webp', alt: 'Piston velocity against crank angle with and without an 18 mm crank offset.', caption: 'Piston velocity with and without the 18 mm offset.' },
+      { src: '/images/authority/ice-engine/gear-ratios.webp', alt: 'Bar chart of the eight gear ratios from 5.38 in first to 0.64 in eighth.', caption: 'The eight gear ratios, 5.38 down to 0.64, with sixth as direct drive.' },
+    ],
     answer: {
       what: 'A MATLAB model of a four-stroke, four-cylinder spark-ignition engine through one full cycle, from the geometry of its crank to the gear ratios of the car it drives.',
       problem:
@@ -3167,6 +3203,12 @@ export const projects: ProjectRecord[] = [
       how: 'One file holds every parameter. A slider-crank solution gives piston motion and cylinder volume at each crank angle. A single-zone cycle with polytropic strokes, Wiebe combustion and orifice-flow gas exchange is iterated until its temperature converges. A linear force and moment solve gives the crank torque, four phase-shifted cylinders are summed, and the result sizes a flywheel and an eight-speed gearbox.',
       role: 'I wrote the whole simulator, as the main project of the Automotive Engineering course at RHU in fall 2024.',
     },
+    measurements: [
+      { label: 'Engine power', value: '30.6 kW', context: 'four cylinders at 2000 rpm' },
+      { label: 'Mean torque', value: '146 N·m', context: 'four cylinders' },
+      { label: 'Fuel conversion', value: '28%', context: 'efficiency' },
+      { label: 'Flywheel', value: '13.6 cm', context: 'radius of a 50 mm steel disc, for a 4% speed fluctuation' },
+    ],
     stages: [
       {
         step: '01',
@@ -3211,7 +3253,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'These are coursework scripts with no README and no write-up of the results; the figures print when you run them.',
+      'The mean effective pressures the scripts print are about half what they should be: the displacement constant is smaller than the engine’s swept volume of about 503 cc.',
       'Friction is a flat 10 % of indicated power, and there is no heat transfer to the cylinder walls, no emissions model and no knock.',
       'The engine turns at one fixed speed, and the speed-fluctuation curve is an idealised sine between the flywheel’s limits, not a simulation of the shaft.',
     ],
