@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
+import { AutoVideo } from '@/components/vneo/auto-video'
 import { FEATURED, showcase, vneo, VN } from '@/content/vneo/site'
 
 import { Motion, replayIn } from './motion'
@@ -172,6 +173,12 @@ export function Work() {
                     <small>{item.figure.toNote}</small>
                   </span>
                 </div>
+              ) : item.image?.src.endsWith('.mp4') ? (
+                <AutoVideo
+                  src={item.image.src}
+                  poster={item.image.poster ?? ''}
+                  alt={item.alt}
+                />
               ) : item.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img

@@ -36,7 +36,7 @@ export const v3Home = {
 
   /** The four facts a skimmer should leave with, under the name. */
   creds: [
-    { big: '3rd', label: 'World Robot Olympiad 2023', note: 'of 95+ teams', href: WRO },
+    { big: '2nd', label: 'WRO Lebanon 2023', note: 'Future Engineers', href: WRO },
     {
       big: 'Award',
       label: 'Nazik Rafik Hariri Graduate Studies Award',
@@ -100,13 +100,12 @@ export const v3Home = {
       },
       {
         id: 'people',
-        phrase: 'software for clinics, voters, and learners',
+        phrase: 'software and courses that people use',
         joiner: '.',
         slugs: [
-          'daleel-lebanese-election-information',
-          'basira-retinal-screening',
-          'lumiscan-lesion-dashboard',
-          'lebanese-motorcycle-theory-trainer',
+          'bsheel-quest-app',
+          'omnisign-lebanese-sign-language',
+          'drone-control-bootcamp',
         ],
       },
     ],
@@ -161,6 +160,18 @@ export const v3Home = {
         source: 'Talks and teaching',
         href: noteHref('talks-workshops-and-teaching'),
       },
+      {
+        when: '2025',
+        what: 'Public Choice prize with OmniSign',
+        note: 'First prize by public vote at the National FYP Demo Day, for real-time Lebanese Sign Language recognition.',
+        href: workHref('omnisign-lebanese-sign-language'),
+      },
+      {
+        when: '2026',
+        what: 'Mentored two award-winning INJAZ teams',
+        note: 'Healthcare startups taken from idea to working prototype: Best Community Impact and Best Healthcare Innovation.',
+        href: noteHref('mentoring-two-healthcare-teams-at-injaz'),
+      },
     ],
   },
 
@@ -208,7 +219,7 @@ export const v3Home = {
     points: [
       {
         when: '2023',
-        what: 'Third place at WRO Lebanon',
+        what: 'Second place at WRO Lebanon',
         note: 'Future Engineers, with Wassim Ghaddar: a self-driving car in twenty days.',
         href: workHref('brainiacs-autonomous-race-car'),
       },
@@ -216,7 +227,7 @@ export const v3Home = {
         when: '2023',
         what: 'Co-founded Evoid',
         note: 'A small applied computer-vision venture in Beirut, as systems engineer and product manager.',
-        href: workHref('evoid-applied-vision-venture'),
+        href: noteHref('what-a-small-vision-venture-taught-me-about-scope'),
       },
       {
         when: '2024',
@@ -231,6 +242,12 @@ export const v3Home = {
         href: noteHref('building-technology-around-crisis-response-operations'),
       },
       {
+        when: '2024',
+        what: 'Built a mine-detection robot',
+        note: 'Software lead: 2D then 3D LiDAR SLAM, Nav2, detection; field-tested with the Lebanese Armed Forces.',
+        href: workHref('landmine-detection-extraction-robot'),
+      },
+      {
         when: '2025',
         what: 'Graduated, with a full master’s scholarship',
         note: 'Mechatronics engineering, Rafik Hariri University; the Nazik Rafik Hariri Graduate Studies Award.',
@@ -242,12 +259,7 @@ export const v3Home = {
         note: 'Fitting vision-language models onto small hardware, with a live demo.',
         href: noteHref('talks-workshops-and-teaching'),
       },
-      {
-        when: '2026',
-        what: 'Led development of Daleel',
-        note: 'Election information for Lebanon that can be checked against its sources.',
-        href: workHref('daleel-lebanese-election-information'),
-      },
+
       {
         when: '2026',
         what: 'A fix merged into Betaflight',

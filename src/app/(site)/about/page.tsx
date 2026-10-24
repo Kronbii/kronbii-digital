@@ -114,6 +114,11 @@ export default function VneoAbout() {
           {about.title}
         </h1>
         <p className="v7-more-lede">{about.lede}</p>
+        <p className="v7-ch-links">
+          <a className="v7-go" href="/ramikronbi-2026.pdf" target="_blank" rel="noopener">
+            Download my CV (PDF) ↗
+          </a>
+        </p>
         {about.sections.map((s) => (
           <section key={s.id} className="vn-about-sec" aria-labelledby={`about-${s.id}`}>
             <h2 id={`about-${s.id}`}>{s.title}</h2>

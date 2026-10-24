@@ -801,11 +801,14 @@
   flex: 1;
   min-height: 300px;
 }
-[data-vneo] .vn-tile-media > img {
+[data-vneo] :is(.vn-tile-media > img, .vn-tile-media > video) {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+}
+[data-vneo] .vn-tile-media > video {
+  object-fit: cover;
 }
 [data-vneo] .vn-tile-media > img[style*='contain'] {
   padding: 8%;
@@ -1692,7 +1695,7 @@
       'fpv  fpv  mine mine'
       'race race omni heat'
       'ship ship omni heat'
-      'dal  dal  pid  crk'
+      'star star pid  crk'
       'pano pano boot crk'
       'rot  rot  road road';
     grid-auto-rows: 300px;

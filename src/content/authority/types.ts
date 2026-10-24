@@ -91,6 +91,8 @@ export interface ProjectRecord {
   measurements?: ProjectMeasurement[]
   limits: string[]
   media?: AuthorityMedia[]
+  /** Real footage: the first leads the page, the rest join the media section. MP4, muted, with a poster frame. */
+  videos?: { src: string; poster: string; alt: string; caption?: string }[]
   diagramIds?: string[]
   sources: AuthoritySource[]
   articleSlug: string

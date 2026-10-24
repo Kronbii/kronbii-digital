@@ -28,6 +28,8 @@ const nextConfig = {
         'juno',
         'hantawatch-outbreak-dashboard',
         'lumiscan-lesion-dashboard',
+        'daleel-lebanese-election-information',
+        'runway-inspection-uav',
       ].map((p) => ({ source: `/projects/${p}`, destination: '/projects', permanent: true })),
       ...[
         'extracting-medicine-names-from-multilingual-prescriptions',
@@ -37,6 +39,7 @@ const nextConfig = {
         'rebuilding-my-finance-app-around-local-first-sync',
         'building-an-outbreak-dashboard-from-public-sources',
         'making-tenant-isolation-the-only-path',
+        'designing-election-information-for-verifiability',
       ].map((w) => ({ source: `/writing/${w}`, destination: '/writing', permanent: true })),
     ]
   },

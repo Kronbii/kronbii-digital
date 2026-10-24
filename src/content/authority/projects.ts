@@ -54,7 +54,7 @@ export const projects: ProjectRecord[] = [
         step: '04',
         title: 'Evaluate',
         detail:
-          'GPS accuracy, RF link quality, and flight performance evaluated under GNSS jamming and IMU/GNSS integration constraints.',
+          'GPS accuracy, RF link quality, and flight performance evaluated under the GNSS jamming that is common in Lebanon.',
       },
     ],
     limits: [],
@@ -406,7 +406,7 @@ export const projects: ProjectRecord[] = [
       'A WRO Future Engineers car that splits perception on a Jetson Nano from real-time control on an Arduino Mega, with OpenCV sign logic and PID steering.',
     summary:
       'A WRO Future Engineers vehicle dividing Jetson Nano perception from Arduino Mega real-time control, with OpenCV traffic-sign logic, PID steering, an MPU6050 IMU, and TCS34725 color sensing.',
-    role: 'Built with Wassim Ghaddar; I worked on system architecture, vision, sensor integration, and embedded control.',
+    role: 'All the software, integration, sensors, and control; Wassim Ghaddar designed the hardware. Coached by Mohamad Al Kaderi.',
     form: 'artifact',
     schemaType: 'CreativeWork',
     hero: {
@@ -423,7 +423,7 @@ export const projects: ProjectRecord[] = [
       problem:
         'A twenty-day build had to combine visual understanding, traffic-marker logic, obstacle avoidance, and reliable motion on limited compute and a student budget.',
       how: 'Perception runs in Python and OpenCV on a Jetson Nano and is sent as compact events to an Arduino Mega, which owns the time-sensitive steering PID and drivetrain commands. A TCS34725 color sensor and MPU6050 IMU close gaps the camera cannot handle alone.',
-      role: 'I worked on the system architecture, computer vision, sensor integration, and embedded control, alongside my teammate Wassim Ghaddar.',
+      role: 'I did all the software, the integration, the sensors, and the control; Wassim Ghaddar designed the hardware. Our coach was Mohamad Al Kaderi.',
     },
     stages: [
       {
@@ -459,7 +459,7 @@ export const projects: ProjectRecord[] = [
       },
       {
         label: 'Placement',
-        value: 'Third, Future Engineers',
+        value: 'Second, Future Engineers',
         context: 'WRO Lebanon national round, July 2023',
       },
       {
@@ -469,7 +469,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'Rafik Hariri University reported third place in July 2023. We were later re-ranked to second, but there is no official page for the revised standing, so this page keeps the university’s figure.',
+      'We finished second: announced third in July 2023, and re-ranked to second afterwards.',
       'Twenty days only leaves so much time to optimise or document each subsystem.',
       'Track and traffic-sign behavior are tied to the WRO Future Engineers 2023 environment and cannot be generalized without new testing.',
     ],
@@ -533,7 +533,7 @@ export const projects: ProjectRecord[] = [
       'An IMDN-derived thermal super-resolution pipeline trained with thermal-specific objectives and optimized for edge inference on NVIDIA Jetson hardware.',
     summary:
       'An IMDN-derived single-channel thermal super-resolution pipeline trained with thermal-specific objectives and optimized for deployment on NVIDIA Jetson hardware.',
-    role: 'Computer vision engineer: architecture adaptation, training, and edge inference.',
+    role: 'Built it myself, for drones and ground robots: architecture adaptation, training, and edge inference.',
     form: 'artifact',
     schemaType: 'SoftwareSourceCode',
     hero: {
@@ -550,7 +550,7 @@ export const projects: ProjectRecord[] = [
       problem:
         'RGB-trained super-resolution models can hallucinate texture that has no thermal meaning, and higher-resolution thermal sensors are expensive relative to lower-resolution alternatives.',
       how: 'The IMDN architecture is adapted to a single channel, pretraining is transferred from RGB data, a thermal-specific training objective shifts attention toward heat-relevant gradients and contrast, and the model is optimized toward FP16 and INT8 execution on NVIDIA Jetson hardware.',
-      role: 'I worked on the architecture adaptation, the training, and the edge inference.',
+      role: 'I built it myself, for unmanned aerial and ground vehicles that need to see in the dark: the architecture adaptation, the training, and the edge inference.',
     },
     stages: [
       {
@@ -596,13 +596,18 @@ export const projects: ProjectRecord[] = [
       },
       {
         label: 'Edge inference',
-        value: '~45 FPS',
-        context: 'NVIDIA Jetson AGX Orin, FP16/INT8',
+        value: '~130 FPS',
+        context: '×2 on an RTX 3070 laptop GPU (~60 FPS at ×4)',
+      },
+      {
+        label: 'On the drone',
+        value: '20–30 FPS',
+        context: 'NVIDIA Jetson Orin, onboard'
       },
     ],
     limits: [
       'Reported quality numbers are dataset-specific and become less constrained at larger enlargement factors.',
-      '“Real time” is a property of a full pipeline on named hardware at a named input size, not of a model file. The ~45 FPS is on NVIDIA Jetson AGX Orin with FP16/INT8 inference.',
+      '“Real time” is a property of a full pipeline on named hardware at a named input size, not of a model file. On an RTX 3070 laptop GPU it runs at about 130 FPS at ×2 and 60 FPS at ×4; on the Jetson Orin the drone carries, 20–30 FPS, faster than a thermal camera delivers frames.',
       'The next real test is task-based: does downstream detection actually improve?',
     ],
     media: [
@@ -644,7 +649,7 @@ export const projects: ProjectRecord[] = [
     metaDescription:
       'An Arduino two-axis light-tracking robot that turns PID tuning, sensor noise, saturation, and settling into a visible control experiment.',
     summary:
-      'An Arduino project that uses light sensing and two servo axes to follow a light source with PID control.',
+      'An Arduino project from fall 2024 that uses light sensing and two servo axes to follow a light source with PID control.',
     role: 'Lead developer and system architect, with Wassim Ghaddar on hardware integration and testing.',
     form: 'diagram',
     schemaType: 'SoftwareSourceCode',
@@ -732,7 +737,7 @@ export const projects: ProjectRecord[] = [
       'A Python package and CLI that turns crack masks into ordered lines, splines, overlays, and metrics for infrastructure inspection.',
     summary:
       'An installable Python package and CLI for turning pre-segmented crack masks into ordered lines, optional splines, visual overlays, and evaluation metrics.',
-    role: 'Owner and maintainer.',
+    role: 'Built it from scratch and maintain it.',
     form: 'artifact',
     schemaType: 'SoftwareSourceCode',
     hero: {
@@ -749,7 +754,7 @@ export const projects: ProjectRecord[] = [
       problem:
         'A segmentation mask names the pixels but leaves inspection engineers without an ordered trace, a comparable reference, or an evaluation record.',
       how: 'The toolkit accepts frames and masks, extracts candidate crack points, orders them with a choice of classic, minimum-spanning-tree, or greedy strategies, optionally fits smoother curves, generates overlays, and exports metrics as CSV and JSON.',
-      role: 'I own and maintain the package, its command-line interface, and its documentation; the algorithms it builds on are credited to their sources.',
+      role: 'I built it from scratch for real-time crack and damage extraction: not just a segmentation mask, but metric details you can measure. I maintain the package, its command-line interface, and its documentation.',
     },
     stages: [
       {
@@ -784,13 +789,13 @@ export const projects: ProjectRecord[] = [
     ],
     sources: [
       {
-        label: 'GitHub — fine-crack-detection',
-        href: 'https://github.com/Kronbii/fine-crack-detection',
+        label: 'GitHub — fine-crack-tracing',
+        href: 'https://github.com/Kronbii/fine-crack-tracing',
         kind: 'repository',
       },
       {
         label: 'Package README and CLI documentation',
-        href: 'https://github.com/Kronbii/fine-crack-detection#readme',
+        href: 'https://github.com/Kronbii/fine-crack-tracing#readme',
         kind: 'documentation',
       },
     ],
@@ -890,7 +895,7 @@ export const projects: ProjectRecord[] = [
   },
   {
     slug: 'daleel-lebanese-election-information',
-    state: 'ready',
+    state: 'hold',
     title: 'Daleel',
     metaTitle:
       'Daleel: verifiable Lebanese election information',
@@ -1385,76 +1390,99 @@ export const projects: ProjectRecord[] = [
   {
     slug: 'omnisign-lebanese-sign-language',
     state: 'ready',
-    title: 'OmniSign — Lebanese Sign Language translation',
-    metaTitle: 'OmniSign — real-time Lebanese Sign Language translation',
+    title: 'OmniSign — Lebanese Sign Language recognition',
+    metaTitle: 'OmniSign: real-time Lebanese Sign Language recognition',
     metaDescription:
-      'Real-time Lebanese Sign Language translation system spanning mobile, web, and offline embedded deployments.',
+      'OmniSign recognizes Lebanese Sign Language in real time on phones and small boards. Rami Kronbi co-founded it and built its computer-vision pipeline.',
     summary:
-      'A real-time translation system for Lebanese Sign Language spanning camera input, visual recognition, language output, and deployment across mobile, web, and offline embedded environments.',
-    role: 'Co-founder and computer vision engineer, on a team with Layth Ayache, Nour El Hariri, Tayseer Laz, and Abou Baker Hussien Al Khatib, supervised by Dr. Oussama Mustapha.',
-    form: 'diagram',
+      'OmniSign recognizes Lebanese Sign Language from a camera in real time, the alphabet and more than 30 everyday words and expressions, and turns it into text and speech. It runs on phones and on small boards like a Raspberry Pi 5 or a Jetson. I co-founded it and built its computer-vision pipeline; we collected more than 40,000 signs across Lebanon with deaf community partners, and it won First Prize in the Public Choice category at the National FYP Demo Day 2025.',
+    role: 'Co-founder; I built the computer-vision pipeline, worked on the models, and built the embedded deployment with Layth Ayache.',
+    form: 'artifact',
     schemaType: 'CreativeWork',
     hero: {
-      kind: 'diagram',
-      diagramId: 'sign-translation',
-      caption:
-        'A signer’s camera input flows through visual recognition into language output; deployment fans out to mobile, web, and offline embedded targets.',
-      alt: 'Diagram of a sign-language translation system: camera capture, visual recognition, language output, and three deployment targets — mobile, web, and offline embedded.',
+      kind: 'image',
+      media: {
+        src: '/images/authority/omnisign/omnisign-demo-poster.jpg',
+        alt: 'A man holds a phone running OmniSign up to a driver who is signing through his car window.',
+      },
     },
+    videos: [
+      {
+        src: '/images/authority/omnisign/omnisign-demo-2025.mp4',
+        poster: '/images/authority/omnisign/omnisign-demo-poster.jpg',
+        alt: 'The OmniSign project film, narrated with English subtitles: why it started, data collection with community partners, and the app tested in a clinic, a café, and a car.',
+        caption: 'The team’s project film: data collection with community partners, then the app tested in a clinic, a café, and a car.',
+      },
+    ],
+    media: [
+      {
+        src: '/images/authority/omnisign/omnisign-lsl-arabic-alphabet-dataset.webp',
+        alt: 'A grayscale grid of 28 hand signs photographed against a white wall, each labelled with its Arabic letter and name.',
+        caption: 'The Arabic alphabet in Lebanese Sign Language: one signer, one raw frame per letter, before augmentation.',
+      },
+      {
+        src: '/images/authority/omnisign/omnisign-app-clinic-test.jpg',
+        alt: 'A man in a blue jacket signs from a chair in a clinic room while a phone in the foreground shows him in the app’s camera view.',
+        caption: 'Testing the app with a signer in a clinic room.',
+      },
+      {
+        src: '/images/authority/omnisign/omnisign-app-counter-test.jpg',
+        alt: 'A young man in glasses signs at a café counter as the cashier points a phone running the app at him.',
+        caption: 'Testing at a café counter.',
+      },
+      {
+        src: '/images/authority/omnisign/omnisign-data-collection-booth.jpg',
+        alt: 'A team member leans over a laptop at an outdoor table while a woman in a headscarf signs beside printed sheets of hand-sign photos.',
+        caption: 'A data-collection booth: volunteers sign from printed reference sheets while a laptop records.',
+      },
+      {
+        src: '/images/authority/omnisign/omnisign-fyp-demo-day-2025-team.jpg',
+        alt: 'Team members in a lecture hall holding LAU certificates of participation.',
+        caption: 'National FYP Demo Day 2025 at LAU, where OmniSign won First Prize in the Public Choice category. Photo: Rafik Hariri University.',
+      },
+    ],
     answer: {
-      what: 'A real-time Lebanese Sign Language translation system.',
+      what: 'A real-time recognizer for Lebanese Sign Language, with basic American Sign Language, that turns signs into text and speech on a phone or a small board.',
       problem:
-        'General sign-language datasets do not transfer to local vocabulary, signing patterns, or the communication settings in which the system will be used.',
-      how: 'A recognition model consumes camera input and produces language output; the system is deployed across mobile, web, and offline embedded targets. Uncertainty handling and the option to request a repeated sign are treated as design decisions.',
-      role: 'I co-founded the project and was the team’s computer vision engineer. Layth Ayache led the AI and data work; Nour El Hariri, Tayseer Laz, and Abou Baker Hussien Al Khatib were on the team; Dr. Oussama Mustapha supervised.',
+        'Lebanese Sign Language has its own signs and regional variations, and almost no data. General sign-language models don’t carry over, so the dataset had to be built from scratch, with the people who sign it.',
+      how: 'MediaPipe extracts hand, pose, and face landmarks from each frame. Isolated signs, like the alphabet, are classified from the hand landmarks; signs that unfold over time are read from a 30-frame window by an LSTM. The models run on phones, on a Raspberry Pi 5, on Jetson boards, and on a DX Robotics board, and the result is shown as text and spoken aloud.',
+      role: 'I co-founded OmniSign and built its computer-vision pipeline: the landmark extraction, the data collection and cleaning, and the path from camera to prediction. I worked on the models with Layth Ayache, who led the AI and ML work, and we built the embedded deployment together. I tested it on an iPhone 13 Pro and a Raspberry Pi 5. The team: Layth Ayache, Tayseer Laz, Abou Baker Hussien Al Khatib, and Nour El Hariri, supervised by Dr. Oussama Mustapha at RHU.',
     },
     stages: [
       {
         step: '01',
-        title: 'Capture',
+        title: 'Collect',
         detail:
-          'Camera input is the primary channel; signer, background, lighting, and camera differ between deployments.',
+          'Three months of collection across Lebanon, with the Sin El Fil Church deaf community, the Aaramoun Orphanage Center, SignWithNaila, and RHU: more than 40,000 signs, stored as landmarks per signer and per sign.',
       },
       {
         step: '02',
-        title: 'Recognize',
+        title: 'See',
         detail:
-          'A visual model classifies signs; performance on a curated dataset is not the same as performance for a specific signer in a specific room.',
+          'MediaPipe turns each frame into hand, pose, and face landmarks, so the model learns the shape of a sign, not the person or the room.',
       },
       {
         step: '03',
-        title: 'Translate',
+        title: 'Recognize',
         detail:
-          'Recognized signs are converted into language output for a listener in a shared context.',
+          'Single signs, like the alphabet, are classified from the 21 hand landmarks; signs that move are read from 30 frames at a time by an LSTM.',
       },
       {
         step: '04',
-        title: 'Deploy',
+        title: 'Speak',
         detail:
-          'Deployment targets include mobile, web, and offline embedded configurations, each with its own constraints.',
+          'The recognized sign is shown as text and spoken, on a phone or on a small board running offline.',
       },
     ],
     measurements: [
-      {
-        label: 'Public Choice',
-        value: '1st prize',
-        context: 'National FYP Demo Day, 2025',
-      },
-      {
-        label: 'Development accuracy',
-        value: '95–97%',
-        context: 'on our own 300,000-image dataset',
-      },
-      { label: 'Speed', value: '~45 FPS', context: 'real time' },
-      {
-        label: 'Pilots',
-        value: '3',
-        context: 'two Beirut coffee shops and one church',
-      },
+      { label: 'Public Choice', value: '1st prize', context: 'National FYP Demo Day, LAU, May 2025' },
+      { label: 'Signs collected', value: '40,000+', context: 'across Lebanon, before augmentation' },
+      { label: 'Accuracy', value: '98%', context: 'internal evaluation, controlled conditions' },
+      { label: 'Runs on', value: 'Phones & boards', context: 'iPhone 13 Pro, Raspberry Pi 5, Jetson, DX Robotics' },
     ],
     limits: [
-      'The 95–97% accuracy was measured in development, on our own dataset.',
-      'The team’s project page counts 40,000 collected sign samples, while my count is a 300,000-image dataset. They measure different things, samples versus images, so the two are not added together.',
+      'The 98% is an internal evaluation under controlled conditions; real use varies with lighting, camera angle, and signing speed.',
+      'It recognizes the alphabet and a set of everyday words and expressions, not unrestricted continuous signing.',
     ],
     sources: [
       {
@@ -1467,12 +1495,25 @@ export const projects: ProjectRecord[] = [
         href: 'https://tayseerlaz.com/work/omnisign/',
         kind: 'article',
       },
+      {
+        label: 'RHU: OmniSign wins Public Choice at National FYP Demo Day 2025',
+        href: 'https://www.rhu.edu.lb/media-room/news/rhu-team-wins-public-choice-award-at-national-fyp-demo-day-2025',
+        kind: 'institution',
+      },
+      {
+        label: 'GitHub — dataset collector prototype',
+        href: 'https://github.com/laythayache/dataset-collector',
+        kind: 'repository',
+      },
     ],
     articleSlug: 'building-real-time-lebanese-sign-language-translation',
     topics: ['computer-vision', 'edge-ai', 'embedded-systems', 'applied-ai'],
     keywords: [
       'Lebanese Sign Language',
-      'gesture recognition',
+      'sign language recognition',
+      'MediaPipe',
+      'LSTM',
+      'Raspberry Pi 5',
       'edge deployment',
       'accessibility',
     ],
@@ -1487,7 +1528,7 @@ export const projects: ProjectRecord[] = [
       'A posture-estimation prototype that closes a physical loop with a motorized desk.',
     summary:
       'A prototype that combines computer vision, ESP32 control, motorized height and tilt, immediate LED feedback, and a dashboard for longer-term patterns.',
-    role: 'Team lead and software/robotics engineer on a senior graduation project with Bassam Kousa, Ali Daaboul, Mohamad Berjawi, and Mohamad Hariri at Rafik Hariri University.',
+    role: 'Team lead on a senior graduation project at Rafik Hariri University, supervised by Prof. Ahmad Kubeissi, with Bassam Kousa, Ali Daaboul, Mohamad Berjawi, and Mohamad Hariri; I worked on everything except the hardware design.',
     form: 'artifact',
     schemaType: 'CreativeWork',
     media: [
@@ -1510,8 +1551,8 @@ export const projects: ProjectRecord[] = [
       what: 'A prototype posture-aware desk that closes a physical loop between vision, control, and motion.',
       problem:
         'A posture model cannot be treated as an isolated prediction: camera placement, desk motion, false corrections, and mechanical limits all matter.',
-      how: 'A camera-based posture estimator informs an ESP32 controller with dead bands, mechanical limits, and slow transitions, driving motorized height and tilt while an LED and dashboard communicate state back to the user.',
-      role: 'I was team lead and the software/robotics engineer on our five-person senior graduation project, with Bassam Kousa, Ali Daaboul, Mohamad Berjawi, and Mohamad Hariri. Mohamad Berjawi and I made most of the commits.',
+      how: 'A camera-based posture model watches how you sit; ultrasonic and time-of-flight sensors measure the desk itself, so the motors can set its height and tilt safely, with feedback on a screen and a dashboard.',
+      role: 'I led our five-person senior graduation project, supervised by Prof. Ahmad Kubeissi at RHU, with Bassam Kousa, Ali Daaboul, Mohamad Berjawi, and Mohamad Hariri. I worked across everything except the hardware design: the posture model, the sensors, the control, and the software.',
     },
     stages: [
       {
@@ -1546,7 +1587,7 @@ export const projects: ProjectRecord[] = [
     ],
     limits: [
       'The repository also covers handwriting capture, a music player, and desk-to-desk messaging; this page sticks to the posture loop.',
-      'Formal test results are in the team’s project report, not in the repository.',
+      'It is a prototype: the posture model was tuned on our own team, not on a classroom of students.',
     ],
     sources: [
       {
@@ -1566,7 +1607,7 @@ export const projects: ProjectRecord[] = [
   },
   {
     slug: 'runway-inspection-uav',
-    state: 'ready',
+    state: 'hold',
     title: 'Jetson-powered runway-inspection UAV',
     metaTitle:
       'Runway-inspection UAV: onboard FOD detection, in simulation',
@@ -1659,7 +1700,7 @@ export const projects: ProjectRecord[] = [
       'A real-time facial-landmark and CNN pipeline on a Jetson Orin Nano, built as a support tool for children with autism, at about 92% development accuracy.',
     summary:
       'A real-time emotion-recognition pipeline I developed in 2022–2023 as a support tool for children with autism. It pairs facial landmarks with a convolutional neural network and runs on a Jetson Orin Nano. After I combined and cleaned image and video data from CALMED, Kaggle, and other sources, it reached about 92% development accuracy. The prototype and the concept were later acquired following a Gulf-region competition.',
-    role: 'I developed the pipeline and combined and cleaned its training data.',
+    role: 'Built with a small team and a mentor; I developed the pipeline and combined and cleaned its training data.',
     form: 'diagram',
     schemaType: 'CreativeWork',
     hero: {
@@ -1674,7 +1715,7 @@ export const projects: ProjectRecord[] = [
       problem:
         'A support tool that reads facial expressions has to work for the children it is meant for, which means learning from data that includes them, and it has to keep up in real time on a small device.',
       how: 'Facial landmarks and a convolutional neural network run together on a Jetson Orin Nano in real time. I trained the network on image and video data from CALMED, Kaggle, and other sources that I combined and cleaned, and it reached about 92% development accuracy.',
-      role: 'I developed the pipeline in 2022–2023 and prepared the data it learned from. The prototype and the concept were later acquired following a Gulf-region competition.',
+      role: 'I developed the pipeline in 2022–2023, in a small team with a mentor, and prepared the data it learned from, a collection of datasets around CALMED. The prototype and the concept were later acquired following a Gulf-region competition.',
     },
     stages: [
       {
@@ -2346,9 +2387,9 @@ export const projects: ProjectRecord[] = [
     metaTitle:
       'Bsheel: a real-world quest app with checked proof',
     metaDescription:
-      'Bsheel, co-founded with Razan Hasbini and Tayseer Laz, awards XP once quest proof is approved; Rami built its staged AI proof check, in shadow mode.',
+      'Bsheel, co-founded with Razan Hasbini and Tayseer Laz, awards XP once quest proof is approved; Rami built its staged AI proof check, live in production.',
     summary:
-      'Bsheel is a game you play in the real world. It hands you three random quests, you pick one, do it before its timer runs out, and post a photo or video as proof; XP lands once the proof is approved. I co-founded it with Razan Hasbini and Tayseer Laz. It is live on Google Play and at bsheel.app, and my largest piece of the code is the automated proof check that sits in front of the moderators.',
+      'Bsheel is a game you play in the real world. It hands you three random quests, you pick one, do it before its timer runs out, and post a photo or video as proof; XP lands once the proof is approved. I co-founded it with Razan Hasbini and Tayseer Laz. It is live on Google Play, the App Store, and bsheel.app, with more than 200 users, and my largest piece of the code is the automated proof check that sits in front of the moderators.',
     role: 'Co-founder, systems engineer, and product manager, with Razan Hasbini and Tayseer Laz.',
     form: 'diagram',
     schemaType: 'SoftwareSourceCode',
@@ -2400,12 +2441,17 @@ export const projects: ProjectRecord[] = [
     ],
     limits: [
       'Roughly a third of the quest catalogue cannot be proven by a photo at all: a picture of a book does not show you read twenty pages, and “spend an hour with no phone” is photographed by the phone. For those quests the check only judges whether the photo is authentic, and a person still decides.',
-      'The automated check runs in shadow mode by default. It records what it would have decided while a moderator makes the call, and it should act on its own only once its verdicts agree with enough real moderator decisions.',
+      'The automated check is live in production. It was built to run in shadow mode first, recording what it would have decided while a moderator made the call, and to act on its own only where its verdicts agree with real moderator decisions.',
       'Some partner analytics, like a quest card being shown, are reported by the phone and cannot be confirmed by the server, so the dashboard keeps them apart from completions the backend recorded itself.',
       'My part of the public repository is about thirty merged pull requests, most of them from September 2026. Much of the app is Tayseer’s and Razan’s work.',
     ],
     sources: [
       { label: 'bsheel.app', href: 'https://bsheel.app/', kind: 'demo' },
+      {
+        label: 'Bsheel on the App Store',
+        href: 'https://apps.apple.com/lb/app/bsheel/id6761139416',
+        kind: 'listing',
+      },
       {
         label: 'BSHEEL on Google Play',
         href: 'https://play.google.com/store/apps/details?id=com.questapp.mobile_app',
@@ -2981,62 +3027,117 @@ export const projects: ProjectRecord[] = [
     metaDescription:
       'The ROS 2 autonomy stack for a mine-detection rover with a 6-DoF arm, with 3D LiDAR SLAM, field-tested with dummy mines with the Lebanese Armed Forces.',
     summary:
-      'A Lebanese Army initiative, 2024–2025. I developed the ROS 2 autonomy stack for a mine-detection rover with a 6-DoF extraction arm: sensor drivers and calibration, vision and LiDAR perception, 3D LiDAR SLAM and sensor fusion, satellite-map georeferencing, path planning, autonomous mission execution, rover-base communications, and test tooling. I validated the integrated system with dummy mines during field tests conducted with the Lebanese Armed Forces in Mechref.',
-    role: 'Developed the ROS 2 autonomy stack: 3D LiDAR SLAM, fusion, planning, and mission execution, from sensor drivers to test tooling.',
-    form: 'diagram',
+      'A tracked rover with a 6-DoF arm, built at RHU in 2024–2025 to find landmines and clear its own path. I led all of its software: 2D and then 3D LiDAR SLAM, navigation with Nav2, detection and segmentation from a camera, and the arm’s kinematics. We built it in two phases, indoors first and then outdoors with GNSS, and tested it in Mechref with the Lebanese Armed Forces.',
+    role: 'Software lead: SLAM, navigation, detection, segmentation, and the arm’s kinematics, in ROS 2.',
+    form: 'artifact',
     schemaType: 'CreativeWork',
     hero: {
-      kind: 'diagram',
-      diagramId: 'demining-stack',
-      caption:
-        'The autonomy stack in ROS 2: sensing, perception, localization and fusion, planning, mission execution, and the link to the base.',
-      alt: 'Diagram of the ROS 2 autonomy stack: sensor drivers and calibration, vision and LiDAR perception, localization and sensor fusion with satellite-map georeferencing, path planning, autonomous mission execution, rover-base communications, the 6-DoF extraction arm, test tooling, and field tests with dummy mines.',
+      kind: 'image',
+      media: {
+        src: '/images/authority/landmine/detection-poster.jpg',
+        alt: 'The tracked rover with its 6-DoF arm facing a red cylinder, the stand-in target, in the indoor test arena.',
+      },
     },
+    videos: [
+      {
+        src: '/images/authority/landmine/detection.mp4',
+        poster: '/images/authority/landmine/detection-poster.jpg',
+        alt: 'The tracked rover drives toward a red cylinder on the arena floor while a laptop terminal prints distance readings, then STOP.',
+        caption: 'The rover finds a stand-in target and stops in front of it.',
+      },
+      {
+        src: '/images/authority/landmine/navigation.mp4',
+        poster: '/images/authority/landmine/navigation-poster.jpg',
+        alt: 'RViz shows a 2D occupancy map with a planned path; then the rover drives itself through a walled indoor arena.',
+        caption: 'Phase 1, indoors: a 2D map, a planned path, and the rover driving it on its own with Nav2.',
+      },
+      {
+        src: '/images/authority/landmine/arm.mp4',
+        poster: '/images/authority/landmine/arm-poster.jpg',
+        alt: 'The rover’s six-axis arm picks up a red cylinder and sets it down beside the robot.',
+        caption: 'The 6-DoF arm lifts an object out of the rover’s way.',
+      },
+    ],
+    media: [
+      {
+        src: '/images/authority/landmine/rviz-costmap.jpg',
+        alt: 'RViz with a 2D occupancy grid, an inflated obstacle costmap, the robot’s pose, and a navigation goal arrow.',
+        caption: 'The indoor map in RViz: occupancy grid, inflated costmap, and the goal the planner drives to.',
+      },
+    ],
     answer: {
-      what: 'A mine-detection rover with a 6-DoF extraction arm, from a Lebanese Army initiative in 2024–2025. I developed its ROS 2 autonomy stack.',
+      what: 'A tracked rover with a 6-DoF arm that maps its surroundings, navigates on its own, and detects landmines, built as an RHU project for a Lebanese Army initiative.',
       problem:
-        'A mine-detection rover has to sense its surroundings, know where it is, plan a path and carry out its mission on its own, while staying in contact with its base.',
-      how: 'The stack runs on ROS 2: sensor drivers and calibration, vision and LiDAR perception, 3D LiDAR SLAM and sensor fusion for localization, georeferencing against satellite maps, path planning, autonomous mission execution, and communications between the rover and its base, with test tooling around it.',
-      role: 'I developed the autonomy stack and validated the integrated system with dummy mines during field tests conducted with the Lebanese Armed Forces in Mechref.',
+        'Landmines and unexploded remnants still lie in parts of Lebanon, including near RHU’s campus in Mechref. Clearing them by hand is slow and dangerous; a robot has to know where it is, where it has searched, and what it is looking at, on rough ground and without a reliable map.',
+      how: 'Indoors, a 2D LiDAR, wheel encoders, and an IMU fuse into 2D SLAM, and Nav2 plans and drives. Outdoors, a 3D LiDAR and GNSS join the wheel odometry and IMU, with GNSS correcting the map globally so detected mines get real coordinates. A camera segments the scene and detects objects for navigation, and the 6-DoF arm moves obstacles out of the way and shows that a mine could be handled.',
+      role: 'I led all the software: the autonomy stack, navigation, SLAM, detection, segmentation, and the arm’s kinematics and inverse kinematics. It was an RHU project before I graduated, built with Wassim Ghaddar and the RHU Robotics and Technology Club team, guided by lab engineer Mohammad Al Kaderi, with field tests in Mechref alongside the Lebanese Armed Forces.',
     },
     stages: [
-      { step: '01', title: 'Sense', detail: 'Sensor drivers and calibration.' },
-      { step: '02', title: 'Perceive', detail: 'Vision and LiDAR perception.' },
+      {
+        step: '01',
+        title: 'Indoors, in 2D',
+        detail:
+          'A 2D LiDAR, wheel encoders, and an IMU, fused with LiDAR scan registration into 2D SLAM; Nav2 plans paths through the map and drives the rover. This was the prototype.',
+      },
+      {
+        step: '02',
+        title: 'Outdoors, in 3D',
+        detail:
+          'A 3D LiDAR and GNSS replace the indoor setup. SLAM fuses wheel odometry, the IMU, and GNSS, which corrects the map globally and gives each detected mine a position.',
+      },
       {
         step: '03',
-        title: 'Localize',
-        detail: '3D LiDAR SLAM and sensor fusion for localization, georeferenced against satellite maps.',
+        title: 'See',
+        detail:
+          'A camera runs segmentation and object detection, and its results feed the navigation; the LiDAR builds the 3D map.',
       },
       {
         step: '04',
-        title: 'Plan and execute',
-        detail: 'Path planning and autonomous mission execution.',
-      },
-      { step: '05', title: 'Connect', detail: 'Communications between the rover and its base.' },
-      {
-        step: '06',
-        title: 'Test',
+        title: 'Reach',
         detail:
-          'Test tooling, then field tests of the integrated system with dummy mines, conducted with the Lebanese Armed Forces in Mechref.',
+          'A 6-DoF arm, driven by kinematics and inverse kinematics I wrote, moves obstacles out of the path and shows that a mine could be handled.',
       },
+      {
+        step: '05',
+        title: 'Field test',
+        detail:
+          'Small tests in Mechref with the Lebanese Armed Forces, using dummy mines.',
+      },
+    ],
+    measurements: [
+      { label: 'Phases', value: '2', context: 'indoor 2D prototype, then outdoor 3D with GNSS' },
+      { label: 'Field tests', value: 'Mechref', context: 'with the Lebanese Armed Forces, dummy mines' },
+      { label: 'Recognition', value: 'DARE @ LAU', context: 'April 2024, the first universities robotics competition' },
     ],
     limits: [
-      'This was defense work, so this summary is as much as I can share: no hardware details, images, or test data.',
-      'The field tests used dummy mines.',
+      'The outdoor tests were small, early trials with dummy mines; there are no quantified outdoor results yet.',
+      'The arm is a proof of concept: it moves obstacles and shows how a mine could be handled, not a finished extraction tool.',
     ],
-    sources: [],
+    sources: [
+      {
+        label: 'RHU: the robotics club’s DARE result (2024)',
+        href: 'https://www.rhu.edu.lb/media-room/news/the-rhu-robotics-and-technology-club-celebrates-yet-another-victory',
+        kind: 'institution',
+      },
+      {
+        label: 'LAU: Advancing disaster management with robotics',
+        href: 'https://news.lau.edu.lb/2024/advancing-disaster-management-with-robotics.php',
+        kind: 'institution',
+      },
+    ],
     articleSlug: '',
-    topics: ['robotics-perception', 'embedded-systems'],
+    topics: ['robotics-perception', 'embedded-systems', 'computer-vision'],
     keywords: [
       'ROS 2',
-      'autonomy stack',
+      '3D LiDAR SLAM',
+      '2D SLAM',
+      'Nav2',
+      'GNSS',
+      'sensor fusion',
       'landmine detection',
       'demining robot',
-      '3D LiDAR SLAM',
-      'LiDAR',
-      'sensor fusion',
-      'path planning',
-      'georeferencing',
+      'semantic segmentation',
+      'inverse kinematics',
     ],
   },
   {
@@ -3048,8 +3149,8 @@ export const projects: ProjectRecord[] = [
     metaDescription:
       'MATLAB scripts that simulate a four-cylinder spark-ignition engine: slider-crank kinematics, a thermodynamic cycle, crank torque, a flywheel, and gear ratios.',
     summary:
-      'MATLAB scripts I wrote for an automotive course assignment at RHU in fall 2024. They simulate a four-stroke, four-cylinder spark-ignition engine at 2000 rpm over a full 720° cycle: the slider-crank kinematics, a single-zone thermodynamic cycle, the crank torque of one cylinder and of all four, a flywheel to smooth it, the engine’s performance figures, and the ratios of an eight-speed gearbox.',
-    role: 'Sole author, for a course assignment.',
+      'A MATLAB simulator I wrote as the main project of the Automotive Engineering course at RHU, in fall 2024. They simulate a four-stroke, four-cylinder spark-ignition engine at 2000 rpm over a full 720° cycle: the slider-crank kinematics, a single-zone thermodynamic cycle, the crank torque of one cylinder and of all four, a flywheel to smooth it, the engine’s performance figures, and the ratios of an eight-speed gearbox.',
+    role: 'Sole author, Automotive Engineering course project.',
     form: 'diagram',
     schemaType: 'SoftwareSourceCode',
     hero: {
@@ -3064,7 +3165,7 @@ export const projects: ProjectRecord[] = [
       problem:
         'An engine is one chain of dependencies: the crank geometry sets the cylinder volume, the volume sets the pressure, the pressure and the moving masses set the torque, and the torque decides the flywheel and the gearbox. Simulating it means following that chain end to end.',
       how: 'One file holds every parameter. A slider-crank solution gives piston motion and cylinder volume at each crank angle. A single-zone cycle with polytropic strokes, Wiebe combustion and orifice-flow gas exchange is iterated until its temperature converges. A linear force and moment solve gives the crank torque, four phase-shifted cylinders are summed, and the result sizes a flywheel and an eight-speed gearbox.',
-      role: 'I wrote the simulator, for an automotive course assignment at RHU in fall 2024.',
+      role: 'I wrote the whole simulator, as the main project of the Automotive Engineering course at RHU in fall 2024.',
     },
     stages: [
       {

@@ -315,7 +315,7 @@ void loop() {
       },
       {
         kind: 'p',
-        text: 'In July 2023 Wassim Ghaddar and I placed third in the Future Engineers category, with a car we had built from scratch in twenty days.',
+        text: 'In July 2023 Wassim Ghaddar and I placed second in the Future Engineers category of WRO Lebanon, with a car we had built from scratch in twenty days. I did the software, the integration, the sensors, and the control; Wassim designed the hardware; Mohamad Al Kaderi coached us.',
       },
       {
         kind: 'p',
@@ -380,7 +380,7 @@ void loop() {
       },
       {
         kind: 'p',
-        text: 'The deployment work moved inference to FP16 and INT8 and measured the whole system on NVIDIA Jetson AGX Orin: about 45 frames per second. A speed figure means little without the hardware that produced it, so I always give the two together.',
+        text: 'On my laptop’s RTX 3070 the model runs at about 130 frames per second at ×2 and 60 at ×4. The drone can’t carry a laptop, so the deployment work moved inference to FP16 and INT8 on the NVIDIA Jetson Orin it does carry, where it runs at 20–30 frames per second. A thermal camera delivers at most about 20 frames a second, so that is real time with room for a detector beside it. A speed figure means little without the hardware that produced it, so I always give the two together.',
       },
       {
         kind: 'p',
@@ -497,7 +497,7 @@ void loop() {
       },
       {
         kind: 'p',
-        text: 'The fine-crack tracing toolkit packages that work as an installable Python project with a command-line interface. It consumes raw frames and pre-segmented masks, extracts candidate crack points, orders them, optionally fits smoother curves, generates overlays, and exports metrics in CSV and JSON.',
+        text: 'I built the fine-crack tracing toolkit from scratch for real-time crack and damage extraction: not just a mask, but metric details you can measure. It is an installable Python project with a command-line interface. It consumes raw frames and pre-segmented masks, extracts candidate crack points, orders them, optionally fits smoother curves, generates overlays, and exports metrics in CSV and JSON.',
       },
       {
         kind: 'p',
@@ -523,13 +523,13 @@ void loop() {
     ],
     sources: [
       {
-        label: 'GitHub — fine-crack-detection',
-        href: 'https://github.com/Kronbii/fine-crack-detection',
+        label: 'GitHub — fine-crack-tracing',
+        href: 'https://github.com/Kronbii/fine-crack-tracing',
         kind: 'repository',
       },
       {
         label: 'Package README and CLI documentation',
-        href: 'https://github.com/Kronbii/fine-crack-detection#readme',
+        href: 'https://github.com/Kronbii/fine-crack-tracing#readme',
         kind: 'documentation',
       },
     ],
@@ -595,7 +595,7 @@ void loop() {
   },
   {
     slug: 'designing-election-information-for-verifiability',
-    state: 'ready',
+    state: 'hold',
     title: 'Designing election information for verifiability',
     metaTitle: 'Designing election information for verifiability',
     metaDescription:
@@ -893,30 +893,39 @@ void loop() {
   {
     slug: 'building-real-time-lebanese-sign-language-translation',
     state: 'ready',
-    title: 'Building real-time Lebanese Sign Language translation',
-    metaTitle: 'Building real-time Lebanese Sign Language translation',
-    metaDescription: 'OmniSign, a real-time Lebanese Sign Language translation system, and why the dataset was the hard part.',
+    title: 'Building real-time Lebanese Sign Language recognition',
+    metaTitle: 'Building real-time Lebanese Sign Language recognition',
+    metaDescription: 'OmniSign recognizes Lebanese Sign Language in real time on phones and small boards, and why collecting the data was the hard part.',
     dek: 'Lebanese Sign Language has a data problem before it has a model problem.',
     body: [
       {
         kind: 'p',
-        text: 'Lebanese Sign Language has a data problem before it has a model problem. General sign-language datasets do not automatically transfer to local vocabulary, signing patterns, or the communication settings in which a system will be used.',
+        text: 'Lebanese Sign Language has a data problem before it has a model problem. It has its own signs and its own regional variations, between Beirut, the Beqaa, and the South, and almost no recorded data. General sign-language datasets don’t carry over, so OmniSign had to start by building its own.',
+      },
+      { kind: 'h2', text: 'Collecting the data with the people who sign' },
+      {
+        kind: 'p',
+        text: 'We spent three months collecting across Lebanon with community partners: the deaf community at Sin El Fil Church, the Aaramoun Orphanage Center, the educator SignWithNaila, and booths at Rafik Hariri University. That gave us more than 40,000 signs before augmentation. We stored each one as landmarks rather than raw video, per signer and per sign, which keeps the data about the shape of the sign instead of the person’s face or the room.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/omnisign/omnisign-lsl-arabic-alphabet-dataset.webp',
+        alt: 'A grayscale grid of 28 hand signs photographed against a white wall, each labelled with its Arabic letter and name.',
+        caption: 'The Arabic alphabet in Lebanese Sign Language, one raw frame per letter, before augmentation.',
+      },
+      { kind: 'h2', text: 'From a camera frame to a word' },
+      {
+        kind: 'p',
+        text: 'I built the computer-vision pipeline. MediaPipe turns each frame into hand, pose, and face landmarks. Single signs, like the letters of the alphabet, are classified from the 21 hand landmarks; signs that unfold over time are read from a window of 30 frames by an LSTM. The result is shown as text and spoken aloud. On an internal evaluation under controlled conditions it reached 98%; in real use, lighting, camera angle, and signing speed all move that number, which is why the collection deliberately covered many signers and settings.',
+      },
+      { kind: 'h2', text: 'Small enough to carry' },
+      {
+        kind: 'p',
+        text: 'A translator only helps if it is there when the conversation happens. With Layth Ayache I built the embedded deployment, so the same models run on iOS and Android phones and offline on small boards: a Raspberry Pi 5, Jetson boards, and a DX Robotics board. I tested it on an iPhone 13 Pro and a Raspberry Pi 5, and the team tested the app in a clinic, at a café counter, and with a driver in his car.',
       },
       {
         kind: 'p',
-        text: 'OmniSign is a real-time translation system spanning camera input, visual recognition, language output, and deployment across mobile, web, and offline embedded environments. We built a 300,000-image dataset, reached 95–97% accuracy in development at roughly 45 frames per second, and piloted it in two Beirut coffee shops and one church.',
-      },
-      {
-        kind: 'p',
-        text: 'The team’s project page gives different numbers: 40,000 sign samples collected from 21 Lebanese sign-language schools, 50,000 after augmentation, and 80,000 landmark records. We collected the dataset ourselves, and the counts differ because they measure different things, samples versus images.',
-      },
-      {
-        kind: 'p',
-        text: 'The important engineering question is not only whether a classifier recognizes a held-out image. A usable translator must remain responsive across different signers, backgrounds, cameras, lighting, and signing speeds. Dataset balance and consent matter. So do uncertainty handling and the decision to ask for a repeated sign instead of producing a confident wrong translation.',
-      },
-      {
-        kind: 'p',
-        text: 'OmniSign was a team project. Layth Ayache led the AI and data work; Nour El Hariri, Tayseer Laz, and Abou Baker Hussien Al Khatib were on the team; Dr. Oussama Mustapha supervised; I was a co-founder and the computer vision engineer. The project won the Public Choice first prize at the 2025 National FYP Demo Day.',
+        text: 'OmniSign is a team project. I co-founded it with Layth Ayache, who leads the AI and ML work, Tayseer Laz, Abou Baker Hussien Al Khatib, and Nour El Hariri, with Dr. Oussama Mustapha at RHU as our research advisor. It won First Prize in the Public Choice category at the National FYP Demo Day 2025, at LAU. It recognizes the alphabet and more than 30 everyday words and expressions today; a wider vocabulary, starting with clinical terms, is next.',
       },
     ],
     sources: [
@@ -955,7 +964,7 @@ void loop() {
       },
       {
         kind: 'p',
-        text: 'The Smart Interactive Desk, codenamed BEMO, was our senior graduation project at Rafik Hariri University: Bassam Kousa, Ali Daaboul, Mohamad Berjawi, Mohamad Hariri, and me as team lead. It won Best Graduating Project from the RHU Engineering Jury. The code and a demo video are linked below.',
+        text: 'The Smart Interactive Desk, codenamed BEMO, was our senior graduation project at Rafik Hariri University, supervised by Prof. Ahmad Kubeissi: Bassam Kousa, Ali Daaboul, Mohamad Berjawi, Mohamad Hariri, and me as team lead. I worked on everything except the hardware design: the camera posture model, the sensors, the control, and the software. The ultrasonic and time-of-flight sensors measure the desk itself, so its height and tilt move safely. It won Best Graduating Project from the RHU Engineering Jury. The code and a demo video are linked below.',
       },
     ],
     sources: [
@@ -968,7 +977,7 @@ void loop() {
   },
   {
     slug: 'running-fod-detection-on-a-uav',
-    state: 'ready',
+    state: 'hold',
     title: 'Running FOD detection on a UAV',
     metaTitle: 'Running FOD detection on a UAV — YOLOv11 onboard a Jetson',
     metaDescription:
@@ -1095,14 +1104,14 @@ void loop() {
       },
       {
         kind: 'p',
-        text: 'The placements belong to the teams and the wider community. Mentoring created the conditions, not the results.',
+        text: 'The placements belong to the teams and the wider community. Mentoring created the conditions, not the results. I know the other side too: I competed as well, and our team won a Distinctive Team Award in 2021.',
       },
     ],
     sources: [
       { label: 'RHU — RHU team makes it to the final stages of NASA Space Apps (2022)', href: 'https://www.rhu.edu.lb/media-room/news/rhu-team-makes-it-to-the-final-stages-of-the-nasa-space-apps-annual-international-competition', kind: 'institution' },
     ],
     projectSlug: '',
-    topics: [],
+    topics: ['teaching-and-community'],
     keywords: ['NASA Space Apps', 'technical mentoring', 'hackathon'],
   },
   {
@@ -1115,7 +1124,7 @@ void loop() {
     body: [
       {
         kind: 'p',
-        text: 'NASNA (ناسنا) is a humanitarian coordination platform connecting displaced and war-affected people in Lebanon with NGOs, donors, and volunteers. I co-founded it in 2024, during the autumn displacement crisis, and worked on it through 2025 as AI engineer and developer alongside Mohammad Homsi (full-stack developer and tech lead), Abed El-Fattah Amouneh (product manager and frontend developer), and Lynn El Solh (multimedia designer). The platform is open source under AGPL-3.0 and live at nasna.world.',
+        text: 'NASNA (ناسنا) is a humanitarian coordination platform connecting displaced and war-affected people in Lebanon with NGOs, donors, and volunteers. I co-founded it in 2024, during the autumn displacement crisis, and ran it until 2026 as co-founder and operations lead, leading the crisis-response operations and volunteer matching, alongside Mohammad Homsi (full-stack developer and tech lead), Abed El-Fattah Amouneh (product manager and frontend developer), and Lynn El Solh (multimedia designer). The platform is open source under AGPL-3.0 and live at nasna.world.',
       },
       {
         kind: 'p',
@@ -1143,7 +1152,7 @@ void loop() {
       { label: 'nasna.world', href: 'https://nasna.world', kind: 'demo' },
     ],
     projectSlug: '',
-    topics: [],
+    topics: ['teaching-and-community'],
     keywords: ['crisis response', 'operations', 'privacy'],
   },
   {
@@ -1158,7 +1167,7 @@ void loop() {
     body: [
       {
         kind: 'p',
-        text: 'From 2021 to 2024 I was society lead of the Physics & Astronomy Club in Beirut. In that time I founded National Physics Day and led it across four universities. I expanded the club’s hands-on physics and astronomy activities with double-slit, electrical, and telescope experiments, and I developed demonstrations for the LAU presentations and Cosmic Dome outreach of Mohamad (Moe) Abbas, an astrophysics researcher at NYU Abu Dhabi.',
+        text: 'From 2021 to 2024 I was society lead of the Physics & Astronomy Club at Rafik Hariri University. In that time I founded National Physics Day and led it across four universities: the University of Balamand, LAU, AUB, and the Lebanese University. I expanded the club’s hands-on physics and astronomy activities with double-slit, electrical, and telescope experiments, and I developed demonstrations for the LAU presentations and Cosmic Dome outreach of Mohamad (Moe) Abbas, an astrophysics researcher at NYU Abu Dhabi.',
       },
       { kind: 'h2', text: 'Something to manipulate and question' },
       {
@@ -1178,7 +1187,7 @@ void loop() {
     ],
     sources: [],
     projectSlug: '',
-    topics: [],
+    topics: ['teaching-and-community'],
     keywords: [
       'physics outreach',
       'National Physics Day',
@@ -1271,7 +1280,7 @@ void loop() {
       { label: 'GitHub — Git_Github_Beginner_Workshop', href: 'https://github.com/Tarek-AL-Saleh/Git_Github_Beginner_Workshop', kind: 'repository' },
     ],
     projectSlug: '',
-    topics: [],
+    topics: ['teaching-and-community'],
     keywords: ['talks', 'DevFest', 'on-device AI', 'Git workshop', 'teaching'],
   },
   {
@@ -1329,17 +1338,17 @@ void loop() {
     state: 'ready',
     title: 'Why color science comes before the model',
     metaTitle: 'Why color science comes before the model',
-    metaDescription: 'Teaching a network a photographer’s edit depends on linear, calibrated, exact training pairs; most of the Imagen pipeline is the decode.',
-    dek: 'To teach a network a photographer’s edit, the training pairs must be linear, calibrated, and exact. Most of the work is in the decode.',
+    metaDescription: 'Teaching a network an edit depends on linear, calibrated, exact training pairs; most of the Imagen pipeline is the decode.',
+    dek: 'To teach a network an edit, the training pairs must be linear, calibrated, and exact. Most of the work is in the decode.',
     body: [
-      { kind: 'p', text: 'Professional real-estate photographers shoot every frame as a set: ambient brackets at −6, −3, 0, +3, and +6 EV, flash fills, and lights-on stacks, then blend and grade by hand. The Imagen pipeline captures that before-and-after relationship at scale so an HDRNet bilateral-grid network can learn one photographer’s style. It was a freelance engagement for a French real-estate agency.' },
+      { kind: 'p', text: 'I built Imagen for 3D reconstruction from 360° captures with phone and embedded cameras, where every frame has to come out with consistent, calibrated colour before any geometry is computed. Professional interior shoots are taken as sets: ambient brackets at −6, −3, 0, +3, and +6 EV, flash fills, and lights-on stacks, blended and graded by hand. The Imagen pipeline captures that before-and-after relationship at scale so an HDRNet bilateral-grid network can learn the edit.' },
       { kind: 'h2', text: 'Ingestion has to guess right' },
-      { kind: 'p', text: 'Sessions arrive as folders of RAW files and edited JPEGs with no labels. Ingestion groups brackets by timestamp, identifies the ambient sequence, flash fills, and lights-on stacks, and writes an index per listing so a run can resume after interruption.' },
+      { kind: 'p', text: 'Sessions arrive as folders of RAW files and edited JPEGs with no labels. Ingestion groups brackets by timestamp, identifies the ambient sequence, flash fills, and lights-on stacks, and writes an index per scene so a run can resume after interruption.' },
       { kind: 'h2', text: 'The DNG pipeline, in full' },
       { kind: 'p', text: 'Canon EOS R5 DNGs from recent converters use JPEG XL tiles that LibRaw cannot decode, so the pipeline falls back to tifffile and applies the DNG specification’s color pipeline itself: per-channel polynomial linearization from the opcode list, white balance and camera calibration, the forward matrix to XYZ D50, Bradford adaptation to D65, and finally linear sRGB. Lens distortion, chromatic aberration, and vignetting are corrected with lensfun profiles. The output is 16-bit linear PNG, scene-referred, with no gamma.' },
       { kind: 'h2', text: 'Targets must not be reinterpreted' },
-      { kind: 'p', text: 'The photographer’s JPEG is the ground truth. It is linearized so the artistic values are preserved exactly rather than re-graded by the pipeline. If the target drifts, the model learns the pipeline’s taste instead of the photographer’s.' },
-      { kind: 'p', text: 'Layth Ayache contributed training and delivery runs. The client’s imagery stays private. By the client’s count, editing throughput went from two or three photos a day for a team of three to about forty a day per team member. What I can show here is the mechanism: get the decode right, keep the target exact, and the model has something honest to learn.' },
+      { kind: 'p', text: 'The edited JPEG is the ground truth. It is linearized so its values are preserved exactly rather than re-graded by the pipeline. If the target drifts, the model learns the pipeline’s taste instead of the edit.' },
+      { kind: 'p', text: 'Layth Ayache contributed training and delivery runs. The lesson carries over to any reconstruction pipeline: get the decode right, keep the target exact, and the model has something honest to learn.' },
     ],
     sources: [],
     projectSlug: 'imagen-raw-to-edit-dataset-pipeline',
@@ -1397,7 +1406,7 @@ void loop() {
     metaDescription: 'An early Arduino project that hit targets with gravity-fed water bursts, and the lesson that the plant changes after every action.',
     dek: 'An early Arduino project that hit targets with gravity-fed water bursts, and taught that the plant changes after every action.',
     body: [
-      { kind: 'p', text: 'The water-shooting robot is one of my earliest mechatronics projects. It aims a nozzle with a servo, sets its height with a stepper-driven lead screw, and fires timed bursts through a solenoid valve at a table of predefined targets. There is no pump; the stream is gravity-fed from a bottle.' },
+      { kind: 'p', text: 'The water-shooting robot is one of my earliest mechatronics projects, built in 2023. It aims a nozzle with a servo, sets its height with a stepper-driven lead screw, and fires timed bursts through a solenoid valve at a table of predefined targets. There is no pump; the stream is gravity-fed from a bottle.' },
       { kind: 'p', text: 'That choice made the physics part of the control problem. The required nozzle height for a target depends on the water level, and the water level drops after every shot. The firmware estimates height from a simple ballistic relation and updates the modeled level with a Torricelli-style expression after each burst. Both are simplifications, and the README says so: empirical tuning is needed.' },
       { kind: 'p', text: 'The repository is organized as firmware, focused bring-up test sketches for each actuator, CAD, and documentation, with calibration steps for steps-per-millimetre and predicted-versus-actual height logged over serial. It is early work, kept public because the loop is complete and the assumptions are written down.' },
     ],
@@ -1420,12 +1429,12 @@ void loop() {
     body: [
       {
         kind: 'p',
-        text: 'Bsheel hands you three random real-world quests. You pick one, do it before its timer runs out, and post a photo or video as proof. The XP arrives only after the proof is approved. I co-founded it with Razan Hasbini and Tayseer Laz, and I work on it as systems engineer and product manager. It is live on Google Play and at bsheel.app.',
+        text: 'Bsheel hands you three random real-world quests. You pick one, do it before its timer runs out, and post a photo or video as proof. The XP arrives only after the proof is approved. I co-founded it with Razan Hasbini and Tayseer Laz, and I work on it as systems engineer and product manager. It is live on Google Play, the App Store, and bsheel.app, with more than 200 users.',
       },
       { kind: 'h2', text: 'From a hackathon app to a real backend' },
       {
         kind: 'p',
-        text: 'Bsheel started in March 2026 as a hackathon app built on Supabase. In September 2026 we rebuilt it on a self-hosted NestJS backend: Flutter clients for the app and the admin console, PostgreSQL as the source of truth, Redis and BullMQ for queues and locks, S3-compatible storage for proof media, and a worker built from the same codebase as the API. Every domain is layered the same way, from presentation down to infrastructure, and slow or cross-domain effects go through a transactional outbox to idempotent workers.',
+        text: 'Bsheel started in 2025 as a hackathon app built on Supabase. In September 2026 we rebuilt it on a self-hosted NestJS backend: Flutter clients for the app and the admin console, PostgreSQL as the source of truth, Redis and BullMQ for queues and locks, S3-compatible storage for proof media, and a worker built from the same codebase as the API. Every domain is layered the same way, from presentation down to infrastructure, and slow or cross-domain effects go through a transactional outbox to idempotent workers.',
       },
       { kind: 'h2', text: 'A quest counts when a person has seen the proof' },
       {
@@ -1452,7 +1461,7 @@ void loop() {
       { kind: 'h2', text: 'Shadow mode, and a number to earn' },
       {
         kind: 'p',
-        text: 'The pipeline runs in shadow mode by default: it records what it would have decided, and a person still decides. Moderators see the agent’s read beside the proof, including what it looked for and did not find, because “no sunrise in this frame” is usually the line that matters. To know whether it deserves to act, I built an evaluation that scores its verdicts against decisions moderators already made. It includes a backfill over submissions reviewed before the agent existed, so its verdict could not have influenced the decision it is scored against.',
+        text: 'The pipeline is live in production. It started in shadow mode, recording what it would have decided while a person still decided. Moderators see the agent’s read beside the proof, including what it looked for and did not find, because “no sunrise in this frame” is usually the line that matters. To know whether it deserves to act, I built an evaluation that scores its verdicts against decisions moderators already made. It includes a backfill over submissions reviewed before the agent existed, so its verdict could not have influenced the decision it is scored against.',
       },
       { kind: 'h2', text: 'Bugs you only find by leaving it running' },
       {
@@ -1790,7 +1799,7 @@ void loop() {
       },
     ],
     projectSlug: 'drone-control-bootcamp',
-    topics: ['control-systems', 'embedded-systems'],
+    topics: ['control-systems', 'embedded-systems', 'teaching-and-community'],
     heroMedia: {
       src: '/images/authority/drone-control-bootcamp/pid-rc.png',
       alt: 'Plot of capacitor voltage under P and PI control on an RC circuit, with the 2.5 V setpoint.',
@@ -2032,6 +2041,43 @@ void loop() {
     projectSlug: '',
     topics: ['applied-ai', 'civic-technology'],
     keywords: ['AI for social good', 'responsible AI', 'technology ethics', 'accessibility', 'OmniSign', 'Lebanese Sign Language'],
+  },
+  {
+    slug: 'mentoring-two-healthcare-teams-at-injaz',
+    state: 'ready',
+    title: 'Mentoring two healthcare teams at INJAZ',
+    metaTitle: 'Mentoring two healthcare teams at INJAZ Al-Arab',
+    metaDescription:
+      'How Rami Kronbi mentored two INJAZ Al-Arab Company Program teams from first idea to working prototype: a melanoma-detection device and an elderly-care system.',
+    dek: 'Two student teams, two healthcare products, and one job: get them from an idea to something that works in front of judges.',
+    body: [
+      {
+        kind: 'p',
+        text: 'In 2026 I was a technical mentor in the INJAZ Al-Arab Company Program, where student teams start a company around a product of their own. I mentored two healthcare teams from their first ideas through technical development to working prototypes, which they exhibited at the program. Both teams won awards: Best Community Impact and Best Healthcare Innovation.',
+      },
+      { kind: 'h2', text: 'Two products' },
+      {
+        kind: 'p',
+        text: 'One team built a melanoma-detection device. The other built an IoT-connected elderly-care system: a wearable bracelet, a pillbox, and a mobile app that work together to monitor health and well-being. Both are hardware, software, and a real person on the other end, which is exactly where a first prototype tends to break.',
+      },
+      { kind: 'h2', text: 'How I ran it' },
+      {
+        kind: 'p',
+        text: 'I organized the technical side as a path the teams could follow on their own between sessions: first the specifications and a first prototype, then a minimum viable product and its quality, then how to scale it and sell it. Each step had a question the team had to answer before moving on, and a working demonstration rather than a slide at the end of it.',
+      },
+      {
+        kind: 'p',
+        text: 'Mentoring here is closer to managing a small engineering team than to teaching. The work is in scoping: cutting a product down to what can be built and shown in the time there is, deciding what to buy and what to build, and keeping the hardware and the software converging instead of drifting apart. The teams did the building; my part was making sure what they built would work on the day.',
+      },
+      {
+        kind: 'p',
+        text: 'It is the same lesson as running technical mentoring at NASA Space Apps, with more time and higher stakes: structure beats answers. A team that knows what it is trying to prove can usually find its own way to prove it.',
+      },
+    ],
+    sources: [],
+    projectSlug: '',
+    topics: ['teaching-and-community'],
+    keywords: ['INJAZ Al-Arab', 'Company Program', 'technical mentoring', 'healthcare innovation', 'melanoma detection', 'IoT elderly care'],
   },
 ]
 

@@ -198,3 +198,34 @@
   font: inherit;
   white-space: pre;
 }
+
+/* a project's real footage, leading its page */
+[data-vneo] .vn-case-video {
+  margin: 0;
+  align-self: center;
+}
+[data-vneo] .vn-case-video video {
+  display: block;
+  width: 100%;
+  max-height: 72svh;
+  object-fit: contain;
+  border-radius: 26px;
+  background: #121614;
+  box-shadow: 0 0 0 1px var(--hair);
+}
+[data-vneo] .vn-case-video figcaption {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: var(--ink3);
+}
+[data-vneo] .v7-media video {
+  display: block;
+  width: 100%;
+  border-radius: 16px;
+  background: #121614;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-vneo] .vn-case-video video {
+    animation: none;
+  }
+}

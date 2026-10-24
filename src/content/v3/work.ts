@@ -47,7 +47,7 @@ export const plain: Record<string, PlainWork> = {
     kind: 'Robotics · demining',
     line: 'A mine-detection rover with a 6-DoF extraction arm, for a Lebanese Army initiative; I built its autonomy software.',
     proof: 'Field-tested with dummy mines, with the Lebanese Armed Forces',
-    part: 'Built its ROS 2 autonomy: 3D LiDAR SLAM, fusion, planning',
+    part: 'Software lead: 3D LiDAR SLAM, Nav2, detection, the arm',
     field: 'machines',
   },
   'runway-inspection-uav': {
@@ -67,7 +67,7 @@ export const plain: Record<string, PlainWork> = {
   'bsheel-quest-app': {
     kind: 'App · co-founder',
     line: 'A game you play in the real world: pick a quest, do it, prove it with a photo, earn XP once it is checked.',
-    proof: 'Live on Google Play',
+    proof: 'Live on Google Play and the App Store · 200+ users',
     part: 'Co-founder, with Razan Hasbini and Tayseer Laz; I built the proof checks',
     field: 'tools',
   },
@@ -81,8 +81,8 @@ export const plain: Record<string, PlainWork> = {
   'brainiacs-autonomous-race-car': {
     kind: 'Robotics · competition',
     line: 'A self-driving model car that reads the course’s traffic signs and steers itself, built from scratch in 20 days.',
-    proof: '3rd in Future Engineers · WRO Lebanon 2023',
-    part: 'Team of two, with Wassim Ghaddar',
+    proof: '2nd in Future Engineers · WRO Lebanon 2023',
+    part: 'All the software and control; Wassim Ghaddar on hardware',
     field: 'machines',
     image: {
       src: '/images/authority/race-car/front.jpeg',
@@ -93,8 +93,8 @@ export const plain: Record<string, PlainWork> = {
   'thermal-super-resolution': {
     kind: 'AI · thermal imaging',
     line: 'Makes low-resolution thermal camera images sharper, fast enough to run on the device beside the sensor.',
-    proof: '~45 FPS on an NVIDIA Jetson',
-    part: 'Computer vision engineer',
+    proof: '~130 FPS on a laptop GPU, 20–30 FPS on the drone’s Jetson',
+    part: 'Built solo, for drones and ground robots',
     field: 'vision',
     image: {
       src: '/images/authority/thermal-super-resolution/thermal-plate.webp',
@@ -105,7 +105,7 @@ export const plain: Record<string, PlainWork> = {
     kind: 'Robotics · product',
     line: 'A desk that sees how you sit and adjusts its own height and tilt, with instant light feedback and a dashboard of longer-term patterns.',
     proof: 'Best Graduating Project · RHU Engineering Jury',
-    part: 'Team lead in a team of five',
+    part: 'Team lead; all but the hardware design',
     field: 'machines',
     image: {
       src: '/images/authority/smart-desk/night-pic.jpeg',
@@ -164,8 +164,8 @@ export const plain: Record<string, PlainWork> = {
   'omnisign-lebanese-sign-language': {
     kind: 'AI · accessibility',
     line: 'Recognizes Lebanese Sign Language from a camera in real time, the alphabet and everyday words, and turns it into text on phones, the web, and offline devices.',
-    proof: 'Co-founder',
-    part: 'Computer vision engineer in a team of five',
+    proof: '1st prize, Public Choice · National FYP Demo Day 2025',
+    part: 'Co-founder; I built the computer-vision pipeline',
     field: 'vision',
   },
   'basira-retinal-screening': {
@@ -221,11 +221,11 @@ export const plain: Record<string, PlainWork> = {
     kind: 'Vision · inspection',
     line: 'Turns cracks already found in an image into ordered, measurable paths, with overlays and metrics.',
     proof: 'An installable Python package',
-    part: 'Maintainer',
+    part: 'Built from scratch',
     field: 'vision',
     image: {
       src: '/images/authority/fine-crack/test-frame.png',
-      alt: 'Test frame containing a thin crack across a rough surface, used as an input to the tracing toolkit.',
+      alt: 'A segmentation mask of a thin crack, the input the toolkit traces, used as an input to the tracing toolkit.',
     },
   },
   'lebanese-motorcycle-theory-trainer': {

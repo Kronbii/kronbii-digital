@@ -156,7 +156,7 @@ export type ShowItem = WorkItem & {
   size: TileSize
   /** Its place in the desktop grid (grid-template-areas in vneo.css). */
   area: string
-  image?: { src: string; position?: string; fit?: 'contain' }
+  image?: { src: string; position?: string; fit?: 'contain'; poster?: string }
   figure?: { from: string; fromNote: string; to: string; toNote: string }
   /** Opens outside the site (a project with no page here yet). */
   external?: boolean
@@ -178,13 +178,14 @@ export const showcase: ShowItem[] = [
     },
   },
   {
-    ...workItem(
-      'landmine-detection-extraction-robot',
-      { kind: 'own', id: 'demining' },
-      ''
-    ),
+    ...workItem('landmine-detection-extraction-robot', undefined, ''),
+    alt: 'The tracked rover with its 6-DoF arm drives toward a stand-in target in the test arena and stops in front of it.',
     size: 'big',
     area: 'mine',
+    image: {
+      src: '/images/authority/landmine/detection.mp4',
+      poster: '/images/authority/landmine/detection-poster.jpg',
+    },
   },
   {
     ...workItem(
@@ -204,15 +205,7 @@ export const showcase: ShowItem[] = [
     size: 'wide',
     area: 'race',
   },
-  {
-    ...workItem(
-      'daleel-lebanese-election-information',
-      { kind: 'scene', id: 'voters' },
-      'A fact, traced back to its source, with its history kept.'
-    ),
-    size: 'wide',
-    area: 'dal',
-  },
+
   {
     ...workItem(
       'thermal-super-resolution',
@@ -257,6 +250,15 @@ export const showcase: ShowItem[] = [
     ),
     size: 'tall',
     area: 'crk',
+  },
+  {
+    ...workItem('esp32-barn-door-star-tracker', undefined, ''),
+    size: 'wide',
+    area: 'star',
+    image: {
+      src: '/images/authority/esp32-barn-door-star-tracker/cad-render-square.png',
+      fit: 'contain',
+    },
   },
   {
     ...workItem('drone-control-bootcamp', undefined, ''),
@@ -322,10 +324,10 @@ export const community = {
   },
   mentoring: {
     label: 'Mentoring',
-    title: 'NASA Space Apps, Beirut',
-    years: ['2021', '2022', '2023', '2024'],
-    note: 'Lead technical organizer: bootcamps on NASA data, problem selection, and prototyping for its teams.',
-    href: writingHref('what-four-years-of-technical-mentoring-taught-me'),
+    title: 'INJAZ Al-Arab and NASA Space Apps',
+    years: ['2021', '2022', '2023', '2024', '2026'],
+    note: 'Technical mentor to two INJAZ healthcare teams, both awarded in 2026; lead technical organizer of NASA Space Apps Beirut, 2021–2024.',
+    href: writingHref('mentoring-two-healthcare-teams-at-injaz'),
   },
   read: 'Read more',
 }
@@ -360,7 +362,6 @@ const build = {
  * Vneo: only the turning points, so not the talk or the single upstream fix.
  */
 const LOG_SKIP = new Set([
-  'Co-founded Evoid',
   'Spoke at GDG DevFest Tripoli',
   'A fix merged into Betaflight',
 ])
@@ -383,15 +384,15 @@ const note = (slug: string) => {
 
 export const vneo = {
   meta: {
-    title: 'Rami Kronbi — Robotics, embedded, and systems engineer',
+    title: 'Rami Kronbi — Robotics, vision & embedded systems engineer',
     description:
-      'Rami Kronbi is a robotics, embedded, and systems engineer in Beirut who builds for people: election information for voters, crisis coordination for displaced families, second readings for clinics, and robots that steer themselves.',
+      'Rami Kronbi, robotics, vision & embedded systems engineer in Beirut: a mine-detection rover with 3D LiDAR SLAM, sign-language recognition, drones, and more.',
   },
   hero: {
     id: 'ID lock · engineer',
     first: 'Rami',
     last: 'Kronbi',
-    sub: 'Robotics, embedded & systems engineer',
+    sub: 'Robotics, vision & embedded systems engineer',
     where: siteConfig.location.replace(', ', ' · '),
     chips: [
       { label: 'Work', href: '#work' },
@@ -407,9 +408,9 @@ export const vneo = {
       href: siteConfig.employer.url,
     },
     {
-      big: '2×',
+      big: '4×',
       label: 'Co-founder',
-      note: 'NASNA · OmniSign',
+      note: 'NASNA · OmniSign · Bsheel · Evoid',
       href: `${HOME}#community`,
     },
     {

@@ -5,6 +5,7 @@ import { JsonLd } from '@/components/v2/json-ld'
 import { liveCrumbs, projectJsonLd } from '@/components/v2/schema'
 import { SceneFor } from '@/components/v7/chapter'
 import { Plate } from '@/components/v7/plate'
+import { AutoVideo } from '@/components/vneo/auto-video'
 import { DeminingScene } from '@/components/vneo/scenes/demining'
 import { getArticle } from '@/content/authority'
 import { projectImages, sourceKindLabel } from '@/content/v2/record'
@@ -145,7 +146,12 @@ export function Case({ slug }: { slug: string }) {
               ) : null}
             </p>
           </div>
-          {slug === 'landmine-detection-extraction-robot' ? (
+          {p.videos?.length ? (
+            <figure className="vn-case-video">
+              <AutoVideo src={p.videos[0].src} poster={p.videos[0].poster} alt={p.videos[0].alt} />
+              {p.videos[0].caption ? <figcaption>{p.videos[0].caption}</figcaption> : null}
+            </figure>
+          ) : slug === 'landmine-detection-extraction-robot' ? (
             <DeminingScene
               label={ownAlt.demining}
               replay="Play again"
@@ -227,12 +233,27 @@ export function Case({ slug }: { slug: string }) {
           </section>
         ) : null}
 
-        {images.length > 1 ? (
+        {images.length > 1 || (p.videos?.length ?? 0) > 1 ? (
           <section className="v7-case-sec" aria-labelledby="media-h">
             <h2 id="media-h" className="v7-case-h" data-lens="">
               {T.media}
             </h2>
             <div className="v7-media">
+              {(p.videos ?? []).slice(1).map((v) => (
+                <figure key={v.src}>
+                  <video
+                    src={v.src}
+                    poster={v.poster}
+                    aria-label={v.alt}
+                    controls
+                    muted
+                    loop
+                    playsInline
+                    preload="none"
+                  />
+                  {v.caption ? <figcaption>{v.caption}</figcaption> : null}
+                </figure>
+              ))}
               {images.slice(0, 6).map((m) => (
                 <figure key={m.src}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}

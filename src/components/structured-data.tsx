@@ -22,7 +22,7 @@ export function StructuredData() {
       email: siteConfig.email,
       jobTitle: 'Embedded Systems & Vision Engineer',
       description:
-        'Rami Kronbi is a robotics, embedded & systems engineer in Beirut, Lebanon. Since 2024 he has worked as Embedded Systems & Vision Engineer at Oreyeon, building real-time vision for airport runway safety on NVIDIA Jetson. He studied Mechatronics Engineering at Rafik Hariri University from 2021 to 2025 and graduated as class valedictorian. From 2021 to 2024 he led the technical organisation of NASA Space Apps Beirut. His work spans robotics, embedded control and computer vision, from an autonomous race car and a landmine detection and extraction robot to easyPID, an open-source PID library in the Arduino Library Manager, and OmniSign, real-time Lebanese Sign Language translation.',
+        'Rami Kronbi is a robotics, vision & embedded systems engineer in Beirut, Lebanon. Since 2024 he has worked as Embedded Systems & Vision Engineer at Oreyeon, building real-time vision for airport runway safety on NVIDIA Jetson. He studied Mechatronics Engineering at Rafik Hariri University from 2021 to 2025 and graduated as class valedictorian. From 2021 to 2024 he led the technical organisation of NASA Space Apps Beirut. His work spans robotics, embedded control and computer vision, from an autonomous race car and a landmine detection and extraction robot to easyPID, an open-source PID library in the Arduino Library Manager, and OmniSign, real-time Lebanese Sign Language translation.',
       image: {
         '@type': 'ImageObject',
         url: `${siteConfig.url}/images/vneo/rami-kronbi-1x1.jpg`,
@@ -69,6 +69,7 @@ export function StructuredData() {
         siteConfig.socials.linkedin,
         siteConfig.socials.medium,
         siteConfig.socials.devto,
+        siteConfig.socials.substack,
         siteConfig.socials.hashnode,
         siteConfig.socials.researchgate,
         siteConfig.socials.arduinolibraries,

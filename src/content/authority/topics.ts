@@ -114,6 +114,20 @@ export const topics: TopicRecord[] = [
     ],
   },
   {
+    slug: 'teaching-and-community',
+    title: 'Teaching and community',
+    metaTitle: 'Teaching and community — Rami Kronbi',
+    metaDescription:
+      'Where Rami Kronbi teaches, mentors and organizes: INJAZ, NASA Space Apps Beirut, NASNA, National Physics Day, talks and workshops.',
+    definition:
+      'Mentoring, teaching, and organizing: the work done with people rather than for them.',
+    questions: [
+      'Who has Rami Kronbi mentored?',
+      'Which communities and events has he organized?',
+      'Where has he spoken or taught?',
+    ],
+  },
+  {
     slug: 'local-first-software',
     title: 'Local-first software',
     metaTitle: 'Local-first software — Rami Kronbi',

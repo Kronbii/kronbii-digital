@@ -25,7 +25,7 @@ export const about: {
   title: 'About',
   description:
     'Rami Kronbi’s record beyond the projects: a mechatronics degree from RHU, embedded and vision engineering at Oreyeon, teaching and mentoring, community work, awards, and certificates.',
-  lede: 'I’m a robotics, embedded, and systems engineer in Beirut. This is the record behind the projects: where I studied, where I work, where I teach, and what came of it.',
+  lede: 'I’m a robotics, vision, and embedded systems engineer in Beirut. This is the record behind the projects: where I studied, where I work, where I teach, and what came of it.',
   sections: [
     {
       id: 'education',
@@ -60,14 +60,13 @@ export const about: {
         {
           when: '2025 – 2026',
           what: 'Freelance machine-learning and computer-vision developer',
-          note: 'Pipelines for clients, such as a RAW-to-edit photo dataset for a real-estate photography agency.',
-          href: writingHref('why-color-science-comes-before-the-model'),
+          note: 'Vision and machine-learning pipelines for clients.',
         },
         {
           when: '2024 – 2025',
           what: 'Landmine detection and extraction robot',
-          where: 'Lebanese Army initiative',
-          note: 'The ROS 2 autonomy stack for a mine-detection rover with a 6-DoF arm, field-tested with the Lebanese Armed Forces.',
+          where: 'RHU project, field-tested with the Lebanese Armed Forces',
+          note: 'I led all the software: 2D then 3D LiDAR SLAM, navigation, detection and segmentation, and the arm’s kinematics.',
           href: workHref('landmine-detection-extraction-robot', VN),
         },
       ],
@@ -79,6 +78,7 @@ export const about: {
         {
           when: '2026',
           what: 'Technical mentor, INJAZ Al-Arab Company Program',
+          href: writingHref('mentoring-two-healthcare-teams-at-injaz'),
           note: 'I mentored two healthcare teams from first idea to working prototype: a melanoma-detection device, and an elderly-care set of a wearable bracelet, a pillbox, and an app. Both teams won awards: Best Community Impact and Best Healthcare Innovation.',
         },
         {
@@ -107,31 +107,44 @@ export const about: {
       entries: [
         {
           when: '2021 – 2024',
-          what: 'Lead technical organizer, NASA Space Apps Beirut',
-          note: 'Technical bootcamps on NASA data and mentoring for 250–400 participants a year; teams I mentored reached the global top 10 six times.',
+          what: 'Lead technical organizer and participant, NASA Space Apps Beirut',
+          note: 'Technical bootcamps on NASA data and mentoring for 250–400 participants a year; teams I mentored reached the global top 10 six times. I competed too: our team won a Distinctive Team Award in 2021.',
           href: writingHref('what-four-years-of-technical-mentoring-taught-me'),
         },
         {
           when: '2024 – 2026',
-          what: 'Co-founder, NASNA',
-          note: 'A crisis-support platform connecting displaced and war-affected people with donors, NGOs, sponsors, and volunteers.',
+          what: 'Co-founder and operations lead, NASNA',
+          note: 'A crisis-support platform connecting displaced and war-affected people with donors, NGOs, sponsors, and volunteers; I led its crisis-response operations and volunteer matching.',
           href: writingHref('building-technology-around-crisis-response-operations'),
         },
         {
           when: '2025 – 2026',
           what: 'Co-founder, OmniSign',
-          note: 'Real-time Lebanese Sign Language translation.',
+          note: 'Real-time Lebanese Sign Language recognition, on phones and small devices.',
           href: workHref('omnisign-lebanese-sign-language', VN),
+        },
+        {
+          when: '2025 – now',
+          what: 'Co-founder, Bsheel',
+          note: 'A real-world quest app, live on Google Play and the App Store; I built its AI proof checks.',
+          href: workHref('bsheel-quest-app', VN),
+        },
+        {
+          when: '2023 – 2025',
+          what: 'Co-founder, Evoid',
+          note: 'A small applied computer-vision venture that built apps for clients.',
+          href: writingHref('what-a-small-vision-venture-taught-me-about-scope'),
         },
         {
           when: '2026',
           what: 'Space²',
-          note: 'An emerging innovation space and incubator in Lebanon that helps university students build practical projects and grow local ideas into products. I’m shaping its technology direction and project portfolio.',
+          note: 'An emerging innovation space and incubator in Lebanon that helps university students build practical projects and grow local ideas into products. We run it together with Al Ghad Lana.',
+          href: 'https://www.alghadlana.com',
         },
         {
           when: '2021 – 2024',
-          what: 'Society lead, Physics & Astronomy Club',
-          note: 'I founded and led National Physics Day across four universities.',
+          what: 'Society lead, RHU Physics & Astronomy Club',
+          note: 'I founded and led National Physics Day across four universities: UOB, LAU, AUB, and LU.',
           href: writingHref('turning-physics-outreach-into-a-multi-university-program'),
         },
       ],
@@ -159,16 +172,19 @@ export const about: {
         },
         {
           when: '2024',
-          what: 'Disaster Management and Response Engineering (DARE @ LAU), 2nd place',
+          what: 'Disaster Assistance and Response Engineering (DARE) at LAU',
+          note: 'For the landmine detection and extraction robot, with the RHU Robotics and Technology Club team.',
+          href: workHref('landmine-detection-extraction-robot', VN),
         },
         {
           when: '2024',
           what: 'CRDP honorary recognition',
+          note: 'From CRDP Lebanon, for my contributions to NASA Space Apps.',
         },
         {
           when: '2023',
           what: 'World Robot Olympiad, Future Engineers',
-          note: 'Third place with the Brainiacs, later re-ranked to second.',
+          note: 'Second place with the Brainiacs, Wassim Ghaddar and me.',
           href: workHref('brainiacs-autonomous-race-car', VN),
         },
         {
