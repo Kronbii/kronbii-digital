@@ -15,7 +15,6 @@ export const mediaSize: Record<string, [number, number]> = {
   '/images/authority/juno/insights.webp': [1600, 1022],
   '/images/authority/juno/phone-home.webp': [640, 1387],
   '/images/authority/juno/plan.webp': [1600, 1022],
-  '/images/authority/race-car/demo.webp': [1024, 1024],
   '/images/authority/race-car/front.jpeg': [1200, 1600],
   '/images/authority/race-car/schematic.png': [1169, 828],
   '/images/authority/race-car/team.jpeg': [1200, 1600],

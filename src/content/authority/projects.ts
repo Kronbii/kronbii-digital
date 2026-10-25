@@ -436,10 +436,10 @@ export const projects: ProjectRecord[] = [
     hero: {
       kind: 'image',
       media: {
-        src: '/images/authority/race-car/demo.webp',
-        alt: 'The Brainiacs vehicle running an obstacle-course lap during a WRO Future Engineers demonstration.',
+        src: '/images/authority/race-car/front.jpeg',
+        alt: 'Front view of the Brainiacs vehicle showing camera, chassis, and drive wheels.',
         caption:
-          'The vehicle in motion, demonstrating a full obstacle-avoidance lap.',
+          'The car we raced at WRO Future Engineers 2023: the camera above the drivetrain for the perception pipeline.',
       },
     },
     answer: {

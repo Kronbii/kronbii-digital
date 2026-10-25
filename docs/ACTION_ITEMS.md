@@ -14,8 +14,9 @@ What's left to do on the site and around it, from the 23–24 October 2026 audit
 - [ ] **Backlinks:** add a credit line linking to ramikronbi.com on the Evoid, Basira, NASNA and Bsheel sites.
 - [ ] **Tayseer's OmniSign page:** ask Tayseer to link your name to ramikronbi.com/projects/omnisign-lebanese-sign-language.
 - [ ] **Post the corrected OmniSign article on DEV and Medium:** the draft is in docs/crosspost/omnisign-corrected.md; you post it.
-- [ ] **Merge the thermal repo pull request:** github.com/Kronbii/thermal-super-resolution/pull/3, which brings the README to one set of figures.
+- [x] **Merge the thermal repo pull request:** github.com/Kronbii/thermal-super-resolution/pull/3, which brings the README to one set of figures.
 - [ ] **Google Search Console:** request indexing of the home page once this branch is live, so Google picks up the new favicon and image.
+- [ ] **Cross-posts point home:** on DEV and Hashnode set each post's canonical URL to its page on ramikronbi.com (Medium: Import or "originally published at"), and add a "Full write-up: <link>" line. This makes your site the original for search engines.
 - [ ] **Medium:** fix the display-name capitalisation in Settings ("Rami kronbi" → "Rami Kronbi").
 
 ### Add to the CV
