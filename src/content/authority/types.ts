@@ -1,4 +1,5 @@
-export type PublicationState = 'ready' | 'review'
+/** ready: public. review: a draft, local builds only. hold: kept in the record, never rendered. */
+export type PublicationState = 'ready' | 'review' | 'hold'
 
 export interface AuthorityMedia {
   src: string
@@ -7,6 +8,8 @@ export interface AuthorityMedia {
   credit?: string
   width?: number
   height?: number
+  /** On a project page: the title of the step it is shown under. */
+  step?: string
 }
 
 export interface AuthoritySource {
@@ -26,7 +29,27 @@ export interface ArticleHeading {
   text: string
 }
 
-export type ArticleBlock = ArticleParagraph | ArticleHeading
+/** A picture inside an article's body: a path under /images, its alt text, and an optional caption. */
+export interface ArticleFigure {
+  kind: 'figure'
+  src: string
+  alt: string
+  caption?: string
+}
+
+/**
+ * A paragraph's text may carry inline links as [label](/path) or
+ * [label](https://…); the reader renders them, and every other use
+ * (metadata, JSON-LD, RSS descriptions, counts) keeps the label alone.
+ */
+/** A short code listing, shown as written. */
+export interface ArticleCode {
+  kind: 'code'
+  lang: string
+  text: string
+}
+
+export type ArticleBlock = ArticleParagraph | ArticleHeading | ArticleFigure | ArticleCode
 
 export interface AuthorityBreadcrumb {
   label: string
@@ -70,6 +93,8 @@ export interface ProjectRecord {
   measurements?: ProjectMeasurement[]
   limits: string[]
   media?: AuthorityMedia[]
+  /** Real footage: the first leads the page, the rest join the media section. MP4, muted, with a poster frame. */
+  videos?: { src: string; poster: string; alt: string; caption?: string; step?: string }[]
   diagramIds?: string[]
   sources: AuthoritySource[]
   articleSlug: string

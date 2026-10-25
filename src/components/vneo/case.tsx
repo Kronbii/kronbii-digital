@@ -5,13 +5,17 @@ import { JsonLd } from '@/components/v2/json-ld'
 import { liveCrumbs, projectJsonLd } from '@/components/v2/schema'
 import { SceneFor } from '@/components/v7/chapter'
 import { Plate } from '@/components/v7/plate'
+import { AutoVideo } from '@/components/vneo/auto-video'
+import { DeminingScene } from '@/components/vneo/scenes/demining'
 import { getArticle } from '@/content/authority'
+import { mediaSize } from '@/content/v2/media-size'
 import { projectImages, sourceKindLabel } from '@/content/v2/record'
 import { workBySlug, works } from '@/content/v3/work'
 import {
   HOME,
   VN,
   chapterOf,
+  ownAlt,
   RACE_PHOTO,
   racePhoto,
   reel,
@@ -23,11 +27,13 @@ import { siteConfig } from '@/lib/site'
 import { BackButton } from './back'
 import { TopicLinks } from './topics'
 import { CaseShot } from './case-shot'
+import { HeroDiagram, hasDiagram } from './hero-diagram'
+import './figures.css'
 
 /*
  * A project in Vneo: who it is for and what it does, beside its picture in
  * motion (its chapter's scene, or its reel shot, or its own photograph
- * coming into focus); then the short answer and the steps for everyone; the
+ * coming into focus, or its architecture diagram); then the short answer and the steps for everyone; the
  * engineering folded under "For engineers" (v3's idea); its links, always
  * visible.
  */
@@ -55,6 +61,43 @@ const T = {
 /** Imagen's photographs belong to its client; that page shows none. */
 const PRIVATE_MEDIA = new Set(['imagen-raw-to-edit-dataset-pipeline'])
 
+/** A phone screen keeps its own shape, and a picture far from 4:3 is shown whole. */
+function tileFit(src: string): 'tall' | 'whole' | undefined {
+  const size = mediaSize[src]
+  if (!size) return undefined
+  const r = size[0] / size[1]
+  if (r < 0.8) return 'tall'
+  return Math.abs(r / (4 / 3) - 1) > 0.03 ? 'whole' : undefined
+}
+
+/** One picture or clip from the project, placed in the page where it belongs. */
+type Inline =
+  | { kind: 'image'; src: string; alt: string; caption?: string; step?: string }
+  | { kind: 'video'; src: string; poster: string; alt: string; caption?: string; step?: string }
+
+function InlineFigure({ m }: { m: Inline }) {
+  return (
+    <figure className="vn-inline-fig" data-fit={m.kind === 'image' ? tileFit(m.src) : undefined}>
+      {m.kind === 'video' ? (
+        <video
+          src={m.src}
+          poster={m.poster}
+          aria-label={m.alt}
+          controls
+          muted
+          loop
+          playsInline
+          preload="none"
+        />
+      ) : (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={m.src} alt={m.alt} loading="lazy" />
+      )}
+      {m.caption ? <figcaption>{m.caption}</figcaption> : null}
+    </figure>
+  )
+}
+
 export function Case({ slug }: { slug: string }) {
   const w = workBySlug(slug)
   if (!w) notFound()
@@ -72,6 +115,43 @@ export function Case({ slug }: { slug: string }) {
   const article = getArticle(p.articleSlug)
   const note =
     article && article.state === 'ready' ? writingHref(article.slug) : undefined
+  // the car's page opens on its own reel shot (the camera reading the course), not its chapter's scene
+  const ownShot = chapter?.id === 'machines' ? shot : undefined
+  const diagram =
+    p.hero.kind === 'diagram' && hasDiagram(p.hero.diagramId) ? p.hero : undefined
+  // what the header already shows is not repeated below it
+  const headShowsLead =
+    !p.videos?.length &&
+    slug !== 'landmine-detection-extraction-robot' &&
+    !ownShot &&
+    !chapter &&
+    !shot &&
+    !!lead
+  const posters = new Set((p.videos ?? []).map((v) => v.poster))
+  const inline: Inline[] = [
+    ...(p.videos ?? []).slice(1).map((v) => ({ kind: 'video' as const, ...v })),
+    ...images
+      .filter((m) => !posters.has(m.src) && !(headShowsLead && m.src === lead?.src))
+      .map((m) => ({ kind: 'image' as const, ...m })),
+  ]
+  // a piece that names its step goes under it; of the rest, one follows the short answer and
+  // the others spread over the steps still without a picture; any left over close the page
+  const inSteps = new Map<number, Inline[]>()
+  const put = (k: number, m: Inline) => inSteps.set(k, [...(inSteps.get(k) ?? []), m])
+  const loose: Inline[] = []
+  for (const m of inline) {
+    const k = m.step ? p.stages.findIndex((s) => s.title === m.step) : -1
+    if (k >= 0) put(k, m)
+    else loose.push(m)
+  }
+  const first = loose[0]
+  const rest = loose.slice(1)
+  const open = p.stages.map((_, k) => k).filter((k) => !inSteps.has(k))
+  const spread = Math.min(rest.length, open.length)
+  for (let j = 0; j < spread; j++) {
+    put(open[Math.floor(((j + 0.5) * open.length) / spread)], rest[j])
+  }
+  const leftover = rest.slice(spread)
   const src =
     p.sources.find((s) => s.kind === 'demo') ??
     p.sources.find((s) => s.kind === 'repository')
@@ -138,12 +218,31 @@ export function Case({ slug }: { slug: string }) {
               ) : null}
             </p>
           </div>
-          {chapter ? (
+          {p.videos?.length ? (
+            <figure className="vn-case-video">
+              <AutoVideo src={p.videos[0].src} poster={p.videos[0].poster} alt={p.videos[0].alt} />
+              {p.videos[0].caption ? <figcaption>{p.videos[0].caption}</figcaption> : null}
+            </figure>
+          ) : slug === 'landmine-detection-extraction-robot' ? (
+            <DeminingScene
+              label={ownAlt.demining}
+              replay="Play again"
+              note="Illustration"
+            />
+          ) : ownShot ? (
+            <CaseShot id={ownShot.id} label={ownShot.alt} />
+          ) : chapter ? (
             <SceneFor chapter={chapter} />
           ) : shot ? (
             <CaseShot id={shot.id} label={shot.alt} />
           ) : lead ? (
             <Plate src={lead.src} alt={lead.alt} />
+          ) : diagram ? (
+            <HeroDiagram
+              id={diagram.diagramId}
+              caption={diagram.caption}
+              alt={diagram.alt}
+            />
           ) : (
             <Plate text={p.title.split(' — ')[0]} />
           )}
@@ -168,6 +267,7 @@ export function Case({ slug }: { slug: string }) {
               </div>
             ))}
           </dl>
+          {first ? <InlineFigure m={first} /> : null}
         </section>
 
         <section className="v7-case-sec" aria-labelledby="steps-h">
@@ -181,6 +281,9 @@ export function Case({ slug }: { slug: string }) {
                 <div>
                   <h3>{s.title}</h3>
                   <p>{s.detail}</p>
+                  {(inSteps.get(i) ?? []).map((m) => (
+                    <InlineFigure key={m.src} m={m} />
+                  ))}
                 </div>
               </li>
             ))}
@@ -206,18 +309,14 @@ export function Case({ slug }: { slug: string }) {
           </section>
         ) : null}
 
-        {images.length > 1 ? (
+        {leftover.length ? (
           <section className="v7-case-sec" aria-labelledby="media-h">
             <h2 id="media-h" className="v7-case-h" data-lens="">
               {T.media}
             </h2>
             <div className="v7-media">
-              {images.slice(0, 6).map((m) => (
-                <figure key={m.src}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={m.src} alt={m.alt} loading="lazy" />
-                  {m.caption ? <figcaption>{m.caption}</figcaption> : null}
-                </figure>
+              {leftover.map((m) => (
+                <InlineFigure key={m.src} m={m} />
               ))}
             </div>
           </section>

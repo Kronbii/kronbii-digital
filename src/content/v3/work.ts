@@ -43,11 +43,46 @@ export interface PlainWork {
 }
 
 export const plain: Record<string, PlainWork> = {
+  'landmine-detection-extraction-robot': {
+    kind: 'Robotics · demining',
+    line: 'A mine-detection rover with a 6-DoF extraction arm, for a Lebanese Army initiative; I built its autonomy software.',
+    proof: 'Field-tested with dummy mines, with the Lebanese Armed Forces',
+    part: 'Software lead: 3D LiDAR SLAM, Nav2, detection, the arm',
+    field: 'machines',
+  },
+  'runway-inspection-uav': {
+    kind: 'Drones · vision',
+    line: 'A drone that looks for debris on a runway, with the detector running onboard; a simulation project.',
+    proof: '~30 FPS onboard a Jetson, 75–80% model accuracy',
+    part: 'My own project, ongoing',
+    field: 'machines',
+  },
+  'emotion-recognition-autism-support': {
+    kind: 'AI · support tool',
+    line: 'Reads facial expressions in real time on a small device, as a support tool for children with autism.',
+    proof: '~92% development accuracy; prototype later acquired',
+    part: 'Intern at VIBE: developed the pipeline and its data',
+    field: 'health',
+  },
+  'bsheel-quest-app': {
+    kind: 'App · co-founder',
+    line: 'A game you play in the real world: pick a quest, do it, prove it with a photo, earn XP once it is checked.',
+    proof: 'Live on Google Play and the App Store · 200+ users',
+    part: 'Co-founder, with Razan Hasbini and Tayseer Laz; I built the proof checks',
+    field: 'tools',
+  },
+  'ice-engine-simulator': {
+    kind: 'Simulation · automotive',
+    line: 'A MATLAB model of a four-cylinder engine, from the motion of its pistons to the gear ratios of the car it drives.',
+    proof: 'Public on GitHub · MATLAB',
+    part: 'Sole author · course assignment',
+    field: 'machines',
+  },
   'brainiacs-autonomous-race-car': {
     kind: 'Robotics · competition',
     line: 'A self-driving model car that reads the course’s traffic signs and steers itself, built from scratch in 20 days.',
-    proof: '3rd of 95+ teams · World Robot Olympiad 2023',
-    part: 'Team of two, with Wassim Ghaddar',
+    proof: '2nd in Future Engineers · WRO Lebanon 2023',
+    part: 'All the software and control; Wassim Ghaddar on hardware',
     field: 'machines',
     image: {
       src: '/images/authority/race-car/front.jpeg',
@@ -58,8 +93,8 @@ export const plain: Record<string, PlainWork> = {
   'thermal-super-resolution': {
     kind: 'AI · thermal imaging',
     line: 'Makes low-resolution thermal camera images sharper, fast enough to run on the device beside the sensor.',
-    proof: '~45 FPS on an NVIDIA Jetson',
-    part: 'Computer vision engineer',
+    proof: '~130 FPS on a laptop GPU, 20–30 FPS on the drone’s Jetson',
+    part: 'Built solo, for drones and ground robots',
     field: 'vision',
     image: {
       src: '/images/authority/thermal-super-resolution/thermal-plate.webp',
@@ -69,8 +104,8 @@ export const plain: Record<string, PlainWork> = {
   'posture-aware-classroom-desk': {
     kind: 'Robotics · product',
     line: 'A desk that sees how you sit and adjusts its own height and tilt, with instant light feedback and a dashboard of longer-term patterns.',
-    proof: 'Best Senior Project · team lead',
-    part: 'Team lead in a team of five',
+    proof: 'Best Graduating Project · RHU Engineering Jury',
+    part: 'Team lead; all but the hardware design',
     field: 'machines',
     image: {
       src: '/images/authority/smart-desk/night-pic.jpeg',
@@ -91,7 +126,7 @@ export const plain: Record<string, PlainWork> = {
   'daleel-lebanese-election-information': {
     kind: 'Civic tech',
     line: 'Lebanese election information you can trace back to its source, kept with its full history, in Arabic, English, and French.',
-    proof: 'Lead developer',
+    proof: 'Arabic, English, and French, every fact with its source',
     part: 'Lead developer, with Layth Ayache',
     field: 'civic',
     image: {
@@ -128,9 +163,9 @@ export const plain: Record<string, PlainWork> = {
   },
   'omnisign-lebanese-sign-language': {
     kind: 'AI · accessibility',
-    line: 'Translates Lebanese Sign Language in real time, on phones, on the web, and on offline devices.',
-    proof: 'Co-founder',
-    part: 'Computer vision engineer in a team of five',
+    line: 'Recognizes Lebanese Sign Language from a camera in real time, the alphabet and everyday words, and turns it into text on phones, the web, and offline devices.',
+    proof: '1st prize, Public Choice · National FYP Demo Day 2025',
+    part: 'Co-founder; I built the computer-vision pipeline',
     field: 'vision',
   },
   'basira-retinal-screening': {
@@ -149,7 +184,7 @@ export const plain: Record<string, PlainWork> = {
   },
   'pid-light-tracking-robot': {
     kind: 'Robotics',
-    line: 'A two-axis robot that turns to follow a light, steadied by the same control loop as the arrows on the home page.',
+    line: 'A two-axis robot that turns to follow a light, steadied by a PID control loop on each axis.',
     proof: 'Demonstration video',
     part: 'Led the software, with Wassim Ghaddar on hardware',
     field: 'machines',
@@ -186,11 +221,11 @@ export const plain: Record<string, PlainWork> = {
     kind: 'Vision · inspection',
     line: 'Turns cracks already found in an image into ordered, measurable paths, with overlays and metrics.',
     proof: 'An installable Python package',
-    part: 'Maintainer',
+    part: 'Built from scratch',
     field: 'vision',
     image: {
       src: '/images/authority/fine-crack/test-frame.png',
-      alt: 'Test frame containing a thin crack across a rough surface, used as an input to the tracing toolkit.',
+      alt: 'A segmentation mask of a thin crack, the input the toolkit traces, used as an input to the tracing toolkit.',
     },
   },
   'lebanese-motorcycle-theory-trainer': {
@@ -224,6 +259,50 @@ export const plain: Record<string, PlainWork> = {
       src: '/images/vneo/juno-home.jpg',
       alt: 'Juno’s home screen with demo data: the month’s spending, budgets, and accounts.',
       position: '0% 0%',
+    },
+  },
+  'quadrotor-rotor-fault-recovery': {
+    kind: 'Drones · control research',
+    line: 'Teaches a small quadrotor to notice a damaged or lost rotor within a fraction of a second and keep flying.',
+    proof: '200 of 200 simulated faults caught, median 30 ms',
+    part: 'Sole author',
+    field: 'machines',
+    image: {
+      src: '/images/authority/quadrotor-rotor-fault-recovery/plate.png',
+      alt: 'Plot of position error after one rotor stops in simulated hover: the nominal controller flips, the estimating pipeline recovers.',
+    },
+  },
+  'esp32-barn-door-star-tracker': {
+    kind: 'Embedded · astrophotography',
+    line: 'A 3D-printed camera mount that turns with the sky, so long night-sky photos stay sharp; designed, not yet built.',
+    proof: 'Designed, not built; the firmware cancels the barn-door tangent error',
+    part: 'Sole designer',
+    field: 'machines',
+    image: {
+      src: '/images/authority/esp32-barn-door-star-tracker/cad-render-square.png',
+      alt: 'CAD render of the tracker: two hinged boards, a lead-screw tower with a carriage, and an electronics box.',
+    },
+  },
+  'drone-control-bootcamp': {
+    kind: 'Teaching · control',
+    line: 'A seven-evening course that takes students from a simple circuit to a drone that survives losing a propeller; ready, not yet taught.',
+    proof: 'Designed, not yet taught',
+    part: 'Sole author',
+    field: 'machines',
+    image: {
+      src: '/images/authority/drone-control-bootcamp/plate.png',
+      alt: 'Plot of the seesaw rig’s beam angle under a single PID loop and a rate and angle cascade, with a tap at four seconds.',
+    },
+  },
+  'road-speed-audit': {
+    kind: 'Vision · road safety',
+    line: 'Measures how fast cars drive on one street from a single camera, and says how far each number can be trusted.',
+    proof: '95 % of speeds within 1 km/h, on simulated video',
+    part: 'Sole author',
+    field: 'civic',
+    image: {
+      src: '/images/authority/road-speed-audit/plate.png',
+      alt: 'A rendered street scene labelled “Simulated scene”, with tracked vehicles showing measured and true speeds.',
     },
   },
   'ree-personal-finance-tracker': {

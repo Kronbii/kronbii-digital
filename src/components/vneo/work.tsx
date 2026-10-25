@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
+import { AutoVideo } from '@/components/vneo/auto-video'
 import { FEATURED, showcase, vneo, VN } from '@/content/vneo/site'
 
 import { Motion, replayIn } from './motion'
@@ -149,9 +150,11 @@ export function Work() {
               aria-hidden="true"
               data-fit={
                 // every piece fills its tile, except the upstream graph, which needs its whole width,
-                // and a square explainer in a tall tile, which would lose its sides
+                // a square explainer in a tall tile, which would lose its sides, and a project's own scene,
+                // whose figure and stack sit at its edges
                 (item.motion?.kind === 'shot' && item.motion.id === 'ship') ||
-                (item.motion?.kind === 'scene' && item.size === 'tall')
+                (item.motion?.kind === 'scene' && item.size === 'tall') ||
+                item.motion?.kind === 'own'
                   ? 'full'
                   : 'crop'
               }
@@ -170,6 +173,12 @@ export function Work() {
                     <small>{item.figure.toNote}</small>
                   </span>
                 </div>
+              ) : item.image?.src.endsWith('.mp4') ? (
+                <AutoVideo
+                  src={item.image.src}
+                  poster={item.image.poster ?? ''}
+                  alt={item.alt}
+                />
               ) : item.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -205,6 +214,11 @@ export function Work() {
           </li>
         ))}
       </ul>
+      <p className="vn-work-all">
+        <Link className="vn-all-btn" href={`${VN}/projects`}>
+          {c.viewAll} <span>({c.total})</span> →
+        </Link>
+      </p>
 
       <dialog
         ref={theater}

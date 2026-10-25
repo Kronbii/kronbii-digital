@@ -7,7 +7,7 @@ export const articles: ArticleRecord[] = [
     title: 'Engineering a five-inch FPV drone from first principles',
     metaTitle: 'Engineering a five-inch FPV drone from first principles',
     metaDescription:
-      'How Rami Kronbi designed and built a 5-inch carbon-fiber FPV drone: propulsion and power sized from thrust, weight, and current, Betaflight tuned through GPS and return-to-home, and the link and GPS tested under jamming.',
+      'How Rami Kronbi built a 5-inch carbon-fiber FPV drone: sized from thrust, weight, and current, tuned in Betaflight through GPS and return-to-home.',
     dek: 'Building a five-inch FPV drone is an exercise in coupled constraints: every part you choose changes what the others have to do.',
     heroMedia: {
       src: '/images/authority/fpv-drone/build.jpg',
@@ -31,7 +31,7 @@ export const articles: ArticleRecord[] = [
       { kind: 'h2', text: 'The build' },
       {
         kind: 'p',
-        text: 'The components went together on a 5-inch carbon-fiber frame. The build photo on the project page catches it halfway: the frame and its four motors on an ESD mat, with the electronics, a battery, the radio transmitter, and a pair of calipers beside it.',
+        text: 'The components went together on a 5-inch carbon-fiber frame. The photo above catches it halfway: the frame and its four motors on an ESD mat, with the electronics, a battery, the radio transmitter, and a pair of calipers beside it.',
       },
       { kind: 'h2', text: 'Tuning in Betaflight' },
       {
@@ -57,7 +57,7 @@ export const articles: ArticleRecord[] = [
       },
       {
         kind: 'p',
-        text: 'A five-inch quad packs a lot of engineering into a small frame: the arithmetic of power and weight, a fast feedback controller, a radio link, and sensors that each fail in their own way. Betaflight is also where some of my open-source work lives; the small fixes I have contributed to its firmware are written up separately.',
+        text: 'A five-inch quad packs a lot of engineering into a small frame: the arithmetic of power and weight, a fast feedback controller, a radio link, and sensors that each fail in their own way. Betaflight is also where some of my open-source work lives; the small fixes I have contributed to its firmware are [written up separately](/writing/what-small-upstream-fixes-teach-about-firmware).',
       },
     ],
     sources: [
@@ -78,7 +78,7 @@ export const articles: ArticleRecord[] = [
     title: 'Building a 360° panorama stitcher from a phone sweep',
     metaTitle: 'Building a 360° panorama stitcher from a phone sweep',
     metaDescription:
-      'A phone video, a pure-rotation camera model, and a stubborn question about how much of a 360° reconstruction pipeline can be made explicit instead of hidden behind a stitching API.',
+      'A phone video, a pure-rotation camera model, and how much of a 360° stitching pipeline can be made explicit instead of hidden behind an API.',
     dek: 'A phone video, a pure-rotation camera model, and a stubborn question: how much of a 360° reconstruction pipeline can be made explicit instead of hidden behind a stitching API?',
     heroMedia: {
       src: '/images/authority/spherical-panorama/pano-on-band.jpg',
@@ -89,6 +89,12 @@ export const articles: ArticleRecord[] = [
       {
         kind: 'p',
         text: 'A panorama looks simple only after it works. Before that, it is a chain of small geometric errors. A few bad correspondences tilt the camera estimate. A fraction of a degree of pitch error accumulates into a staircase along a ceiling. A handheld step sideways introduces parallax that no homography can honestly explain.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/spherical-panorama/stage2-matches.jpg',
+        alt: 'Two adjacent frames from the phone video with ORB feature matches drawn between them.',
+        caption: 'ORB matches between two neighbouring frames, after Lowe’s ratio test and RANSAC.',
       },
       {
         kind: 'p',
@@ -113,6 +119,12 @@ export const articles: ArticleRecord[] = [
         text: 'On the sample run, independent pairwise estimates left only small pitch and roll errors. They were still enough to turn long architectural edges into a visible staircase. A moving average over the chained rotations reduced pitch wobble by 13.5× and roll wobble by 5.2× on that run.',
       },
       {
+        kind: 'figure',
+        src: '/images/authority/spherical-panorama/side-by-side.jpg',
+        alt: 'The same panorama without and with temporal smoothing: long horizontal edges step like a staircase before, and run straight after.',
+        caption: 'Before and after smoothing: the staircase on long edges, then the same edges straightened.',
+      },
+      {
         kind: 'p',
         text: 'That fix is deliberately modest. It does not replace global bundle adjustment or close the loop around a full sweep. It solves the instability that was actually visible while keeping the pipeline easy to inspect.',
       },
@@ -129,9 +141,24 @@ export const articles: ArticleRecord[] = [
         kind: 'p',
         text: 'The other limit is parallax. The model assumes the phone rotates around its optical center. Translate while sweeping past a nearby object and the scene no longer has a single homography. Blank walls and repeated textures also weaken matching. There is no bundle adjustment or exposure matching in the current version, so drift and brightness changes are still on the list.',
       },
+      { kind: 'h3', text: 'A second version: a gyro and bundle adjustment' },
       {
         kind: 'p',
-        text: 'The result is useful because it is inspectable. Every stage has a module, the run records its resolved configuration and intrinsics, more than 200 tests cover the pipeline, and the browser viewer makes the final geometry tangible. It is less a magic panorama button than a working map of the decisions behind one.',
+        text: 'The next version adds the two things the first one lacks. A gyro, integrated between frames, predicts each camera’s orientation. That prediction narrows where a feature can land in the next frame, so matching only searches a small window, and it tells the pipeline which frames a full turn apart should overlap, which is how loop closures are found without comparing every image with every other. Each matched pair is fitted with a rotation-only model, and bundle adjustment then solves every orientation and one shared focal length together, with a robust loss, starting from the gyro.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/spherical-panorama/v2-rotation-error.png',
+        alt: 'Log-scale plot of rotation error per frame against ground truth for gyro only, pairwise chaining and bundle adjustment on a simulated 73-frame sweep.',
+        caption: 'Rotation error per frame on a simulated sweep, against ground truth.',
+      },
+      {
+        kind: 'p',
+        text: 'So far it runs on simulated data: frames rendered from a known panorama as a camera turns 396°, and a 200 Hz gyro with bias, drift and noise. Against ground truth, the gyro alone ends 4.3° off and chaining pairs ends 2.1° off; bundle adjustment keeps the mean error at 0.04° and recovers a focal length that started 3.5% short to within 0.02%. Without the global solve, the rotation-only chain is worse than the first version’s, so bundle adjustment is what earns the improvement. A real capture still needs a synced sensor log and the camera-to-gyro alignment, and the simulation leaves out lens distortion, rolling shutter and parallax.',
+      },
+      {
+        kind: 'p',
+        text: 'The result is useful because it is inspectable. Every stage has a module, the run records its resolved configuration and intrinsics, 186 tests cover the pipeline, and the browser viewer makes the final geometry tangible. It is less a magic panorama button than a working map of the decisions behind one.',
       },
     ],
     sources: [
@@ -204,6 +231,35 @@ export const articles: ArticleRecord[] = [
         kind: 'p',
         text: 'easyPID is distributed through Arduino Library Manager as a contributed Device Control library and remains small enough for Uno-class AVR boards. Its main design lesson is broader than PID: reusable embedded code should expose timing, limits, state, and failure modes. The equation is the easy part. The contract around it is what makes it reusable.',
       },
+      {
+        kind: 'p',
+        text: 'In a sketch it is a constructor, a begin, and one update per sample. This is the library’s own BasicPID example, adapted to read a sensor on A0 and drive pin 9:',
+      },
+      {
+        kind: 'code',
+        lang: 'cpp',
+        text: `#include <easyPID.h>
+
+// Kp, Ki, Kd, and the output limits of a PWM pin
+PIDController pid(2.0, 0.5, 0.1, 0.0, 255.0);
+
+void setup() {
+  pid.begin();
+  pid.setAntiWindup(ANTIWINDUP_CLAMP);
+}
+
+void loop() {
+  float measurement = analogRead(A0) / 4.0;
+  float output = pid.update(100.0, measurement);  // setpoint, measurement
+  analogWrite(9, (int)output);
+  delay(100);  // a fixed 10 Hz loop
+}`,
+      },
+      { kind: 'h2', text: 'Releases' },
+      {
+        kind: 'p',
+        text: 'easyPID 1.0.0 went into the Arduino Library Manager on 15 January 2026, and 1.1.0 followed on 9 August 2026. The [tuning guide](https://github.com/Kronbii/easyPID/blob/main/docs/tuning_guide.md) covers choosing gains and the sample time, and the [two-axis light tracker](/projects/pid-light-tracking-robot) is the project it grew out of.',
+      },
     ],
     sources: [
       { label: 'GitHub — easyPID', href: 'https://github.com/Kronbii/easyPID', kind: 'repository' },
@@ -242,7 +298,13 @@ export const articles: ArticleRecord[] = [
       },
       {
         kind: 'p',
-        text: 'The Brainiacs vehicle was built for the 2023 World Robot Olympiad Future Engineers challenge. It had to read the track, react to traffic markers, avoid obstacles, and keep moving reliably. The practical answer was not one powerful computer doing everything. We divided the problem between a Jetson Nano and an Arduino Mega.',
+        text: 'The Brainiacs vehicle was built for the Future Engineers category of WRO Lebanon 2023, the national round of the World Robot Olympiad. It had to read the track, react to traffic markers, avoid obstacles, and keep moving reliably. The practical answer was not one powerful computer doing everything. We divided the problem between a Jetson Nano and an Arduino Mega.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/race-car/schematic.png',
+        alt: 'Wiring schematic of the car, July 2023: an Arduino Mega linked to the Jetson Nano, an Arduino Nano reading a TCS34725 color sensor, an MPU6050 IMU, the steering servo, and the drive motor through an L298N driver.',
+        caption: 'The final circuit: the Arduino Mega in the middle, talking to the Jetson Nano, the IMU, the color sensor, the steering servo, and the motor driver.',
       },
       {
         kind: 'p',
@@ -268,7 +330,7 @@ export const articles: ArticleRecord[] = [
       },
       {
         kind: 'p',
-        text: 'Rafik Hariri University reported that Wassim Ghaddar and I placed third in the Future Engineers category in July 2023, and noted that its teams built their robots from scratch in twenty days.',
+        text: 'In July 2023 Wassim Ghaddar and I placed second in the Future Engineers category of WRO Lebanon, with a car we had built from scratch in twenty days. I did the software, the integration, the sensors, and the control; Wassim designed the hardware; Mohamad Al Kaderi coached us.',
       },
       {
         kind: 'p',
@@ -288,7 +350,7 @@ export const articles: ArticleRecord[] = [
       },
     ],
     projectSlug: 'brainiacs-autonomous-race-car',
-    topics: ['robotics', 'embedded-systems', 'computer-vision', 'control-systems'],
+    topics: ['robotics-perception', 'embedded-systems', 'computer-vision', 'control-systems'],
     keywords: ['WRO Future Engineers', 'Jetson Nano', 'PID steering', 'MPU6050'],
   },
   {
@@ -301,8 +363,8 @@ export const articles: ArticleRecord[] = [
     dek: 'Upscaling a thermal frame is not the same problem as enlarging an RGB photograph, especially when the result must run beside the rest of a perception stack.',
     heroMedia: {
       src: '/images/authority/thermal-super-resolution/x3-showcase.webp',
-      alt: 'Side-by-side ×3 thermal super-resolution comparison from the project results directory.',
-      caption: '×3 thermal super-resolution — comparison from the results directory.',
+      alt: 'A low-resolution thermal frame beside its ×3 super-resolved output.',
+      caption: 'The low-resolution input beside the ×3 output.',
     },
     body: [
       {
@@ -333,7 +395,7 @@ export const articles: ArticleRecord[] = [
       },
       {
         kind: 'p',
-        text: 'The deployment work moved inference toward FP16 and INT8 execution and measured the system on NVIDIA Jetson hardware: about 45 frames per second on NVIDIA Jetson Orin after quantization. The repository’s own evaluation report has higher numbers from a desktop GPU, and I keep the two apart. A speed figure means little without the hardware and the benchmark that produced it.',
+        text: 'On my laptop’s RTX 3070 the model runs at about 130 frames per second at ×2 and 60 at ×4. The drone can’t carry a laptop, so the deployment work moved inference to FP16 and INT8 on the NVIDIA Jetson Orin it does carry, where it runs at 20–30 frames per second. A thermal camera delivers at most about 20 frames a second, so that is real time with room for a detector beside it. A speed figure means little without the hardware that produced it, so I always give the two together.',
       },
       {
         kind: 'p',
@@ -349,6 +411,26 @@ export const articles: ArticleRecord[] = [
         label: 'GitHub — thermal-super-resolution',
         href: 'https://github.com/Kronbii/thermal-super-resolution',
         kind: 'repository',
+      },
+      {
+        label: 'Also on Medium',
+        href: 'https://medium.com/@ramikronbi/seeing-in-the-dark-real-time-thermal-super-resolution-that-actually-runs-on-edge-devices-5d95b4bab7b2',
+        kind: 'article',
+      },
+      {
+        label: 'Also on DEV',
+        href: 'https://dev.to/ramikronbi/seeing-in-the-dark-real-time-thermal-super-resolution-that-actually-runs-on-edge-devices-3nc7',
+        kind: 'article',
+      },
+      {
+        label: 'Also on Hashnode',
+        href: 'https://ramis-blog.hashnode.dev/seeing-in-the-dark-real-time-thermal-super-resolution-that-actually-runs-on-edge-devices',
+        kind: 'article',
+      },
+      {
+        label: 'Also on Substack',
+        href: 'https://kronbii.substack.com/p/seeing-in-the-dark-real-time-thermal',
+        kind: 'article',
       },
     ],
     projectSlug: 'thermal-super-resolution',
@@ -407,7 +489,7 @@ export const articles: ArticleRecord[] = [
       },
     ],
     projectSlug: 'pid-light-tracking-robot',
-    topics: ['robotics', 'embedded-systems', 'control-systems'],
+    topics: ['robotics-perception', 'embedded-systems', 'control-systems'],
     keywords: ['PID tuning', 'sensor noise', 'servo saturation', 'settling'],
   },
   {
@@ -416,7 +498,7 @@ export const articles: ArticleRecord[] = [
     title: 'Turning segmented cracks into measurable paths',
     metaTitle: 'Turning segmented cracks into measurable paths',
     metaDescription:
-      'A segmentation mask says which pixels belong to a crack. Inspection work often needs the next layer: an ordered line, a trace, and measurements that can be compared.',
+      'A segmentation mask says which pixels belong to a crack. Inspection needs the next layer: an ordered line and measurements you can compare.',
     dek: 'A segmentation mask says which pixels belong to a crack. Inspection work often needs the next layer: an ordered line, a trace, and measurements that can be compared.',
     heroMedia: {
       src: '/images/authority/fine-crack/test-frame.png',
@@ -430,7 +512,7 @@ export const articles: ArticleRecord[] = [
       },
       {
         kind: 'p',
-        text: 'The fine-crack tracing toolkit packages that work as an installable Python project with a command-line interface. It consumes raw frames and pre-segmented masks, extracts candidate crack points, orders them, optionally fits smoother curves, generates overlays, and exports metrics in CSV and JSON.',
+        text: 'I built the fine-crack tracing toolkit from scratch for real-time crack and damage extraction: not just a mask, but metric details you can measure. It is an installable Python project with a command-line interface. It consumes raw frames and pre-segmented masks, extracts candidate crack points, orders them, optionally fits smoother curves, generates overlays, and exports metrics in CSV and JSON.',
       },
       {
         kind: 'p',
@@ -456,13 +538,13 @@ export const articles: ArticleRecord[] = [
     ],
     sources: [
       {
-        label: 'GitHub — fine-crack-detection',
-        href: 'https://github.com/Kronbii/fine-crack-detection',
+        label: 'GitHub — fine-crack-tracing',
+        href: 'https://github.com/Kronbii/fine-crack-tracing',
         kind: 'repository',
       },
       {
         label: 'Package README and CLI documentation',
-        href: 'https://github.com/Kronbii/fine-crack-detection#readme',
+        href: 'https://github.com/Kronbii/fine-crack-tracing#readme',
         kind: 'documentation',
       },
     ],
@@ -472,7 +554,7 @@ export const articles: ArticleRecord[] = [
   },
   {
     slug: 'extracting-medicine-names-from-multilingual-prescriptions',
-    state: 'ready',
+    state: 'hold',
     title: 'Extracting medicine names from multilingual prescriptions',
     metaTitle: 'Extracting medicine names from multilingual prescriptions',
     metaDescription:
@@ -528,7 +610,7 @@ export const articles: ArticleRecord[] = [
   },
   {
     slug: 'designing-election-information-for-verifiability',
-    state: 'ready',
+    state: 'hold',
     title: 'Designing election information for verifiability',
     metaTitle: 'Designing election information for verifiability',
     metaDescription:
@@ -542,11 +624,11 @@ export const articles: ArticleRecord[] = [
     body: [
       {
         kind: 'p',
-        text: 'Daleel—Arabic for “guide”—is a Lebanese parliamentary-election information project built around a simple principle: political information should be inspectable. A candidate profile or district record is more useful when a reader can see where it came from and when it changed.',
+        text: 'Daleel—Arabic for “guide”—is a Lebanese parliamentary-election information project built around a simple principle: political information should be inspectable. I led its development; Layth Ayache worked on the frontend and built a separate backend that ingests content. A candidate profile or district record is more useful when a reader can see where it came from and when it changed.',
       },
       {
         kind: 'p',
-        text: 'That requirement changes the architecture. An ordinary content system optimizes for the current value. Daleel’s design treats history and sources as first-class data. Its public repository describes archived sources, append-only records, and immutable data models intended to preserve a verifiable trail.',
+        text: 'That requirement changes the architecture. An ordinary content system optimizes for the current value. Daleel’s design treats history and sources as first-class data. I built it around archived sources, append-only records, and immutable data models intended to preserve a verifiable trail.',
       },
       { kind: 'h3', text: 'Neutrality needs mechanisms' },
       {
@@ -559,7 +641,7 @@ export const articles: ArticleRecord[] = [
       },
       {
         kind: 'p',
-        text: 'The documented stack pairs a Next.js frontend with an Express backend and Prisma/PostgreSQL. Authentication, CSRF protection, rate limiting, and immutable models support the public information layer. The security work matters for the same reason: a single unauthorized change would undermine the central promise.',
+        text: 'The stack pairs a Next.js frontend with an Express backend and Prisma/PostgreSQL. Authentication, CSRF protection, rate limiting, and immutable models support the public information layer. The security work matters for the same reason: a single unauthorized change would undermine the central promise.',
       },
       { kind: 'h3', text: 'What Daleel is not' },
       {
@@ -579,7 +661,7 @@ export const articles: ArticleRecord[] = [
       { label: 'GitHub — daleel', href: 'https://github.com/Kronbii/daleel', kind: 'repository' },
       {
         label: 'TECHNICAL.md',
-        href: 'https://github.com/Kronbii/daleel/blob/main/TECHNICAL.md',
+        href: 'https://github.com/Kronbii/daleel/blob/main/docs/technical.md',
         kind: 'documentation',
       },
     ],
@@ -589,7 +671,7 @@ export const articles: ArticleRecord[] = [
   },
   {
     slug: 'building-an-adaptive-motorcycle-theory-trainer-for-lebanon',
-    state: 'ready',
+    state: 'hold',
     title: 'Building an adaptive motorcycle theory trainer for Lebanon',
     metaTitle: 'Building an adaptive motorcycle theory trainer for Lebanon',
     metaDescription:
@@ -641,7 +723,7 @@ export const articles: ArticleRecord[] = [
   },
   {
     slug: 'building-a-local-first-ai-support-triage-council',
-    state: 'ready',
+    state: 'hold',
     title: 'Building a local-first AI support triage council',
     metaTitle: 'Building a local-first AI support triage council',
     metaDescription:
@@ -697,7 +779,7 @@ export const articles: ArticleRecord[] = [
   },
   {
     slug: 'designing-an-offline-first-personal-finance-desktop-app',
-    state: 'ready',
+    state: 'hold',
     title: 'Designing an offline-first personal finance desktop app',
     metaTitle: 'Designing an offline-first personal finance desktop app',
     metaDescription:
@@ -758,7 +840,7 @@ export const articles: ArticleRecord[] = [
   },
   {
     slug: 'rebuilding-my-finance-app-around-local-first-sync',
-    state: 'ready',
+    state: 'hold',
     title: 'Rebuilding my finance app around local-first sync',
     metaTitle: 'Rebuilding my finance app around local-first sync',
     metaDescription:
@@ -826,35 +908,54 @@ export const articles: ArticleRecord[] = [
   {
     slug: 'building-real-time-lebanese-sign-language-translation',
     state: 'ready',
-    title: 'Building real-time Lebanese Sign Language translation',
-    metaTitle: 'Building real-time Lebanese Sign Language translation',
-    metaDescription: 'OmniSign, a real-time Lebanese Sign Language translation system, and why the dataset was the hard part.',
+    title: 'Building real-time Lebanese Sign Language recognition',
+    metaTitle: 'Building real-time Lebanese Sign Language recognition',
+    metaDescription: 'OmniSign recognizes Lebanese Sign Language in real time on phones and small boards, and why collecting the data was the hard part.',
     dek: 'Lebanese Sign Language has a data problem before it has a model problem.',
     body: [
       {
         kind: 'p',
-        text: 'Lebanese Sign Language has a data problem before it has a model problem. General sign-language datasets do not automatically transfer to local vocabulary, signing patterns, or the communication settings in which a system will be used.',
+        text: 'Lebanese Sign Language has a data problem before it has a model problem. It has its own signs and its own regional variations, between Beirut, the Beqaa, and the South, and almost no recorded data. General sign-language datasets don’t carry over, so OmniSign had to start by building its own.',
+      },
+      { kind: 'h2', text: 'Collecting the data with the people who sign' },
+      {
+        kind: 'p',
+        text: 'We spent three months collecting across Lebanon with community partners: the deaf community at Sin El Fil Church, the Aaramoun Orphanage Center, the educator SignWithNaila, and booths at Rafik Hariri University. That gave us more than 40,000 signs before augmentation. We stored each one as landmarks rather than raw video, per signer and per sign, which keeps the data about the shape of the sign instead of the person’s face or the room.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/omnisign/omnisign-lsl-arabic-alphabet-dataset.webp',
+        alt: 'A grayscale grid of 28 hand signs photographed against a white wall, each labelled with its Arabic letter and name.',
+        caption: 'The Arabic alphabet in Lebanese Sign Language, one raw frame per letter, before augmentation.',
+      },
+      { kind: 'h2', text: 'From a camera frame to a word' },
+      {
+        kind: 'p',
+        text: 'I built the computer-vision pipeline. MediaPipe turns each frame into hand, pose, and face landmarks. Single signs, like the letters of the alphabet, are classified from the 21 hand landmarks; signs that unfold over time are read from a window of 30 frames by an LSTM. The result is shown as text and spoken aloud. On an internal evaluation under controlled conditions it reached 98%; in real use, lighting, camera angle, and signing speed all move that number, which is why the collection deliberately covered many signers and settings.',
+      },
+      { kind: 'h2', text: 'Small enough to carry' },
+      {
+        kind: 'p',
+        text: 'A translator only helps if it is there when the conversation happens. With Layth Ayache I built the embedded deployment, so the same models run on iOS and Android phones and offline on small boards: a Raspberry Pi 5, Jetson boards, and a DX Robotics board. I tested it on an iPhone 13 Pro and a Raspberry Pi 5, and the team tested the app in a clinic, at a café counter, and with a driver in his car.',
       },
       {
         kind: 'p',
-        text: 'OmniSign is a real-time translation system spanning camera input, visual recognition, language output, and deployment across mobile, web, and offline embedded environments. We built a 300,000-image dataset, reached 95–97% accuracy in development at roughly 45 frames per second, and piloted it in two Beirut coffee shops and one church.',
-      },
-      {
-        kind: 'p',
-        text: 'The team’s project page gives different numbers: 40,000 sign samples collected from 21 Lebanese sign-language schools, 50,000 after augmentation, and 80,000 landmark records. We collected the dataset ourselves, and the counts differ because they measure different things, samples versus images.',
-      },
-      {
-        kind: 'p',
-        text: 'The important engineering question is not only whether a classifier recognizes a held-out image. A usable translator must remain responsive across different signers, backgrounds, cameras, lighting, and signing speeds. Dataset balance and consent matter. So do uncertainty handling and the decision to ask for a repeated sign instead of producing a confident wrong translation.',
-      },
-      {
-        kind: 'p',
-        text: 'OmniSign was a team project. Layth Ayache led the AI and data work; Nour El Hariri, Tayseer Laz, and Abou Baker Hussien Al Khatib were on the team; Dr. Oussama Mustapha supervised; I was a co-founder and the computer vision engineer. The project won the Public Choice first prize at the 2025 National FYP Demo Day.',
+        text: 'OmniSign is a team project. I co-founded it with Layth Ayache, who leads the AI and ML work, Tayseer Laz, Abou Baker Hussien Al Khatib, and Nour El Hariri, with Dr. Oussama Mustapha at RHU as our research advisor. It won First Prize in the Public Choice category at the National FYP Demo Day 2025, at LAU. It recognizes the alphabet and more than 30 everyday words and expressions today; a wider vocabulary, starting with clinical terms, is next.',
       },
     ],
     sources: [
       { label: 'Team project page — Layth Ayache', href: 'https://laythayache.com/projects/omnisign', kind: 'article' },
       { label: 'Team project page — Tayseer Laz', href: 'https://tayseerlaz.com/work/omnisign/', kind: 'article' },
+      {
+        label: 'Also on Medium',
+        href: 'https://medium.com/@ramikronbi/we-built-sign-language-ai-for-a-language-with-almost-no-dataset-c4a60df1cf96',
+        kind: 'article',
+      },
+      {
+        label: 'Also on DEV',
+        href: 'https://dev.to/ramikronbi/we-built-sign-language-ai-for-a-language-with-almost-no-dataset-heres-what-that-actually-looks-kem',
+        kind: 'article',
+      },
     ],
     projectSlug: 'omnisign-lebanese-sign-language',
     topics: ['computer-vision', 'edge-ai', 'embedded-systems'],
@@ -878,7 +979,7 @@ export const articles: ArticleRecord[] = [
       },
       {
         kind: 'p',
-        text: 'The Smart Interactive Desk, codenamed BEMO, was our senior graduation project at Rafik Hariri University: Bassam Kousa, Ali Daaboul, Mohamad Berjawi, Mohamad Hariri, and me as team lead. It won the Best Senior Project award. The code and a demo video are linked below; the team’s formal report and test results live outside the repository.',
+        text: 'The Smart Interactive Desk, codenamed BEMO, was our senior graduation project at Rafik Hariri University, supervised by Prof. Ahmad Kubeissi: Bassam Kousa, Ali Daaboul, Mohamad Berjawi, Mohamad Hariri, and me as team lead. I worked on everything except the hardware design: the camera posture model, the sensors, the control, and the software. The ultrasonic and time-of-flight sensors measure the desk itself, so its height and tilt move safely. It won Best Graduating Project from the RHU Engineering Jury. The code and a demo video are linked below.',
       },
     ],
     sources: [
@@ -890,56 +991,115 @@ export const articles: ArticleRecord[] = [
     keywords: ['posture estimation', 'ESP32', 'motorized desk'],
   },
   {
-    slug: 'running-fod-detection-on-a-raspberry-pi-uav',
-    state: 'review',
-    title: 'Running FOD detection on a Raspberry Pi UAV',
-    metaTitle: 'Running FOD detection on a Raspberry Pi UAV (editorial review)',
-    metaDescription: 'Editorial review draft. Not indexable.',
-    dek: 'A Raspberry Pi 5B UAV prototype runs a lightweight FOD detector at the edge.',
+    slug: 'running-fod-detection-on-a-uav',
+    state: 'hold',
+    title: 'Running FOD detection on a UAV',
+    metaTitle: 'Running FOD detection on a UAV — YOLOv11 onboard a Jetson',
+    metaDescription:
+      'Running a lightweight YOLOv11 debris detector onboard a Jetson at about 30 FPS in a simulated runway-inspection UAV, and filtering its false positives.',
+    dek: 'Looking for debris on a runway from a drone means finding small things on a big surface, from a camera that never stops moving, with only the compute the drone can carry.',
     body: [
       {
         kind: 'p',
-        text: 'Runway foreign-object-debris inspection is a useful edge-AI problem because the system has to see small hazards while moving, under tight compute and power limits. The canonical project record describes a Raspberry Pi 5B UAV prototype running a lightweight YOLOv11 detector at approximately 45 frames per second, trained with online and synthetic data and tested in parking-lot environments used to simulate runway conditions.',
+        text: 'Foreign object debris, or FOD, is anything loose on a runway that shouldn’t be there. This is my own simulation project, ongoing since 2026: a runway-inspection UAV that runs a lightweight FOD detector onboard, on a Jetson, at about 30 frames per second.',
       },
+      { kind: 'h2', text: 'Why onboard' },
       {
         kind: 'p',
-        text: 'The project joins airframe constraints, onboard inference, camera motion, false-positive filtering, and flight testing. A detector that works on static images can fail when the vehicle vibrates, changes altitude, or sees repeated pavement texture. Similarity matching and explicit false-positive handling were included to make the flight behavior more useful than a raw stream of boxes.',
+        text: 'Running the detector on the drone keeps the whole chain on the aircraft: the camera, the model, and the filtering that decides what counts as a find. The price is that the model has to be small enough to keep up on the compute a drone can carry. That is why it is a lightweight YOLOv11 detector, and about 30 frames per second is what it runs at onboard.',
       },
+      { kind: 'h2', text: 'The data' },
       {
         kind: 'p',
-        text: 'Before publication, the repository, exact model variant and input size, data rights, evaluation split, meaning of the reported 75–80% accuracy, flight-test ownership, and separation from employer work need confirmation.',
+        text: 'I trained the detector on online and synthetically generated data, and it reached 75–80% model accuracy. Images of debris lying on runways are not easy to find in quantity, and synthetic data is one way to fill out a training set for an object that is small, varied, and rare.',
+      },
+      { kind: 'h2', text: 'More than a stream of boxes' },
+      {
+        kind: 'p',
+        text: 'A detector on its own returns a box for every frame where it thinks it sees something. From a moving drone, the same object turns up frame after frame, and pavement texture, markings, and shadows can look like debris for a moment. So on top of the raw detections I added similarity matching and false-positive filtering, so that what comes out of a flight is a shorter list of likely FOD rather than every box the model drew.',
+      },
+      { kind: 'h2', text: 'Testing in simulation' },
+      {
+        kind: 'p',
+        text: 'The in-flight tests simulate runway conditions. Simulation lets me repeat a test under the same conditions, and it is also the project’s limit: the 75–80% describes the model on online and synthetic data, and real debris on a real runway is the test still ahead.',
       },
     ],
-    sources: [],
-    projectSlug: 'raspberry-pi-runway-inspection-uav',
+    sources: [
+      {
+        label: 'Ultralytics YOLO11',
+        href: 'https://docs.ultralytics.com/models/yolo11',
+        kind: 'documentation',
+        note: 'The detector family the onboard model comes from.',
+      },
+    ],
+    projectSlug: 'runway-inspection-uav',
     topics: ['edge-ai', 'computer-vision', 'robotics-perception'],
-    keywords: ['FOD detection', 'YOLOv11', 'Raspberry Pi 5B'],
+    keywords: [
+      'FOD detection',
+      'foreign object debris',
+      'YOLOv11',
+      'NVIDIA Jetson',
+      'UAV',
+      'synthetic data',
+      'edge inference',
+    ],
   },
   {
     slug: 'lessons-from-an-edge-emotion-recognition-prototype',
-    state: 'review',
+    state: 'ready',
     title: 'Lessons from an edge emotion-recognition prototype',
-    metaTitle: 'Lessons from an edge emotion-recognition prototype (editorial review)',
-    metaDescription: 'Editorial review draft. Not indexable.',
-    dek: 'Facial expression is not a direct measurement of internal emotional state.',
+    metaTitle:
+      'Lessons from an edge emotion-recognition prototype',
+    metaDescription:
+      'Real-time emotion recognition on a Jetson Orin Nano for children with autism: combined datasets, ~92% development accuracy, support not diagnosis.',
+    dek: 'Most of the work in an emotion-recognition prototype is in the data, and most of the care is in what you let the output mean.',
     body: [
       {
         kind: 'p',
-        text: 'The canonical project record describes a facial-landmark and convolutional-neural-network pipeline developed on Jetson Orin Nano for a prototype intended to support work with children with autism. It reached approximately 92% development accuracy after combining and cleaning image and video data from CALMED, Kaggle, and other sources.',
+        text: 'Between 2022 and 2023 I developed a real-time emotion-recognition pipeline for children with autism. It pairs facial landmarks with a convolutional neural network and runs on a Jetson Orin Nano, a small computer that can sit right next to the camera.',
+      },
+      { kind: 'h2', text: 'The data came first' },
+      {
+        kind: 'p',
+        text: 'I combined image and video data from CALMED, Kaggle, and other sources and cleaned it into one training set. CALMED is the one built for this problem: a dataset for emotion detection in children with autism. Combining sources like these is most of the work. They label emotions in their own ways and record faces in different conditions, and they have to be cleaned into something one model can learn from.',
       },
       {
         kind: 'p',
-        text: 'The most important publication question is not the architecture. It is the responsible framing. Facial expression is not a direct measurement of a person’s internal emotional state, and performance on a curated dataset does not establish clinical validity. Any useful system must communicate uncertainty, avoid diagnostic claims, and be evaluated with the people and contexts it is intended to support.',
+        text: 'With the data combined and cleaned, the pipeline reached about 92% development accuracy.',
       },
+      { kind: 'h2', text: 'Running it live' },
       {
         kind: 'p',
-        text: 'Before publication, the team credits, dataset licenses, class definitions, evaluation protocol, acquisition language, intended users, and clinical review must be confirmed. The final article should be a careful engineering retrospective, not a claim that emotion can be read reliably from a face.',
+        text: 'The Jetson Orin Nano runs the pipeline in real time: facial landmarks describe the shape of the face, and the CNN classifies the expression. The code for the network is public. It trains a small Keras CNN on 48×48 grayscale face crops, runs it on a live camera feed, and evaluates it with a confusion matrix and a classification report. The dataset itself isn’t included.',
+      },
+      { kind: 'h2', text: 'What the output means' },
+      {
+        kind: 'p',
+        text: 'A facial expression is not a direct reading of what someone feels, and about 92% on development data says how the model does on that data, not how it will do with one child in one room. So I built it as a support tool: a signal that can help the people around a child, never a diagnosis.',
+      },
+      { kind: 'h2', text: 'Afterwards' },
+      {
+        kind: 'p',
+        text: 'The prototype and the concept were later acquired following a Gulf-region competition.',
       },
     ],
-    sources: [],
+    sources: [
+      {
+        label: 'GitHub — CNN-Emotion-Detection',
+        href: 'https://github.com/Kronbii/CNN-Emotion-Detection',
+        kind: 'repository',
+        note: 'The CNN training, live-test, and evaluation code.',
+      },
+      {
+        label: 'CALMED dataset paper',
+        href: 'https://arxiv.org/abs/2307.13706',
+        kind: 'article',
+        note: 'A dataset for emotion detection in children with autism.',
+      },
+    ],
     projectSlug: 'emotion-recognition-autism-support',
     topics: ['edge-ai', 'computer-vision'],
-    keywords: ['emotion recognition', 'Jetson Orin Nano', 'responsible AI'],
+    keywords: ['emotion recognition', 'autism', 'Jetson Orin Nano', 'CNN', 'CALMED', 'edge inference'],
   },
   {
     slug: 'what-four-years-of-technical-mentoring-taught-me',
@@ -951,7 +1111,13 @@ export const articles: ArticleRecord[] = [
     body: [
       {
         kind: 'p',
-        text: 'From 2021 to 2024 I was lead technical organizer for NASA Space Apps in Beirut, supporting roughly 250–400 participants a year with a volunteer team of 10–15 people. The work included technical bootcamps using NASA datasets, problem selection, prototyping, competition requirements, and submission strategy. Over three consecutive years, teams we supported earned six Global Top 10 placements. Rafik Hariri University’s 2022 report on the event names me as the university’s student volunteer.',
+        text: 'From 2021 to 2024 I was lead technical organizer for NASA Space Apps in Beirut, supporting roughly 250–400 participants a year with a volunteer team of 10–15 people. The work included technical bootcamps using NASA datasets, problem selection, prototyping, competition requirements, and submission strategy. Over three consecutive years, teams we supported earned six Global Top 10 placements.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/space-apps/hackathon-hall.jpg',
+        alt: 'Rami Kronbi taking a selfie in front of a hall full of teams working at laptops during NASA Space Apps Beirut.',
+        caption: 'The hall during a Space Apps Beirut weekend.',
       },
       {
         kind: 'p',
@@ -959,14 +1125,25 @@ export const articles: ArticleRecord[] = [
       },
       {
         kind: 'p',
-        text: 'The placements belong to the teams and the wider community. Mentoring created the conditions, not the results.',
+        text: 'The placements belong to the teams and the wider community. Mentoring created the conditions, not the results. I know the other side too: I competed as well, and our team won a Distinctive Team Award in 2021.',
+      },
+      {
+        kind: 'p',
+        text: 'Space Apps Beirut gave me its Exceptional Volunteering Certification for the 2024 edition. In April 2025, CRDP Lebanon, the national Center for Educational Research and Development, gave me a certificate of appreciation for my volunteer work with the Space Apps Beirut team, which helped Lebanese teams reach top global rankings.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/space-apps/crdp-certificate.jpg',
+        alt: 'Certificate of appreciation in Arabic from CRDP Lebanon to Rami Kronbi for volunteering with the NASA Space Apps Beirut team, dated 11 April 2025.',
+        caption: 'CRDP Lebanon’s certificate of appreciation, April 2025.',
       },
     ],
     sources: [
+      { label: 'CRDP Lebanon — ceremony honouring the NASA Space Apps Beirut team (April 2025)', href: 'https://www.crdp.org/node/33693', kind: 'institution' },
       { label: 'RHU — RHU team makes it to the final stages of NASA Space Apps (2022)', href: 'https://www.rhu.edu.lb/media-room/news/rhu-team-makes-it-to-the-final-stages-of-the-nasa-space-apps-annual-international-competition', kind: 'institution' },
     ],
     projectSlug: '',
-    topics: [],
+    topics: ['teaching-and-community'],
     keywords: ['NASA Space Apps', 'technical mentoring', 'hackathon'],
   },
   {
@@ -979,7 +1156,7 @@ export const articles: ArticleRecord[] = [
     body: [
       {
         kind: 'p',
-        text: 'NASNA (ناسنا) is a humanitarian coordination platform connecting displaced and war-affected people in Lebanon with NGOs, donors, and volunteers. I co-founded it in 2024, during the autumn displacement crisis, and worked on it through 2025 as AI engineer and developer alongside Mohammad Homsi (full-stack developer and tech lead), Abed El-Fattah Amouneh (product manager and frontend developer), and Lynn El Solh (multimedia designer). The platform is open source under AGPL-3.0 and live at nasna.world.',
+        text: 'NASNA (ناسنا) is a humanitarian coordination platform connecting displaced and war-affected people in Lebanon with NGOs, donors, and volunteers. I co-founded it in 2024, during the autumn displacement crisis, and ran it until 2026 as co-founder and operations lead, leading the crisis-response operations and volunteer matching, alongside Mohammad Homsi (full-stack developer and tech lead), Abed El-Fattah Amouneh (product manager and frontend developer), and Lynn El Solh (multimedia designer). The platform is open source under AGPL-3.0 and live at nasna.world.',
       },
       {
         kind: 'p',
@@ -1003,38 +1180,55 @@ export const articles: ArticleRecord[] = [
       },
     ],
     sources: [
-      { label: 'GitHub — nasna', href: 'https://github.com/1homsi/nasna', kind: 'repository' },
+      { label: 'GitHub — nasna', href: 'https://github.com/voxire/nasna', kind: 'repository' },
       { label: 'nasna.world', href: 'https://nasna.world', kind: 'demo' },
     ],
     projectSlug: '',
-    topics: [],
+    topics: ['teaching-and-community'],
     keywords: ['crisis response', 'operations', 'privacy'],
   },
   {
     slug: 'turning-physics-outreach-into-a-multi-university-program',
-    state: 'review',
+    state: 'ready',
     title: 'Turning physics outreach into a multi-university program',
-    metaTitle: 'Turning physics outreach into a multi-university program (editorial review)',
-    metaDescription: 'Editorial review draft. Not indexable.',
+    metaTitle:
+      'Physics outreach across four universities: National Physics Day',
+    metaDescription:
+      'How Rami Kronbi founded National Physics Day across four universities and built hands-on double-slit, electrical, and telescope experiments.',
     dek: 'Good science outreach gives people something they can manipulate and question.',
     body: [
       {
         kind: 'p',
-        text: 'The canonical record describes founding and leading National Physics Day across four universities, expanding hands-on physics and astronomy activities through double-slit, electrical, and telescope experiments, and developing demonstrations used in university outreach.',
+        text: 'From 2021 to 2024 I was society lead of the Physics & Astronomy Club at Rafik Hariri University. In that time I founded National Physics Day and led it across four universities: the University of Balamand, LAU, AUB, and the Lebanese University. I expanded the club’s hands-on physics and astronomy activities with double-slit, electrical, and telescope experiments, and I developed demonstrations for the LAU presentations and Cosmic Dome outreach of Mohamad (Moe) Abbas, an astrophysics researcher at NYU Abu Dhabi.',
       },
+      { kind: 'h2', text: 'Something to manipulate and question' },
       {
         kind: 'p',
-        text: 'Good science outreach gives people something they can manipulate and question. A double-slit experiment turns an abstract account of interference into a visible pattern. A telescope makes scale and observation immediate. The organizing work is in creating stations that are robust, safe, explainable, and still interesting when many groups move through them.',
+        text: 'Good science outreach gives people something they can manipulate and question. A double-slit experiment turns an abstract account of interference into a pattern you can see: light through two narrow openings lands as bright and dark bands, not two simple stripes, and changing the slits changes the pattern. An electrical experiment lets someone change a circuit with their own hands and watch what happens. A telescope makes scale and observation immediate in a way a slide cannot.',
       },
+      { kind: 'h2', text: 'One day, four universities' },
       {
         kind: 'p',
-        text: 'Before indexing, the event dates, participating institutions, collaborator credits, participant scale, photographs, and public references need confirmation. The final piece should document how the program was designed and repeated, not claim institutional impact that has not been measured.',
+        text: 'Founding National Physics Day meant taking that idea beyond one club and one campus, and leading it across four universities. An experiment at an outreach event has to work again and again, survive curious hands, and be explainable in a minute to someone who has never thought about interference. That is an engineering problem as much as a teaching one.',
+      },
+      { kind: 'h2', text: 'Demonstrations for someone else’s talk' },
+      {
+        kind: 'p',
+        text: 'Building demonstrations for Moe Abbas’s presentations at LAU and for the Cosmic Dome outreach was a different kind of work. A demonstration inside someone else’s talk has to show one idea clearly at the moment it comes up, then get out of the way of the story the speaker is telling.',
       },
     ],
     sources: [],
     projectSlug: '',
-    topics: [],
-    keywords: ['physics outreach', 'astronomy', 'multi-university'],
+    topics: ['teaching-and-community'],
+    keywords: [
+      'physics outreach',
+      'National Physics Day',
+      'astronomy outreach',
+      'double-slit experiment',
+      'telescope',
+      'science communication',
+      'Beirut',
+    ],
   },
   {
     slug: 'what-small-upstream-fixes-teach-about-firmware',
@@ -1056,12 +1250,12 @@ export const articles: ArticleRecord[] = [
       { kind: 'h2', text: 'A read that returned success early' },
       {
         kind: 'p',
-        text: 'The W25M flash wrapper split reads at die boundaries and assumed the die driver returned the whole requested length. The W25N01G die driver clamps every transfer to a NAND page and returns the clamped count. The wrapper checked only that the count was non-zero, advanced by the full length it had asked for, and reported success, so any read across a page boundary left the tail of the buffer unfilled. #15705 honours the returned count. It is open at the time of writing.',
+        text: 'The W25M flash wrapper split reads at die boundaries and assumed the die driver returned the whole requested length. The W25N01G die driver clamps every transfer to a NAND page and returns the clamped count. The wrapper checked only that the count was non-zero, advanced by the full length it had asked for, and reported success, so any read across a page boundary left the tail of the buffer unfilled. #15705 honours the returned count. As of 23 October 2026 three Betaflight maintainers have approved it, and it is waiting to merge.',
       },
       { kind: 'h2', text: 'A timeout that was never refreshed' },
       {
         kind: 'p',
-        text: 'In PX4’s EKF2, when a range finder was the only active height source, successful range height fusion did not refresh the estimator’s global height-fusion timestamp. The estimator then treated all height sources as timed out and reset altitude every five seconds. #28286 refreshes the timestamp on successful fusion and adds a regression test that failed before the change and passed after it. The maintainers closed it without merging. I include it here because the diagnosis and the test are the useful part, and because a record of contributions that lists only accepted ones is not honest.',
+        text: 'In PX4’s EKF2, when a range finder was the only active height source, successful range height fusion did not refresh the estimator’s global height-fusion timestamp. The estimator then treated all height sources as timed out and reset altitude every five seconds. #28286 refreshes the timestamp on successful fusion and adds a regression test that failed before the change and passed after it. The maintainers closed it as a duplicate: #28283, opened first, applies the same fix, and it was merged on 9 September 2026. So the diagnosis was right and the fix is upstream, just not under my name, which is why I don’t count it as one of mine.',
       },
       { kind: 'h2', text: 'The same discipline in a browser HUD' },
       {
@@ -1101,6 +1295,22 @@ export const articles: ArticleRecord[] = [
         kind: 'p',
         text: 'On 20 December 2025 I spoke at DevFest Tripoli 2025, organized by GDG North Lebanon at Beirut Arab University’s Tripoli campus, in the 11:10–11:50 slot. The talk, “On-Device Multimodal Assistants: Can We Fit GPT-Vision on Small Hardware?”, covered quantization, memory budgets, and hardware acceleration for running vision-language models on consumer hardware, and ended with a live demo.',
       },
+      {
+        kind: 'figure',
+        src: '/images/authority/talks/devfest-title.jpg',
+        alt: 'Title slide of the DevFest Tripoli 2025 talk, “Can we make Jarvis real?”, with a photo of Rami Kronbi holding a trophy.',
+        caption: 'The opening slide: can we make Jarvis real?',
+      },
+      {
+        kind: 'p',
+        text: 'I framed it around one question: can we build Jarvis, Tony Stark’s assistant, at home? The first part showed how a multimodal system works: encoders turn images, text, and speech into one shared vector space, and a language model reasons over the fused tokens. The second part was about what every optimization trades: a smaller, faster model costs some accuracy, and the job is to choose that trade on purpose. Then came Meta’s SAM 3, which segments anything from a text prompt, cross-modal attention across vision, sound, and text, and the techniques that make it fit on small hardware: quantization from FP16 down to 4-bit and 2-bit, pruning, and distillation.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/talks/devfest-be-an-engineer.jpg',
+        alt: 'Closing slide titled “Be an engineer”: think in systems, not in models; design around constraints, not benchmarks; combine modalities, not APIs; expect tradeoffs, measure them.',
+        caption: 'Where I ended: four rules for building it yourself.',
+      },
       { kind: 'h2', text: 'CodewithSerah Pre-Winter Sprint Bootcamp, January 2026' },
       {
         kind: 'p',
@@ -1118,12 +1328,12 @@ export const articles: ArticleRecord[] = [
       { label: 'GitHub — Git_Github_Beginner_Workshop', href: 'https://github.com/Tarek-AL-Saleh/Git_Github_Beginner_Workshop', kind: 'repository' },
     ],
     projectSlug: '',
-    topics: [],
+    topics: ['teaching-and-community'],
     keywords: ['talks', 'DevFest', 'on-device AI', 'Git workshop', 'teaching'],
   },
   {
     slug: 'building-an-outbreak-dashboard-from-public-sources',
-    state: 'ready',
+    state: 'hold',
     title: 'Building an outbreak dashboard from public sources',
     metaTitle: 'Building an outbreak dashboard from public sources',
     metaDescription: 'Hantawatch aggregates public outbreak sources into one linked, shareable map and feed; the design rule is that nothing appears without its source.',
@@ -1176,17 +1386,17 @@ export const articles: ArticleRecord[] = [
     state: 'ready',
     title: 'Why color science comes before the model',
     metaTitle: 'Why color science comes before the model',
-    metaDescription: 'Teaching a network a photographer’s edit depends on linear, calibrated, exact training pairs; most of the Imagen pipeline is the decode.',
-    dek: 'To teach a network a photographer’s edit, the training pairs must be linear, calibrated, and exact. Most of the work is in the decode.',
+    metaDescription: 'Teaching a network an edit depends on linear, calibrated, exact training pairs; most of the Imagen pipeline is the decode.',
+    dek: 'To teach a network an edit, the training pairs must be linear, calibrated, and exact. Most of the work is in the decode.',
     body: [
-      { kind: 'p', text: 'Professional real-estate photographers shoot every frame as a set: ambient brackets at −6, −3, 0, +3, and +6 EV, flash fills, and lights-on stacks, then blend and grade by hand. The Imagen pipeline captures that before-and-after relationship at scale so an HDRNet bilateral-grid network can learn one photographer’s style. It was a freelance engagement for a French real-estate agency.' },
+      { kind: 'p', text: 'I built Imagen for 3D reconstruction from 360° captures with phone and embedded cameras, where every frame has to come out with consistent, calibrated colour before any geometry is computed. Professional interior shoots are taken as sets: ambient brackets at −6, −3, 0, +3, and +6 EV, flash fills, and lights-on stacks, blended and graded by hand. The Imagen pipeline captures that before-and-after relationship at scale so an HDRNet bilateral-grid network can learn the edit.' },
       { kind: 'h2', text: 'Ingestion has to guess right' },
-      { kind: 'p', text: 'Sessions arrive as folders of RAW files and edited JPEGs with no labels. Ingestion groups brackets by timestamp, identifies the ambient sequence, flash fills, and lights-on stacks, and writes an index per listing so a run can resume after interruption.' },
+      { kind: 'p', text: 'Sessions arrive as folders of RAW files and edited JPEGs with no labels. Ingestion groups brackets by timestamp, identifies the ambient sequence, flash fills, and lights-on stacks, and writes an index per scene so a run can resume after interruption.' },
       { kind: 'h2', text: 'The DNG pipeline, in full' },
       { kind: 'p', text: 'Canon EOS R5 DNGs from recent converters use JPEG XL tiles that LibRaw cannot decode, so the pipeline falls back to tifffile and applies the DNG specification’s color pipeline itself: per-channel polynomial linearization from the opcode list, white balance and camera calibration, the forward matrix to XYZ D50, Bradford adaptation to D65, and finally linear sRGB. Lens distortion, chromatic aberration, and vignetting are corrected with lensfun profiles. The output is 16-bit linear PNG, scene-referred, with no gamma.' },
       { kind: 'h2', text: 'Targets must not be reinterpreted' },
-      { kind: 'p', text: 'The photographer’s JPEG is the ground truth. It is linearized so the artistic values are preserved exactly rather than re-graded by the pipeline. If the target drifts, the model learns the pipeline’s taste instead of the photographer’s.' },
-      { kind: 'p', text: 'Layth Ayache contributed training and delivery runs. The client’s imagery stays private. By the client’s count, editing throughput went from two or three photos a day for a team of three to about forty a day per team member. What I can show here is the mechanism: get the decode right, keep the target exact, and the model has something honest to learn.' },
+      { kind: 'p', text: 'The edited JPEG is the ground truth. It is linearized so its values are preserved exactly rather than re-graded by the pipeline. If the target drifts, the model learns the pipeline’s taste instead of the edit.' },
+      { kind: 'p', text: 'Layth Ayache contributed training and delivery runs. The lesson carries over to any reconstruction pipeline: get the decode right, keep the target exact, and the model has something honest to learn.' },
     ],
     sources: [],
     projectSlug: 'imagen-raw-to-edit-dataset-pipeline',
@@ -1195,7 +1405,7 @@ export const articles: ArticleRecord[] = [
   },
   {
     slug: 'making-tenant-isolation-the-only-path',
-    state: 'ready',
+    state: 'hold',
     title: 'Making tenant isolation the only path',
     metaTitle: 'Making tenant isolation the only path',
     metaDescription: 'For the Lumiscan clinical platform, tenant isolation is structural: organization scoping on every row, one service layer for two front doors, and a language model that only narrates.',
@@ -1244,7 +1454,7 @@ export const articles: ArticleRecord[] = [
     metaDescription: 'An early Arduino project that hit targets with gravity-fed water bursts, and the lesson that the plant changes after every action.',
     dek: 'An early Arduino project that hit targets with gravity-fed water bursts, and taught that the plant changes after every action.',
     body: [
-      { kind: 'p', text: 'The water-shooting robot is one of my earliest mechatronics projects. It aims a nozzle with a servo, sets its height with a stepper-driven lead screw, and fires timed bursts through a solenoid valve at a table of predefined targets. There is no pump; the stream is gravity-fed from a bottle.' },
+      { kind: 'p', text: 'The water-shooting robot is one of my earliest mechatronics projects, built in 2023. It aims a nozzle with a servo, sets its height with a stepper-driven lead screw, and fires timed bursts through a solenoid valve at a table of predefined targets. There is no pump; the stream is gravity-fed from a bottle.' },
       { kind: 'p', text: 'That choice made the physics part of the control problem. The required nozzle height for a target depends on the water level, and the water level drops after every shot. The firmware estimates height from a simple ballistic relation and updates the modeled level with a Torricelli-style expression after each burst. Both are simplifications, and the README says so: empirical tuning is needed.' },
       { kind: 'p', text: 'The repository is organized as firmware, focused bring-up test sketches for each actuator, CAD, and documentation, with calibration steps for steps-per-millimetre and predicted-versus-actual height logged over serial. It is early work, kept public because the loop is complete and the assumptions are written down.' },
     ],
@@ -1252,37 +1462,115 @@ export const articles: ArticleRecord[] = [
       { label: 'GitHub — water-shooting-robot', href: 'https://github.com/Kronbii/water-shooting-robot', kind: 'repository' },
     ],
     projectSlug: 'water-shooting-robot',
-    topics: ['robotics', 'embedded-systems', 'control-systems'],
+    topics: ['robotics-perception', 'embedded-systems', 'control-systems'],
     keywords: ['Arduino', 'mechatronics', 'control'],
   },
   {
     slug: 'moderation-is-the-product-in-a-quest-app',
-    state: 'review',
+    state: 'ready',
     title: 'Moderation is the product in a quest app',
-    metaTitle: 'Moderation is the product in a quest app',
-    metaDescription: 'Why Bsheel’s architecture puts proof review, appeals, and XP accounting at the center, and how a small team self-hosts it.',
-    dek: 'A quest only counts when a person has looked at the proof. Everything in Bsheel’s backend follows from that.',
+    metaTitle:
+      'Moderation is the product in a quest app',
+    metaDescription:
+      'How Rami Kronbi built Bsheel’s proof checks: one appeal, a forensics-first AI cascade, and shadow mode scored against human moderators.',
+    dek: 'A quest only counts when someone has looked at the proof. Most of the engineering in Bsheel follows from that.',
     body: [
-      { kind: 'p', text: 'Bsheel gives a user three real-world quests, one of which they complete inside a timer and prove with a photo or video. XP is awarded only after a moderator approves the proof. I co-founded the product and worked on it as systems engineer and product manager with Razan Hasbini and Tayseer Laz; it is published on Google Play and the App Store.' },
-      { kind: 'h2', text: 'The review state machine' },
-      { kind: 'p', text: 'The submissions domain owns proof metadata, a review state machine, appeals, and the XP transaction. Moderators work from a queue with reviewer context; rejected users can appeal; an XP reconciliation audit in the admin console catches drift. Treating XP as a transaction rather than a counter is what makes the audit possible.' },
-      { kind: 'h2', text: 'One API, layered the same way everywhere' },
-      { kind: 'p', text: 'Two Flutter clients, mobile and admin, talk to one self-hosted NestJS API over versioned HTTPS and a WebSocket. Every domain is split into presentation, application, domain, and infrastructure: controllers stay thin, services orchestrate, repositories are the only place SQL exists, and a repository never calls another domain’s repository. Cross-domain effects are events. A domain becomes its own service only when measured scaling justifies it.' },
-      { kind: 'h2', text: 'Work that must not run on the phone' },
-      { kind: 'p', text: 'Push notifications fan out from a durable BullMQ queue on Redis, in a worker built from the same codebase as the API and scaled separately. Private media lives in S3-compatible storage. PostgreSQL is authoritative; Redis holds only queues, locks, and disposable coordination state. nginx handles rate limiting and WebSocket upgrades in front of stateless API replicas.' },
-      { kind: 'p', text: 'The social layer, feed with hot ordering, votes, threaded comments, mentions, follows, blocks, collab groups, and leaderboards, sits on top of that core. The core is the part I would defend: moderation, appeals, and accounting are the product; the rest is what makes it fun.' },
+      {
+        kind: 'p',
+        text: 'Bsheel hands you three random real-world quests. You pick one, do it before its timer runs out, and post a photo or video as proof. The XP arrives only after the proof is approved. I co-founded it with Razan Hasbini and Tayseer Laz, and I work on it as systems engineer and product manager. It is live on Google Play, the App Store, and bsheel.app, with more than 200 users.',
+      },
+      { kind: 'h2', text: 'From a hackathon app to a real backend' },
+      {
+        kind: 'p',
+        text: 'Bsheel started in 2025 as a hackathon app built on Supabase. In September 2026 we rebuilt it on a self-hosted NestJS backend: Flutter clients for the app and the admin console, PostgreSQL as the source of truth, Redis and BullMQ for queues and locks, S3-compatible storage for proof media, and a worker built from the same codebase as the API. Every domain is layered the same way, from presentation down to infrastructure, and slow or cross-domain effects go through a transactional outbox to idempotent workers.',
+      },
+      { kind: 'h2', text: 'A quest counts when a person has seen the proof' },
+      {
+        kind: 'p',
+        text: 'The core is a small state machine. Submitting proof marks the quest as submitted and the proof as pending. A moderator approves it, and the XP is awarded once, or rejects it. A rejected player can appeal once: the submission goes back to pending with the appeal spent, and a second rejection is final. Those rules are enforced on the server, not in the app.',
+      },
+      {
+        kind: 'p',
+        text: 'The feed, votes, comments, collab groups, and leaderboards all sit on top of that. They are what make Bsheel fun, but they only mean something if the proof underneath them is honest. That is why the admin console is built around a review queue, appeals, and an XP reconciliation audit.',
+      },
+      { kind: 'h2', text: 'Asking a photo only what it can answer' },
+      {
+        kind: 'p',
+        text: 'The part of Bsheel I spent the most time on is automated proof checking. My first pass was a single vision-model call with a generic prompt. The prompt was not the problem. When I went through the quest catalogue and asked of each quest whether a photo could prove it, roughly a third could not. A photo of a book does not show you read twenty pages. “Spend an hour with no phone” cannot be proven by a picture the phone took. A model asked anyway still answers, with a confidence score attached, and that is how an automated reviewer confidently rejects an honest player.',
+      },
+      {
+        kind: 'p',
+        text: 'So every quest now carries a verification contract: either the image can show the task, or it can only show whether the photo is authentic, or nothing about it bears on the task. The check runs in stages. Forensics come first and cost almost nothing: capture time, exact-byte and near-duplicate matching, screen dimensions, and markers of generated content. Then a cheap model, and a stronger one only where the cheap one could not tell. Most submissions stop early. Before any rejection, the most capable model has to agree; a confident verdict from a cheaper tier is never enough to reject.',
+      },
+      {
+        kind: 'p',
+        text: 'I keep two numbers apart: how sure the model is of its verdict, and how relevant the media is to the quest. A photo of a coffee cup is irrelevant to “compliment a stranger”, and the submission is still honest. So relevance can hold back an automatic approval, but it can never cause a rejection.',
+      },
+      { kind: 'h2', text: 'Shadow mode, and a number to earn' },
+      {
+        kind: 'p',
+        text: 'The pipeline is live in production. It started in shadow mode, recording what it would have decided while a person still decided. Moderators see the agent’s read beside the proof, including what it looked for and did not find, because “no sunrise in this frame” is usually the line that matters. To know whether it deserves to act, I built an evaluation that scores its verdicts against decisions moderators already made. It includes a backfill over submissions reviewed before the agent existed, so its verdict could not have influenced the decision it is scored against.',
+      },
+      { kind: 'h2', text: 'Bugs you only find by leaving it running' },
+      {
+        kind: 'p',
+        text: 'The hardest bugs showed up after the pipeline had been running for a while, not when I read the code. A run interrupted by a restart could never be picked up again, because the claim on it was a label, not a lease that expires. A decision could be recorded and then quietly never applied. Both are fixed: claims expire, and a decision that fails to apply fails the run, so a retry is a real retry.',
+      },
+      {
+        kind: 'p',
+        text: 'The perceptual hash that catches re-used photos was the strangest bug. It records whether each pixel is brighter than its neighbour, so a dark screenshot, a white wall, and a night sky all hash to the same value. Two unrelated people photographing two unrelated blank things looked like one stolen photo. It never rejected anyone, because automatic rejection was switched off, but it would have the moment that changed. Those frames now get no hash at all. A fingerprint that a whole class of images shares is not a fingerprint.',
+      },
+      { kind: 'h2', text: 'The rest of my part' },
+      {
+        kind: 'p',
+        text: 'Around the proof check I built business accounts for places on the map, granted by membership rather than by an admin role, with a partner dashboard as its own web app. I added an event store for the top of the funnel, kept apart from completions because a phone saying it showed a quest card is not something the server can confirm. I also built admin tools for quest chains and collections, and keyset pagination for the admin lists. Much of the app itself is Tayseer’s and Razan’s work.',
+      },
+      {
+        kind: 'p',
+        text: 'In a game about doing things in the real world, the playful features are the easy part. Trust in the proof is the product, and the moderation behind it is where most of the engineering went.',
+      },
     ],
     sources: [
       { label: 'bsheel.app', href: 'https://bsheel.app/', kind: 'demo' },
-      { label: 'BSHEEL on Google Play', href: 'https://play.google.com/store/apps/details?id=com.questapp.mobile_app', kind: 'listing' },
+      {
+        label: 'BSHEEL on Google Play',
+        href: 'https://play.google.com/store/apps/details?id=com.questapp.mobile_app',
+        kind: 'listing',
+      },
+      {
+        label: 'Bsheel source on GitHub',
+        href: 'https://github.com/razanhasbini/bsheel-',
+        kind: 'repository',
+      },
+      {
+        label: 'AI proof verification pull request',
+        href: 'https://github.com/razanhasbini/bsheel-/pull/54',
+        kind: 'repository',
+        note: 'The staged cascade and per-quest verification contract.',
+      },
+      {
+        label: 'Making the pipeline safe to leave running',
+        href: 'https://github.com/razanhasbini/bsheel-/pull/70',
+        kind: 'repository',
+        note: 'Leases, silent decisions, and the perceptual-hash fix.',
+      },
     ],
     projectSlug: 'bsheel-quest-app',
-    topics: ['product-engineering', 'full-stack-systems', 'local-first-software'],
-    keywords: ['moderation', 'NestJS', 'Flutter', 'gamification'],
+    topics: ['applied-ai'],
+    keywords: [
+      'content moderation',
+      'proof verification',
+      'vision models',
+      'shadow mode',
+      'perceptual hash',
+      'NestJS',
+      'Flutter',
+      'gamification',
+    ],
   },
   {
     slug: 'a-ride-is-data-about-the-bike',
-    state: 'review',
+    state: 'hold',
     title: 'A ride is data about the bike',
     metaTitle: 'A ride is data about the bike',
     metaDescription: 'The central design decision behind Moto 961, an early-stage motorcycle app for Lebanon: rides feed maintenance, not leaderboards.',
@@ -1298,6 +1586,598 @@ export const articles: ArticleRecord[] = [
     projectSlug: 'moto-961-bikey',
     topics: ['product-engineering', 'lebanon'],
     keywords: ['motorcycle', 'Lebanon', 'Flutter'],
+  },
+  {
+    slug: 'what-losing-a-rotor-teaches-about-estimation',
+    state: 'ready',
+    title: 'What losing a rotor teaches about estimation',
+    metaTitle: 'What losing a rotor teaches about estimation',
+    metaDescription:
+      'A quadrotor that loses a rotor has a fraction of a second to notice. Why that is an estimation problem, and why the healthy machine is the hard part.',
+    dek: 'A quadrotor that loses a rotor has a fraction of a second to notice. Noticing turns out to be an estimation problem, and most of it is about what you assume the healthy machine is.',
+    body: [
+      {
+        kind: 'p',
+        text: 'A quadrotor has exactly as many actuators as it has things to control: one collective thrust and three torques. A hexacopter can route around a damaged propeller; a quadrotor cannot. When one rotor weakens, the vehicle has to notice and compensate before its attitude loop saturates, and when a rotor stops entirely, the only way to stay in the air is to give up control of yaw and let the vehicle spin.',
+      },
+      {
+        kind: 'p',
+        text: 'The study models that situation for a 5-inch FPV-class quadrotor, about 0.64 kg with a thrust-to-weight ratio of 3.6, with sensor noise, a 10 ms motion-capture latency, parameter uncertainty and light turbulence. Everything below is simulation; the parameters are assumed, not identified on a real frame.',
+      },
+      {
+        kind: 'h2',
+        text: 'The hard part is knowing, not steering',
+      },
+      {
+        kind: 'p',
+        text: 'The clearest result is the gap between two controllers that differ only in what they know. After a complete loss of one rotor in hover, the nominal controller, never told about the fault, lost the vehicle in all 32 runs, typically by flipping within about 0.3 seconds. A yaw-relaxed controller in the spirit of Mueller and D’Andrea, handed the true fault the instant it happened, recovered every one.',
+      },
+      {
+        kind: 'p',
+        text: 'So the control law that survives a rotor loss already exists. What separates a crash from a recovery is information: that a fault happened, which rotor it hit, and how much effectiveness is left, delivered fast enough to act on.',
+      },
+      {
+        kind: 'h2',
+        text: 'Estimating something no sensor measures',
+      },
+      {
+        kind: 'p',
+        text: 'A small quadrotor usually has no direct measurement of how well each rotor is working. The pipeline infers it. The rotational dynamics and the vertical force balance are linear in the four rotor-effectiveness factors once each rotor’s thrust is predicted from the motor commands, so a Kalman filter can track those factors from the gyro, the accelerometer and the velocity estimate.',
+      },
+      {
+        kind: 'p',
+        text: 'One detail matters more than it looks: the gyro has to be differentiated to get angular acceleration, and differentiating noise is a bad idea, so it goes through a filter. Every other signal in the regression goes through the same filter, so the equation stays exact for a constant fault instead of being exact for none of its terms.',
+      },
+      {
+        kind: 'h2',
+        text: 'The healthy vehicle is not the nominal vehicle',
+      },
+      {
+        kind: 'p',
+        text: 'The next lesson was about the baseline. A thrust coefficient a few percent off, or a mass error, looks exactly like a few percent of lost effectiveness. A detector that compares the vehicle against its nominal model therefore starts every flight slightly alarmed.',
+      },
+      {
+        kind: 'p',
+        text: 'The fix is to learn what healthy looks like on this particular vehicle: the estimate is averaged over the first 2.5 seconds of hover and detection runs against that. With this step removed in an ablation, static mismatch stayed in the residual: one fault-free flight raised a false alarm, and so did one faulty flight before its fault even began.',
+      },
+      {
+        kind: 'h2',
+        text: 'Deciding fast, and deciding once',
+      },
+      {
+        kind: 'p',
+        text: 'Estimation produces a number; detection has to make a decision. The detector uses a bank of CUSUM tests, each designed for a different size of loss: 15, 30 and 60 percent. A single test tuned for small faults roughly doubled the median detection delay, from 30 to 61 ms, because a large fault then accumulates evidence at the rate of the small one it was designed for.',
+      },
+      {
+        kind: 'p',
+        text: 'With the bank, all 200 injected losses between 20 and 90 percent were detected (median 30 ms, 95th percentile 58 ms) and isolated to the correct rotor, with no false alarm in 32 minutes of fault-free flight, including aggressive manoeuvres that were not used to set the thresholds. The yaw-relaxed controller then took over complete losses about 60 ms after the failure and held position while the vehicle spun at about 23 rad/s.',
+      },
+      {
+        kind: 'h2',
+        text: 'What the oracle got wrong',
+      },
+      {
+        kind: 'p',
+        text: 'At 70 to 80 percent loss, the estimating pipeline had a smaller peak deviation than the oracle that knew the truth. The oracle idles a weakened rotor the moment it fails; the estimating pipeline keeps using it for the 70 to 90 ms it takes the alarm and the estimate to cross the switching threshold, and that partial thrust helps. An oracle is an upper bound on information, not on the decisions made with it.',
+      },
+      {
+        kind: 'h2',
+        text: 'Where it breaks',
+      },
+      {
+        kind: 'p',
+        text: 'Mapping where it fails is the most useful result. In the robustness sweeps, recovery from a complete loss started to fail at 24 ms of actuator delay (the controller assumes 2 ms), with motors 3.2 times slower than modelled, and at three times the default turbulence. All three act during the spin-up transient, when the relaxed equilibrium leaves little margin and the body tilts by 40 degrees or more.',
+      },
+      {
+        kind: 'p',
+        text: 'The limits of the study are just as clear. The noise in the simulation is white and the turbulence a simple random process; the vibration on a real 5-inch frame is narrow-band, much larger and tied to motor speed. The detection numbers describe what the method does when its model is right.',
+      },
+      {
+        kind: 'p',
+        text: 'The first step beyond the original simulator is done. Replayed offline on 110 PX4 software-in-the-loop flights of a 2 kg quadrotor in Gazebo, the same diagnoser detected all 40 partial and 16 complete losses, with median delays of 120 and 132 ms, and flagged every complete loss before the vehicle tilted past 90 degrees. PX4’s own failure detector raised nothing for the partial losses and flagged the complete ones only after about 660 ms, once the attitude limit was crossed. Gazebo’s IMU is nearly noise-free, though, so that run says little about false alarms on a real frame. Blackbox logs from a real flight, then a tethered rig, come next.',
+      },
+      {
+        kind: 'p',
+        text: 'Losing a rotor is a lesson in estimation. The controller that survives is the one that knows soonest, and how soon it knows depends less on clever control than on an honest model of the healthy machine.',
+      },
+    ],
+    sources: [
+      {
+        label: 'GitHub — rotor-fault-recovery',
+        href: 'https://github.com/Kronbii/rotor-fault-recovery',
+        kind: 'repository',
+      },
+      {
+        label: 'Mueller and D’Andrea, Stability and control of a quadrocopter despite the complete loss of one, two, or three propellers (ICRA 2014)',
+        href: 'https://doi.org/10.1109/ICRA.2014.6906588',
+        kind: 'article',
+      },
+    ],
+    projectSlug: 'quadrotor-rotor-fault-recovery',
+    topics: ['control-systems', 'robotics-perception'],
+    heroMedia: {
+      src: '/images/authority/quadrotor-rotor-fault-recovery/complete-loss.png',
+      alt: 'Plot of position error after one rotor stops in simulated hover: the nominal controller flips, while the estimating pipeline and a controller told the true fault both recover.',
+      caption: 'Simulation: one rotor stops at 2 s; the nominal controller flips, the pipeline recovers.',
+    },
+    keywords: ['rotor fault detection', 'quadrotor', 'Kalman filter', 'CUSUM', 'fault-tolerant control'],
+  },
+  {
+    slug: 'a-barn-door-tracker-that-does-the-maths',
+    state: 'ready',
+    title: 'A barn-door tracker that does the maths',
+    metaTitle: 'A barn-door star tracker that does the maths',
+    metaDescription:
+      'The barn-door tangent error is pure geometry, so an ESP32 can remove it by timing every microstep; an error model shows what limits exposure next.',
+    dek: 'The barn-door tracker’s famous tangent error is pure geometry, so the firmware can remove it exactly instead of the mechanics approximating it.',
+    body: [
+      {
+        kind: 'p',
+        text: 'A barn-door tracker is two boards on a hinge. Point the hinge at the celestial pole, open the boards at the rate the sky turns, and a camera on the top board follows the stars. It is the cheapest way to take long exposures of the night sky, and it has one famous flaw: a straight screw pushing a board that swings in an arc does not open it at a constant angular rate. Driven at constant speed, the design in this project would drift off the sky by about 30 arcminutes in the first hour and more than four degrees over its full travel.',
+      },
+      {
+        kind: 'p',
+        text: 'The classic fixes are mechanical: a curved rod, or a second arm that cancels most of the error. This design takes the other route. The error is pure geometry, so the firmware can remove it exactly.',
+      },
+      {
+        kind: 'h2',
+        text: 'Schedule steps, not speed',
+      },
+      {
+        kind: 'p',
+        text: 'The firmware never runs the motor at a speed. The geometry of a roller pushing a strike plate gives a closed-form relation between the screw position and the board angle, and its inverse. For each microstep, the firmware computes the instant at which the ideal sidereal angle crosses that step’s true angle and fires the step then. Because every step is placed against the ideal angle rather than added to the previous one, errors cannot accumulate: in a two-hour simulated run of the same C++ code the ESP32 runs, the board stays within half a microstep, 0.32 arcseconds, of the sky.',
+      },
+      {
+        kind: 'p',
+        text: 'The ESP32 cannot use its floating-point unit inside interrupts, so the work is split. A 1 kHz task does the trigonometry and fills a small lock-free queue of step times; a 20 kHz interrupt only compares integer timestamps and pulses the driver.',
+      },
+      {
+        kind: 'h2',
+        text: 'Choosing the drive by division',
+      },
+      {
+        kind: 'p',
+        text: 'The deciding argument for the lead screw was division. Every error that starts at the motor, such as uneven microsteps or an eccentric coupler, is divided by the reduction ratio before it reaches the sky. A 2 mm-lead screw pushing a 200 mm arm gives 629:1 from parts sold for 3D-printer Z axes, about 0.64 arcseconds per microstep. Printed worm gears and belt drums reach a fraction of that.',
+      },
+      {
+        kind: 'h2',
+        text: 'Predicting before building',
+      },
+      {
+        kind: 'p',
+        text: 'Nothing has been built yet, so the useful question was what would limit it. A Python error model converts each source, from polar misalignment and drive-rate error to the screw’s periodic error and refraction, into on-sky trail, and from that into the longest sharp exposure for each lens. At 200 mm on an APS-C camera it predicts about 21 seconds per frame, against 0.38 seconds without tracking.',
+      },
+      {
+        kind: 'p',
+        text: 'The model also changed the plan. With an assumed periodic error of ±4 µm, the screw’s wobble outweighs polar-alignment error up to about one degree of misalignment. A better polar scope would buy little; a periodic-error correction table, which the firmware already supports, could raise the 200 mm limit to over a minute. That assumption is also the model’s biggest uncertainty, and measuring the real screw is the first job after the build.',
+      },
+      {
+        kind: 'h2',
+        text: 'What is left',
+      },
+      {
+        kind: 'p',
+        text: 'The parts are modelled for printing, the firmware compiles, and the tests pass, but every performance number is a prediction until the tracker is built and pointed at the Orion Nebula. The first session is planned for a moonless window in November. After that, an autoguiding camera, prototyped so far only on synthetic star fields, is the next step.',
+      },
+    ],
+    sources: [
+      {
+        label: 'GitHub — star-tracker',
+        href: 'https://github.com/Kronbii/star-tracker',
+        kind: 'repository',
+      },
+    ],
+    projectSlug: 'esp32-barn-door-star-tracker',
+    topics: ['embedded-systems', 'control-systems'],
+    heroMedia: {
+      src: '/images/authority/esp32-barn-door-star-tracker/tangent-correction.png',
+      alt: 'Two plots: the tangent error of a constant-speed barn door growing over two hours, and the firmware schedule staying within plus or minus 0.3 arcseconds.',
+      caption: 'Constant speed against the firmware’s schedule, from a host simulation of the firmware code.',
+    },
+    keywords: ['barn door tracker', 'ESP32', 'stepper motor', 'astrophotography'],
+  },
+  {
+    slug: 'teaching-drone-control-from-an-rc-circuit-up',
+    state: 'ready',
+    title: 'Teaching drone control from an RC circuit up',
+    metaTitle: 'Teaching drone control from an RC circuit up',
+    metaDescription:
+      'A seven-evening course from PID on an RC circuit to a quadrotor that survives losing a rotor, with every lab predicted before it is measured.',
+    dek: 'A drone is a stack of feedback loops. The course builds that stack one loop at a time, starting where mistakes are cheap.',
+    body: [
+      {
+        kind: 'p',
+        text: 'Most students meet control theory as transfer functions on a whiteboard. Then they meet a drone, and the gap between the two is wide: noisy sensors, motors that lag, integrators that wind up, and a vehicle that flips in a fraction of a second when a gain is wrong. The course is designed to close that gap in seven evenings, in teams of three, with hardware cheap enough to break.',
+      },
+      {
+        kind: 'h2',
+        text: 'Start where mistakes are cheap',
+      },
+      {
+        kind: 'p',
+        text: 'The first two sessions use an Arduino and a resistor-capacitor circuit. A capacitor charging through a resistor is a first-order plant with an exact answer, so a student can predict a P controller’s offset on paper, measure it on the bench, and see the two agree. A three-stage RC ladder then adds enough lag to make tuning interesting: windup, derivative noise, setpoint kick and relay autotuning, each checked against a known result rather than judged by eye.',
+      },
+      {
+        kind: 'p',
+        text: 'Every lab uses [easyPID, my Arduino library](/projects/easypid-arduino-library), and the notebooks use a Python port of it. The port is tested against the compiled C++ library on 3,274 randomised updates, so a gain found in a notebook means the same thing in a sketch. Building those tests also found a real flaw: the library’s relay autotuner reports a high ultimate gain on its first run from rest, about 42 against an exact 29, and a good one on the second. The lab now runs it twice.',
+      },
+      {
+        kind: 'h2',
+        text: 'One drone axis, with the answer key attached',
+      },
+      {
+        kind: 'p',
+        text: 'Session three moves to a two-motor seesaw: one axis of a quadrotor on a pivot. The rig has a potentiometer on the pivot, which a real drone never has. Students first close the loop on that clean, absolute angle; in the next session they fuse a gyro and an accelerometer and measure their estimate against the potentiometer. Students get to see exactly how wrong their attitude estimate is, which a flying drone never shows them.',
+      },
+      {
+        kind: 'p',
+        text: 'The same rig teaches why drones use cascades. A single loop on the angle swings about 7 degrees when the beam is tapped; an inner rate loop under an outer angle loop holds it to about 3 in the rig model. Students predict that in the notebook before they see it on the bench.',
+      },
+      {
+        kind: 'h2',
+        text: 'Then the full vehicle, then what breaks',
+      },
+      {
+        kind: 'p',
+        text: 'The last sessions are in simulation: the allocation matrix that turns thrust and torques into four motor commands, mixing priorities when the motors saturate, and a position, velocity, attitude and rate cascade. Session six uses my rotor-fault study as its simulator. Students derive why a quadrotor cannot hover once a rotor has lost too much thrust, detect and isolate a fault with CUSUM tests, and watch a yaw-relaxed controller keep a vehicle in the air after a rotor stops.',
+      },
+      {
+        kind: 'p',
+        text: 'The capstone is an acceptance test written as code. The same test runs on the rig and on the rig model, so teams tune in simulation first and are scored the same way on hardware. The report asks for the gap between model and hardware, stated plainly.',
+      },
+      {
+        kind: 'h2',
+        text: 'What is not done',
+      },
+      {
+        kind: 'p',
+        text: 'Nobody has taken the course yet. The notebooks run, the sketches compile and the tests pass, but no rig has been built from the documents, and the rig’s parameters come from simulation. The pilot plan lists what the first cohort will measure; until then I can’t say what students learn from it.',
+      },
+    ],
+    sources: [
+      {
+        label: 'GitHub — drone-control-bootcamp',
+        href: 'https://github.com/Kronbii/drone-control-bootcamp',
+        kind: 'repository',
+      },
+      {
+        label: 'GitHub — easyPID',
+        href: 'https://github.com/Kronbii/easyPID',
+        kind: 'repository',
+      },
+    ],
+    projectSlug: 'drone-control-bootcamp',
+    topics: ['control-systems', 'embedded-systems', 'teaching-and-community'],
+    heroMedia: {
+      src: '/images/authority/drone-control-bootcamp/pid-rc.png',
+      alt: 'Plot of capacitor voltage under P and PI control on an RC circuit, with the 2.5 V setpoint.',
+      caption: 'Session 1: P, PI, and PI with too much integral gain on a simulated RC circuit.',
+    },
+    keywords: ['control education', 'PID', 'easyPID', 'quadrotor', 'drone control'],
+  },
+  {
+    slug: 'measuring-road-speed-with-one-camera',
+    state: 'ready',
+    title: 'Measuring road speed with one camera, and knowing how wrong it is',
+    metaTitle: 'Measuring road speed with one camera, and knowing how wrong it is',
+    metaDescription:
+      'A fixed camera measures vehicle speeds cheaply, but only a known error makes a survey useful. Simulated video shows where the method holds and breaks.',
+    dek: 'A camera on a pole is the cheapest speed survey a street can get. The hard part is not measuring speed; it is knowing how far to trust the number.',
+    body: [
+      {
+        kind: 'p',
+        text: 'Speed is one of the main risk factors on roads: the World Health Organization estimates that every 1 % increase in mean speed raises the risk of a fatal crash by about 4 %. A municipality that wants to calm a street, argue for a crossing or check whether a measure worked needs speed data for that particular street. Radar surveys cost money and staff time. A camera on a lamp post is cheap, but its numbers are only useful if their error is known, and only acceptable if it does not become a surveillance device.',
+      },
+      {
+        kind: 'h2',
+        text: 'From pixels to metres',
+      },
+      {
+        kind: 'p',
+        text: 'The method is classical computer vision. A handful of points on the road, measured with a tape and clicked on one frame, give a homography: a mapping from the image to metres on the road plane. Background subtraction finds moving vehicles, a Kalman tracker follows each one through the frames, and the point where the tyres meet the road is mapped onto the road. A robust straight-line fit of position against time, inside a defined measurement zone, gives the speed.',
+      },
+      {
+        kind: 'p',
+        text: 'Each record leaves with an uncertainty, computed by perturbing the calibration and the pixel positions and fitting again. Records that look doubtful, such as merged vehicles, gaps or large residuals, go to a human review queue instead of into the statistics. The tool writes numbers, not images.',
+      },
+      {
+        kind: 'h2',
+        text: 'Ground truth from a simulator',
+      },
+      {
+        kind: 'p',
+        text: 'The difficulty with validating speed measurement is ground truth: on a real road, the true speed of every car is exactly what nobody has. So the project includes a renderer that draws road scenes through a calibrated camera, with lane markings, buildings, shadows, sensor noise, compression and motion blur, and knows every vehicle’s true speed. The full pipeline runs on those frames exactly as it would on a video file.',
+      },
+      {
+        kind: 'p',
+        text: 'On the baseline setup, a camera on a 6 m pole watching a zone 20 to 50 m away at 30 frames per second, 95 % of measured speeds were within about 1 km/h of the truth, with no false records. Over 20 simulated traffic runs, the 85th-percentile speed that planners use came out within about 1.2 km/h (RMSE).',
+      },
+      {
+        kind: 'h2',
+        text: 'Where it breaks',
+      },
+      {
+        kind: 'p',
+        text: 'The useful part of 221 simulated runs is the map of failures. Distance matters most: each pixel covers more road further away, so at 75 m the 95th-percentile error reaches 7.6 km/h and fewer than half the vehicles are measured. The point that is tracked matters almost as much. Tracking the centre of the vehicle’s box, without correcting for its height, gave 95th-percentile errors of 17 km/h; the bottom edge, located to a fraction of a pixel, gave about 1 km/h. Sensor noise, compression and motion blur barely mattered. Dusk and flat lighting without cast shadows did, and there the stated uncertainty was too small, which is the more dangerous failure.',
+      },
+      {
+        kind: 'p',
+        text: 'A few passes of a car driven at a known speed correct most of the calibration error. In one simulated low-resolution, far-zone setup, five such passes cut the speed bias from about 6 % to under 2 %.',
+      },
+      {
+        kind: 'h2',
+        text: 'What simulation cannot say',
+      },
+      {
+        kind: 'p',
+        text: 'The simulated road is flat and straight, the lens is ideal and the vehicles are boxes. These numbers describe the method when its assumptions hold. The next step is a field check against radar or GPS on one real road, following a protocol written for it. Until then the tool is an audit aid for planning, and it is not, and should not become, an enforcement device.',
+      },
+    ],
+    sources: [
+      {
+        label: 'GitHub — road-speed-audit',
+        href: 'https://github.com/Kronbii/road-speed-audit',
+        kind: 'repository',
+      },
+      {
+        label: 'World Health Organization — Road traffic injuries fact sheet',
+        href: 'https://www.who.int/news-room/fact-sheets/detail/road-traffic-injuries',
+        kind: 'documentation',
+      },
+    ],
+    projectSlug: 'road-speed-audit',
+    topics: ['computer-vision', 'civic-technology'],
+    heroMedia: {
+      src: '/images/authority/road-speed-audit/scene.png',
+      alt: 'A rendered street scene labelled “Simulated scene”, with tracked vehicles showing measured and true speeds.',
+      caption: 'A frame from the simulator, with measured and true speeds. Simulated, not a real road.',
+    },
+    keywords: ['vehicle speed measurement', 'traffic camera', 'homography', 'V85', 'road safety'],
+  },
+  {
+    slug: 'simulating-an-engine-from-crank-to-gearbox',
+    state: 'ready',
+    title: 'Simulating an engine from crank to gearbox',
+    metaTitle: 'Simulating a four-cylinder engine from crank to gearbox in MATLAB',
+    metaDescription:
+      'MATLAB scripts that follow a four-cylinder engine from slider-crank geometry through its gas cycle to torque, a flywheel, and a gearbox.',
+    dek: 'One chain of scripts that follows a four-cylinder engine from the geometry of its crank, through the gas in its cylinders, to the gear ratios of the car it drives.',
+    body: [
+      {
+        kind: 'p',
+        text: 'For an automotive course assignment at RHU in fall 2024, I wrote a simulator for a four-stroke, four-cylinder spark-ignition engine running at 2000 rpm. It covers one full cycle, 720° of crank rotation, and it is built as a chain in which every stage takes the previous one’s output as its input. The geometry gives the volume, the volume gives the pressure, the pressure gives the torque, and the torque sizes the flywheel and the gearbox.',
+      },
+      { kind: 'h2', text: 'One file of numbers' },
+      {
+        kind: 'p',
+        text: 'Every parameter lives in constants.m: link lengths and masses, the engine speed, the timing of intake, compression, combustion, expansion and exhaust in crank degrees, the gas properties, and the flywheel and transmission constants. Each later script loads what the one before it saved, so a change there runs through every result downstream.',
+      },
+      { kind: 'h2', text: 'The slider-crank' },
+      {
+        kind: 'p',
+        text: 'part1.m solves the slider-crank at every crank angle: piston position, velocity and acceleration, the angle of the connecting rod, and the cylinder volume. It does this twice, once with the cylinder axis passing through the crankshaft and once with the two offset by −18 mm, with compression ratios of 9.8 and 10.1. The same pass computes the rod’s angular velocity and acceleration and the accelerations of each part’s centre of mass, which the torque calculation needs later.',
+      },
+      { kind: 'h2', text: 'A cycle that has to agree with itself' },
+      {
+        kind: 'p',
+        text: 'part2.m runs a single-zone thermodynamic cycle over that volume. Compression and expansion are polytropic. Combustion takes 60° around top dead centre: a constant-volume heat addition from the fuel’s heating value gives the temperature at the end of combustion, and a Wiebe function, with a = 5 and m = 2, sets how much of the charge has burned at each angle in between.',
+      },
+      {
+        kind: 'p',
+        text: 'The gas exchange is where the cycle loops back on itself. Exhaust blowdown and intake are modelled as compressible flow through a valve orifice, and the gas left over from the exhaust mixes with the fresh charge. That mixture sets the temperature at the start of the next compression, which changes everything after it. So the script runs the cycle again until the temperature at the end of intake matches the one it started compression with.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/ice-engine/pressure-crank-angle.webp',
+        alt: 'Cylinder pressure against crank angle, with intake, compression, combustion, expansion, and exhaust shaded.',
+        caption: 'Pressure over one 720° cycle, peaking near 34 atm just after top dead centre.',
+      },
+      { kind: 'h2', text: 'From gas pressure to crank torque' },
+      {
+        kind: 'p',
+        text: 'With the pressure known, the torque comes from the forces on the mechanism. At every crank angle the script writes the force and moment balances for the crank, the connecting rod and the piston, including their masses, the rod’s rotational inertia, gravity and the gas force on the piston, as an 8×8 linear system, and solves it for the torque on the crank.',
+      },
+      {
+        kind: 'p',
+        text: 'That is one cylinder. The other three are the same curve shifted by 180°, 360° and 540°, and their sum is the torque of the engine.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/ice-engine/torque-four-cylinder.webp',
+        alt: 'Crank torque of four cylinders 180° apart, summed, with its mean.',
+        caption: 'The four cylinders and their sum: a mean of about 146 N·m.',
+      },
+      { kind: 'h2', text: 'Flywheel and gearbox' },
+      {
+        kind: 'p',
+        text: 'A cylinder’s torque swings above and below its mean over a cycle. The script integrates the energy of that excess between the crossings of the mean and sizes a flywheel to hold the speed fluctuation to a coefficient of 0.04, as a steel disc 50 mm thick; its radius follows from the inertia it needs.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/ice-engine/torque-flywheel.webp',
+        alt: 'Torque before and after adding the flywheel, with the surplus-energy area shaded.',
+        caption: 'The surplus energy the flywheel absorbs, about 370 J per cycle, gives a radius of 13.6 cm.',
+      },
+      {
+        kind: 'p',
+        text: 'The same run reports the engine’s performance: work per cycle from the pressure–volume loop, indicated and brake power, mean effective pressure and brake mean effective pressure, efficiencies, specific fuel consumption, volumetric efficiency and mean piston speed.',
+      },
+      {
+        kind: 'p',
+        text: 'For the engine in the assignment, that comes to about 460 J of work per cylinder per cycle, 30.6 kW of indicated power from four cylinders, and a fuel conversion efficiency of 28 %.',
+      },
+      {
+        kind: 'p',
+        text: 'The last step designs an eight-speed gearbox. The top gear is set by a top speed of 245 km/h, the first gear by what it takes to move a 2600 kg vehicle up a 7 % grade while accelerating, and fsolve finds the two factors of a progressive series of ratios between them.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/ice-engine/gear-ratios.webp',
+        alt: 'Bar chart of the eight gear ratios from 5.38 in first to 0.64 in eighth.',
+        caption: 'The eight ratios, from 5.38 in first to 0.64 in eighth.',
+      },
+      { kind: 'h2', text: 'Watching it run' },
+      {
+        kind: 'p',
+        text: 'animation.m draws the four slider-cranks moving together and flashes each cylinder as it fires. It makes the phase shift that the torque sum depends on visible.',
+      },
+      { kind: 'h2', text: 'What it leaves out' },
+      {
+        kind: 'p',
+        text: 'These are coursework scripts. Friction is a flat 10 % of indicated power. There is no heat loss to the cylinder walls, no emissions model and no knock. The engine turns at one fixed speed, and the speed-fluctuation curve is an idealised sine between the flywheel’s limits rather than a simulation of the shaft. The mean effective pressures it prints are also about half what they should be, because the displacement constant is smaller than the engine’s swept volume of about 503 cc.',
+      },
+    ],
+    sources: [
+      {
+        label: 'GitHub — ICE-matlab-simulator',
+        href: 'https://github.com/Kronbii/ICE-matlab-simulator',
+        kind: 'repository',
+      },
+    ],
+    projectSlug: 'ice-engine-simulator',
+    topics: [],
+    keywords: ['MATLAB', 'engine simulation', 'slider-crank', 'Wiebe function', 'flywheel', 'gear ratios'],
+  },
+  {
+    slug: 'ai-should-serve-society',
+    state: 'ready',
+    title: 'AI Should Serve Society — Not Just Industry and Billionaires',
+    metaTitle: 'AI Should Serve Society — Not Just Industry and Billionaires',
+    metaDescription:
+      'An essay on who AI actually serves: technology is never neutral, building for society is a choice, and what that meant when we built OmniSign.',
+    dek: 'Build with purpose. Others will follow.',
+    body: [
+      { kind: 'p', text: 'AI is moving fast. It is moving faster than our laws, faster than our ethics, and often, faster than our collective sense of responsibility.' },
+      { kind: 'p', text: 'The real question isn’t how powerful AI can become.' },
+      { kind: 'p', text: 'The question that keeps me up at night is: who does it actually serve?' },
+      { kind: 'p', text: 'Right now, the vast majority of AI innovation is optimized for three things: scale, profit, and market dominance.' },
+      { kind: 'p', text: 'And look — that’s not inherently wrong. Businesses need to grow. But it is incomplete.' },
+      { kind: 'p', text: 'When AI serves only industry titans and billionaires, we miss out on its most profound potential: the ability to uplift society at large.' },
+      { kind: 'h2', text: 'Technology is never neutral' },
+      { kind: 'p', text: 'We have to stop pretending that algorithms are objective.' },
+      { kind: 'p', text: 'Every model we train, every dataset we curate, and every deployment strategy we choose reflects a human choice.' },
+      { kind: 'p', text: 'We are constantly answering silent questions:' },
+      { kind: 'p', text: 'What problem are we solving? Who actually benefits from this solution? And who gets left behind?' },
+      { kind: 'p', text: 'When we design purely for efficiency or revenue, technology naturally gravitates toward the people who already have money and power. It follows the path of least resistance.' },
+      { kind: 'p', text: 'But society’s hardest problems — accessibility, safety, healthcare gaps, educational inequality, and the climate crisis — rarely sit at the top of a revenue roadmap.' },
+      { kind: 'p', text: 'That is exactly why leadership matters.' },
+      { kind: 'h2', text: 'Using AI for society is a choice' },
+      { kind: 'p', text: 'Building AI for social good doesn’t mean abandoning technical excellence or innovation. It means redirecting that brilliance with intention.' },
+      { kind: 'p', text: 'True leadership in this space — whether you are an engineer, a researcher, or a founder — isn’t about who builds the biggest model.' },
+      { kind: 'p', text: 'It’s about choosing problems that matter, even if they don’t scale immediately.' },
+      { kind: 'p', text: 'It’s about designing systems people can understand and trust, rather than black boxes that alienate them.' },
+      { kind: 'p', text: 'It’s about measuring success by the impact you leave on a community, not just the valuation you raise in a seed round.' },
+      { kind: 'h2', text: 'How we actually do this' },
+      { kind: 'p', text: 'So how do we move this from an abstract ideal to reality?' },
+      { kind: 'p', text: 'It starts by getting out of the bubble — building from real human pain points, not tech-first ideas looking for a problem.' },
+      { kind: 'p', text: 'It means collaborating outside the tech echo chamber: sitting down with educators, doctors, and community leaders who understand the nuance of the problems we’re trying to solve.' },
+      { kind: 'p', text: 'It means designing for constraints and accessibility, not just for the ideal user with the fastest internet connection.' },
+      { kind: 'p', text: 'Sometimes, the most revolutionary thing you can do is ship a smaller, focused solution that solves one real problem incredibly well.' },
+      { kind: 'h2', text: 'Building where nothing existed: a personal example' },
+      { kind: 'p', text: 'My team and I experienced this firsthand when we built OmniSign.' },
+      { kind: 'p', text: 'We saw a massive gap in accessibility for the Deaf community in Lebanon — there was no real-time tool to bridge the communication barrier.' },
+      { kind: 'p', text: 'But when we started, we hit a wall. There wasn’t even a dataset for Lebanese Sign Language.' },
+      { kind: 'p', text: 'The resources didn’t exist because the market hadn’t deemed it “profitable enough” to build them.' },
+      { kind: 'p', text: 'We could have stopped there.' },
+      { kind: 'p', text: 'Instead, we realized that if we wanted AI to serve this community, we had to do the heavy lifting ourselves.' },
+      { kind: 'p', text: 'We built the dataset from scratch and developed the model to translate Lebanese Sign Language in real time.' },
+      { kind: 'p', text: 'We didn’t wait for permission. We didn’t wait for big tech. We built it because it was necessary.' },
+      { kind: 'p', text: 'For more insight, visit the official project website, linked below.' },
+      { kind: 'h2', text: 'The kind of AI we should be proud of' },
+      { kind: 'p', text: 'The AI worth building isn’t just faster — it’s safer.' },
+      { kind: 'p', text: 'It doesn’t blindly replace people. It empowers them.' },
+      { kind: 'p', text: 'It reaches those usually written off as “not the target market.”' },
+      { kind: 'p', text: 'This isn’t about rejecting industry. It’s about expanding our definition of responsibility.' },
+      { kind: 'h2', text: 'Final thought' },
+      { kind: 'p', text: 'AI is going to shape society whether we intend it to or not.' },
+      { kind: 'p', text: 'The difference between a future of exploitation and one of empowerment is who leads the conversation.' },
+      { kind: 'p', text: 'If you are building AI today, you are already shaping that future.' },
+      { kind: 'p', text: 'The real power move isn’t optimizing for the top 1%. It’s choosing to build for the rest of us.' },
+      { kind: 'p', text: 'Build with purpose. Others will follow.' },
+    ],
+    sources: [
+      {
+        label: 'Medium — AI Should Serve Society',
+        href: 'https://medium.com/@ramikronbi/ai-should-serve-society-not-just-industry-and-billionaires-52d6b685e35d',
+        kind: 'article',
+        note: 'First published here on 9 January 2026.',
+      },
+      {
+        label: 'DEV — AI Should Serve Society',
+        href: 'https://dev.to/ramikronbi/ai-should-serve-society-not-just-industry-and-billionaires-37c9',
+        kind: 'article',
+        note: 'Also published on DEV the same day.',
+      },
+      {
+        label: 'OmniSign — team project page',
+        href: 'https://laythayache.com/projects/omnisign',
+        kind: 'article',
+      },
+    ],
+    projectSlug: '',
+    topics: ['applied-ai', 'civic-technology'],
+    keywords: ['AI for social good', 'responsible AI', 'technology ethics', 'accessibility', 'OmniSign', 'Lebanese Sign Language'],
+  },
+  {
+    slug: 'mentoring-two-healthcare-teams-at-injaz',
+    state: 'ready',
+    title: 'Mentoring two healthcare teams at INJAZ',
+    metaTitle: 'Mentoring two healthcare teams at INJAZ Al-Arab',
+    metaDescription:
+      'How Rami Kronbi mentored two INJAZ Lebanon school teams, LumiScan and Dosely, from first idea to award-winning prototype: a melanoma-detection device and an elderly-care system.',
+    dek: 'Two student teams, two healthcare products, and one job: get them from an idea to something that works in front of judges.',
+    body: [
+      {
+        kind: 'p',
+        text: 'In 2026 I was a technical mentor in the INJAZ Al-Arab Company Program, where student teams start a company around a product of their own. I mentored two healthcare teams from their first ideas through technical development to working prototypes, which they exhibited at the program. Both teams won awards: Best Community Impact and Best Healthcare Innovation.',
+      },
+      { kind: 'h2', text: 'Two products' },
+      {
+        kind: 'p',
+        text: 'The teams were school students. LumiScan, from Ahliah School, built a melanoma-detection device. Dosely, from Saint Joseph School, built an IoT-connected elderly-care system: a wearable bracelet, a pillbox, and a mobile app that work together to monitor health and well-being. Both are hardware, software, and a real person on the other end, which is exactly where a first prototype tends to break.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/injaz/dosely-booth.jpg',
+        alt: 'Rami Kronbi standing with the Dosely team at their booth, a table with their pillbox and bracelet prototypes, at the INJAZ Lebanon exhibition.',
+        caption: 'With Dosely at their booth: the pillbox, the bracelet and the app on the table.',
+      },
+      { kind: 'h2', text: 'How I ran it' },
+      {
+        kind: 'p',
+        text: 'I organized the technical side as a path the teams could follow on their own between sessions: first the specifications and a first prototype, then a minimum viable product and its quality, then how to scale it and sell it. Each step had a question the team had to answer before moving on, and a working demonstration rather than a slide at the end of it.',
+      },
+      {
+        kind: 'p',
+        text: 'Mentoring here is closer to managing a small engineering team than to teaching. The work is in scoping: cutting a product down to what can be built and shown in the time there is, deciding what to buy and what to build, and keeping the hardware and the software converging instead of drifting apart. The teams did the building; my part was making sure what they built would work on the day.',
+      },
+      {
+        kind: 'p',
+        text: 'It is the same lesson as running technical mentoring at NASA Space Apps, with more time and higher stakes: structure beats answers. A team that knows what it is trying to prove can usually find its own way to prove it.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/injaz/lumiscan-team.jpg',
+        alt: 'The LumiScan team from Ahliah School on stage at the INJAZ Lebanon final, wearing medals, in front of a screen showing their logo.',
+        caption: 'LumiScan on stage at the final.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/injaz/dosely-team.jpg',
+        alt: 'The Dosely team from Saint Joseph School on stage at the INJAZ Lebanon final, wearing medals, in front of a screen showing their logo.',
+        caption: 'Dosely on stage at the final.',
+      },
+      {
+        kind: 'figure',
+        src: '/images/authority/injaz/award.jpg',
+        alt: 'Rami Kronbi on stage at the INJAZ Lebanon final with two others, each holding an award plaque.',
+        caption: 'Closing the program at the INJAZ Lebanon final.',
+      },
+    ],
+    sources: [],
+    projectSlug: '',
+    topics: ['teaching-and-community'],
+    keywords: ['INJAZ Al-Arab', 'Company Program', 'technical mentoring', 'healthcare innovation', 'melanoma detection', 'IoT elderly care'],
   },
 ]
 

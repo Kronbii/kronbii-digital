@@ -229,7 +229,7 @@ export function SeeShot({
       </div>
       <div className="m s04-fig-k">Built from scratch</div>
       <div className="s04-place">
-        3rd · WRO Future Engineers 2023<span>with Wassim Ghaddar</span>
+        2nd · WRO Future Engineers 2023<span>with Wassim Ghaddar</span>
       </div>
       <div className="m s04-arch">
         <b>Jetson Nano</b> → perception

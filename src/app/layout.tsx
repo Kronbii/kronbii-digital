@@ -31,7 +31,7 @@ export const metadata: Metadata = {
         url: '/images/vneo/rami-kronbi-card.jpg',
         width: 1200,
         height: 630,
-        alt: 'Rami Kronbi, robotics, embedded & systems engineer',
+        alt: 'Rami Kronbi, robotics, vision & embedded systems engineer',
       },
     ],
   },

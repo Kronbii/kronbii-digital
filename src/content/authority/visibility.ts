@@ -6,6 +6,6 @@
 export const includeReviewRoutes =
   process.env.NODE_ENV !== 'production' || process.env.AUTHORITY_INCLUDE_REVIEW === '1'
 
-export function isRenderable(state: 'ready' | 'review'): boolean {
-  return state === 'ready' || includeReviewRoutes
+export function isRenderable(state: 'ready' | 'review' | 'hold'): boolean {
+  return state === 'ready' || (state === 'review' && includeReviewRoutes)
 }

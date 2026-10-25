@@ -218,7 +218,7 @@ Oreyeon internal system details, airport field work beyond information already o
 
 ### Landmine detection and extraction robot
 
-Hold pending an explicit disclosure and safety review with the Lebanese Armed Forces and the project team. Do not render technical architecture, field-test details, images, or partner claims.
+Ready since 2026-10-23 on Rami's explicit choice ("short page from CV"), and a priority tile on the home page. The page states only his CV paragraph plus "3D LiDAR SLAM", which he stated himself; images, sensor models, team and field-test results wait for his answers on the resolve board. (Superseded: the earlier hold pending a disclosure and safety review.)
 
 ### Private repositories
 
@@ -243,7 +243,7 @@ The private census is complete. Rami approved the following as candidates; each 
 1. Upstream open-source contributions — `review`, drafted 2026-09-20 as project `upstream-open-source-contributions` and article `what-small-upstream-fixes-teach-about-firmware`. Verified via GitHub: Betaflight PR #15706 merged 2026-09-16 (Redpine CC2500 debug mode) and PR #15705 open (W25M short die reads); OpenFront PR #4868 merged 2026-08-07 (end-timer warnings) and PR #4985 merged 2026-08-13 (iOS double-tap zoom); PX4 PR #28286 (EKF2 range-height resets) closed unmerged. Plan: one aggregated project record plus a short article.
 2. NASNA — article expanded 2026-09-20 from the public README (three-sided network, offline intake, privacy rules, stack, team roles); promote after Rami reads it and supplies any scale figures from team records.
 3. Smart Interactive Desk (BEMO) — project record now image-led with `smart-desk/night-pic.jpeg` and `demo.gif` copied from the public repository (provenance recorded); promote after record 13's open items.
-4. OmniSign — article now discloses both figure sets side by side; promote after the team reconciles them.
+4. OmniSign — ready since 2026-10-06. Open (2026-10-23 audit): both team pages list Rami as a later contributor (computer-vision engineer), not co-founder, and the 2025 Public Choice prize went to the original team; the role, prize and figure questions are on the resolve board.
 5. Talks and teaching — `review`, drafted 2026-09-20 as article `talks-workshops-and-teaching`: DevFest Tripoli 2025 (GDG North Lebanon, 2025-12-20, Beirut Arab University Tripoli campus; speaker per indexed event snippets and Instagram promotions; local slide assets and demo recordings exist in Rami's files), CodewithSerah Pre-Winter Sprint Bootcamp sessions (January 2026, verified via the host's LinkedIn post), LAU Byblos Software Engineering Club Git workshop (April 2026, with Tarek AlSaleh). Plan: one "Talks and teaching" record.
 6. Hantawatch outbreak dashboard — `review`, drafted 2026-09-20 as project `hantawatch-outbreak-dashboard` and article `building-an-outbreak-dashboard-from-public-sources`; still needs a README and data-provenance statement in the repository.
 7. Basira — `review`, drafted 2026-09-20 as project `basira-retinal-screening` and article `designing-a-council-of-models-for-retinal-screening`; medical: AI retinal-screening platform prototype, live at basira.ramikronbi.com; strict non-diagnostic framing required; model-weight licensing must be checked before any public page.
@@ -256,3 +256,75 @@ The private census is complete. Rami approved the following as candidates; each 
 14. CV-aim-assist — Rami now owns the work (2026-09-20). Claude recommends against a public page: the deliverable is a licensed screen-capture detector for a commercial video game, which reads as cheating tooling regardless of framing and conflicts with the site's positioning. If Rami insists, the only defensible framing is a benchmark of real-time screen-capture object detection, with the game, the licensing, and the client omitted.
 
 Permanently excluded from the public narrative by recommendation: CV-aim-assist (game-overlay detection for a client), the NSFW quantization workbench, personal memory tooling, vendor SDKs and upstream mirrors, coursework bundles, and collaborators' own repositories.
+
+## New projects branch, 2026-10-10
+
+Branch `new-projects-2026-10`, built while Rami was away from the keyboard, at his request: add every project from the
+October growth list so he can keep or drop each one on the branch before anything merges. Records on this branch are
+`ready` so they render (the live routes only build `ready` records); none of it is public until the branch merges.
+
+### Thermal super-resolution: benchmark replaces the CV figures (supersedes item 4's figures)
+
+- The repository's pull request #2 (`trustworthy-benchmark`) rebuilt the evaluation: one protocol file, 17 committed
+  FLIR ADAS v2 frames, metrics checked against scikit-image, GPU-synchronised timing, CI that keeps the README equal to
+  `results/benchmark.json`.
+- Measured: ×2 32.56 dB / 0.8469 (bicubic 31.81 / 0.8291); ×3 28.94 / 0.7342; ×4 27.87 / 0.6816; ×2 14.2 ms fp16
+  (70 FPS) and 21.9 ms fp32 on an RTX 3070 Laptop GPU; +0.91 dB at ×2 on 51 TNO images from other cameras.
+- The CV's 34.2 / 31.0 / 29.6 dB came from 1,100 unpublished validation frames under a different protocol (no border
+  crop, unquantised output), and no ×4 evaluation output exists; the 229.6 FPS report timed the GPU without
+  synchronisation. Superseded on 2026-10-23: Rami chose the CV figures ("CV figures stay … ignore anything else"), the benchmark swap was reverted, and the thermal repository's README was brought to the CV figures (PR #3).
+- The Jetson Orin figure (about 45 FPS after quantization) has no artifact in the repository. It stays only as a
+  disclosed limit, in first person.
+- **This reverses the 2026-09-20 decision** to keep the CV figures. Rami signs off before merge. Surfaces changed: the
+  project record and article, the home page's Heat scene (`src/components/v6/scenes/heat.tsx`), the card line
+  (`src/content/v3/work.ts`) and the reel line (`src/content/vneo/site.ts`).
+
+### 20. Rotor-fault detection and recovery for a quadrotor
+
+- Project slug: `quadrotor-rotor-fault-recovery`; article slug: `what-losing-a-rotor-teaches-about-estimation`.
+- Topics: `control-systems`, `robotics-perception`. Role: sole author.
+- Source: `https://github.com/Kronbii/rotor-fault-recovery` (**private**; make it public before merge or the link
+  404s). Facts from its `docs/portfolio.md`, `results/headline.json` and `sitl/results/sitl_summary.json`.
+- Every figure is simulation or PX4 software-in-the-loop; the page says nothing has flown with a fault.
+- Media: plates redrawn from the committed results by `experiments/portfolio_plates.py` in that repository.
+- The article is Rami's essay draft, with Mueller and D'Andrea (ICRA 2014, DOI 10.1109/ICRA.2014.6906588) cited.
+
+### 21. ESP32 barn-door star tracker
+
+- Project slug: `esp32-barn-door-star-tracker`; article slug: `a-barn-door-tracker-that-does-the-maths`.
+- Topics: `embedded-systems`, `control-systems`. Role: sole designer.
+- Source: `https://github.com/Kronbii/star-tracker` (**private**). Facts from its README and `docs/portfolio.md`.
+- Not built. Every performance figure is labelled a prediction or a host simulation; the CAD render carries "CAD
+  RENDER | unbuilt design, not a photograph" inside the image, and the caption says the same. Replace the render
+  with a photograph of the built tracker (and later an M42 frame) once they exist.
+
+### 22. Teach it: a drone-control bootcamp
+
+- Project slug: `drone-control-bootcamp`; article slug: `teaching-drone-control-from-an-rc-circuit-up`.
+- Topics: `control-systems`, `embedded-systems`. Role: sole author.
+- Source: `https://github.com/Kronbii/drone-control-bootcamp` (**private**). Facts from its README and
+  `docs/portfolio.md`; plates from its `tools/portfolio_plates.py`.
+- Not taught; no rig built. The page claims no learning outcomes and labels every figure as simulation.
+- **Space² is left off the page on purpose.** The repository says the course is designed for Space² and calls Rami a
+  co-organiser; that wording came from Claude's brief, not from Rami. Per the Space² rule above, his role and Space²'s
+  status need his confirmation before they appear publicly (in the page or the repository).
+
+### 23. Road-speed audit from one fixed camera
+
+- Project slug: `road-speed-audit`; article slug: `measuring-road-speed-with-one-camera`.
+- Topics: `computer-vision`, `civic-technology`. Role: sole author.
+- Source: `https://github.com/Kronbii/road-speed-audit` (**private**). Facts from its README, `docs/portfolio.md` and
+  `results/` (221 simulated runs, 13 experiments); plates from its `experiments/portfolio_plates.py`.
+- Simulation only, not field-validated, not an enforcement device; the page says so, along with the tuning-on-the-same-
+  simulator caveat. The WHO speed-risk sentence in the article cites the WHO road traffic injuries fact sheet, as the
+  repository does.
+- **Space² is left off the page.** The repository presents the tool as step one of a Space² road-safety pilot; per the
+  Space² rule above, that framing needs Rami's confirmation (his role, whether a real bounded pilot exists) before it is
+  public anywhere.
+
+
+## Update 2026-10-23 — keep/drop pass and audit
+
+- Publication states now include `hold` (kept in the record, never rendered). Held: prescription OCR, motorcycle trainer, AI support council, REE, Juno, Hantawatch, Lumiscan, Moto 961, and the project pages of Basira, Evoid, Imagen and the water robot (their write-ups stay ready).
+- Ready since 2026-10-23: runway-inspection UAV (renamed from the Raspberry Pi slugs; written from the 14 Oct CV), emotion recognition, Bsheel, the physics-outreach article, the landmine robot, the ICE engine simulator, and the essay "AI Should Serve Society".
+- A full audit (245 issues) lives on the local resolve board; answers Rami gives there drive the next edits.

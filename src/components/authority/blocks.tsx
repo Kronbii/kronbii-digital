@@ -10,6 +10,7 @@ import type {
   ProjectStage,
 } from '@/content/authority/types'
 import { getTopic } from '@/content/authority/topics'
+import { plainText } from '@/components/vneo/inline-text'
 
 import styles from './authority.module.css'
 
@@ -243,10 +244,13 @@ export function ArticleBodyContent({ blocks }: ArticleBodyProps) {
     <div className={styles.articleBody}>
       {blocks.map((block, index) => {
         if (block.kind === 'p') {
-          return <p key={index}>{block.text}</p>
+          return <p key={index}>{plainText(block.text)}</p>
         }
         if (block.kind === 'h2') {
           return <h2 key={index}>{block.text}</h2>
+        }
+        if (block.kind === 'figure' || block.kind === 'code') {
+          return null
         }
         return <h3 key={index}>{block.text}</h3>
       })}

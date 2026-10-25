@@ -50,7 +50,6 @@ export interface Chapter {
   name: string
 }
 
-const w = (slug: string) => workBySlug(slug)!
 const nasna = getArticle(
   'building-technology-around-crisis-response-operations'
 )
@@ -61,7 +60,7 @@ const note = (slug: string) => {
 
 /** The chapters, with their links inside the given version (e.g. /v7). */
 export function buildChapters(base: string): Chapter[] {
-  return [
+  const all: Chapter[] = [
     {
       id: 'voters',
       who: 'voters',
@@ -70,7 +69,7 @@ export function buildChapters(base: string): Chapter[] {
       title: 'Election information you can trace back to its source.',
       hot: 'source',
       line: 'Daleel keeps every fact with where it came from and how it changed, in Arabic, English, and French.',
-      part: w('daleel-lebanese-election-information').plain.part,
+      part: workBySlug('daleel-lebanese-election-information')?.plain.part ?? '',
       alt: 'The Daleel platform; a fact lifts off it, a thread traces it back to its source, and its earlier versions stack up underneath, kept rather than overwritten.',
       link: {
         label: 'How Daleel works',
@@ -124,10 +123,10 @@ export function buildChapters(base: string): Chapter[] {
       who: 'people who sign',
       label: 'For people who sign',
       name: 'OmniSign',
-      title: 'Lebanese Sign Language, turned into text in real time.',
+      title: 'Lebanese Sign Language, recognized in real time.',
       hot: 'real time',
       line: 'OmniSign reads signing from a camera and runs on phones, on the web, and on offline devices.',
-      part: 'Co-founder and computer vision engineer, in a team of five',
+      part: 'Co-founder; I built the computer-vision pipeline',
       alt: 'An illustration of a hand as tracked points; the skeleton connects, and the reading becomes a line of text, on a phone, the web, or an offline device.',
       link: {
         label: 'How OmniSign works',
@@ -161,9 +160,9 @@ export function buildChapters(base: string): Chapter[] {
       name: 'Brainiacs',
       title: 'Robots that see, decide, and steer themselves.',
       hot: 'steer',
-      line: 'A self-driving car built from scratch in 20 days took third of 95+ teams at the World Robot Olympiad 2023. Drones are the love: a fix of mine was merged into Betaflight, the firmware that flies FPV drones.',
+      line: 'A self-driving car built from scratch in 20 days took second in Future Engineers at WRO Lebanon 2023. Drones are the love: a fix of mine was merged into Betaflight, the firmware that flies FPV drones.',
       part: 'Team of two, with Wassim Ghaddar',
-      alt: 'The Brainiacs race car; a counter runs to 20 days, the placing lands, third of 95 or more teams, and a merged Betaflight fix follows.',
+      alt: 'The Brainiacs race car; a counter runs to 20 days, the placing lands, second in Future Engineers at WRO Lebanon, and a merged Betaflight fix follows.',
       link: {
         label: 'How the car works',
         href: workHref('brainiacs-autonomous-race-car', base),
@@ -179,6 +178,10 @@ export function buildChapters(base: string): Chapter[] {
       },
     },
   ]
+  // a chapter whose project is off the site is left out (Daleel, “for voters”)
+  return all.filter(
+    (c) => c.id !== 'voters' || !!workBySlug('daleel-lebanese-election-information'),
+  )
 }
 
 export const chapters = buildChapters(V7)
@@ -186,14 +189,15 @@ export const chapters = buildChapters(V7)
 /** Everything else that is ready, grouped by who it is for. */
 const GROUPS: { label: string; slugs: string[] }[] = [
   {
-    label: 'Health',
+    label: 'Safety',
     slugs: [
-      'lumiscan-lesion-dashboard',
-      'multilingual-medical-prescription-ocr',
-      'hantawatch-outbreak-dashboard',
+      'quadrotor-rotor-fault-recovery',
+      'landmine-detection-extraction-robot',
+      'road-speed-audit',
     ],
   },
-  { label: 'Learners', slugs: ['lebanese-motorcycle-theory-trainer'] },
+  { label: 'Learners', slugs: ['drone-control-bootcamp'] },
+  { label: 'Health', slugs: ['emotion-recognition-autism-support'] },
   {
     label: 'Engineers and makers',
     slugs: [
@@ -201,25 +205,15 @@ const GROUPS: { label: string; slugs: string[] }[] = [
       'upstream-open-source-contributions',
       'pid-light-tracking-robot',
       'fine-crack-tracing-toolkit',
-      'water-shooting-robot',
+      'ice-engine-simulator',
+      'esp32-barn-door-star-tracker',
     ],
   },
   {
     label: 'Seeing better',
-    slugs: [
-      'thermal-super-resolution',
-      '360-spherical-panorama-stitching',
-      'imagen-raw-to-edit-dataset-pipeline',
-    ],
+    slugs: ['thermal-super-resolution', '360-spherical-panorama-stitching'],
   },
-  {
-    label: 'Tools and ventures',
-    slugs: [
-      'ree-personal-finance-tracker',
-      'local-first-ai-support-triage',
-      'evoid-applied-vision-venture',
-    ],
-  },
+  { label: 'Players', slugs: ['bsheel-quest-app'] },
 ]
 
 export const buildGroups = (base: string) =>

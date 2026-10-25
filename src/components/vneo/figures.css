@@ -1,0 +1,277 @@
+/*
+ * Pictures the record carries that Vneo's own stylesheet did not: a
+ * project's architecture diagram as its first picture, an article's lead
+ * image, the figures and inline links inside an article.
+ */
+
+/* ---------- a project's diagram, as its first picture ---------- */
+/* The authority diagram reads these; Sage values stand in for its own. */
+[data-vneo] .vn-diagram-plate {
+  --authority-rule: 1px solid var(--hair2);
+  --authority-rule-strong: 1px solid var(--hair);
+  --authority-accent: var(--sage);
+  --authority-ink: var(--ink);
+  --authority-ink-dim: var(--ink2);
+  --font-display: var(--f-display);
+  width: 100%;
+  max-width: 720px;
+  margin-inline: auto;
+  container-type: inline-size;
+}
+[data-vneo] .vn-diagram-plate > figure {
+  margin: 0;
+}
+/* the frame */
+[data-vneo] .vn-diagram-plate > figure > div {
+  padding: clamp(16px, 4cqi, 32px);
+  border: 0;
+  border-radius: 32px;
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--hair);
+}
+/* a row: stacked by default, a flow across once the frame is wide enough */
+[data-vneo] .vn-diagram-plate > figure > div > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+  gap: 10px;
+}
+[data-vneo] .vn-diagram-plate > figure > div > div + div {
+  margin-top: 10px !important;
+  padding-top: 10px;
+  border-top: 1px dashed var(--hair);
+}
+@container (min-width: 600px) {
+  [data-vneo] .vn-diagram-plate > figure > div > div:has(> span) {
+    grid-template-columns:
+      minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+  }
+  [data-vneo] .vn-diagram-plate > figure > div > div:not(:has(> span)) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+/* a step */
+[data-vneo] .vn-diagram-plate > figure > div > div > div {
+  padding: 14px 16px;
+  border: 1px solid var(--hair2);
+  border-radius: 16px;
+  background: var(--raised);
+  color: var(--ink);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+[data-vneo] .vn-diagram-plate > figure > div > div > div > span:first-child {
+  display: block;
+  margin-bottom: 4px;
+  font-family: var(--f-display);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+[data-vneo] .vn-diagram-plate > figure > div > div > div > span + span {
+  color: var(--ink2);
+  font-size: 0.86rem;
+}
+/* the arrow between steps: down while stacked, across in a flow */
+[data-vneo] .vn-diagram-plate > figure > div > div > span {
+  justify-self: center;
+  align-self: center;
+  color: var(--sage);
+  font-size: 1.1rem;
+  line-height: 1;
+  transform: rotate(90deg);
+}
+@container (min-width: 600px) {
+  [data-vneo] .vn-diagram-plate > figure > div > div > span {
+    transform: none;
+  }
+}
+[data-vneo] .vn-diagram-plate figcaption {
+  margin-top: 12px;
+  padding-inline: 4px;
+  color: var(--ink3);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+/* the one motion: each step comes into focus in the order it runs */
+@keyframes vn-diagram-focus {
+  from {
+    opacity: 0.2;
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    filter: none;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-vneo] .vn-diagram-plate > figure > div > div > * {
+    animation: vn-diagram-focus 0.9s var(--ease) both;
+  }
+  [data-vneo] .vn-diagram-plate > figure > div > div > :nth-child(2) {
+    animation-delay: 0.1s;
+  }
+  [data-vneo] .vn-diagram-plate > figure > div > div > :nth-child(3) {
+    animation-delay: 0.2s;
+  }
+  [data-vneo] .vn-diagram-plate > figure > div > div > :nth-child(4) {
+    animation-delay: 0.3s;
+  }
+  [data-vneo] .vn-diagram-plate > figure > div > div > :nth-child(5) {
+    animation-delay: 0.4s;
+  }
+  [data-vneo] .vn-diagram-plate > figure > div > div + div > * {
+    animation-delay: 0.5s;
+  }
+  [data-vneo] .vn-diagram-plate > figure > div > div + div > :nth-child(2) {
+    animation-delay: 0.6s;
+  }
+  [data-vneo] .vn-diagram-plate > figure > div > div + div > :nth-child(3) {
+    animation-delay: 0.7s;
+  }
+  [data-vneo] .vn-diagram-plate > figure > div > div + div > :nth-child(4) {
+    animation-delay: 0.8s;
+  }
+  [data-vneo] .vn-diagram-plate > figure > div > div + div > :nth-child(5) {
+    animation-delay: 0.9s;
+  }
+}
+
+/* ---------- an article's lead image and its figures ---------- */
+[data-vneo] .vn-article-hero,
+[data-vneo] .vn-article-figure {
+  margin: 0;
+}
+[data-vneo] .vn-article-hero {
+  margin-top: clamp(28px, 5vh, 44px);
+}
+[data-vneo] .vn-article-figure {
+  margin: 1.8em 0;
+}
+[data-vneo] :is(.vn-article-hero, .vn-article-figure) img {
+  /* its own shape, never letterboxed: as wide as the column allows, no taller than most of a screen */
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: min(72svh, 680px);
+  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--hair);
+}
+[data-vneo] :is(.vn-article-hero, .vn-article-figure) figcaption {
+  margin-top: 10px;
+  max-width: 68ch;
+  color: var(--ink3);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+/* ---------- inline links in an article ---------- */
+[data-vneo] .vn-inline-link {
+  color: var(--sage);
+  text-decoration: underline;
+  text-decoration-color: rgba(var(--sage-rgb), 0.45);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.2s;
+}
+[data-vneo] .vn-inline-link:hover {
+  text-decoration-color: var(--sage);
+}
+
+/* a short code listing inside a write-up */
+[data-vneo] .vn-article-code {
+  margin: 28px 0;
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: rgba(var(--ink-rgb), 0.04);
+  box-shadow: 0 0 0 1px var(--hair);
+  overflow-x: auto;
+  font: 13.5px/1.6 var(--f-mono);
+  color: var(--ink2);
+  tab-size: 2;
+}
+[data-vneo] .vn-article-code code {
+  font: inherit;
+  white-space: pre;
+}
+
+/* a project's real footage, leading its page */
+[data-vneo] .vn-case-video {
+  margin: 0;
+  align-self: center;
+}
+[data-vneo] .vn-case-video video {
+  display: block;
+  width: 100%;
+  max-height: 72svh;
+  object-fit: contain;
+  border-radius: 26px;
+  background: #121614;
+  box-shadow: 0 0 0 1px var(--hair);
+}
+[data-vneo] .vn-case-video figcaption {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: var(--ink3);
+}
+[data-vneo] .v7-media video {
+  display: block;
+  width: 100%;
+  border-radius: 16px;
+  background: #121614;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-vneo] .vn-case-video video {
+    animation: none;
+  }
+}
+
+/* gallery tiles: phone screens at their own shape, off-ratio charts shown whole */
+[data-v7] .v7-media {
+  align-items: start;
+}
+[data-v7] .v7-media figure[data-fit='tall'] img {
+  aspect-ratio: auto;
+  height: auto;
+}
+[data-v7] .v7-media figure[data-fit='whole'] img {
+  object-fit: contain;
+}
+
+/* a project's pictures and clips, placed through its page */
+[data-v7] .vn-inline-fig {
+  margin: 22px 0 4px;
+  max-width: 820px;
+}
+[data-v7] .vn-inline-fig :is(img, video) {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 72vh;
+  object-fit: contain;
+  border-radius: 18px;
+  box-shadow: 0 0 0 1px var(--hair);
+  background: var(--surface);
+}
+[data-v7] .vn-inline-fig[data-fit='tall'] :is(img, video) {
+  width: auto;
+  max-width: 100%;
+  max-height: 640px;
+}
+[data-v7] .vn-inline-fig figcaption {
+  margin-top: 8px;
+  max-width: 64ch;
+  color: var(--ink3);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+[data-v7] .v7-media .vn-inline-fig {
+  margin: 0;
+}
+[data-v7] .v7-media .vn-inline-fig img {
+  aspect-ratio: auto;
+}

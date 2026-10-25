@@ -46,7 +46,13 @@ export const chapters: Chapter[] = buildChapters(VN).map((c) => ({
           position: '50% 50%',
         }
       : c.plate,
-  link: { ...c.link, href: intoVneo(c.link.href) },
+  link:
+    c.id === 'clinics'
+      ? {
+          label: 'How Basira works',
+          href: writingHref('designing-a-council-of-models-for-retinal-screening'),
+        }
+      : { ...c.link, href: intoVneo(c.link.href) },
   more: c.more ? { ...c.more, href: intoVneo(c.more.href) } : undefined,
 }))
 export const groups = buildGroups(VN)
@@ -116,6 +122,13 @@ export type ReelId = (typeof reel)[number]['id']
 type Motion =
   | { kind: 'shot'; id: ReelId }
   | { kind: 'scene'; id: Chapter['id'] }
+  | { kind: 'own'; id: 'demining' }
+
+/** What each project's own scene shows, for screen readers. */
+export const ownAlt = {
+  demining:
+    'An illustration: a rover sweeps a planned path over a georeferenced grid and marks what it finds; its stack reads sense, perceive, localize, plan, act.',
+} as const
 const workItem = (slug: string, motion: Motion | undefined, shows: string) => {
   const w = workBySlug(slug)!
   return {
@@ -131,7 +144,9 @@ const workItem = (slug: string, motion: Motion | undefined, shows: string) => {
     alt:
       motion?.kind === 'shot'
         ? shotAlt[motion.id]
-        : (chapters.find((c) => c.id === motion?.id)?.alt ?? w.plain.line),
+        : motion?.kind === 'own'
+          ? ownAlt[motion.id]
+          : (chapters.find((c) => c.id === motion?.id)?.alt ?? w.plain.line),
   }
 }
 export type WorkItem = ReturnType<typeof workItem>
@@ -141,27 +156,29 @@ export type ShowItem = WorkItem & {
   size: TileSize
   /** Its place in the desktop grid (grid-template-areas in vneo.css). */
   area: string
-  image?: { src: string; position?: string; fit?: 'contain' }
+  image?: { src: string; position?: string; fit?: 'contain'; poster?: string }
   figure?: { from: string; fromNote: string; to: string; toNote: string }
   /** Opens outside the site (a project with no page here yet). */
   external?: boolean
 }
 
-/** Juno, the new version of my finance app, shown by its screenshot. */
-const juno: ShowItem = {
-  ...workItem('juno', undefined, ''),
-  alt: 'Juno’s home screen with demo data: the month’s spending, budgets, and accounts.',
-  size: 'wide',
-  area: 'juno',
-  image: { src: '/images/vneo/juno-home.jpg', position: '0% 0%' },
-}
-
 /**
- * The work, as one tight grid, by importance: the biggest tiles for the work
- * that matters most (the drone, then the car, OmniSign, and the thermal
- * model). The first four pieces with motion play in turn like a reel.
+ * The work, as one tight grid, from most to least important: the landmine
+ * robot and the drone first, then OmniSign, the rotor-fault study, the
+ * road-speed audit and the thermal model. The first four pieces with motion
+ * play in turn like a reel.
  */
 export const showcase: ShowItem[] = [
+  {
+    ...workItem('landmine-detection-extraction-robot', undefined, ''),
+    alt: 'RViz shows the rover’s 2D map and planned path, then the rover drives itself through the indoor arena.',
+    size: 'big',
+    area: 'mine',
+    image: {
+      src: '/images/authority/landmine/navigation.mp4',
+      poster: '/images/authority/landmine/navigation-poster.jpg',
+    },
+  },
   {
     ...workItem('five-inch-carbon-fiber-fpv-drone', undefined, ''),
     size: 'big',
@@ -181,22 +198,22 @@ export const showcase: ShowItem[] = [
     area: 'omni',
   },
   {
-    ...workItem(
-      'brainiacs-autonomous-race-car',
-      { kind: 'shot', id: 'see' },
-      'The car’s camera view, its edges, its strongest corners, and the lock.'
-    ),
+    ...workItem('quadrotor-rotor-fault-recovery', undefined, ''),
     size: 'wide',
-    area: 'race',
+    area: 'rot',
+    image: {
+      src: '/images/authority/quadrotor-rotor-fault-recovery/rotor-loss-sim.mp4',
+      poster: '/images/authority/quadrotor-rotor-fault-recovery/rotor-loss-sim-poster.jpg',
+    },
   },
   {
-    ...workItem(
-      'daleel-lebanese-election-information',
-      { kind: 'scene', id: 'voters' },
-      'A fact, traced back to its source, with its history kept.'
-    ),
+    ...workItem('road-speed-audit', undefined, ''),
     size: 'wide',
-    area: 'dal',
+    area: 'road',
+    image: {
+      src: '/images/authority/road-speed-audit/a40-speed-overlay.mp4',
+      poster: '/images/authority/road-speed-audit/a40-speed-overlay-poster.jpg',
+    },
   },
   {
     ...workItem(
@@ -209,15 +226,6 @@ export const showcase: ShowItem[] = [
   },
   {
     ...workItem(
-      'upstream-open-source-contributions',
-      { kind: 'shot', id: 'ship' },
-      'Five pull requests to Betaflight, PX4, and OpenFront: three merged.'
-    ),
-    size: 'wide',
-    area: 'ship',
-  },
-  {
-    ...workItem(
       '360-spherical-panorama-stitching',
       { kind: 'shot', id: 'map' },
       '309 frames from one phone sweep, closing into one sphere.'
@@ -227,12 +235,21 @@ export const showcase: ShowItem[] = [
   },
   {
     ...workItem(
-      'easypid-arduino-library',
-      { kind: 'shot', id: 'tune' },
-      'A simulated step response settling as the damping rises.'
+      'brainiacs-autonomous-race-car',
+      { kind: 'shot', id: 'see' },
+      'The car’s camera view, its edges, its strongest corners, and the lock.'
     ),
-    size: 'one',
-    area: 'pid',
+    size: 'wide',
+    area: 'race',
+  },
+  {
+    ...workItem(
+      'upstream-open-source-contributions',
+      { kind: 'shot', id: 'ship' },
+      'Five pull requests to Betaflight, PX4, and OpenFront: three merged.'
+    ),
+    size: 'wide',
+    area: 'ship',
   },
   {
     ...workItem(
@@ -244,26 +261,32 @@ export const showcase: ShowItem[] = [
     area: 'crk',
   },
   {
-    ...workItem('imagen-raw-to-edit-dataset-pipeline', undefined, ''),
-    size: 'wide',
-    area: 'img',
-    figure: {
-      from: '2–3',
-      fromNote: 'a day, team of three',
-      to: '~40',
-      toNote: 'a day, per person',
-    },
+    ...workItem(
+      'easypid-arduino-library',
+      { kind: 'shot', id: 'tune' },
+      'A simulated step response settling as the damping rises.'
+    ),
+    size: 'one',
+    area: 'pid',
   },
   {
-    ...workItem('lebanese-motorcycle-theory-trainer', undefined, ''),
-    size: 'one',
-    area: 'moto',
+    ...workItem('esp32-barn-door-star-tracker', undefined, ''),
+    size: 'wide',
+    area: 'star',
     image: {
-      src: '/images/authority/motorcycle-trainer/sign-127.webp',
+      src: '/images/authority/esp32-barn-door-star-tracker/cad-render-square.png',
       fit: 'contain',
     },
   },
-  juno,
+  {
+    ...workItem('drone-control-bootcamp', undefined, ''),
+    size: 'one',
+    area: 'boot',
+    image: {
+      src: '/images/authority/drone-control-bootcamp/plate.png',
+      position: '50% 42%',
+    },
+  },
 ]
 /** How many of the first motion tiles play in turn when the grid arrives. */
 export const FEATURED = 4
@@ -288,28 +311,36 @@ export const community = {
       'On-Device Multimodal Assistants: Can We Fit GPT-Vision on Small Hardware?',
     note: 'Quantization, memory budgets, and hardware acceleration, ending with a live demo.',
     demo: 'Live demo',
+    image: {
+      src: '/images/authority/talks/devfest-title.jpg',
+      alt: 'The talk’s opening slide, “Can we make Jarvis real?”, at GDG DevFest Tripoli 2025.',
+    },
     href: writingHref('talks-workshops-and-teaching'),
   },
   workshops: {
     label: 'Workshops',
-    title: 'Git & GitHub, hands on',
+    title: 'Git, GitHub, and the long way into AI',
     items: [
-      'CodewithSerah bootcamp · January 2026',
-      'LAU Byblos Software Engineering Club · April 2026',
+      'CodewithSerah bootcamp, two sessions · January 2026',
+      'LAU Byblos SWE Club, coordinator; material by Tarek AlSaleh · April 2026',
     ],
     href: writingHref('talks-workshops-and-teaching'),
   },
   mentoring: {
     label: 'Mentoring',
-    title: 'NASA Space Apps, Beirut',
-    years: ['2021', '2022', '2023', '2024'],
-    note: 'Lead technical organizer: bootcamps on NASA data, problem selection, and prototyping for its teams.',
-    href: writingHref('what-four-years-of-technical-mentoring-taught-me'),
+    title: 'INJAZ Al-Arab and NASA Space Apps',
+    years: ['2021', '2022', '2023', '2024', '2026'],
+    note: 'Technical mentor to two INJAZ healthcare teams, LumiScan and Dosely, both awarded in 2026; lead technical organizer of NASA Space Apps Beirut, 2021–2024.',
+    image: {
+      src: '/images/authority/injaz/dosely-booth.jpg',
+      alt: 'Rami Kronbi with the Dosely team at their INJAZ Lebanon booth.',
+    },
+    href: writingHref('mentoring-two-healthcare-teams-at-injaz'),
   },
   read: 'Read more',
 }
 
-/** Already shown above, so "More of the work" lists only the rest; REE is superseded by Juno. */
+/** Already shown above, so "More of the work" lists only the rest. */
 export const shownAbove = new Set([
   ...showcase.map((t) => t.slug),
   'basira-retinal-screening',
@@ -335,21 +366,57 @@ const build = {
 }
 
 /**
- * The path so far (v3's flight log, as v4 flew it), its links moved into
- * Vneo: only the turning points, so not the talk or the single upstream fix.
+ * My professional experience, in order: the roles, ventures and mentoring,
+ * flown as v3's flight log. Projects and prizes live in their own sections.
  */
-const LOG_SKIP = new Set([
-  'Spoke at GDG DevFest Tripoli',
-  'A fix merged into Betaflight',
-])
 const log = {
-  ...v3Home.log,
-  points: v3Home.log.points
-    .filter((p) => !LOG_SKIP.has(p.what))
-    .map((p) => ({
-      ...p,
-      href: intoVneo(rebase(p.href, VN)),
-    })),
+  label: 'Experience',
+  title: 'Flight log',
+  lede: 'My experience, one waypoint at a time: where I have worked, taught, mentored, and co-founded.',
+  points: [
+    {
+      when: '2021 – 2024',
+      what: 'Technical mentor and organizer, NASA Space Apps Beirut',
+      note: 'Ran technical bootcamps on NASA data and mentored hackathon teams, for 250–400 participants a year.',
+      href: writingHref('what-four-years-of-technical-mentoring-taught-me'),
+    },
+    {
+      when: '2022 – 2023',
+      what: 'Computer-vision intern, VIBE',
+      note: 'At a startup, I built emotion recognition on edge hardware to support children with autism.',
+      href: workHref('emotion-recognition-autism-support', VN),
+    },
+    {
+      when: '2022 – 2025',
+      what: 'Lab and teaching assistant, Rafik Hariri University',
+      note: 'Ran mechatronics lab sessions, and organized the university’s robotics competitions, including IEEE Micromouse.',
+      href: siteConfig.education.url,
+    },
+    {
+      when: '2023 – 2025',
+      what: 'Co-founder, Evoid',
+      note: 'Systems engineer and product manager at a small applied computer-vision venture in Beirut.',
+      href: writingHref('what-a-small-vision-venture-taught-me-about-scope'),
+    },
+    {
+      when: '2024 – now',
+      what: 'Embedded Systems & Vision Engineer, Oreyeon',
+      note: 'Full time: real-time vision for airport runway safety, on NVIDIA Jetson.',
+      href: siteConfig.employer.url,
+    },
+    {
+      when: '2024 – 2026',
+      what: 'Co-founder and operations lead, NASNA',
+      note: 'A crisis-response platform connecting displaced families with NGOs, donors, and volunteers.',
+      href: writingHref('building-technology-around-crisis-response-operations'),
+    },
+    {
+      when: '2026',
+      what: 'Technical mentor, INJAZ Al-Arab',
+      note: 'Took two school healthcare teams from first idea to award-winning prototypes.',
+      href: writingHref('mentoring-two-healthcare-teams-at-injaz'),
+    },
+  ],
 }
 
 const note = (slug: string) => {
@@ -361,15 +428,15 @@ const note = (slug: string) => {
 
 export const vneo = {
   meta: {
-    title: 'Rami Kronbi — Robotics, embedded, and systems engineer',
+    title: 'Rami Kronbi — Robotics, vision & embedded systems engineer',
     description:
-      'Rami Kronbi is a robotics, embedded, and systems engineer in Beirut who builds for people: election information for voters, crisis coordination for displaced families, second readings for clinics, and robots that steer themselves.',
+      'Rami Kronbi, robotics, vision & embedded systems engineer in Beirut: a mine-detection rover with 3D LiDAR SLAM, sign-language recognition, drones, and more.',
   },
   hero: {
     id: 'ID lock · engineer',
     first: 'Rami',
     last: 'Kronbi',
-    sub: 'Robotics, embedded & systems engineer',
+    sub: 'Robotics, vision & embedded systems engineer',
     where: siteConfig.location.replace(', ', ' · '),
     chips: [
       { label: 'Work', href: '#work' },
@@ -380,38 +447,41 @@ export const vneo = {
   glance: [
     {
       big: 'Now',
-      label: 'Embedded Systems Engineer at Oreyeon',
+      label: 'Embedded Systems & Vision Engineer at Oreyeon',
       note: 'real-time vision for runway safety',
       href: siteConfig.employer.url,
     },
     {
-      big: '3×',
+      big: '4×',
       label: 'Co-founder',
-      note: 'Evoid · NASNA · OmniSign',
+      note: 'NASNA · OmniSign · Bsheel · Evoid',
       href: `${HOME}#community`,
     },
     {
       big: '2025',
       label: 'Mechatronics engineer, RHU',
-      note: 'graduated with a full master’s scholarship',
-      href: siteConfig.education.url,
+      note: 'valedictorian, 4.0/4.0, full master’s scholarship',
+      href: 'https://www.rhu.edu.lb/media-room/news/rhu-commencement-2025-a-tribute-to-legacy-learning-and-new-beginnings',
     },
     {
       big: 'Mentor',
       label: 'Speaker and mentor',
-      note: 'GDG DevFest Tripoli · NASA Space Apps Beirut',
-      href: writingHref('talks-workshops-and-teaching'),
+      note: 'DevFest Tripoli · NASA Space Apps · INJAZ',
+      href: `${VN}/about#about-teaching`,
     },
   ],
   work: {
-    no: 3,
+    no: 4,
+    /** every project on the site, for the button under the grid */
+    total: works.length,
+    viewAll: 'View all projects',
     label: 'Work',
     title: 'Selected projects.',
     hot: 'projects',
-    lede: 'The most important come first and play as you arrive; hover any to see it again, or press Watch for the full view. Each says what it does, my part, and the fact to check.',
+    lede: 'The most important come first and play as you arrive; hover any to see it again, or press Watch for the full view. Each says what it does, my part, and one result.',
     /** The same, for a phone: no hover there, and the grid becomes a row to swipe. */
     ledeTouch:
-      'The most important come first, each playing as it comes into view; swipe for the rest, or press Watch for the full view. Each says what it does, my part, and the fact to check.',
+      'The most important come first, each playing as it comes into view; swipe for the rest, or press Watch for the full view. Each says what it does, my part, and one result.',
     all: 'All projects',
     open: 'Open the project',
     watch: 'Watch',
@@ -445,7 +515,7 @@ export const vneo = {
     accent: '#b7d3a8',
     pack: {
       words: ['Sense', 'Decide', 'Act'],
-      note: '36 × Unitree Go2 · on a circuit board, simulated',
+      note: 'Illustration · 36 × Unitree Go2, simulated on a circuit board',
       tracks: [30, 22, 27, 32],
       track: 'Go2',
       focus: ['Robotics', 'Computer vision', 'Embedded systems', 'Edge AI'],
@@ -472,6 +542,8 @@ export const vneoChrome = {
     { label: 'Work', href: `${HOME}#work` },
     { label: 'Community', href: `${HOME}#community` },
     { label: 'Projects', href: `${VN}/projects` },
+    { label: 'Writing', href: `${VN}/writing` },
+    { label: 'About', href: `${VN}/about` },
     { label: 'Contact', href: `${HOME}#sign-off` },
   ],
   footer: {
@@ -479,6 +551,7 @@ export const vneoChrome = {
       { label: 'Projects', href: '/projects' },
       { label: 'Writing', href: '/writing' },
       { label: 'Topics', href: '/topics' },
+      { label: 'About', href: '/about' },
     ],
     copyright: `© 2026 ${siteConfig.name} · ${siteConfig.location}`,
   },
