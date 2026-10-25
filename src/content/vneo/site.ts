@@ -371,8 +371,8 @@ const build = {
  */
 const log = {
   label: 'Experience',
-  title: 'Work, teaching, and ventures.',
-  lede: 'Where I have worked, taught, mentored, and co-founded, in order.',
+  title: 'Flight log',
+  lede: 'My experience, one waypoint at a time: where I have worked, taught, mentored, and co-founded.',
   points: [
     {
       when: '2021 – 2024',
