@@ -214,6 +214,11 @@ export function Work() {
           </li>
         ))}
       </ul>
+      <p className="vn-work-all">
+        <Link className="vn-all-btn" href={`${VN}/projects`}>
+          {c.viewAll} <span>({c.total})</span> →
+        </Link>
+      </p>
 
       <dialog
         ref={theater}

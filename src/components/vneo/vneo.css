@@ -1095,6 +1095,38 @@
   }
 }
 
+/* ---------- under the selected projects: every project ---------- */
+[data-vneo] .vn-work-all {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(28px, 5vh, 44px);
+  padding: 0 var(--gutter);
+}
+[data-vneo] .vn-all-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 26px;
+  border-radius: 999px;
+  background: var(--sage);
+  color: var(--ground);
+  font-weight: 600;
+  font-size: 1.05rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+[data-vneo] .vn-all-btn span {
+  font-weight: 500;
+  opacity: 0.75;
+}
+[data-vneo] .vn-all-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 4px rgba(var(--sage-rgb), 0.25);
+}
+[data-vneo] .vn-all-btn:focus-visible {
+  outline: 2px solid var(--sage);
+  outline-offset: 4px;
+}
+
 /* ---------- more of the work ---------- */
 [data-vneo] .vn-more {
   padding: clamp(80px, 14vh, 140px) 0 clamp(48px, 8vh, 80px);

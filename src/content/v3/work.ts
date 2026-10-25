@@ -61,7 +61,7 @@ export const plain: Record<string, PlainWork> = {
     kind: 'AI · support tool',
     line: 'Reads facial expressions in real time on a small device, as a support tool for children with autism.',
     proof: '~92% development accuracy; prototype later acquired',
-    part: 'Developed the pipeline and its data',
+    part: 'Intern at VIBE: developed the pipeline and its data',
     field: 'health',
   },
   'bsheel-quest-app': {

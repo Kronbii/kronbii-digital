@@ -73,6 +73,16 @@ export default function Vneo() {
         <Build />
       </Suspense>
       <Suspense>
+        <div className="vn-log vn-v3">
+          <SlateMark no={3} label={c.log.label} />
+          <FlightLog
+            title={c.log.title}
+            lede={c.log.lede}
+            points={c.log.points}
+          />
+        </div>
+      </Suspense>
+      <Suspense>
         <Work />
       </Suspense>
       <Suspense>
@@ -81,7 +91,7 @@ export default function Vneo() {
 
       <section id="more" className="vn-more" aria-labelledby="more-h">
         <Slate
-          no={5}
+          no={6}
           label={c.more.label}
           title={c.more.title}
           hot={c.more.hot}
@@ -111,17 +121,6 @@ export default function Vneo() {
           </Link>
         </p>
       </section>
-
-      <Suspense>
-        <div className="vn-log vn-v3">
-          <SlateMark no={6} label="The path" />
-          <FlightLog
-            title={c.log.title}
-            lede={c.log.lede}
-            points={c.log.points}
-          />
-        </div>
-      </Suspense>
 
       <Suspense>
         <Loop />

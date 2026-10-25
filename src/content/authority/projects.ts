@@ -1781,7 +1781,7 @@ export const projects: ProjectRecord[] = [
       'A real-time facial-landmark and CNN pipeline on a Jetson Orin Nano, built as a support tool for children with autism, at about 92% development accuracy.',
     summary:
       'A real-time emotion-recognition pipeline I developed in 2022–2023 as a support tool for children with autism. It pairs facial landmarks with a convolutional neural network and runs on a Jetson Orin Nano. After I combined and cleaned image and video data from CALMED, Kaggle, and other sources, it reached about 92% development accuracy. The prototype and the concept were later acquired following a Gulf-region competition.',
-    role: 'Built with a small team and a mentor; I developed the pipeline and combined and cleaned its training data.',
+    role: 'Computer-vision intern at VIBE, a startup, in a small team with a mentor; I developed the pipeline and combined and cleaned its training data.',
     form: 'diagram',
     schemaType: 'CreativeWork',
     hero: {
@@ -1796,7 +1796,7 @@ export const projects: ProjectRecord[] = [
       problem:
         'A support tool that reads facial expressions has to work for the children it is meant for, which means learning from data that includes them, and it has to keep up in real time on a small device.',
       how: 'Facial landmarks and a convolutional neural network run together on a Jetson Orin Nano in real time. I trained the network on image and video data from CALMED, Kaggle, and other sources that I combined and cleaned, and it reached about 92% development accuracy.',
-      role: 'I developed the pipeline in 2022–2023, in a small team with a mentor, and prepared the data it learned from, a collection of datasets around CALMED. The prototype and the concept were later acquired following a Gulf-region competition.',
+      role: 'I developed the pipeline in 2022–2023, as a computer-vision intern at VIBE, a startup, in a small team with a mentor, and prepared the data it learned from, a collection of datasets around CALMED. The prototype and the concept were later acquired following a Gulf-region competition.',
     },
     stages: [
       {

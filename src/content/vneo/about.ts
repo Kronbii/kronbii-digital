@@ -60,7 +60,14 @@ export const about: {
           note: 'I prepared and ran mechatronics lab sessions, guided students through the experiments, helped with teaching and assessment, and kept the lab’s equipment working.',
         },
         {
-          when: '2025 – 2026',
+          when: '2022 – 2023',
+          what: 'Computer-vision intern',
+          where: 'VIBE',
+          note: 'At a startup, I built emotion recognition on edge hardware to support children with autism.',
+          href: workHref('emotion-recognition-autism-support', VN),
+        },
+        {
+          when: '2025 – now',
           what: 'Freelance machine-learning and computer-vision developer',
           note: 'Vision and machine-learning pipelines for clients.',
         },

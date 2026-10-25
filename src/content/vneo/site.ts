@@ -366,21 +366,57 @@ const build = {
 }
 
 /**
- * The path so far (v3's flight log, as v4 flew it), its links moved into
- * Vneo: only the turning points, so not the talk or the single upstream fix.
+ * My professional experience, in order: the roles, ventures and mentoring,
+ * flown as v3's flight log. Projects and prizes live in their own sections.
  */
-const LOG_SKIP = new Set([
-  'Spoke at GDG DevFest Tripoli',
-  'A fix merged into Betaflight',
-])
 const log = {
-  ...v3Home.log,
-  points: v3Home.log.points
-    .filter((p) => !LOG_SKIP.has(p.what))
-    .map((p) => ({
-      ...p,
-      href: intoVneo(rebase(p.href, VN)),
-    })),
+  label: 'Experience',
+  title: 'Work, teaching, and ventures.',
+  lede: 'Where I have worked, taught, mentored, and co-founded, in order.',
+  points: [
+    {
+      when: '2021 – 2024',
+      what: 'Technical mentor and organizer, NASA Space Apps Beirut',
+      note: 'Ran technical bootcamps on NASA data and mentored hackathon teams, for 250–400 participants a year.',
+      href: writingHref('what-four-years-of-technical-mentoring-taught-me'),
+    },
+    {
+      when: '2022 – 2023',
+      what: 'Computer-vision intern, VIBE',
+      note: 'At a startup, I built emotion recognition on edge hardware to support children with autism.',
+      href: workHref('emotion-recognition-autism-support', VN),
+    },
+    {
+      when: '2022 – 2025',
+      what: 'Lab and teaching assistant, Rafik Hariri University',
+      note: 'Ran mechatronics lab sessions, and organized the university’s robotics competitions, including IEEE Micromouse.',
+      href: siteConfig.education.url,
+    },
+    {
+      when: '2023 – 2025',
+      what: 'Co-founder, Evoid',
+      note: 'Systems engineer and product manager at a small applied computer-vision venture in Beirut.',
+      href: writingHref('what-a-small-vision-venture-taught-me-about-scope'),
+    },
+    {
+      when: '2024 – now',
+      what: 'Embedded Systems & Vision Engineer, Oreyeon',
+      note: 'Full time: real-time vision for airport runway safety, on NVIDIA Jetson.',
+      href: siteConfig.employer.url,
+    },
+    {
+      when: '2024 – 2026',
+      what: 'Co-founder and operations lead, NASNA',
+      note: 'A crisis-response platform connecting displaced families with NGOs, donors, and volunteers.',
+      href: writingHref('building-technology-around-crisis-response-operations'),
+    },
+    {
+      when: '2026',
+      what: 'Technical mentor, INJAZ Al-Arab',
+      note: 'Took two school healthcare teams from first idea to award-winning prototypes.',
+      href: writingHref('mentoring-two-healthcare-teams-at-injaz'),
+    },
+  ],
 }
 
 const note = (slug: string) => {
@@ -435,7 +471,10 @@ export const vneo = {
     },
   ],
   work: {
-    no: 3,
+    no: 4,
+    /** every project on the site, for the button under the grid */
+    total: works.length,
+    viewAll: 'View all projects',
     label: 'Work',
     title: 'Selected projects.',
     hot: 'projects',
