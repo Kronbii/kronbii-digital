@@ -65,5 +65,5 @@ What's left to do on the site and around it, from the 23–24 October 2026 audit
 - [x] **Thermal figures:** ~130 FPS laptop / 20–30 FPS Jetson, on the site and in PR #3.
 
 ### Added 25 October
-- [ ] **Rami: push the 360 repo's `imu-bundle-adjustment` branch** (or tell Claude to), so the site can link the v2 code.
+- [x] **Push the 360 repo's `imu-bundle-adjustment` branch**, linked from the project page.
 - [ ] **Rami: INJAZ and DevFest posts:** nothing public names the teams or the talk; if INJAZ or GDG post them, send the links.

@@ -274,6 +274,12 @@ export const projects: ProjectRecord[] = [
         kind: 'demo',
       },
       {
+        label: 'GitHub — the second version: gyro prior and bundle adjustment',
+        href: 'https://github.com/Kronbii/360-spherical-stitching/tree/imu-bundle-adjustment',
+        kind: 'repository',
+        note: 'The simulator, the v2 pipeline, its tests and the media script.',
+      },
+      {
         label: 'README, TECHNICAL.md, and TEMPORAL_SMOOTHING.md',
         href: 'https://github.com/Kronbii/360-spherical-stitching#readme',
         kind: 'documentation',
