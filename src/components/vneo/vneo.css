@@ -1721,13 +1721,13 @@
   [data-vneo] .vn-showcase {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     grid-template-areas:
-      'fpv  fpv  mine mine'
-      'fpv  fpv  mine mine'
-      'race race omni heat'
-      'ship ship omni heat'
-      'star star pid  crk'
-      'pano pano boot crk'
-      'rot  rot  road road';
+      'mine mine fpv  fpv'
+      'mine mine fpv  fpv'
+      'omni rot  rot  heat'
+      'omni road road heat'
+      'pano pano race race'
+      'ship ship crk  pid'
+      'star star crk  boot';
     grid-auto-rows: 300px;
     grid-auto-flow: row;
   }

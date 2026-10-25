@@ -163,11 +163,22 @@ export type ShowItem = WorkItem & {
 }
 
 /**
- * The work, as one tight grid, by importance: the biggest tiles for the work
- * that matters most (the drone, then the car, OmniSign, and the thermal
- * model). The first four pieces with motion play in turn like a reel.
+ * The work, as one tight grid, from most to least important: the landmine
+ * robot and the drone first, then OmniSign, the rotor-fault study, the
+ * road-speed audit and the thermal model. The first four pieces with motion
+ * play in turn like a reel.
  */
 export const showcase: ShowItem[] = [
+  {
+    ...workItem('landmine-detection-extraction-robot', undefined, ''),
+    alt: 'RViz shows the rover’s 2D map and planned path, then the rover drives itself through the indoor arena.',
+    size: 'big',
+    area: 'mine',
+    image: {
+      src: '/images/authority/landmine/navigation.mp4',
+      poster: '/images/authority/landmine/navigation-poster.jpg',
+    },
+  },
   {
     ...workItem('five-inch-carbon-fiber-fpv-drone', undefined, ''),
     size: 'big',
@@ -175,16 +186,6 @@ export const showcase: ShowItem[] = [
     image: {
       src: '/images/authority/fpv-drone/build.jpg',
       position: '50% 54%',
-    },
-  },
-  {
-    ...workItem('landmine-detection-extraction-robot', undefined, ''),
-    alt: 'The tracked rover with its 6-DoF arm drives toward a stand-in target in the test arena and stops in front of it.',
-    size: 'big',
-    area: 'mine',
-    image: {
-      src: '/images/authority/landmine/detection.mp4',
-      poster: '/images/authority/landmine/detection-poster.jpg',
     },
   },
   {
@@ -197,15 +198,23 @@ export const showcase: ShowItem[] = [
     area: 'omni',
   },
   {
-    ...workItem(
-      'brainiacs-autonomous-race-car',
-      { kind: 'shot', id: 'see' },
-      'The car’s camera view, its edges, its strongest corners, and the lock.'
-    ),
+    ...workItem('quadrotor-rotor-fault-recovery', undefined, ''),
     size: 'wide',
-    area: 'race',
+    area: 'rot',
+    image: {
+      src: '/images/authority/quadrotor-rotor-fault-recovery/rotor-loss-sim.mp4',
+      poster: '/images/authority/quadrotor-rotor-fault-recovery/rotor-loss-sim-poster.jpg',
+    },
   },
-
+  {
+    ...workItem('road-speed-audit', undefined, ''),
+    size: 'wide',
+    area: 'road',
+    image: {
+      src: '/images/authority/road-speed-audit/a40-speed-overlay.mp4',
+      poster: '/images/authority/road-speed-audit/a40-speed-overlay-poster.jpg',
+    },
+  },
   {
     ...workItem(
       'thermal-super-resolution',
@@ -214,15 +223,6 @@ export const showcase: ShowItem[] = [
     ),
     size: 'tall',
     area: 'heat',
-  },
-  {
-    ...workItem(
-      'upstream-open-source-contributions',
-      { kind: 'shot', id: 'ship' },
-      'Five pull requests to Betaflight, PX4, and OpenFront: three merged.'
-    ),
-    size: 'wide',
-    area: 'ship',
   },
   {
     ...workItem(
@@ -235,12 +235,21 @@ export const showcase: ShowItem[] = [
   },
   {
     ...workItem(
-      'easypid-arduino-library',
-      { kind: 'shot', id: 'tune' },
-      'A simulated step response settling as the damping rises.'
+      'brainiacs-autonomous-race-car',
+      { kind: 'shot', id: 'see' },
+      'The car’s camera view, its edges, its strongest corners, and the lock.'
     ),
-    size: 'one',
-    area: 'pid',
+    size: 'wide',
+    area: 'race',
+  },
+  {
+    ...workItem(
+      'upstream-open-source-contributions',
+      { kind: 'shot', id: 'ship' },
+      'Five pull requests to Betaflight, PX4, and OpenFront: three merged.'
+    ),
+    size: 'wide',
+    area: 'ship',
   },
   {
     ...workItem(
@@ -250,6 +259,15 @@ export const showcase: ShowItem[] = [
     ),
     size: 'tall',
     area: 'crk',
+  },
+  {
+    ...workItem(
+      'easypid-arduino-library',
+      { kind: 'shot', id: 'tune' },
+      'A simulated step response settling as the damping rises.'
+    ),
+    size: 'one',
+    area: 'pid',
   },
   {
     ...workItem('esp32-barn-door-star-tracker', undefined, ''),
@@ -267,24 +285,6 @@ export const showcase: ShowItem[] = [
     image: {
       src: '/images/authority/drone-control-bootcamp/plate.png',
       position: '50% 42%',
-    },
-  },
-  {
-    ...workItem('quadrotor-rotor-fault-recovery', undefined, ''),
-    size: 'wide',
-    area: 'rot',
-    image: {
-      src: '/images/authority/quadrotor-rotor-fault-recovery/plate.png',
-      fit: 'contain',
-    },
-  },
-  {
-    ...workItem('road-speed-audit', undefined, ''),
-    size: 'wide',
-    area: 'road',
-    image: {
-      src: '/images/authority/road-speed-audit/plate.png',
-      fit: 'contain',
     },
   },
 ]

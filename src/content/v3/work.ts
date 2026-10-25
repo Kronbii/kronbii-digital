@@ -280,7 +280,7 @@ export const plain: Record<string, PlainWork> = {
     field: 'machines',
     image: {
       src: '/images/authority/esp32-barn-door-star-tracker/cad-render-square.png',
-      alt: 'CAD render of the unbuilt tracker, labelled in the image as a render and not a photograph.',
+      alt: 'CAD render of the tracker: two hinged boards, a lead-screw tower with a carriage, and an electronics box.',
     },
   },
   'drone-control-bootcamp': {

@@ -8,6 +8,8 @@ export interface AuthorityMedia {
   credit?: string
   width?: number
   height?: number
+  /** On a project page: the title of the step it is shown under. */
+  step?: string
 }
 
 export interface AuthoritySource {
@@ -92,7 +94,7 @@ export interface ProjectRecord {
   limits: string[]
   media?: AuthorityMedia[]
   /** Real footage: the first leads the page, the rest join the media section. MP4, muted, with a poster frame. */
-  videos?: { src: string; poster: string; alt: string; caption?: string }[]
+  videos?: { src: string; poster: string; alt: string; caption?: string; step?: string }[]
   diagramIds?: string[]
   sources: AuthoritySource[]
   articleSlug: string

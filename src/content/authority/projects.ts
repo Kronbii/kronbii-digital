@@ -221,7 +221,39 @@ export const projects: ProjectRecord[] = [
     ],
     media: [
       {
+        src: '/images/authority/spherical-panorama/stage1-frame.jpg',
+        step: 'Extract',
+        alt: 'A single extracted phone-video frame that becomes an input to the pipeline.',
+        caption: 'Extract — one frame pulled from the phone video.',
+      },
+      {
+        src: '/images/authority/spherical-panorama/stage2-matches.jpg',
+        step: 'Match',
+        alt: 'A pair of adjacent frames with ORB feature matches drawn between them.',
+        caption: 'Match — ORB matches that survive Lowe’s ratio and RANSAC.',
+      },
+      {
+        src: '/images/authority/spherical-panorama/stage3-many.jpg',
+        step: 'Warp',
+        alt: 'A mosaic of intermediate stitched frames laid onto the equirectangular canvas.',
+        caption: 'Rotate and warp — every frame placed on the equirectangular canvas by its chained rotation, before smoothing.',
+      },
+      {
+        src: '/images/authority/spherical-panorama/side-by-side.jpg',
+        step: 'Smooth',
+        alt: 'Side-by-side comparison of the panorama with and without temporal smoothing.',
+        caption:
+          'Smooth — long horizontal edges before and after.',
+      },
+      {
+        src: '/images/authority/spherical-panorama/pano-on-band.jpg',
+        step: 'View',
+        alt: 'The recovered panorama shown as a horizontal band, illustrating incomplete spherical coverage.',
+        caption: 'The captured band is only about 37% of the full sphere.',
+      },
+      {
         src: '/images/authority/spherical-panorama/v2-rotation-error.png',
+        step: 'Smooth',
         alt: 'Log-scale plot of rotation error per frame against ground truth for gyro only, pairwise chaining and bundle adjustment on a simulated 73-frame sweep.',
         caption: 'Simulated: the gyro drifts to 4.3° by the last frame and pairwise chaining ends 2.1° off; bundle adjustment stays under 0.14° throughout.',
       },
@@ -229,32 +261,6 @@ export const projects: ProjectRecord[] = [
         src: '/images/authority/spherical-panorama/v2-loop-seam.webp',
         alt: 'Side-by-side close-up where the end of a simulated sweep meets its start: misaligned and doubled without bundle adjustment, continuous with it.',
         caption: 'Simulated: where the sweep meets its start, chaining leaves a 2.09° break; after bundle adjustment it is 0.03°.',
-      },
-      {
-        src: '/images/authority/spherical-panorama/stage1-frame.jpg',
-        alt: 'A single extracted phone-video frame that becomes an input to the pipeline.',
-        caption: 'Extract — one frame pulled from the phone video.',
-      },
-      {
-        src: '/images/authority/spherical-panorama/stage2-matches.jpg',
-        alt: 'A pair of adjacent frames with ORB feature matches drawn between them.',
-        caption: 'Match — ORB matches that survive Lowe’s ratio and RANSAC.',
-      },
-      {
-        src: '/images/authority/spherical-panorama/stage3-many.jpg',
-        alt: 'A mosaic of intermediate stitched frames laid onto the equirectangular canvas.',
-        caption: 'Rotate and warp — every frame placed on the equirectangular canvas by its chained rotation, before smoothing.',
-      },
-      {
-        src: '/images/authority/spherical-panorama/side-by-side.jpg',
-        alt: 'Side-by-side comparison of the panorama with and without temporal smoothing.',
-        caption:
-          'Smooth — long horizontal edges before and after.',
-      },
-      {
-        src: '/images/authority/spherical-panorama/pano-on-band.jpg',
-        alt: 'The recovered panorama shown as a horizontal band, illustrating incomplete spherical coverage.',
-        caption: 'The captured band is only about 37% of the full sphere.',
       },
       {
         src: '/images/authority/spherical-panorama/goat.webp',
@@ -512,6 +518,7 @@ export const projects: ProjectRecord[] = [
       },
       {
         src: '/images/authority/race-car/schematic.png',
+        step: 'Move',
         alt: 'Full electrical schematic of the vehicle, including Jetson Nano, Arduino Mega, motor driver, IMU, and color sensor.',
         caption:
           'System schematic — perception, control, sensing, and drive on one diagram.',
@@ -700,12 +707,14 @@ export const projects: ProjectRecord[] = [
       },
       {
         src: '/images/authority/pid-light-tracker/video-single-axis-pid.mp4',
+        step: 'Control',
         poster: '/images/authority/pid-light-tracker/video-single-axis-pid-poster.jpg',
         alt: 'An early prototype following a desk lamp, first on one axis, then on two axes with PID control.',
         caption: 'The prototype: one axis first, then two axes with PID.',
       },
       {
         src: '/images/authority/pid-light-tracker/video-two-axis-build.mp4',
+        step: 'Actuate',
         poster: '/images/authority/pid-light-tracker/video-two-axis-build-poster.jpg',
         alt: 'Close-ups of the two-axis frame: the light-sensor boards under a printed shade, and the servos.',
         caption: 'The two-axis build: four light sensors under a shade, two servos.',
@@ -714,6 +723,7 @@ export const projects: ProjectRecord[] = [
     media: [
       {
         src: '/images/authority/pid-light-tracker/schematic.jpg',
+        step: 'Sense',
         alt: 'Circuit schematic: four LDR voltage dividers with 10 kΩ resistors feeding the Arduino Uno’s analog inputs, and two servos on PWM pins 6 and 9.',
         caption: 'The circuit, simulated in Proteus: four LDR dividers into an Arduino Uno, two servos on PWM.',
       },
@@ -835,12 +845,14 @@ export const projects: ProjectRecord[] = [
     media: [
       {
         src: '/images/authority/fine-crack/centreline-trace.png',
+        step: 'Order',
         alt: 'Three crack shapes on a dark background, with a green polyline traced through each crack and pixel lengths labelled beside them.',
         caption:
           'Given a thin crack image, Shi-Tomasi corners ordered by a minimum spanning tree follow the centreline, 5–10 % short of a skeleton reference. The frame here is a 3 px skeleton of the mask, standing in for a fine crack.',
       },
       {
         src: '/images/authority/fine-crack/trace-comparison.png',
+        step: 'Evaluate',
         alt: 'The same three crack masks traced three ways: default ORB with almost no path, Shi-Tomasi with MST following the outline, and a skeleton reference in pink.',
         caption:
           'The same mask used as the frame. With default settings, ORB finds almost no corners on a flat mask and one crack is recorded as 0 px; Shi-Tomasi with MST ordering traces the mask’s outline rather than its centreline.',
@@ -1482,21 +1494,25 @@ export const projects: ProjectRecord[] = [
     media: [
       {
         src: '/images/authority/omnisign/omnisign-lsl-arabic-alphabet-dataset.webp',
+        step: 'Collect',
         alt: 'A grayscale grid of 28 hand signs photographed against a white wall, each labelled with its Arabic letter and name.',
         caption: 'The Arabic alphabet in Lebanese Sign Language: one signer, one raw frame per letter, before augmentation.',
       },
       {
         src: '/images/authority/omnisign/omnisign-app-clinic-test.jpg',
+        step: 'Recognize',
         alt: 'A man in a blue jacket signs from a chair in a clinic room while a phone in the foreground shows him in the app’s camera view.',
         caption: 'Testing the app with a signer in a clinic room.',
       },
       {
         src: '/images/authority/omnisign/omnisign-app-counter-test.jpg',
+        step: 'Speak',
         alt: 'A young man in glasses signs at a café counter as the cashier points a phone running the app at him.',
         caption: 'Testing at a café counter.',
       },
       {
         src: '/images/authority/omnisign/omnisign-data-collection-booth.jpg',
+        step: 'Collect',
         alt: 'A team member leans over a laptop at an outdoor table while a woman in a headscarf signs beside printed sheets of hand-sign photos.',
         caption: 'A data-collection booth: volunteers sign from printed reference sheets while a laptop records.',
       },
@@ -1872,16 +1888,19 @@ export const projects: ProjectRecord[] = [
     media: [
       {
         src: '/images/authority/upstream/betaflight-15706.jpg',
+        step: 'Betaflight #15706 — Redpine CC2500 debug mode',
         alt: 'GitHub page of Betaflight pull request #15706, “give the Redpine CC2500 driver its own debug mode”, marked Merged, with three maintainer approvals.',
         caption: 'Betaflight #15706, merged by the maintainers on 16 September 2026.',
       },
       {
         src: '/images/authority/upstream/betaflight-15705.jpg',
+        step: 'Betaflight #15705 — short die reads in W25M flash',
         alt: 'GitHub page of Betaflight pull request #15705, “honour short die reads in w25m_readBytes”, open with approvals from blckmn, haslinghuis, and nerdCopter.',
         caption: 'Betaflight #15705, approved by three maintainers and waiting to merge.',
       },
       {
         src: '/images/authority/upstream/openfront-4868.jpg',
+        step: 'OpenFront #4868 and #4985 — HUD fixes',
         alt: 'GitHub page of OpenFront pull request #4868, “Make the end timer warnings more visible”, marked Merged.',
         caption: 'OpenFront #4868, the end-of-game timer warnings, merged in August 2026.',
       },
@@ -2466,10 +2485,10 @@ export const projects: ProjectRecord[] = [
       alt: 'Diagram of the Bsheel quest loop: three quests, proof upload, moderation and XP, feed and votes, worker queue, and admin console.',
     },
     media: [
-      { src: '/images/authority/bsheel/bsheel-quest-picker.jpg', alt: 'Bsheel’s quest picker offering three real-world quests, each with a category, time limit and XP reward.', caption: 'Three random quests; choosing one starts its timer.' },
-      { src: '/images/authority/bsheel/bsheel-active-quest.jpg', alt: 'Bsheel home screen with an active quest, a countdown timer and its XP reward.', caption: 'An active quest, with the time left and the XP it is worth.' },
-      { src: '/images/authority/bsheel/bsheel-proof-upload.jpg', alt: 'Submitting proof for a drawing quest: one image attached, a caption, and a toggle to show it in the feed.', caption: 'Submitting proof: the image, a caption, and whether it goes to the feed.' },
-      { src: '/images/authority/bsheel/bsheel-feed.jpg', alt: 'An approved quest post in the Bsheel feed, with the proof image, XP earned and the caption.', caption: 'Once approved, the proof lands in the feed with the XP it earned.' },
+      { src: '/images/authority/bsheel/bsheel-quest-picker.jpg', step: 'Pick', alt: 'Bsheel’s quest picker offering three real-world quests, each with a category, time limit and XP reward.', caption: 'Three random quests; choosing one starts its timer.' },
+      { src: '/images/authority/bsheel/bsheel-active-quest.jpg', step: 'Pick', alt: 'Bsheel home screen with an active quest, a countdown timer and its XP reward.', caption: 'An active quest, with the time left and the XP it is worth.' },
+      { src: '/images/authority/bsheel/bsheel-proof-upload.jpg', step: 'Prove', alt: 'Submitting proof for a drawing quest: one image attached, a caption, and a toggle to show it in the feed.', caption: 'Submitting proof: the image, a caption, and whether it goes to the feed.' },
+      { src: '/images/authority/bsheel/bsheel-feed.jpg', step: 'Share', alt: 'An approved quest post in the Bsheel feed, with the proof image, XP earned and the caption.', caption: 'Once approved, the proof lands in the feed with the XP it earned.' },
     ],
     answer: {
       what: 'A mobile app that turns everyday life into short real-world quests: pick one of three, do it inside a timer, prove it with a photo or video, and earn XP once the proof is approved.',
@@ -2728,18 +2747,21 @@ export const projects: ProjectRecord[] = [
     media: [
       {
         src: '/images/authority/quadrotor-rotor-fault-recovery/detection-delay.png',
+        step: 'Diagnose',
         alt: 'Scatter plot: detection delay falls from about 90 ms at 20 % rotor loss to about 22 ms at 90 %, median 30 ms over 200 runs. In PX4 SITL, all 40 partial and 16 complete losses are detected at medians of 120 and 132 ms, against 664 ms for PX4’s own detector.',
         caption:
           'How fast a fault is caught: a 30 ms median over 200 simulated faults, and 120–132 ms in PX4 software-in-the-loop, where PX4’s own detector took 664 ms.',
       },
       {
         src: '/images/authority/quadrotor-rotor-fault-recovery/sitl-complete.png',
+        step: 'Validate',
         alt: 'Chart of 16 complete rotor losses in PX4 software-in-the-loop: the diagnoser alarm at about 120 to 145 ms on every run, the vehicle tilting past 90 degrees at about 450 to 540 ms, and PX4’s failure detector at about 640 to 690 ms.',
         caption:
           'PX4 software-in-the-loop: on every complete loss the diagnoser alarms long before the vehicle tilts past 90°; PX4’s own detector triggers after it.',
       },
       {
         src: '/images/authority/quadrotor-rotor-fault-recovery/partial-sweep.png',
+        step: 'Recover',
         alt: 'Plot of median peak position deviation against the share of effectiveness lost on one rotor in simulated hover, for the nominal controller, a controller told the true fault, and the estimating pipeline.',
         caption:
           'Simulation: up to 60 % loss, the pipeline holds position as well as a controller told the true fault.',
@@ -2781,8 +2803,8 @@ export const projects: ProjectRecord[] = [
       kind: 'image',
       media: {
         src: '/images/authority/esp32-barn-door-star-tracker/cad-render.png',
-        alt: 'CAD render of the unbuilt tracker: two hinged boards, a vertical lead-screw tower with a carriage, an electronics box and a sight tube along the hinge. A label in the image reads “CAD render, unbuilt design, not a photograph”.',
-        caption: 'CAD render of the design. It has not been built yet; this is not a photograph.',
+        alt: 'CAD render of the unbuilt tracker: two hinged boards, a vertical lead-screw tower with a carriage, an electronics box and a sight tube along the hinge.',
+        caption: 'CAD render of the design, before the build.',
       },
     },
     answer: {
@@ -2850,11 +2872,13 @@ export const projects: ProjectRecord[] = [
     media: [
       {
         src: '/images/authority/esp32-barn-door-star-tracker/tangent-correction.png',
+        step: 'Let the firmware do the geometry',
         alt: 'Two plots: the tangent error of a constant-speed barn door growing past 250 arcminutes over two hours, and the firmware schedule staying within plus or minus 0.3 arcseconds.',
         caption: 'Why the firmware schedules steps: constant speed drifts by degrees; the schedule stays within half a microstep. Host simulation of the firmware code.',
       },
       {
         src: '/images/authority/esp32-barn-door-star-tracker/exposure-vs-focal-length.png',
+        step: 'Predict before building',
         alt: 'Log-log plot of predicted longest sharp exposure against focal length, tracked, worst case, with periodic-error correction and untracked.',
         caption: 'Predicted longest sharp exposure per focal length. Model predictions, not sky measurements.',
       },
@@ -2963,11 +2987,13 @@ export const projects: ProjectRecord[] = [
     media: [
       {
         src: '/images/authority/drone-control-bootcamp/pid-rc.png',
+        step: 'Bench PID',
         alt: 'Plot of capacitor voltage under P and PI control on an RC circuit: P settles below the 2.5 V setpoint, PI reaches it, and PI with too much integral gain overshoots.',
         caption: 'Session 1: P leaves an offset, PI removes it, too much integral gain overshoots. easyPID’s Python port on a simulated RC circuit.',
       },
       {
         src: '/images/authority/drone-control-bootcamp/rotor-loss.png',
+        step: 'Faults and capstone',
         alt: 'Plot of position error after rotor 1 is lost at two seconds: the passive controller diverges, the detect and yaw-relaxed pipeline peaks near 40 cm and recovers.',
         caption: 'Session 6: losing a rotor in the rotor-fault simulator, passive controller against detection and yaw-relaxed control.',
       },
@@ -3092,16 +3118,19 @@ export const projects: ProjectRecord[] = [
     media: [
       {
         src: '/images/authority/road-speed-audit/a40-speed-fits.png',
+        step: 'Validate',
         alt: 'Two panels of position against time: six vehicles approaching at 35–43 km/h and two leaving at 99 and 112 km/h, each a straight line through tracked points.',
         caption: 'The A40 clip: each valid vehicle’s position along the road over time; the slope of its fitted line is its speed.',
       },
       {
         src: '/images/authority/road-speed-audit/distance.png',
+        step: 'Measure',
         alt: 'Plot of the 95th-percentile speed error against the distance of the measurement zone from the pole, rising from about 0.8 km/h at 25 m to about 11 km/h at 95 m, with the share of vehicles measured at each distance.',
         caption: 'Simulated video: the error grows with distance, and fewer vehicles are measured.',
       },
       {
         src: '/images/authority/road-speed-audit/contact.png',
+        step: 'Track',
         alt: 'Bar chart of the 95th-percentile speed error for four choices of tracked point: 1.1 km/h for the sub-pixel bottom edge, 2.6 for the raw blob edge, 3.4 for a height-corrected box centre and 17.4 for the uncorrected box centre.',
         caption: 'Simulated video: tracking where the tyres meet the road, located to a fraction of a pixel, matters most.',
       },
@@ -3146,19 +3175,21 @@ export const projects: ProjectRecord[] = [
     },
     videos: [
       {
-        src: '/images/authority/landmine/detection.mp4',
-        poster: '/images/authority/landmine/detection-poster.jpg',
-        alt: 'The tracked rover drives toward a red cylinder on the arena floor while a laptop terminal prints distance readings, then STOP.',
-        caption: 'The rover finds a stand-in target and stops in front of it.',
-      },
-      {
         src: '/images/authority/landmine/navigation.mp4',
         poster: '/images/authority/landmine/navigation-poster.jpg',
         alt: 'RViz shows a 2D occupancy map with a planned path; then the rover drives itself through a walled indoor arena.',
         caption: 'Phase 1, indoors: a 2D map, a planned path, and the rover driving it on its own with Nav2.',
       },
       {
+        src: '/images/authority/landmine/detection.mp4',
+        step: 'See',
+        poster: '/images/authority/landmine/detection-poster.jpg',
+        alt: 'The tracked rover drives toward a red cylinder on the arena floor while a laptop terminal prints distance readings, then STOP.',
+        caption: 'The rover finds a stand-in target and stops in front of it.',
+      },
+      {
         src: '/images/authority/landmine/arm.mp4',
+        step: 'Reach',
         poster: '/images/authority/landmine/arm-poster.jpg',
         alt: 'The rover’s six-axis arm picks up a red cylinder and sets it down beside the robot.',
         caption: 'The 6-DoF arm lifts an object out of the rover’s way.',
@@ -3167,6 +3198,7 @@ export const projects: ProjectRecord[] = [
     media: [
       {
         src: '/images/authority/landmine/rviz-costmap.jpg',
+        step: 'Indoors, in 2D',
         alt: 'RViz with a 2D occupancy grid, an inflated obstacle costmap, the robot’s pose, and a navigation goal arrow.',
         caption: 'The indoor map in RViz: occupancy grid, inflated costmap, and the goal the planner drives to.',
       },
@@ -3275,12 +3307,12 @@ export const projects: ProjectRecord[] = [
       },
     ],
     media: [
-      { src: '/images/authority/ice-engine/pv-diagram.webp', alt: 'Pressure–volume diagram of one cylinder over a full cycle, coloured by phase.', caption: 'The P–V loop of one cylinder: the work per cycle is its area, about 460 J.' },
-      { src: '/images/authority/ice-engine/pressure-crank-angle.webp', alt: 'Cylinder pressure against crank angle, with intake, compression, combustion, expansion, and exhaust shaded.', caption: 'Pressure over the 720° cycle, peaking near 34 atm after ignition.' },
-      { src: '/images/authority/ice-engine/torque-four-cylinder.webp', alt: 'Crank torque of four cylinders 180° apart, summed, with its mean.', caption: 'Four cylinders 180° apart: a mean of about 146 N·m.' },
-      { src: '/images/authority/ice-engine/torque-flywheel.webp', alt: 'Torque before and after adding the flywheel, with the surplus-energy area shaded.', caption: 'The flywheel absorbs about 370 J of surplus energy per cycle.' },
-      { src: '/images/authority/ice-engine/piston-velocity.webp', alt: 'Piston velocity against crank angle with and without an 18 mm crank offset.', caption: 'Piston velocity with and without the 18 mm offset.' },
-      { src: '/images/authority/ice-engine/gear-ratios.webp', alt: 'Bar chart of the eight gear ratios from 5.38 in first to 0.64 in eighth.', caption: 'The eight gear ratios, 5.38 down to 0.64, with sixth as direct drive.' },
+      { src: '/images/authority/ice-engine/pv-diagram.webp', step: 'Thermodynamic cycle', alt: 'Pressure–volume diagram of one cylinder over a full cycle, coloured by phase.', caption: 'The P–V loop of one cylinder: the work per cycle is its area, about 460 J.' },
+      { src: '/images/authority/ice-engine/pressure-crank-angle.webp', step: 'Thermodynamic cycle', alt: 'Cylinder pressure against crank angle, with intake, compression, combustion, expansion, and exhaust shaded.', caption: 'Pressure over the 720° cycle, peaking near 34 atm after ignition.' },
+      { src: '/images/authority/ice-engine/torque-four-cylinder.webp', step: 'Torque', alt: 'Crank torque of four cylinders 180° apart, summed, with its mean.', caption: 'Four cylinders 180° apart: a mean of about 146 N·m.' },
+      { src: '/images/authority/ice-engine/torque-flywheel.webp', step: 'Flywheel and performance', alt: 'Torque before and after adding the flywheel, with the surplus-energy area shaded.', caption: 'The flywheel absorbs about 370 J of surplus energy per cycle.' },
+      { src: '/images/authority/ice-engine/piston-velocity.webp', step: 'Kinematics', alt: 'Piston velocity against crank angle with and without an 18 mm crank offset.', caption: 'Piston velocity with and without the 18 mm offset.' },
+      { src: '/images/authority/ice-engine/gear-ratios.webp', step: 'Gearbox', alt: 'Bar chart of the eight gear ratios from 5.38 in first to 0.64 in eighth.', caption: 'The eight gear ratios, 5.38 down to 0.64, with sixth as direct drive.' },
     ],
     answer: {
       what: 'A MATLAB model of a four-stroke, four-cylinder spark-ignition engine through one full cycle, from the geometry of its crank to the gear ratios of the car it drives.',
