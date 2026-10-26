@@ -243,13 +243,13 @@ export const showcase: ShowItem[] = [
     area: 'race',
   },
   {
-    ...workItem(
-      'upstream-open-source-contributions',
-      { kind: 'shot', id: 'ship' },
-      'Five pull requests to Betaflight, PX4, and OpenFront: three merged.'
-    ),
+    ...workItem('imu-bench', undefined, ''),
     size: 'wide',
-    area: 'ship',
+    area: 'imu',
+    image: {
+      src: '/images/authority/imu-bench/tile.mp4',
+      poster: '/images/authority/imu-bench/tile-poster.jpg',
+    },
   },
   {
     ...workItem(

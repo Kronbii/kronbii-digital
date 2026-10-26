@@ -134,6 +134,7 @@
 ## 2026-10-26 — imu-bench added
 
 - New project `imu-bench` (public repo Kronbii/imu-bench): record in `projects.ts` after easyPID, card in `work.ts`
-  (field `open`), first in the homepage "Engineers and makers" group. No article.
+  (field `open`), and a homepage showcase tile (video `tile.mp4`) in the slot that held upstream fixes, which moves
+  to the "Engineers and makers" list. No article.
 - Media in `public/images/authority/imu-bench/`: a real-unit screenshot (hero and card crop), a PX4 SITL screenshot,
   and a simulator recording (video + poster) and chart still, each labelled as what it is.

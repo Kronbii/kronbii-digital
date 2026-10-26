@@ -343,5 +343,6 @@ October growth list so he can keep or drop each one on the branch before anythin
   microcontroller IMUs are untested, and the page's limits say so.
 - The live demo source (`kind: 'demo'`) is the GitHub Pages build of the repository's `web/` in demo mode; it is
   simulated and says so on the page.
-- Listed in the homepage "Engineers and makers" group and after easyPID in `/projects`; no showcase tile (the grid is
-  full).
+- Homepage: a showcase tile in the wide slot that held the upstream-fixes tile (grid area renamed `ship` to `imu`;
+  Rami's call, 2026-10-26). Upstream fixes stays published and now lists under "Engineers and makers". In `/projects`
+  it follows easyPID.
