@@ -182,6 +182,17 @@ export const plain: Record<string, PlainWork> = {
     part: 'Author',
     field: 'open',
   },
+  'imu-bench': {
+    kind: 'Open source · sensing',
+    line: 'Plug in any motion sensor and watch it move in 3D, live, whatever protocol it speaks.',
+    proof: 'Inertial Sense, PX4, microcontroller and ROS 2 sources',
+    part: 'Sole author',
+    field: 'open',
+    image: {
+      src: '/images/authority/imu-bench/plate.png',
+      alt: 'An Inertial Sense RUG-3 enclosure drawn in 3D, tilted over a contour-line terrain, with its orange X, green Y and blue Z axes and mono callouts.',
+    },
+  },
   'pid-light-tracking-robot': {
     kind: 'Robotics',
     line: 'A two-axis robot that turns to follow a light, steadied by a PID control loop on each axis.',

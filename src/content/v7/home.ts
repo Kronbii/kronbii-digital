@@ -201,6 +201,7 @@ const GROUPS: { label: string; slugs: string[] }[] = [
   {
     label: 'Engineers and makers',
     slugs: [
+      'imu-bench',
       'easypid-arduino-library',
       'upstream-open-source-contributions',
       'pid-light-tracking-robot',

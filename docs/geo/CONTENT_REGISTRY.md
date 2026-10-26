@@ -328,3 +328,20 @@ October growth list so he can keep or drop each one on the branch before anythin
 - Publication states now include `hold` (kept in the record, never rendered). Held: prescription OCR, motorcycle trainer, AI support council, REE, Juno, Hantawatch, Lumiscan, Moto 961, and the project pages of Basira, Evoid, Imagen and the water robot (their write-ups stay ready).
 - Ready since 2026-10-23: runway-inspection UAV (renamed from the Raspberry Pi slugs; written from the 14 Oct CV), emotion recognition, Bsheel, the physics-outreach article, the landmine robot, the ICE engine simulator, and the essay "AI Should Serve Society".
 - A full audit (245 issues) lives on the local resolve board; answers Rami gives there drive the next edits.
+
+## Update 2026-10-26 — imu-bench
+
+### 24. imu-bench: any IMU, live in 3D
+
+- Project slug: `imu-bench`; no article yet (`articleSlug: ''`).
+- Topics: `robotics-perception`, `embedded-systems`, `open-source-engineering`. Role: sole author. Card field: `open`.
+- Source: `https://github.com/Kronbii/imu-bench` (**public**, MIT). Facts from its README, `docs/protocol.md`,
+  `docs/inertial-sense-imx5.md` and its test suite.
+- Hardware actually run: one Inertial Sense RUG-3-IMX-5 (firmware 2.7.0) over USB, and PX4 1.18 in software-in-the-loop
+  (SIH quadrotor). The 1 kHz raw-IMU and replug figures were measured on that unit; the fusion figures come from the
+  simulated-motion tests; the ROS 2 round trip was run on ROS 2 Jazzy. ArduPilot, real flight controllers and real
+  microcontroller IMUs are untested, and the page's limits say so.
+- The live demo source (`kind: 'demo'`) is the GitHub Pages build of the repository's `web/` in demo mode; it is
+  simulated and says so on the page.
+- Listed in the homepage "Engineers and makers" group and after easyPID in `/projects`; no showcase tile (the grid is
+  full).

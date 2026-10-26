@@ -101,3 +101,17 @@ road-speed-audit/plate.png, scene.png, distance.png, contact.png
             simulated hero frame (figures/hero_frame.png) with its "SIMULATED
             SCENE" label redrawn, and plates from results/e02_distance.json and
             results/e12_contact.json. Simulated video, not a real road.
+
+imu-bench/imx-live.png, plate.png
+  source:   screenshots of the imu-bench dashboard (github.com/Kronbii/imu-bench)
+            connected to a real Inertial Sense RUG-3-IMX-5 over USB; plate.png is
+            a square crop of the 3D plate. The 3D enclosure is the dashboard's
+            procedural model of the unit, drawn from its datasheet drawing.
+
+imu-bench/px4-sitl.png
+  source:   screenshot of the same dashboard connected over MAVLink to PX4 1.18
+            running in software-in-the-loop (SIH quadrotor). Simulated vehicle.
+
+imu-bench/dashboard.mp4, dashboard-poster.jpg, signals.png
+  source:   recorded from the dashboard's built-in simulator, frame by frame on
+            a fixed clock (Playwright). Simulated motion, not a real sensor.
