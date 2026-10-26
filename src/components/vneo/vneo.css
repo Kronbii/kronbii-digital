@@ -1758,7 +1758,7 @@
       'omni rot  rot  heat'
       'omni road road heat'
       'pano pano race race'
-      'ship ship crk  pid'
+      'imu  imu  crk  pid'
       'star star crk  boot';
     grid-auto-rows: 300px;
     grid-auto-flow: row;

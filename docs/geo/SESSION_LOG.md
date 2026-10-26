@@ -130,3 +130,11 @@
 - Thermal: the CV figures stay (the Oct 10 benchmark swap is reverted); thermal-super-resolution PR #3 brings its README to the same figures.
 - New /about page: education, work, teaching, community (Space² included), awards, certificates. Home: the grid drops Imagen, the motorcycle trainer and Juno for the bootcamp, rotor-fault and road-speed tiles; "2× co-founder" (NASNA, OmniSign); the Evoid flight-log entry is gone; the Basira tile opens its write-up.
 - Checks: tsc, production build (68 pages), every sitemap URL 200, every internal link 200, no meta-language, no dropped project named anywhere, no overflow at 390/1440.
+
+## 2026-10-26 — imu-bench added
+
+- New project `imu-bench` (public repo Kronbii/imu-bench): record in `projects.ts` after easyPID, card in `work.ts`
+  (field `open`), and a homepage showcase tile (video `tile.mp4`) in the slot that held upstream fixes, which moves
+  to the "Engineers and makers" list. No article.
+- Media in `public/images/authority/imu-bench/`: a real-unit screenshot (hero and card crop), a PX4 SITL screenshot,
+  and a simulator recording (video + poster) and chart still, each labelled as what it is.
