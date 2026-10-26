@@ -183,9 +183,9 @@ export const plain: Record<string, PlainWork> = {
     field: 'open',
   },
   'imu-bench': {
-    kind: 'Open source · sensing',
-    line: 'Plug in any motion sensor and watch it move in 3D, live, whatever protocol it speaks.',
-    proof: 'Inertial Sense, PX4, microcontroller and ROS 2 sources',
+    kind: 'Open source · robotics tooling',
+    line: 'Connect any IMU, flight controller or ROS 2 sensor and see it live in 3D, with its raw signals, its health and a ROS 2 stream.',
+    proof: '1 kHz streaming · live ROS 2 bridge',
     part: 'Sole author',
     field: 'open',
     image: {

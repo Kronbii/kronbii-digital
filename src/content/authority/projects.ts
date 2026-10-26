@@ -436,22 +436,22 @@ export const projects: ProjectRecord[] = [
   {
     slug: 'imu-bench',
     state: 'ready',
-    title: 'imu-bench: any IMU, live in 3D',
-    metaTitle: 'imu-bench — a live 3D dashboard and ROS 2 bridge for any IMU',
+    title: 'imu-bench: every IMU, live in 3D',
+    metaTitle: 'imu-bench — a real-time 3D workbench and ROS 2 bridge for any inertial sensor',
     metaDescription:
-      'An open-source bench that streams an Inertial Sense IMX, a PX4 or ArduPilot flight controller, a microcontroller IMU or any ROS 2 IMU topic into one live 3D dashboard, a recording, or ROS 2.',
+      'Connect an Inertial Sense IMX, a PX4 or ArduPilot flight controller, a microcontroller IMU or a ROS 2 topic and see it live in 3D within seconds: raw signals at full rate, decoded health, onboard fusion, recording and a ROS 2 bridge. Open source.',
     summary:
-      'One small server with a driver per kind of inertial sensor: the Inertial Sense IMX through its vendor SDK, MAVLink autopilots, anything that prints JSON or CSV lines, and ROS 2. It turns each into the same messages, fuses attitude for sensors that report none, and shows the device in 3D with its raw signals, decoded health and magnetometer calibration. Built to bring up an Inertial Sense RUG-3-IMX-5 before integrating it on an NVIDIA Jetson.',
-    role: 'Sole author: drivers, the C++ bridge on the vendor SDK, fusion, the ROS 2 bridge, the dashboard, tests and documentation.',
+      'A real-time workbench for inertial sensors. Connect an Inertial Sense IMX, a PX4 or ArduPilot flight controller, any microcontroller IMU or a ROS 2 topic, and within seconds the device is on screen as a live 3D model, with its raw signals at full rate, its health decoded bit by bit, and its magnetometer calibration laid bare. Sensors that only report gyro and accelerometer get attitude from a built-in fusion filter; every session can be recorded, replayed, or republished as standard ROS 2 topics. Developed against a real Inertial Sense RUG-3-IMX-5 for camera–IMU integration on an NVIDIA Jetson, and open source.',
+    role: 'Sole author: architecture, sensor drivers, the C++ bridge on the vendor SDK, sensor fusion, the ROS 2 bridge, the 3D dashboard, tests and documentation.',
     form: 'artifact',
     schemaType: 'SoftwareSourceCode',
     hero: {
       kind: 'image',
       media: {
         src: '/images/authority/imu-bench/imx-live.png',
-        alt: 'The imu-bench dashboard connected to a real Inertial Sense RUG-3-IMX-5 over USB: the enclosure drawn in 3D over a contour-line terrain with its X, Y and Z axes, live roll, pitch and yaw, an attitude indicator, a heading card, and the unit\'s serial number.',
+        alt: 'The imu-bench dashboard live on a real Inertial Sense RUG-3-IMX-5 over USB: the enclosure drawn in 3D over a contour-line terrain with its X, Y and Z axes, live roll, pitch and yaw, an attitude indicator, a heading card, and the unit\'s serial number.',
         caption:
-          'Connected to a real RUG-3-IMX-5 over USB: the enclosure, modelled from its drawing, turns by the attitude the unit reports.',
+          'Live on a real Inertial Sense RUG-3-IMX-5: the enclosure, modelled from its engineering drawing, moves with the sensor in real time.',
       },
     },
     videos: [
@@ -460,89 +460,90 @@ export const projects: ProjectRecord[] = [
         poster: '/images/authority/imu-bench/dashboard-poster.jpg',
         alt: 'Screen recording of the dashboard: the RUG-3 enclosure tilting and turning in 3D with axis callouts, while the roll, pitch and yaw readouts, the attitude indicator and the heading card follow it.',
         caption:
-          'The dashboard driven by its built-in simulator, recorded frame by frame. The same page runs against real sensors.',
+          'The full dashboard, recorded frame by frame from its built-in simulator; the same view runs live on real hardware.',
       },
     ],
     answer: {
-      what: 'An open-source tool that streams any IMU or AHRS into a live 3D dashboard, a replayable recording, or standard ROS 2 topics, whatever the sensor speaks.',
+      what: 'A real-time workbench that turns any inertial sensor into a live 3D view, a replayable recording and standard ROS 2 topics, whatever protocol the device speaks.',
       problem:
-        'Every inertial sensor arrives with its own protocol, units, axes and vendor tool. Bringing one up means learning all of that before you can even see whether it is pointing the right way, and the next sensor starts over.',
-      how: 'A Python server with one driver per protocol translates the device into a handful of messages in SI units, FRD body and NED world frames. The Inertial Sense driver runs the vendor SDK in a small C++ bridge; others read MAVLink, JSON or CSV lines, or ROS 2. A Madgwick filter supplies attitude when the sensor has none, and a React and three.js dashboard shows the device in 3D.',
-      role: 'I designed and wrote the drivers, the bridge, the fusion, the ROS 2 conversion, the dashboard and the tests, and brought it up on the IMX unit and PX4 software-in-the-loop.',
+        'Every inertial sensor arrives with its own protocol, units, axes and vendor tool. Bringing one up can take days before you can even see whether it is pointing the right way, and every new sensor starts that work over.',
+      how: 'A Python core with one driver per protocol translates each device into a small common language: SI units, an FRD body and a NED world. The Inertial Sense driver runs the vendor SDK through a C++ bridge; others speak MAVLink, JSON or CSV lines, or ROS 2. A Madgwick filter supplies attitude when the sensor has none, and a React and three.js dashboard brings it all to life in 3D.',
+      role: 'I designed and built all of it: the drivers, the bridge, the fusion, the ROS 2 conversion, the dashboard and the tests, and brought it up on a real IMX unit and on PX4 software-in-the-loop.',
     },
     stages: [
       {
         step: '01',
         title: 'Connect',
         detail:
-          'Drivers for the Inertial Sense IMX (vendor SDK, found on USB by itself and followed across replugs), MAVLink autopilots, any device that prints JSON or CSV lines over serial, UDP, TCP or stdin, and ROS 2 Imu topics.',
+          'Plug in and go: drivers for the Inertial Sense IMX (found on USB automatically and followed across replugs), MAVLink autopilots, anything that prints JSON or CSV over serial, UDP, TCP or stdin, and ROS 2 Imu topics.',
       },
       {
         step: '02',
         title: 'Normalise',
         detail:
-          'Every driver emits the same few messages: device, attitude, IMU, magnetometer, barometer, status, link. SI units, an FRD body and a NED world, converted to ROS conventions only at the ROS boundary.',
+          'Every driver speaks the same few messages (device, attitude, IMU, magnetometer, barometer, status, link) in SI units with an FRD body and a NED world, converted to ROS conventions only at the ROS boundary.',
       },
       {
         step: '03',
         title: 'Fuse',
         detail:
-          'A 6-axis Madgwick filter gives attitude to sensors that only report gyro and accelerometer, with a separate slow heading loop on the magnetometer so a bad calibration can only disturb yaw.',
+          'A 6-axis Madgwick filter gives attitude to sensors that only report gyro and accelerometer, with a separate magnetometer heading loop, so a poor calibration can never tilt the horizon.',
       },
       {
         step: '04',
         title: 'Show',
         detail:
-          'The device in 3D as what it is (an enclosure drawn from its datasheet, a quadrotor, or a breakout board), live strip charts with CSV export, decoded health, magnetometer coverage plots and the device\'s configuration.',
+          'The device in 3D as what it really is (an enclosure drawn from its datasheet, a quadrotor, or a breakout board), full-rate strip charts with CSV export, barometric height, decoded health, magnetometer coverage plots and the device\'s configuration.',
       },
       {
         step: '05',
         title: 'Hand on',
         detail:
-          'Record and replay any session, or republish it as ROS 2 Imu, MagneticField and FluidPressure topics for the rest of a robot. Tests and CI cover the maths, the parsers and the decoders.',
+          'Record and replay any session, or republish it live as ROS 2 Imu, MagneticField and FluidPressure topics for the rest of the robot. A test suite and continuous integration cover the maths, the parsers and the decoders.',
       },
     ],
     measurements: [
       {
-        label: 'Inertial Sense RUG-3-IMX-5',
+        label: 'Raw IMU streaming',
         value: '1 kHz',
-        context: 'raw IMU over USB at 1.00 ms spacing; attitude at 143 Hz, measured on the unit',
+        context: 'from the Inertial Sense RUG-3-IMX-5 over USB at 1.00 ms spacing; attitude at 143 Hz',
       },
       {
-        label: 'Replug',
+        label: 'Hot-plug recovery',
         value: '0.12 s',
-        context: 'to notice the unplug; streaming resumes about 30 ms after the port comes back (relay test with the real unit)',
+        context: 'to detect an unplug; the stream is back about 30 ms after the sensor returns, on whatever port it gets',
       },
       {
-        label: 'Fusion, simulated motion',
+        label: 'Fused tilt accuracy',
         value: '0.06°',
-        context: 'mean tilt error with a 0.17 °/s gyro bias; 0.5° heading with a magnetometer',
+        context: 'mean error on simulated motion with a 0.17 °/s gyro bias; 0.5° heading with a magnetometer',
       },
       {
-        label: 'ROS 2 round trip',
+        label: 'ROS 2 fidelity',
         value: '0.001°',
-        context: 'mean attitude error after publishing and subscribing again, ROS 2 Jazzy',
+        context: 'attitude error after a full publish-and-subscribe round trip, ROS 2 Jazzy',
       },
     ],
     limits: [
-      'Run against one Inertial Sense unit (a RUG-3-IMX-5) and PX4 in software-in-the-loop; ArduPilot and a real flight controller have not been tested.',
-      'The line driver was tested with synthetic CSV and JSON streams; the bundled MPU-6050 sketch has not been run on hardware.',
-      'The fusion figures come from simulated motion, not a reference rig.',
-      'The dashboard recording on this page is the built-in simulator; the stills are a real IMX unit and PX4 software-in-the-loop.',
+      'Verified on a real Inertial Sense RUG-3-IMX-5 and on PX4 1.18 in software-in-the-loop; ArduPilot and real flight-controller hardware have not been run yet.',
+      'The line driver is verified with synthetic CSV and JSON streams; the bundled MPU-6050 sketch has not yet been run on hardware.',
+      'The fusion accuracy figures come from simulated motion, not a reference rig.',
+      'The video and the chart still on this page come from the built-in simulator; the other stills are a real IMX unit and PX4 software-in-the-loop.',
     ],
     media: [
       {
         src: '/images/authority/imu-bench/px4-sitl.png',
         step: 'Connect',
-        alt: 'The same dashboard connected to PX4 1.18 running in software-in-the-loop over MAVLink: the name reads PX4, a quadrotor model with nose, right and down axes and a motor callout showing Disarmed and LOITER, and the firmware version.',
+        alt: 'The same dashboard connected over MAVLink to PX4 1.18 running in software-in-the-loop: the name reads PX4, a quadrotor model with nose, right and down axes and a motor callout showing Disarmed and LOITER, and the firmware version.',
         caption:
-          'The same page on PX4 1.18 in software-in-the-loop over MAVLink: it shows a quadrotor and reads the flight mode and sensor health.',
+          'Point it at a flight controller instead: on PX4 1.18 in software-in-the-loop it recognises the vehicle, draws a quadrotor and reads the flight mode and sensor health.',
       },
       {
         src: '/images/authority/imu-bench/signals.png',
         step: 'Show',
         alt: 'Four live strip charts: tilt, angular rate, specific force and magnetic field, each with X, Y and Z traces in orange, green and blue, a time window selector and a CSV button per chart.',
-        caption: 'The raw signals, here from the simulator: tilt, angular rate, specific force and magnetic field.',
+        caption:
+          'Every signal at full rate, here from the simulator: tilt, angular rate, specific force and magnetic field, each exportable to CSV in one click.',
       },
     ],
     sources: [
@@ -556,7 +557,7 @@ export const projects: ProjectRecord[] = [
         label: 'Live demo',
         href: 'https://kronbii.github.io/imu-bench/',
         kind: 'demo',
-        note: 'The dashboard in the browser, driven by its built-in simulator.',
+        note: 'The full dashboard in your browser, no hardware needed, driven by its built-in simulator.',
       },
     ],
     articleSlug: '',
@@ -564,6 +565,7 @@ export const projects: ProjectRecord[] = [
     keywords: [
       'IMU',
       'AHRS',
+      'sensor fusion',
       'Inertial Sense IMX-5',
       'MAVLink',
       'PX4',
