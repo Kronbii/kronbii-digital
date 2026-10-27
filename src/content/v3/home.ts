@@ -1,8 +1,8 @@
 /**
  * Copy for the /v3 homepage. Written for someone skimming: every figure is a
- * verified-current fact from docs/geo/ENTITY_FACTS.md or a ready authority
- * record, said plainly, with its source one click away. Nothing marked
- * [VERIFY] in src/content/home.ts is used.
+ * verified-current fact from a ready authority record, said plainly, with
+ * its source one click away. Nothing marked [VERIFY] in src/content/home.ts
+ * is used.
  */
 
 import { v2Home } from '@/content/v2/home'

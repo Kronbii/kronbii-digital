@@ -1,7 +1,7 @@
 /**
  * Copy and curation for the /v2 homepage. Facts come from the authority
- * records and docs/geo/ENTITY_FACTS.md (verified-current items only); nothing
- * marked [VERIFY] in src/content/home.ts is reproduced here.
+ * records (verified-current items only); nothing marked [VERIFY]
+ * in src/content/home.ts is reproduced here.
  */
 
 import { siteConfig } from '@/lib/site'

@@ -1,6 +1,6 @@
-AUTHORITY IMAGE ATTRIBUTION
+IMAGE SOURCES
 
-Every file in this tree is a first-party asset copied unmodified from a public
+Every file under public/images/authority/ is a first-party asset copied unmodified from a public
 repository owned by Rami Kronbi (https://github.com/Kronbii) or by his project
 team. Public source URL for each file:
 

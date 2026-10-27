@@ -1,6 +1,6 @@
 # Action items
 
-What's left to do on the site and around it, from the 23–24 October 2026 audit and Rami's answers on the resolve board (`/resolve`, local only). Tick items off here as they're done.
+What's left to do on the site and around it, from the 23–24 October 2026 audit and Rami's answers to it. Tick items off here as they're done.
 
 ## For Rami
 
@@ -26,7 +26,7 @@ What's left to do on the site and around it, from the 23–24 October 2026 audit
 - [ ] **OmniSign:** add the co-founder title.
 - [ ] **NASNA:** keep "Co-founder & Operations Lead".
 - [ ] **360° stitching:** describe it as 3D mapping of environments without LiDAR (it started as real estate).
-- [ ] **New projects:** lines for the rotor-fault study, the star tracker, the drone-control bootcamp and the road-speed audit (drafts in docs/geo/CV_ADDITIONS_2026-10.md).
+- [ ] **New projects:** lines for the rotor-fault study, the star tracker, the drone-control bootcamp and the road-speed audit (drafts in docs/CV_ADDITIONS_2026-10.md).
 - [ ] **Fix two cut-off titles:** "Emotion Recognition for Children with … Autism" and "5-inch Carbon-Fiber FPV … Drone".
 - [ ] **Remove** the runway-inspection UAV line if it stays off the site.
 

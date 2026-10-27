@@ -1,32 +1,8 @@
 # CV additions, October 2026
 
-Suggested CV lines for the projects added on the `new-projects-2026-10` branch. Every number comes from the
-project's own repository, where a script or test regenerates it; the source file is named under each project. Pick
-what fits the page; each project has a one-line and a longer form.
-
-Not changed here: `public/ramikronbi-2026.pdf`. If the thermal lines below go in, the PDF needs the same correction
-(see the first section).
-
-## Correction to the current CV: thermal super-resolution
-
-The current CV quotes 34.2 dB / 0.840 SSIM at ×2 (31.0 / 0.757 at ×3, 29.6 / 0.713 at ×4). Those came from 1,100
-validation frames that were never published, measured without a border crop under a different protocol, and no x4
-evaluation output exists at all, so nobody can rerun them. The benchmark rebuilt in October uses one protocol on 17
-committed frames; its figures are lower, and are not directly comparable with the old ones, but they are the ones a
-reader can check:
-
-- Adapted an RGB-pretrained IMDN super-resolution network (0.69M parameters) to single-channel thermal images (×2/×3/×4)
-  by fine-tuning on 10,697 FLIR ADAS v2 frames; +0.76/+0.95/+0.78 dB PSNR over bicubic on 17 validation-split frames and
-  +0.91/+0.40/+0.70 dB on 51 images from other thermal cameras (TNO).
-- 14.2 ms per 320×256 → 640×512 frame (70 FPS) with fp16 on an RTX 3070 Laptop GPU, measured with GPU-synchronised
-  timing.
-- Built a reproducible benchmark (one protocol file, metrics checked against scikit-image, CI that keeps the README equal
-  to the results) and withdrew the repository's unverifiable speed and quality claims.
-
-The "~45 FPS on Jetson Orin after quantization" line has no artifact in the repository. Keep it only if you can point to
-the run that produced it.
-
-Source: `thermal-super-resolution`, `docs/portfolio.md` and `results/benchmark.json` (pull request #2).
+Suggested CV lines for the rotor-fault study, the star tracker, the drone-control bootcamp and the road-speed audit.
+Every number comes from the project's own repository, where a script or test regenerates it; the source file is
+named under each project. Pick what fits the page; each project has a one-line and a longer form.
 
 ## Rotor-fault detection and recovery for a quadrotor
 
