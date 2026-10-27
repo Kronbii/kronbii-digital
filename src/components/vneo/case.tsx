@@ -25,8 +25,10 @@ import {
 import { siteConfig } from '@/lib/site'
 
 import { BackButton } from './back'
+import { CalmShot } from './calm'
 import { TopicLinks } from './topics'
 import { CaseShot } from './case-shot'
+import { LightShot } from './light'
 import { HeroDiagram, hasDiagram } from './hero-diagram'
 import './figures.css'
 
@@ -56,7 +58,11 @@ const T = {
   links: 'Links',
   note: 'Read the write-up',
   next: 'Next project',
+  replay: 'Play again',
 }
+
+/** The light tracker opens on its own shot, the light it follows through a lens; its videos follow below. */
+const LIGHT = 'pid-light-tracking-robot'
 
 /** Imagen's photographs belong to its client; that page shows none. */
 const PRIVATE_MEDIA = new Set(['imagen-raw-to-edit-dataset-pipeline'])
@@ -129,7 +135,9 @@ export function Case({ slug }: { slug: string }) {
     !!lead
   const posters = new Set((p.videos ?? []).map((v) => v.poster))
   const inline: Inline[] = [
-    ...(p.videos ?? []).slice(1).map((v) => ({ kind: 'video' as const, ...v })),
+    ...(p.videos ?? [])
+      .slice(slug === LIGHT ? 0 : 1)
+      .map((v) => ({ kind: 'video' as const, ...v })),
     ...images
       .filter((m) => !posters.has(m.src) && !(headShowsLead && m.src === lead?.src))
       .map((m) => ({ kind: 'image' as const, ...m })),
@@ -218,7 +226,13 @@ export function Case({ slug }: { slug: string }) {
               ) : null}
             </p>
           </div>
-          {p.videos?.length ? (
+          {slug === LIGHT ? (
+            <div className="vn-case-reel">
+              <CalmShot>
+                <LightShot replay={T.replay} />
+              </CalmShot>
+            </div>
+          ) : p.videos?.length ? (
             <figure className="vn-case-video">
               <AutoVideo src={p.videos[0].src} poster={p.videos[0].poster} alt={p.videos[0].alt} />
               {p.videos[0].caption ? <figcaption>{p.videos[0].caption}</figcaption> : null}

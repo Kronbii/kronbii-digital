@@ -206,7 +206,7 @@ export function Community() {
       aria-labelledby="community-h"
     >
       <Slate
-        no={5}
+        no={6}
         label={c.label}
         title={c.title}
         hot={c.hot}

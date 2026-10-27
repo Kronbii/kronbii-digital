@@ -1,0 +1,134 @@
+/* The quad (quad.tsx), the closing shot: the left column, the words */
+[data-vneo] .v6-scene.vn-quad {
+  --lq-x: #a6e68f;
+  --lq-y: #7f9a74;
+  --lq-z: #eef1ec;
+  --lq-lost: #e08fd0;
+}
+[data-vneo] .v6-scene.vn-quad .lq-status {
+  position: absolute;
+  left: 222px;
+  top: 118px;
+}
+[data-vneo] .v6-scene.vn-quad .lq-st {
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 24px;
+  color: var(--paper);
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-quad .lq-st i {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--sage);
+  box-shadow: 0 0 14px rgba(183, 211, 168, 0.7);
+}
+[data-vneo] .v6-scene.vn-quad .lq-st.is-lost {
+  color: var(--lq-lost);
+}
+[data-vneo] .v6-scene.vn-quad .lq-st.is-lost i {
+  background: var(--lq-lost);
+  box-shadow: 0 0 14px rgba(224, 143, 208, 0.8);
+}
+
+/* the gyro strip: three traces, drawn by the 3D layer each frame */
+[data-vneo] .v6-scene.vn-quad .lq-gyro {
+  position: absolute;
+  left: 222px;
+  top: 178px;
+  width: 520px;
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-quad .lq-gyro svg {
+  display: block;
+  width: 520px;
+  height: 130px;
+  margin-top: 34px;
+  border-top: 1px solid rgba(238, 241, 236, 0.14);
+  border-bottom: 1px solid rgba(238, 241, 236, 0.14);
+  overflow: visible;
+}
+[data-vneo] .v6-scene.vn-quad .lq-gyro line {
+  stroke: rgba(238, 241, 236, 0.1);
+  stroke-width: 1;
+  stroke-dasharray: 4 6;
+}
+[data-vneo] .v6-scene.vn-quad .lq-gyro path {
+  fill: none;
+  stroke-width: 2.4;
+  stroke-linejoin: round;
+}
+[data-vneo] .v6-scene.vn-quad .lq-gyro path.x {
+  stroke: var(--lq-x);
+}
+[data-vneo] .v6-scene.vn-quad .lq-gyro path.y {
+  stroke: var(--lq-y);
+}
+[data-vneo] .v6-scene.vn-quad .lq-gyro path.z {
+  stroke: var(--lq-z);
+}
+[data-vneo] .v6-scene.vn-quad .lq-gyro-t,
+[data-vneo] .v6-scene.vn-quad .lq-axes {
+  top: 0;
+  font-size: 18px;
+  color: var(--paper-60);
+}
+[data-vneo] .v6-scene.vn-quad .lq-gyro-t {
+  left: 0;
+}
+[data-vneo] .v6-scene.vn-quad .lq-axes {
+  right: 0;
+  letter-spacing: 0.3em;
+}
+[data-vneo] .v6-scene.vn-quad .lq-axes .x {
+  color: var(--lq-x);
+}
+[data-vneo] .v6-scene.vn-quad .lq-axes .y {
+  color: var(--lq-y);
+}
+[data-vneo] .v6-scene.vn-quad .lq-axes .z {
+  color: var(--lq-z);
+}
+[data-vneo] .v6-scene.vn-quad .lq-note {
+  left: 222px;
+  top: 370px;
+  font-size: 18px;
+  color: var(--paper-60);
+  opacity: 0;
+}
+
+/* the words: one a bar, then the three together */
+[data-vneo] .v6-scene.vn-quad .lq-word {
+  position: absolute;
+  left: 214px;
+  top: 760px;
+  font-weight: 800;
+  font-size: 200px;
+  line-height: 0.86;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  color: var(--paper);
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-quad :is(.lq-word, .lq-end) i {
+  font-style: normal;
+  color: var(--sage);
+}
+[data-vneo] .v6-scene.vn-quad .lq-end {
+  position: absolute;
+  left: 218px;
+  top: 640px;
+  font-weight: 800;
+  font-size: 104px;
+  line-height: 0.94;
+  letter-spacing: -0.035em;
+  color: var(--paper);
+}
+[data-vneo] .v6-scene.vn-quad .lq-end span {
+  display: block;
+  opacity: 0;
+}

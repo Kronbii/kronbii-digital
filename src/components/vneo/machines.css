@@ -1,0 +1,267 @@
+/* Three machines, one loop (machines.tsx): the 1920 x 1080 stage */
+[data-vneo] .v6-scene.vn-machines {
+  --ca: 0;
+  --dim: rgba(238, 241, 236, 0.52);
+}
+[data-vneo] .v6-scene.vn-machines .lm-near {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 1px;
+}
+
+/* the loop's lines and its pulse */
+[data-vneo] .v6-scene.vn-machines .lm-lines {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1920px;
+  height: 1080px;
+  overflow: visible;
+}
+[data-vneo] .v6-scene.vn-machines .lm-draw {
+  fill: none;
+  stroke: rgba(var(--sage-rgb), 0.5);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+[data-vneo] .v6-scene.vn-machines .lm-pulse {
+  opacity: 0;
+  filter: drop-shadow(-4px 0 0 rgba(var(--fr-m), 0.6))
+    drop-shadow(4px 0 0 rgba(var(--fr-g), 0.6))
+    drop-shadow(0 0 12px rgba(var(--sage-rgb), 0.75));
+}
+[data-vneo] .v6-scene.vn-machines .lm-pulse circle {
+  fill: var(--sage2);
+}
+[data-vneo] .v6-scene.vn-machines .lm-pulse circle:nth-child(2) {
+  opacity: 0.55;
+}
+[data-vneo] .v6-scene.vn-machines .lm-pulse circle:nth-child(3) {
+  opacity: 0.38;
+}
+[data-vneo] .v6-scene.vn-machines .lm-pulse circle:nth-child(4) {
+  opacity: 0.26;
+}
+[data-vneo] .v6-scene.vn-machines .lm-pulse circle:nth-child(5) {
+  opacity: 0.16;
+}
+[data-vneo] .v6-scene.vn-machines .lm-pulse circle:nth-child(6) {
+  opacity: 0.08;
+}
+[data-vneo] .v6-scene.vn-machines .lm-fb-word {
+  left: 960px;
+  top: 875px;
+  padding: 0 18px;
+  transform: translateX(-50%);
+  background: var(--ground);
+  color: var(--dim);
+  font-size: 18px;
+  line-height: 26px;
+  opacity: 0;
+}
+
+/* the lap: its number, the machine, who it was with */
+[data-vneo] .v6-scene.vn-machines .lm-count {
+  left: 280px;
+  top: 150px;
+  width: 140px;
+  height: 24px;
+  color: var(--sage);
+  font-size: 20px;
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-machines .lm-n {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-machines .lm-of {
+  position: absolute;
+  left: 38px;
+  top: 0;
+  color: var(--dim);
+}
+[data-vneo] .v6-scene.vn-machines .lm-name {
+  position: absolute;
+  left: 280px;
+  top: 186px;
+  opacity: 0;
+  white-space: nowrap;
+}
+[data-vneo] .v6-scene.vn-machines .lm-name b {
+  display: block;
+  color: var(--paper);
+  font-family: var(--f-display);
+  font-size: 72px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+[data-vneo] .v6-scene.vn-machines .lm-name i {
+  display: block;
+  margin-top: 12px;
+  color: var(--ink2);
+  font-family: var(--f-serif);
+  font-size: 30px;
+  font-style: italic;
+  line-height: 1.1;
+}
+
+/* the three words and each plate's caption */
+[data-vneo] .v6-scene.vn-machines .lm-word {
+  position: absolute;
+  top: 372px;
+  color: var(--dim);
+  font-family: var(--f-display);
+  font-size: 60px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-machines .lm-word i {
+  color: var(--sage);
+  font-style: normal;
+}
+[data-vneo] .v6-scene.vn-machines .lm-cap {
+  position: absolute;
+  top: 444px;
+  width: 400px;
+  color: var(--ink2);
+  font-family: var(--f-mono);
+  font-size: 20px;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  opacity: 0;
+}
+
+/* the plates: an empty slot, a layer per lap, the ring that lights with the pulse */
+[data-vneo] .v6-scene.vn-machines .lm-plate {
+  position: absolute;
+  top: 486px;
+  width: 400px;
+  height: 300px;
+  filter: drop-shadow(calc(var(--ca) * -1px) 0 0 rgba(var(--fr-m), 0.8))
+    drop-shadow(calc(var(--ca) * 1px) 0 0 rgba(var(--fr-g), 0.8));
+}
+[data-vneo] .v6-scene.vn-machines .lm-empty {
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--hair);
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-machines .lm-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 400px;
+  height: 300px;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #0c0e0d;
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-machines .lm-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(238, 241, 236, 0.14);
+  pointer-events: none;
+}
+[data-vneo] .v6-scene.vn-machines .lm-media {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: block;
+  max-width: none;
+}
+[data-vneo] .v6-scene.vn-machines .lm-still img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+[data-vneo] .v6-scene.vn-machines .lm-ring {
+  position: absolute;
+  inset: -8px;
+  border: 2px solid var(--sage);
+  border-radius: 25px;
+  box-shadow: 0 0 26px rgba(var(--sage-rgb), 0.22);
+  opacity: 0;
+  pointer-events: none;
+}
+[data-vneo] .v6-scene.vn-machines .lm-tag {
+  left: 14px;
+  top: 14px;
+  z-index: 2;
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: rgba(11, 13, 12, 0.8);
+  color: var(--sage);
+  font-size: 17px;
+  opacity: 0;
+}
+
+/* the light tracker's decide plate: an error trace per axis, settling on the light */
+[data-vneo] .v6-scene.vn-machines .lm-pid {
+  position: absolute;
+  inset: 0;
+  background: #0c0e0d;
+}
+[data-vneo] .v6-scene.vn-machines .lm-pid svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+[data-vneo] .v6-scene.vn-machines .lm-pid-zero {
+  fill: none;
+  stroke: rgba(238, 241, 236, 0.3);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 8;
+}
+[data-vneo] .v6-scene.vn-machines .lm-pid-pan,
+[data-vneo] .v6-scene.vn-machines .lm-pid-tilt {
+  fill: none;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+[data-vneo] .v6-scene.vn-machines .lm-pid-pan {
+  stroke: rgb(var(--fr-g));
+}
+[data-vneo] .v6-scene.vn-machines .lm-pid-tilt {
+  stroke: rgb(var(--fr-m));
+}
+[data-vneo] .v6-scene.vn-machines .lm-pid-dot-pan {
+  fill: rgb(var(--fr-g));
+}
+[data-vneo] .v6-scene.vn-machines .lm-pid-dot-tilt {
+  fill: rgb(var(--fr-m));
+}
+[data-vneo] .v6-scene.vn-machines .lm-pid-key {
+  right: 16px;
+  top: 14px;
+  color: var(--dim);
+  font-size: 16px;
+}
+[data-vneo] .v6-scene.vn-machines .lm-pid-key b.g {
+  color: rgb(var(--fr-g));
+}
+[data-vneo] .v6-scene.vn-machines .lm-pid-key b.mg {
+  color: rgb(var(--fr-m));
+}
+[data-vneo] .v6-scene.vn-machines .lm-pid-note {
+  right: 16px;
+  bottom: 14px;
+  color: var(--dim);
+  font-size: 13px;
+}

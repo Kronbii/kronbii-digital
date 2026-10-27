@@ -24,7 +24,7 @@ const IMPACTS: Impact[] = [
   { t: 4 * B, k: 0.6, flash: 0.3, ghost: 0.6 },
   { t: 8 * B, k: 0.8, flash: 0.5, ghost: 0.8 },
 ]
-const c = vneo.loop.pack
+const c = vneo.pack
 /** On a phone the frame narrows to 4:3: the middle of the stage, where the letters and the lock sit. */
 const CROP: [number, number, number, number] = [240, 0, 1440, 1080]
 

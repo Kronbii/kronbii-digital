@@ -22,12 +22,19 @@ export const about: {
   title: string
   description: string
   lede: string
+  /** Rā' takes aim: the emblem acting out sense, decide, act, under the lede */
+  emblem: { caption: string; replay: string }
   sections: AboutSection[]
 } = {
   title: 'About',
   description:
     'Rami Kronbi’s record beyond the projects: a mechatronics degree from RHU, embedded and vision engineering at Oreyeon, teaching and mentoring, community work, awards, and certificates.',
   lede: 'I’m a robotics, vision, and embedded systems engineer in Beirut. This is the record behind the projects: where I studied, where I work, where I teach, and what came of it.',
+  emblem: {
+    caption:
+      'My emblem, Rā’, moving the way my machines do: it senses, decides, and acts.',
+    replay: 'Play again',
+  },
   sections: [
     {
       id: 'education',

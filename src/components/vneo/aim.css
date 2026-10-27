@@ -1,0 +1,119 @@
+/* Rā' takes aim (aim.tsx), on the About page */
+[data-vneo] .v6-scene.vn-aim .la-svg {
+  position: absolute;
+  inset: 0;
+  width: 1920px;
+  height: 1080px;
+  overflow: visible;
+}
+[data-vneo] .v6-scene.vn-aim .la-ring {
+  fill: none;
+  stroke: rgba(var(--ink-rgb), 0.14);
+  stroke-width: 1.5;
+}
+[data-vneo] .v6-scene.vn-aim .la-dot {
+  fill: var(--sage);
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-aim .la-beam {
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-aim .la-beam path {
+  fill: var(--sage);
+}
+[data-vneo] .v6-scene.vn-aim .la-beam .la-beam-line {
+  fill: none;
+  stroke: var(--sage2);
+  stroke-width: 2.5;
+}
+[data-vneo] .v6-scene.vn-aim .la-tg {
+  fill: var(--sage2);
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-aim .la-tg-ring {
+  fill: none;
+  stroke: var(--sage);
+  stroke-width: 2;
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-aim .la-cand {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2.5;
+  stroke-dasharray: 9 13;
+  stroke-linecap: round;
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-aim .la-end {
+  fill: var(--bg);
+  stroke: var(--ink);
+  stroke-width: 2.5;
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-aim .la-pick {
+  fill: none;
+  stroke: var(--sage);
+  stroke-width: 3;
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-aim .la-trail {
+  fill: none;
+  stroke: var(--sage2);
+  stroke-width: 5;
+  stroke-linecap: round;
+  filter: url(#la-glow);
+}
+[data-vneo] .v6-scene.vn-aim .la-em {
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-aim .la-em-m {
+  fill: rgb(var(--fr-m));
+  opacity: 0.9;
+}
+[data-vneo] .v6-scene.vn-aim .la-em-g {
+  fill: rgb(var(--fr-g));
+  opacity: 0.9;
+}
+[data-vneo] .v6-scene.vn-aim .la-em-s,
+[data-vneo] .v6-scene.vn-aim .la-ag {
+  fill: var(--sage);
+}
+[data-vneo] .v6-scene.vn-aim .la-ag {
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-aim .la-c {
+  fill: none;
+  stroke: var(--sage);
+  stroke-width: 4;
+  stroke-linecap: square;
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-aim .la-tag,
+[data-vneo] .v6-scene.vn-aim .la-tag2 {
+  font-size: 20px;
+  color: var(--sage);
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-aim .la-words {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 864px;
+  display: flex;
+  justify-content: center;
+  gap: 0.55em;
+  font-family: var(--f-display);
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+}
+[data-vneo] .v6-scene.vn-aim .la-w {
+  display: inline-block;
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-aim .la-w i {
+  font-style: normal;
+  color: var(--sage);
+}

@@ -1,0 +1,229 @@
+/* Through the lens (light.tsx), on the light tracker's page */
+[data-vneo] .v6-scene.vn-light .ll-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+[data-vneo] .v6-scene.vn-light .ll-bench {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1920px;
+  height: 1080px;
+  overflow: visible;
+}
+
+/* the bench: lamp, lens, sensor; the light white before the lens and split after it */
+[data-vneo] .v6-scene.vn-light .ll-cone {
+  fill: rgba(var(--ink-rgb), 0.05);
+}
+[data-vneo] .v6-scene.vn-light .ll-cone-m {
+  fill: rgba(var(--fr-m), 0.07);
+  mix-blend-mode: screen;
+}
+[data-vneo] .v6-scene.vn-light .ll-cone-g {
+  fill: rgba(var(--fr-g), 0.07);
+  mix-blend-mode: screen;
+}
+[data-vneo] .v6-scene.vn-light .ll-ray {
+  stroke: rgba(var(--ink-rgb), 0.7);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+[data-vneo] .v6-scene.vn-light .ll-out {
+  mix-blend-mode: screen;
+}
+[data-vneo] .v6-scene.vn-light :is(.ll-ray-m, .ll-ray-g) {
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+[data-vneo] .v6-scene.vn-light .ll-ray-m {
+  stroke: rgba(var(--fr-m), 0.92);
+}
+[data-vneo] .v6-scene.vn-light .ll-ray-g {
+  stroke: rgba(var(--fr-g), 0.92);
+}
+[data-vneo] .v6-scene.vn-light .ll-crown {
+  fill: rgba(var(--sage-rgb), 0.08);
+  stroke: var(--sage);
+  stroke-width: 2;
+}
+[data-vneo] .v6-scene.vn-light .ll-flint {
+  fill: rgba(var(--sage-rgb), 0.2);
+  stroke: var(--sage);
+  stroke-width: 2;
+}
+[data-vneo] .v6-scene.vn-light .ll-sensor {
+  fill: var(--sage);
+}
+[data-vneo] .v6-scene.vn-light .ll-spot {
+  fill: url(#ll-glow);
+  mix-blend-mode: screen;
+}
+[data-vneo] .v6-scene.vn-light .ll-proj {
+  stroke: rgba(var(--sage-rgb), 0.3);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 9;
+}
+
+/* the plate: what the sensor reads, and then the machine */
+[data-vneo] .v6-scene.vn-light .ll-plate {
+  position: absolute;
+  left: 1100px;
+  top: 120px;
+  width: 540px;
+  height: 720px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #0e110f;
+  box-shadow:
+    0 0 0 1px var(--hair),
+    0 30px 80px rgba(0, 0, 0, 0.45);
+  isolation: isolate;
+  opacity: 0;
+}
+/* the thermal frame, as a 3:4 crop of each half of the comparison plate (raw left, x3 right) */
+[data-vneo] .v6-scene.vn-light .ll-img {
+  position: absolute;
+  inset: 0;
+  background-image: url('/images/authority/thermal-super-resolution/thermal-plate.webp');
+  background-size: 1964.1px 739.3px;
+  background-repeat: no-repeat;
+  filter: grayscale(1) brightness(0.78) contrast(1.16);
+}
+[data-vneo] .v6-scene.vn-light .ll-raw {
+  background-position: -282.8px 0;
+  image-rendering: pixelated;
+}
+[data-vneo] .v6-scene.vn-light .ll-sr {
+  background-position: -1259.3px 0;
+}
+[data-vneo] .v6-scene.vn-light .ll-base {
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-light .ll-fr {
+  mix-blend-mode: screen;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+[data-vneo] .v6-scene.vn-light .ll-fg {
+  filter: url(#ll-tint-g) blur(3px);
+}
+[data-vneo] .v6-scene.vn-light .ll-fm {
+  filter: url(#ll-tint-m) blur(3px);
+}
+[data-vneo] .v6-scene.vn-light .ll-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+[data-vneo] .v6-scene.vn-light .ll-coarse {
+  background-image:
+    linear-gradient(to right, rgba(var(--sage-rgb), 0.34) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(var(--sage-rgb), 0.34) 1px, transparent 1px);
+  background-size: 36px 36px;
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-light .ll-fine {
+  background-image:
+    linear-gradient(to right, rgba(var(--sage-rgb), 0.24) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(var(--sage-rgb), 0.24) 1px, transparent 1px);
+  background-size: 12px 12px;
+}
+[data-vneo] .v6-scene.vn-light :is(.ll-clip, .ll-clip-in) {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+[data-vneo] .v6-scene.vn-light .ll-clip {
+  overflow: hidden;
+  transform: translateX(-100%);
+}
+[data-vneo] .v6-scene.vn-light .ll-clip-in {
+  transform: translateX(100%);
+}
+[data-vneo] .v6-scene.vn-light .ll-sweep {
+  position: absolute;
+  left: -1px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--sage);
+  box-shadow: 0 0 18px 4px rgba(var(--sage-rgb), 0.5);
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-light .ll-act {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #0e110f;
+  opacity: 0;
+}
+/* the tracker's footage, 9:16, cut to 3:4 around the lamp and the head */
+[data-vneo] .v6-scene.vn-light .ll-vid {
+  position: absolute;
+  left: 0;
+  top: -187px;
+  width: 540px;
+  height: 960px;
+  object-fit: cover;
+  filter: grayscale(1) brightness(0.92) contrast(1.04);
+}
+[data-vneo] .v6-scene.vn-light .ll-tint {
+  position: absolute;
+  inset: 0;
+  background: var(--sage);
+  mix-blend-mode: color;
+  pointer-events: none;
+}
+[data-vneo] .v6-scene.vn-light .ll-chip {
+  left: 18px;
+  top: 18px;
+  padding: 6px 11px;
+  border-radius: 6px;
+  background: rgba(11, 13, 12, 0.72);
+  color: var(--sage);
+  font-size: 18px;
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-light .ll-chip .x3,
+[data-vneo] .v6-scene.vn-light .ll-chip[data-x='3'] .x1 {
+  display: none;
+}
+[data-vneo] .v6-scene.vn-light .ll-chip[data-x='3'] .x3 {
+  display: inline;
+}
+
+/* one caption under the plate at a time */
+[data-vneo] .v6-scene.vn-light .ll-cap {
+  left: 1100px;
+  top: 868px;
+  font-size: 19px;
+  color: var(--ink2);
+  opacity: 0;
+}
+
+/* the words: each pulls into focus out of its own fringe */
+[data-vneo] .v6-scene.vn-light .ll-words {
+  position: absolute;
+  left: 270px;
+  top: 650px;
+}
+[data-vneo] .v6-scene.vn-light .ll-w {
+  font-size: 124px;
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  color: var(--paper);
+  text-shadow:
+    calc(var(--ca, 0) * -1px) 0 0 rgba(var(--fr-m), 0.85),
+    calc(var(--ca, 0) * 1px) 0 0 rgba(var(--fr-g), 0.85);
+  opacity: 0;
+  will-change: transform, opacity, filter;
+}
+[data-vneo] .v6-scene.vn-light .ll-w i {
+  font-style: normal;
+  color: var(--sage);
+}
