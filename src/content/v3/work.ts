@@ -184,8 +184,8 @@ export const plain: Record<string, PlainWork> = {
   },
   'imu-bench': {
     kind: 'Open source · robotics tooling',
-    line: 'Connect any IMU, flight controller or ROS 2 sensor and see it live in 3D, with its raw signals, its health and a ROS 2 stream.',
-    proof: '1 kHz streaming · live ROS 2 bridge',
+    line: 'Connect any IMU, flight controller or ROS 2 sensor, see it live in 3D, then measure its vibration, noise and camera alignment.',
+    proof: '1 kHz streaming · ROS 2 and Kalibr outputs',
     part: 'Sole author',
     field: 'open',
     image: {
