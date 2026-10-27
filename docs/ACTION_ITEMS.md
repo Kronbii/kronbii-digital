@@ -9,6 +9,7 @@ What's left to do on the site and around it, from the 23–24 October 2026 audit
 - [ ] **Star tracker, once built:** photos of the build and the first astrophotos.
 - [ ] **Drone-control bootcamp, after the first cohort (planned for December 2026):** where it ran, how many students, photos.
 - [ ] **Emotion recognition:** photos of the Jetson setup or the demo, once found.
+- [ ] **IMU dashboard screenshots, next time the IMX is on your desk:** plug it in and ask Claude to retake `imx-live.png` (the project page's hero) and `px4-sitl.png` in `public/images/authority/imu-bench/`. Their top bars still say imu-bench, the tool's old name; it's now Universal IMU Control Dashboard.
 
 ### Outside the site
 - [ ] **Backlinks:** add a credit line linking to ramikronbi.com on the Evoid, Basira, NASNA and Bsheel sites.

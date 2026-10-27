@@ -103,14 +103,17 @@ road-speed-audit/plate.png, scene.png, distance.png, contact.png
             results/e12_contact.json. Simulated video, not a real road.
 
 imu-bench/imx-live.png, plate.png
-  source:   screenshots of the imu-bench dashboard (github.com/Kronbii/imu-bench)
+  source:   screenshots of the dashboard
+            (github.com/Kronbii/universal-imu-control-dashboard, then called
+            imu-bench, the name in its top bar here)
             connected to a real Inertial Sense RUG-3-IMX-5 over USB; plate.png is
             a square crop of the 3D plate. The 3D enclosure is the dashboard's
             procedural model of the unit, drawn from its datasheet drawing.
 
 imu-bench/px4-sitl.png
   source:   screenshot of the same dashboard connected over MAVLink to PX4 1.18
-            running in software-in-the-loop (SIH quadrotor). Simulated vehicle.
+            running in software-in-the-loop (SIH quadrotor), also still named
+            imu-bench in its top bar. Simulated vehicle.
 
 imu-bench/dashboard.mp4, dashboard-poster.jpg, tile.mp4, tile-poster.jpg, signals.png,
 vibration.png, camera.png
