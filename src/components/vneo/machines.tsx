@@ -6,8 +6,10 @@ import { B, E, clamp, driver, lerp, prog, type Impact } from '@/components/v6/ar
 import { Shot, ShotModeContext } from '@/components/v6/shot'
 import { vneo } from '@/content/vneo/site'
 
+import { MachinesPhoneShot } from './machines-phone'
 import './machines.css'
 import { Slate } from './slate'
+import { PHONE, usePhone } from './use-phone'
 
 /*
  * Three machines, one loop, after the selected projects: sense, decide, act as a block diagram
@@ -55,7 +57,7 @@ const L = '/images/vneo/loop'
 const SIM = `${L}/quad-sim.mp4`
 const SIM_POSTER = `${L}/quad-sim.jpg`
 
-const LAPS: Lap[] = [
+export const LAPS: Lap[] = [
   {
     name: 'The demining rover',
     credit: 'At RHU, for a Lebanese Army initiative, with Wassim Ghaddar',
@@ -142,7 +144,7 @@ const LAPS: Lap[] = [
     ],
   },
 ]
-const WORDS = ['Sense', 'Decide', 'Act']
+export const WORDS = ['Sense', 'Decide', 'Act']
 
 /** When plate k lights on lap i: a lap a bar and a half, a plate every two beats. */
 const onAt = (i: number, k: number) => START + i * LAP + k * 2 * B
@@ -266,8 +268,8 @@ function trace(amp: number, decay: number, freq: number, phase: number, q: numbe
   }
   return `M ${pts.join(' L ')}`
 }
-const PAN = [0.9, 4.2, 2.1, 0] as const
-const TILT = [-0.62, 3.4, 1.8, 0.35] as const
+export const PAN = [0.9, 4.2, 2.1, 0] as const
+export const TILT = [-0.62, 3.4, 1.8, 0.35] as const
 
 const IMPACTS: Impact[] = [0, 1, 2].map((i) => ({
   t: onAt(i, 0),
@@ -522,16 +524,16 @@ function build(root: HTMLElement, tl: gsap.core.Timeline) {
   return () => cancelAnimationFrame(raf)
 }
 
-const LABEL =
+export const LABEL =
   'Three machines, each run once around a loop of sense, decide, act, in its own footage: the demining rover’s map in RViz, the rover finding a red stand-in target and stopping, and its arm lifting it away; the light tracker’s four light sensors under their shade, a PID trace settling on each axis, and the tracker turning to follow a lamp; and, in simulation, a 5-inch quadrotor losing a rotor, the fault flagged in 22 ms, and the drone spinning on to hold its hover. Then the three laps stack into one grid, a row for each machine, and a pulse keeps going round the loop.'
 
 export function MachinesShot({ replay }: { replay: string }) {
   const near = useRef<HTMLDivElement>(null)
 
-  // the footage loads once the shot is near
+  // the footage loads once the shot is near (a phone swaps in its own cut first, and loads that instead)
   useEffect(() => {
     const el = near.current
-    if (!el) return
+    if (!el || matchMedia(PHONE).matches) return
     const io = new IntersectionObserver(
       ([e]) => {
         if (!e.isIntersecting) return
@@ -659,9 +661,10 @@ export function MachinesShot({ replay }: { replay: string }) {
 
 const CALM = { calm: true, speed: 0.75 }
 
-/** The section after the selected projects: the loop, once around each machine. */
+/** The section after the selected projects: the loop, once around each machine (a phone plays its portrait cut). */
 export function Laps() {
   const c = vneo.laps
+  const phone = usePhone()
   return (
     <section id="laps" className="vn-laps vn-replays" aria-labelledby="laps-h">
       <Slate
@@ -674,7 +677,11 @@ export function Laps() {
       />
       <div className="vn-laps-frame">
         <ShotModeContext.Provider value={CALM}>
-          <MachinesShot replay={c.replay} />
+          {phone ? (
+            <MachinesPhoneShot replay={c.replay} />
+          ) : (
+            <MachinesShot replay={c.replay} />
+          )}
         </ShotModeContext.Provider>
       </div>
     </section>

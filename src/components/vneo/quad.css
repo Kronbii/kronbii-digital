@@ -132,3 +132,50 @@
   display: block;
   opacity: 0;
 }
+
+/* ---------- the phone's portrait frame (quad-phone.tsx): the 720 x 900 corner of the stage ---------- */
+[data-vneo] .v6-gl :is(.lq-canvas, .lq-still) {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 720px;
+  height: 900px;
+  display: block;
+}
+[data-vneo] .v6-scene.vn-quad.vn-quad-phone .lq-status {
+  left: 48px;
+  top: 46px;
+}
+[data-vneo] .v6-scene.vn-quad.vn-quad-phone .lq-st {
+  gap: 16px;
+  font-size: 30px;
+}
+[data-vneo] .v6-scene.vn-quad.vn-quad-phone .lq-st i {
+  width: 14px;
+  height: 14px;
+}
+[data-vneo] .v6-scene.vn-quad.vn-quad-phone .lq-gyro {
+  left: 48px;
+  top: 104px;
+}
+[data-vneo] .v6-scene.vn-quad.vn-quad-phone .lq-gyro svg {
+  margin-top: 38px;
+}
+[data-vneo] .v6-scene.vn-quad.vn-quad-phone :is(.lq-gyro-t, .lq-axes) {
+  font-size: 24px;
+}
+[data-vneo] .v6-scene.vn-quad.vn-quad-phone .lq-note {
+  left: 48px;
+  top: 292px;
+  font-size: 24px;
+}
+[data-vneo] .v6-scene.vn-quad.vn-quad-phone .lq-word {
+  left: 44px;
+  top: 712px;
+  font-size: 140px;
+}
+[data-vneo] .v6-scene.vn-quad.vn-quad-phone .lq-end {
+  left: 48px;
+  top: 684px;
+  font-size: 72px;
+}

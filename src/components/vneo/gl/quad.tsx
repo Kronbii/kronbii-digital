@@ -748,16 +748,51 @@ const STRIP_H = 130
 const SAMPLES = 120
 const WINDOW = 2.4
 
-export function QuadGL({ clock, speed }: { clock: ShotClock; speed: number }) {
+/*
+ * On a phone the shot is its own portrait frame (quad-phone.tsx): the canvas
+ * covers only that crop of the stage, the camera stands back with a wider
+ * lens so the quad and its spin stay whole in the narrow frame, and before
+ * the shot rolls the canvas holds its first pose instead of an empty frame,
+ * over a still of that same pose until the 3D is up.
+ */
+export const PHONE_CROP: [number, number, number, number] = [0, 0, 720, 900]
+const PHONE_FOV = 36
+/** How much farther the camera stands than on the desktop frame. */
+const PHONE_R = 1.5
+/** The quad sits a little above the middle of the frame: the status above it, the words and its hover ring clear below. */
+const PHONE_DY = 6
+export const PHONE_STILL = '/images/vneo/loop/quad-phone-still.webp'
+
+export function QuadGL({
+  clock,
+  speed,
+  phone = false,
+  onReady,
+}: {
+  clock: ShotClock
+  speed: number
+  /** The phone's portrait frame (quad-phone.tsx). */
+  phone?: boolean
+  /** Called once the first frame is drawn. */
+  onReady?: () => void
+}) {
   const canvas = useRef<HTMLCanvasElement>(null)
+  const still = useRef<HTMLImageElement>(null)
+  const ready = useRef(onReady)
+  ready.current = onReady
 
   useEffect(() => {
     const cv = canvas.current
     if (!cv) return
     return startGL(cv, async (THREE, renderer) => {
       const scene = new THREE.Scene()
-      const camera = new THREE.PerspectiveCamera(30, 1920 / 1080, 0.05, 100)
-      camera.setViewOffset(1920, 1080, -SHIFT, 0, 1920, 1080)
+      const camera = phone
+        ? new THREE.PerspectiveCamera(PHONE_FOV, PHONE_CROP[2] / PHONE_CROP[3], 0.05, 100)
+        : new THREE.PerspectiveCamera(30, 1920 / 1080, 0.05, 100)
+      if (phone) {
+        const [, , w, h] = PHONE_CROP
+        camera.setViewOffset(w, h, 0, PHONE_DY, w, h)
+      } else camera.setViewOffset(1920, 1080, -SHIFT, 0, 1920, 1080)
       reelLights(THREE, scene, renderer, SAGE)
       // a darker sky than the reel's, so the carbon stays carbon,
       // and its sage rim kept low, on the edges rather than across the plates
@@ -798,19 +833,25 @@ export function QuadGL({ clock, speed }: { clock: ShotClock; speed: number }) {
       const wob = new THREE.Euler()
       const target = new THREE.Vector3()
       let cleared = false
+      let drawn = false
 
       return {
         warm: { scene, camera },
         frame: () => {
           const raw = clock.time()
           if (raw < 0) {
-            if (!cleared) renderer.clear()
-            cleared = true
-            return
+            // a phone holds the first pose until the shot rolls; the desktop frame waits empty
+            if (phone) {
+              if (cleared) return
+            } else {
+              if (!cleared) renderer.clear()
+              cleared = true
+              return
+            }
           }
-          cleared = false
+          cleared = raw < 0
           // past the hold the clock runs in real seconds: back to the shot's own tempo
-          const l = raw > HOLD ? HOLD + (raw - HOLD) * speed : raw
+          const l = raw < 0 ? 0 : raw > HOLD ? HOLD + (raw - HOLD) * speed : raw
           const s = story(l)
           const pc = pace(l)
 
@@ -887,9 +928,11 @@ export function QuadGL({ clock, speed }: { clock: ShotClock; speed: number }) {
           const p1 = E.inOut(prog(l, bt(3), bt(5)))
           const p2 = E.out(prog(l, bt(7.5), bt(11.5)))
           const az = lerp(lerp(0.02, 0.3, p0), 0.42, p1) + 0.14 * p2 + 0.035 * Math.max(0, l - bt(12))
-          const R = lerp(lerp(lerp(5.9, 5.3, p0), 4.8, p1), 5.8, p2)
+          const R =
+            lerp(lerp(lerp(5.9, 5.3, p0), 4.8, p1), 5.8, p2) * (phone ? PHONE_R : 1)
           const el = lerp(lerp(0.2, 0.28, p0), 0.25, p1) + 0.1 * p2
-          target.set(0, H - 0.08 - 0.32 * p2, 0)
+          // on a phone it looks down less for the hold, so the quad stays clear of the readouts above it
+          target.set(0, H - 0.08 - (phone ? 0.05 : 0.32) * p2, 0)
           camera.position.set(
             target.x + R * Math.cos(el) * Math.cos(az),
             target.y + R * Math.sin(el),
@@ -913,6 +956,11 @@ export function QuadGL({ clock, speed }: { clock: ShotClock; speed: number }) {
           }
 
           renderer.render(scene, camera)
+          if (!drawn) {
+            drawn = true
+            if (still.current) still.current.style.opacity = '0'
+            ready.current?.()
+          }
         },
         dispose: () => {
           scene.traverse((o) => {
@@ -928,9 +976,22 @@ export function QuadGL({ clock, speed }: { clock: ShotClock; speed: number }) {
           scene.environment?.dispose()
         },
       }
-    })
-  }, [clock, speed])
+    }, phone ? { margin: '200% 0px', maxDpr: 2 } : undefined)
+  }, [clock, speed, phone])
 
+  if (phone)
+    return (
+      <>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img ref={still} className="lq-still" src={PHONE_STILL} alt="" />
+        <canvas
+          ref={canvas}
+          className="v6-canvas lq-canvas"
+          width={PHONE_CROP[2]}
+          height={PHONE_CROP[3]}
+        />
+      </>
+    )
   return (
     <canvas ref={canvas} className="v6-canvas" width={1920} height={1080} />
   )

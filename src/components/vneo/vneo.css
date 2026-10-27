@@ -1910,6 +1910,24 @@
       0 0 0.45em rgba(var(--sage-rgb), 0.45);
   }
 }
+/* a touch screen: the phrase passing the middle of the screen lights the same way (build.tsx) */
+@media (hover: none) {
+  [data-vneo] .vn-phrase[data-lit] {
+    color: var(--ink);
+    text-decoration-color: var(--sage);
+    text-shadow:
+      1.5px 0 0 rgba(var(--fr-g), 0.7),
+      -1.5px 0 0 rgba(var(--fr-m), 0.7),
+      0 0 0.45em rgba(var(--sage-rgb), 0.45);
+  }
+}
+/* and footage never shows the phone's own play button (auto-video.tsx starts it) */
+@media (hover: none), (pointer: coarse) {
+  [data-vneo] video:not([controls])::-webkit-media-controls-start-playback-button {
+    display: none !important;
+    -webkit-appearance: none;
+  }
+}
 
 /* the portrait: the live site's cutout, set on a lit sage backdrop, through the lens */
 [data-vneo] .vn-portrait {
@@ -2307,12 +2325,31 @@
     min-width: 0;
     scroll-snap-align: start;
   }
+  /* the cards share the row's height: each one's picture takes the room above its words, so no gap
+     opens between them; a scene is square, shown whole and centred, not cut to 4:3 */
   [data-vneo] .vn-cbento .vn-ctile.is-built .vn-tile-media,
   [data-vneo] .vn-cbento .vn-ctile.is-big .vn-tile-media,
   [data-vneo] .vn-cbento .vn-ctile.is-tall .vn-tile-media {
-    flex: none;
-    aspect-ratio: 4 / 3;
+    flex: 1 0 auto;
+    aspect-ratio: 1;
     min-height: 0;
+  }
+  [data-vneo] .vn-cbento .vn-tile-media .v7-stage {
+    --k: min(tan(atan2(100cqw, 1200px)), tan(atan2(100cqh, 1200px)));
+  }
+  [data-vneo] .vn-cbento :is(.vn-git, .vn-years) {
+    flex: 1 0 auto;
+  }
+  [data-vneo] .vn-cbento .vn-years {
+    padding: 28px 10px;
+  }
+  [data-vneo] .vn-cbento .vn-years-line {
+    left: 10px;
+    right: 10px;
+  }
+  [data-vneo] .vn-cbento .vn-year {
+    padding: 3px 3px;
+    font-size: 0.98rem;
   }
   [data-vneo] .vn-cbento .vn-tile-cap {
     margin-top: auto;
