@@ -1,0 +1,299 @@
+/* Three machines, one loop, cut for a phone (machines-phone.tsx): a 2:3 column of the stage, from x 600 */
+[data-vneo] .v6-scene.vn-machines-phone {
+  --ca: 0;
+  --dim: rgba(238, 241, 236, 0.52);
+}
+/* composed before it rolls: the frame is never empty while the page catches up */
+[data-vneo] .v6-shot[data-armed][data-state='idle'] .v6-scene.vn-machines-phone {
+  visibility: visible;
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-r {
+  position: absolute;
+  left: 600px;
+  top: 0;
+  width: 720px;
+  height: 1080px;
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-near {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 1px;
+}
+
+/* the lap: its number, the machine, who it was with; at the end, the three as a legend */
+[data-vneo] .v6-scene.vn-machines-phone .mp-count {
+  left: 32px;
+  top: 40px;
+  width: 140px;
+  height: 26px;
+  color: var(--sage);
+  font-size: 24px;
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-n {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-n-0 {
+  opacity: 1;
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-of {
+  position: absolute;
+  left: 46px;
+  top: 0;
+  color: var(--dim);
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-name {
+  position: absolute;
+  left: 32px;
+  top: 82px;
+  width: 656px;
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-name-0 {
+  opacity: 1;
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-name b {
+  display: block;
+  color: var(--paper);
+  font-family: var(--f-display);
+  font-size: 58px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  white-space: nowrap;
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-name i {
+  display: block;
+  margin-top: 14px;
+  color: var(--ink2);
+  font-family: var(--f-serif);
+  font-size: 31px;
+  font-style: italic;
+  line-height: 1.2;
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-legend {
+  left: 32px;
+  top: 52px;
+  display: grid;
+  gap: 18px;
+  color: var(--paper);
+  font-size: 28px;
+  line-height: 34px;
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-legend > span {
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-legend b {
+  margin-right: 14px;
+  color: var(--sage);
+}
+
+/* the three words, one over each column */
+[data-vneo] .v6-scene.vn-machines-phone .mp-word {
+  position: absolute;
+  top: 266px;
+  color: var(--dim);
+  font-family: var(--f-display);
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-word i {
+  color: var(--sage);
+  font-style: normal;
+}
+
+/* the loop round the plate, and its pulse */
+[data-vneo] .v6-scene.vn-machines-phone .mp-lines {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 720px;
+  height: 1080px;
+  overflow: visible;
+}
+[data-vneo] .v6-scene.vn-machines-phone :is(.mp-loop, .mp-heads) {
+  fill: none;
+  stroke: rgba(var(--sage-rgb), 0.5);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-pulse {
+  opacity: 0;
+  filter: drop-shadow(-4px 0 0 rgba(var(--fr-m), 0.6))
+    drop-shadow(4px 0 0 rgba(var(--fr-g), 0.6))
+    drop-shadow(0 0 12px rgba(var(--sage-rgb), 0.75));
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-pulse circle {
+  fill: var(--sage2);
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-pulse circle:nth-child(2) {
+  opacity: 0.55;
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-pulse circle:nth-child(3) {
+  opacity: 0.38;
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-pulse circle:nth-child(4) {
+  opacity: 0.26;
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-pulse circle:nth-child(5) {
+  opacity: 0.16;
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-pulse circle:nth-child(6) {
+  opacity: 0.08;
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-fb {
+  left: 360px;
+  top: 869px;
+  padding: 0 16px;
+  transform: translateX(-50%);
+  background: var(--ground);
+  color: var(--dim);
+  font-size: 22px;
+  line-height: 30px;
+}
+
+/* the plate: an empty slot, a layer per step, the ring that lights with the pulse */
+[data-vneo] .v6-scene.vn-machines-phone .mp-plate {
+  position: absolute;
+  height: 480px;
+  filter: drop-shadow(calc(var(--ca) * -1px) 0 0 rgba(var(--fr-m), 0.8))
+    drop-shadow(calc(var(--ca) * 1px) 0 0 rgba(var(--fr-g), 0.8));
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-empty {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--hair);
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 640px;
+  height: 480px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #0c0e0d;
+  opacity: 0;
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(238, 241, 236, 0.14);
+  pointer-events: none;
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-in {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 640px;
+  height: 480px;
+  overflow: hidden;
+  transform: translate(-50%, -50%);
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-in > :is(img, video) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-ring {
+  position: absolute;
+  inset: -9px;
+  border: 2px solid var(--sage);
+  border-radius: 28px;
+  box-shadow: 0 0 26px rgba(var(--sage-rgb), 0.22);
+  opacity: 0;
+  pointer-events: none;
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-tag {
+  left: 10px;
+  top: 10px;
+  z-index: 2;
+  padding: 4px 9px;
+  border-radius: 8px;
+  background: rgba(11, 13, 12, 0.82);
+  color: var(--sage);
+  font-size: 22px;
+  opacity: 0;
+}
+
+/* the light tracker's decide step: an error trace per axis, settling on the light */
+[data-vneo] .v6-scene.vn-machines-phone .mp-pid {
+  position: absolute;
+  inset: 0;
+  background: #0c0e0d;
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-pid svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-pid-zero {
+  fill: none;
+  stroke: rgba(238, 241, 236, 0.3);
+  stroke-width: 2;
+  stroke-dasharray: 8 10;
+}
+[data-vneo] .v6-scene.vn-machines-phone :is(.mp-pid-pan, .mp-pid-tilt) {
+  fill: none;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-pid-pan {
+  stroke: rgb(var(--fr-g));
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-pid-tilt {
+  stroke: rgb(var(--fr-m));
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-pid-dot-pan {
+  fill: rgb(var(--fr-g));
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-pid-dot-tilt {
+  fill: rgb(var(--fr-m));
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-pid-key {
+  right: 22px;
+  top: 20px;
+  color: var(--dim);
+  font-size: 24px;
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-pid-key b.g {
+  color: rgb(var(--fr-g));
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-pid-key b.mg {
+  color: rgb(var(--fr-m));
+}
+[data-vneo] .v6-scene.vn-machines-phone .mp-pid-note {
+  right: 22px;
+  bottom: 20px;
+  color: var(--dim);
+  font-size: 20px;
+}
+
+/* each step's caption, under the loop */
+[data-vneo] .v6-scene.vn-machines-phone .mp-cap {
+  position: absolute;
+  left: 32px;
+  top: 924px;
+  width: 656px;
+  color: var(--ink2);
+  font-family: var(--f-mono);
+  font-size: 28px;
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+  opacity: 0;
+}

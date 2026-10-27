@@ -265,3 +265,11 @@
   color: var(--dim);
   font-size: 13px;
 }
+
+/* on a phone the loop plays its portrait cut (machines-phone.tsx); the frame takes that 2:3 shape
+   from the first paint, so nothing below it moves when the cut swaps in */
+@media (max-width: 640px) {
+  [data-vneo] .vn-laps .v6-shot[data-crop] .v6-frame {
+    aspect-ratio: 2 / 3;
+  }
+}

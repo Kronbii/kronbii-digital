@@ -19,7 +19,7 @@ import './quad.css'
  */
 
 const bt = (n: number) => n * B
-const IMPACTS: Impact[] = [
+export const IMPACTS: Impact[] = [
   { t: 0, k: 0.6, ghost: 0.6 },
   { t: bt(4), k: 0.8, ghost: 1 },
   { t: bt(8), k: 0.5, ghost: 0.6 },
@@ -36,10 +36,10 @@ const STATUS: { text: string; at: number; lost?: boolean }[] = [
   { text: 'Caught in 22 ms', at: CAUGHT },
   { text: 'Flying on three rotors', at: bt(8.4) },
 ]
-const LABEL =
+export const LABEL =
   'An illustration of a simulated run: a 5-inch carbon-fiber quad hovers over a faint grid as its body axes draw out and a gyro strip scrolls beside the word sense. Then time slows on the word decide: the front-right rotor stops, marked magenta, and the fault is caught 22 milliseconds later. On the word act, time runs again and the quad leans into a fast spin, holding its hover point on three rotors, while the gyro trace for its yaw climbs and stays high; the three words, sense, decide, act, end the shot.'
 
-function build(root: HTMLElement, tl: gsap.core.Timeline) {
+export function build(root: HTMLElement, tl: gsap.core.Timeline) {
   tl.fromTo(
     '.lq-gyro, .lq-note',
     { opacity: 0, y: 14 },
@@ -95,6 +95,15 @@ export function QuadShot({ replay }: { replay: string }) {
       crop={CROP}
       gl={(clock) => <QuadGL clock={clock} speed={speed} />}
     >
+      <QuadLayers />
+    </Shot>
+  )
+}
+
+/** The words and readouts over the 3D: the same on the desktop frame and the phone's (quad-phone.tsx), placed by quad.css. */
+export function QuadLayers() {
+  return (
+    <>
       <div className="lq-status">
         {STATUS.map((s) => (
           <div key={s.text} className={`m lq-st${s.lost ? ' is-lost' : ''}`}>
@@ -130,6 +139,6 @@ export function QuadShot({ replay }: { replay: string }) {
           </span>
         ))}
       </div>
-    </Shot>
+    </>
   )
 }

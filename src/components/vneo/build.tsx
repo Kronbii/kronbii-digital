@@ -11,13 +11,50 @@ import { SlateMark } from './slate'
 
 /*
  * What I build (v3's), as one sentence a visitor reads in a breath; each
- * phrase lights up while you point at it. The work itself is the next
+ * phrase lights up while you point at it (on a touch screen, while it
+ * passes the middle of the screen). The work itself is the next
  * section down. Beside it, my portrait, seen through the page's lens, with
  * the ID lock closing on it once, on first sight.
  */
 export function Build() {
   const c = vneo.build
   const plate = useRef<HTMLDivElement>(null)
+  const sentence = useRef<HTMLParagraphElement>(null)
+
+  // a touch screen has nothing to point with: the phrase nearest the middle of the screen lights instead,
+  // one after another as the sentence scrolls by
+  useEffect(() => {
+    const el = sentence.current
+    if (!el || !matchMedia('(hover: none)').matches) return
+    const phrases = Array.from(el.querySelectorAll<HTMLElement>('.vn-phrase'))
+    let raf = 0
+    const light = () => {
+      raf = 0
+      const line = innerHeight / 2
+      let near: HTMLElement | null = null
+      let best = innerHeight * 0.3
+      for (const p of phrases) {
+        const r = p.getBoundingClientRect()
+        const d = Math.abs((r.top + r.bottom) / 2 - line)
+        if (d < best) {
+          best = d
+          near = p
+        }
+      }
+      phrases.forEach((p) => p.toggleAttribute('data-lit', p === near))
+    }
+    const queue = () => {
+      if (!raf) raf = requestAnimationFrame(light)
+    }
+    light()
+    addEventListener('scroll', queue, { passive: true })
+    addEventListener('resize', queue)
+    return () => {
+      removeEventListener('scroll', queue)
+      removeEventListener('resize', queue)
+      cancelAnimationFrame(raf)
+    }
+  }, [])
 
   useEffect(() => {
     const el = plate.current
@@ -62,7 +99,7 @@ export function Build() {
           <h2 id="build-h" className="v7-vh">
             {c.title}
           </h2>
-          <p className="vn-build-sentence" data-lens="0.5">
+          <p ref={sentence} className="vn-build-sentence" data-lens="0.5">
             {c.lead}{' '}
             {c.groups.map((g) => (
               <span key={g.id}>
