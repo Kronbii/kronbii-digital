@@ -9,7 +9,7 @@
  *   - Palette moved to repo tokens. The original leans on Tailwind's `dark:`
  *     variant; this site themes with CSS variables per section, so `dark:`
  *     never matches and the light values were rendering on a dark ground.
- *   - `card: any` replaced with the Card type, per agents.md.
+ *   - `card: any` replaced with the Card type.
  */
 
 import React, { useState } from "react";

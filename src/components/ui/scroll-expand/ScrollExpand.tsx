@@ -5,7 +5,7 @@
  *
  * Installed from https://reactbits.dev/r/ScrollExpand-JS-CSS.json and ported
  * from .jsx to .tsx unchanged: this project sets `allowJs: false`, and
- * agents.md forbids weakening TypeScript to accommodate a dependency. Every
+ * this repo does not weaken TypeScript to accommodate a dependency. Every
  * value, easing curve and DOM write below is the original's. The only edits
  * are type annotations, the 'use client' directive Next requires, and named
  * rather than default export to match the repo's convention.

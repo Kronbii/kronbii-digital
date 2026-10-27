@@ -34,7 +34,7 @@ import { cn } from '@/lib/utils'
  *  3. Breakpoints centred: `(i + 0.5) / n` rather than `i / n`, so every item
  *     owns an equal share of the scroll instead of the first and last owning
  *     half a share each.
- *  4. Tokens instead of hardcoded slate/gradient values, per agents.md.
+ *  4. Tokens instead of hardcoded slate/gradient values.
  *  5. Media on the left, text on the right, matching the supplied reference.
  *  6. Typed — the original used `any` for the ref and the content node.
  */

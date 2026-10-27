@@ -1,98 +1,65 @@
-# Portfolio Website
+# ramikronbi.com
 
-A modern, dark-themed portfolio website built with Next.js, TypeScript, and Tailwind CSS.
+The source of [ramikronbi.com](https://ramikronbi.com), Rami Kronbi's personal site: the projects, the write-ups behind them, and his background in robotics, embedded systems and computer vision.
 
-## Features
+## What's on it
 
-- 🎨 Dark theme with muted green accents
-- ✨ Smooth animations and transitions
-- 📱 Fully responsive design
-- 🚀 Optimized for performance
-- 🎯 All sections: About, Projects, Skills, Services, Certifications, Standout Features, and Contact
+- **Home:** what Rami builds, an experience timeline, and the selected projects.
+- **[/projects](https://ramikronbi.com/projects):** one page per project, laid out as the steps of the build, with its media, repository and write-up.
+- **[/writing](https://ramikronbi.com/writing):** long-form write-ups, also as a full-text [RSS feed](https://ramikronbi.com/feed.xml).
+- **[/topics](https://ramikronbi.com/topics):** projects and writing grouped by field.
+- **[/about](https://ramikronbi.com/about):** education, work, teaching, community, awards and the CV.
 
-## Getting Started
+## Stack
 
-### Prerequisites
+Next.js 16 (App Router) with React 18 and TypeScript, Tailwind CSS, three.js through React Three Fiber, GSAP and Motion for animation, Lenis for scrolling, and Resend for the contact form. Hosted on Vercel.
 
-- Node.js 18+ and npm (or yarn/pnpm)
+## Run it
 
-### Installation
+Needs Node 20 or later.
 
-1. Install dependencies:
 ```bash
 npm install
-```
-
-2. Run the development server:
-```bash
 npm run dev
 ```
 
-3. Open [http://localhost:3000](http://localhost:3000) in your browser.
+Then open http://localhost:3000. `npm install` also applies the patch in `patches/` through `patch-package`.
 
-## Customization
+For a production build:
 
-### Update Your Information
+```bash
+npm run build
+npm start
+```
 
-1. **Hero Section** (`components/Hero.tsx`):
-   - Update GitHub and LinkedIn links
-   - Modify the introduction text
+Optional environment variables, in `.env`:
 
-2. **About Section** (`components/About.tsx`):
-   - Replace placeholder text with your bio
+- `RESEND_API_KEY` sends contact-form messages; without it the form reports that it can't send.
+- `AUTHORITY_INCLUDE_REVIEW=1` renders draft (`review`) pages in a production build. Development always renders them.
 
-3. **Projects Section** (`components/Projects.tsx`):
-   - Update the `projects` array with your actual projects
-   - Add GitHub links and descriptions
+## How it's organised
 
-4. **Skills Section** (`components/Skills.tsx`):
-   - Modify the `skillCategories` array to match your skills
+| Path | What it holds |
+| --- | --- |
+| `src/app/(site)/` | The routes |
+| `src/content/authority/` | Every project, article and topic as a typed record |
+| `src/content/vneo/` | Home and About copy |
+| `src/content/v3/work.ts` | Which projects the home grid shows, and in what order |
+| `src/components/vneo/` | The current design. It borrows pieces from `v2/`, `v3/`, `v6/` and `v7/`, the earlier design iterations it grew out of |
+| `public/images/authority/` | Project media, one folder per project |
+| `docs/` | Open action items, CV drafts, image sources and the cross-posting kit |
+| `videos/` | Sources for the showreels (see [videos/README.md](videos/README.md)) |
 
-5. **Services Section** (`components/Services.tsx`):
-   - Update the `services` array with your offerings
+To add a project, add its record to `src/content/authority/projects.ts` and its write-up to `articles.ts`, put its media in `public/images/authority/<slug>/`, and add it to `src/content/v3/work.ts` to show it on the home page. A record's `state` decides where it appears: `ready` is public, `review` renders only in development, `hold` never renders.
 
-6. **Certifications Section** (`components/Certifications.tsx`):
-   - Replace placeholder certifications with your actual ones
+## Cross-posting
 
-7. **Standout Section** (`components/Standout.tsx`):
-   - Add what makes you unique in the market
-
-8. **Contact Section** (`components/Contact.tsx`):
-   - Update email address
-   - Set up a form handler (Formspree, EmailJS, or API route)
-   - Update social media links
-
-### Setting Up Contact Form
-
-The contact form currently has placeholder functionality. To make it work, you can:
-
-1. **Use Formspree**: Sign up at [formspree.io](https://formspree.io) and update the form action
-2. **Use EmailJS**: Set up EmailJS and configure it
-3. **Create an API Route**: Create a Next.js API route to handle form submissions
+Every write-up can be republished on DEV, Medium and Hashnode with the site as its canonical URL. See [docs/crosspost/README.md](docs/crosspost/README.md).
 
 ## Deployment
 
-### Deploy to Vercel
+Vercel builds every branch as a preview and deploys `main` to ramikronbi.com.
 
-1. Push your code to GitHub
-2. Import your repository on [Vercel](https://vercel.com)
-3. Vercel will automatically detect Next.js and deploy
+## Credits
 
-Or use the Vercel CLI:
-```bash
-npm i -g vercel
-vercel
-```
-
-## Tech Stack
-
-- **Next.js 14** - React framework
-- **TypeScript** - Type safety
-- **Tailwind CSS** - Styling
-- **Framer Motion** - Animations
-- **React Icons** - Icons
-
-## License
-
-This project is open source and available under the MIT License.
-
+Writing, photos and project media are Rami Kronbi's own or his teams', credited on each page. The source of every project image is listed in [docs/IMAGE_SOURCES.txt](docs/IMAGE_SOURCES.txt), and third-party 3D models in [public/models/CREDITS.md](public/models/CREDITS.md).
