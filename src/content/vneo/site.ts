@@ -266,25 +266,16 @@ export const showcase: ShowItem[] = [
       { kind: 'shot', id: 'tune' },
       'A simulated step response settling as the damping rises.'
     ),
-    size: 'one',
+    size: 'wide',
     area: 'pid',
   },
   {
     ...workItem('esp32-barn-door-star-tracker', undefined, ''),
-    size: 'wide',
+    size: 'tall',
     area: 'star',
     image: {
       src: '/images/authority/esp32-barn-door-star-tracker/cad-render-square.png',
       fit: 'contain',
-    },
-  },
-  {
-    ...workItem('drone-control-bootcamp', undefined, ''),
-    size: 'one',
-    area: 'boot',
-    image: {
-      src: '/images/authority/drone-control-bootcamp/plate.png',
-      position: '50% 42%',
     },
   },
 ]
@@ -340,12 +331,16 @@ export const community = {
   read: 'Read more',
 }
 
-/** Already shown above, so "More of the work" lists only the rest. */
+/**
+ * Already shown above, so "More of the work" lists only the rest; and the
+ * work kept off the home page, which only All projects lists.
+ */
 export const shownAbove = new Set([
   ...showcase.map((t) => t.slug),
   'basira-retinal-screening',
   'posture-aware-classroom-desk',
   'ree-personal-finance-tracker',
+  'drone-control-bootcamp',
 ])
 
 /** What I build (v3's sentence): one line, each phrase lit while pointed at. */

@@ -1758,8 +1758,8 @@
       'omni rot  rot  heat'
       'omni road road heat'
       'pano pano race race'
-      'imu  imu  crk  pid'
-      'star star crk  boot';
+      'imu  imu  crk  star'
+      'pid  pid  crk  star';
     grid-auto-rows: 300px;
     grid-auto-flow: row;
   }
