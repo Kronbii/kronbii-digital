@@ -440,7 +440,7 @@ export const projects: ProjectRecord[] = [
     slug: 'imu-bench',
     state: 'ready',
     title: 'IMU test bench: live 3D view, noise measurement and calibration',
-    metaTitle: 'IMU test bench (imu-bench): live 3D view, noise measurement and calibration for any IMU',
+    metaTitle: 'Universal IMU Control Dashboard: live 3D view, noise measurement and calibration',
     metaDescription:
       'Connect an Inertial Sense IMX, a PX4 or ArduPilot flight controller, a microcontroller IMU or a ROS 2 topic and see it live in 3D within seconds, then measure it: vibration spectra, Allan-deviation noise, magnetometer calibration and camera–IMU alignment, with Kalibr-ready output. Open source.',
     summary:
@@ -452,7 +452,7 @@ export const projects: ProjectRecord[] = [
       kind: 'image',
       media: {
         src: '/images/authority/imu-bench/imx-live.png',
-        alt: 'The imu-bench dashboard live on a real Inertial Sense RUG-3-IMX-5 over USB: the enclosure drawn in 3D over a contour-line terrain with its X, Y and Z axes, live roll, pitch and yaw, an attitude indicator, a heading card, and the unit\'s serial number.',
+        alt: 'The dashboard live on a real Inertial Sense RUG-3-IMX-5 over USB: the enclosure drawn in 3D over a contour-line terrain with its X, Y and Z axes, live roll, pitch and yaw, an attitude indicator, a heading card, and the unit\'s serial number.',
         caption:
           'Live on a real Inertial Sense RUG-3-IMX-5: the enclosure, modelled from its engineering drawing, moves with the sensor in real time.',
       },
@@ -572,14 +572,14 @@ export const projects: ProjectRecord[] = [
     ],
     sources: [
       {
-        label: 'GitHub — imu-bench',
-        href: 'https://github.com/Kronbii/imu-bench',
+        label: 'GitHub — universal-imu-control-dashboard',
+        href: 'https://github.com/Kronbii/universal-imu-control-dashboard',
         kind: 'repository',
         note: 'Code, drivers, tests, the stream protocol and the IMX-5 integration guide.',
       },
       {
         label: 'Live demo',
-        href: 'https://kronbii.github.io/imu-bench/',
+        href: 'https://kronbii.github.io/universal-imu-control-dashboard/',
         kind: 'demo',
         note: 'The full dashboard in your browser, no hardware needed, driven by its built-in simulator.',
       },
