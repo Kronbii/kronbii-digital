@@ -439,8 +439,8 @@ export const projects: ProjectRecord[] = [
   {
     slug: 'imu-bench',
     state: 'ready',
-    title: 'imu-bench: from IMU bring‑up to camera–IMU calibration', // non-breaking hyphen: "bring-up" stays on one line
-    metaTitle: 'imu-bench — IMU bring-up, Allan-deviation noise analysis and camera–IMU calibration in one real-time tool',
+    title: 'IMU test bench: live 3D view, noise measurement and calibration',
+    metaTitle: 'IMU test bench (imu-bench): live 3D view, noise measurement and calibration for any IMU',
     metaDescription:
       'Connect an Inertial Sense IMX, a PX4 or ArduPilot flight controller, a microcontroller IMU or a ROS 2 topic and see it live in 3D within seconds, then measure it: vibration spectra, Allan-deviation noise, magnetometer calibration and camera–IMU alignment, with Kalibr-ready output. Open source.',
     summary:

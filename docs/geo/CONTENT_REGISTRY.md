@@ -331,7 +331,7 @@ October growth list so he can keep or drop each one on the branch before anythin
 
 ## Update 2026-10-26 — imu-bench
 
-### 24. imu-bench: from IMU bring-up to camera–IMU calibration
+### 24. IMU test bench: live 3D view, noise measurement and calibration
 
 - Project slug: `imu-bench`; no article yet (`articleSlug: ''`).
 - Topics: `robotics-perception`, `embedded-systems`, `open-source-engineering`. Role: sole author. Card field: `open`.
@@ -350,5 +350,5 @@ October growth list so he can keep or drop each one on the branch before anythin
   `imu.yaml`, magnetometer ellipsoid fit applied server-side, camera horizon overlay with rotation-only
   stabilisation and a Kalibr camchain export). The page adds an "Analyse" stage, two simulator stills, and a limit:
   these panels are verified on simulated signals only (the Noise Lab recovers the simulated white noise within 1 %).
-  Title now leads with the engineering scope: "imu-bench: from IMU bring-up to camera–IMU calibration" (non-breaking
-  hyphen in "bring-up"); the measured 1 kHz stays in the proof chip and results.
+  Title, Rami's pick (2026-10-27): "IMU test bench: live 3D view, noise measurement and calibration", a plain
+  statement of what it does; the repository name stays in the meta title, links and sources.
