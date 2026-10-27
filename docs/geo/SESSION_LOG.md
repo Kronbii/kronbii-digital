@@ -138,3 +138,12 @@
   to the "Engineers and makers" list. No article.
 - Media in `public/images/authority/imu-bench/`: a real-unit screenshot (hero and card crop), a PX4 SITL screenshot,
   and a simulator recording (video + poster) and chart still, each labelled as what it is.
+
+## 2026-10-27 — imu-bench analysis features
+
+- Copy updated for the repository's new analysis panels: meta description, summary, role, how-it-works, a new
+  "Analyse" stage (stages renumbered to 06), card line and proof, two simulator stills (`vibration.png`,
+  `camera.png`, registered in `media-size.ts` and the attribution file), new keywords, and a limit that says the
+  panels are verified on simulated signals only.
+- Title, Rami's pick from four plain options: "IMU test bench: live 3D view, noise measurement and calibration"
+  (meta title adds the repository name).

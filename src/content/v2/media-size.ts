@@ -4,6 +4,8 @@ export const mediaSize: Record<string, [number, number]> = {
   '/images/authority/imu-bench/imx-live.png': [1600, 1000],
   '/images/authority/imu-bench/px4-sitl.png': [1600, 1000],
   '/images/authority/imu-bench/signals.png': [1600, 926],
+  '/images/authority/imu-bench/vibration.png': [1600, 522],
+  '/images/authority/imu-bench/camera.png': [1600, 534],
   '/images/authority/imu-bench/plate.png': [1080, 1080],
   '/images/authority/imu-bench/dashboard-poster.jpg': [1280, 720],
   '/images/authority/imu-bench/tile-poster.jpg': [672, 600],

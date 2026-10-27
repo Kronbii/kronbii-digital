@@ -57,7 +57,8 @@ export const projects: ProjectRecord[] = [
           'GPS accuracy, RF link quality, and flight performance evaluated under the GNSS jamming that is common in Lebanon.',
       },
     ],
-    limits: [],
+    limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',],
     sources: [
       {
         label: 'Betaflight',
@@ -213,6 +214,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Pure-rotation camera model — translation while sweeping introduces parallax that no homography can explain.',
       'A phone-height horizontal sweep sees a band around the viewer, so the poles are never captured; filling is not reconstruction.',
       'Blank walls and repeated textures weaken ORB matching and can force interpolation.',
@@ -391,6 +393,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Tuning is system-specific; a gain set that behaves on one plant will misbehave on another.',
       'Autotuning drives the process into sustained oscillation and requires safe actuator bounds, a tolerant process, and a person ready to stop the run.',
       'Filter and anti-windup behavior are choices with tradeoffs; the library exposes them rather than hiding them.',
@@ -436,22 +439,22 @@ export const projects: ProjectRecord[] = [
   {
     slug: 'imu-bench',
     state: 'ready',
-    title: 'imu-bench: any IMU, live in 3D',
-    metaTitle: 'imu-bench — a live 3D dashboard and ROS 2 bridge for any IMU',
+    title: 'IMU test bench: live 3D view, noise measurement and calibration',
+    metaTitle: 'IMU test bench (imu-bench): live 3D view, noise measurement and calibration for any IMU',
     metaDescription:
-      'An open-source bench that streams an Inertial Sense IMX, a PX4 or ArduPilot flight controller, a microcontroller IMU or any ROS 2 IMU topic into one live 3D dashboard, a recording, or ROS 2.',
+      'Connect an Inertial Sense IMX, a PX4 or ArduPilot flight controller, a microcontroller IMU or a ROS 2 topic and see it live in 3D within seconds, then measure it: vibration spectra, Allan-deviation noise, magnetometer calibration and camera–IMU alignment, with Kalibr-ready output. Open source.',
     summary:
-      'One small server with a driver per kind of inertial sensor: the Inertial Sense IMX through its vendor SDK, MAVLink autopilots, anything that prints JSON or CSV lines, and ROS 2. It turns each into the same messages, fuses attitude for sensors that report none, and shows the device in 3D with its raw signals, decoded health and magnetometer calibration. Built to bring up an Inertial Sense RUG-3-IMX-5 before integrating it on an NVIDIA Jetson.',
-    role: 'Sole author: drivers, the C++ bridge on the vendor SDK, fusion, the ROS 2 bridge, the dashboard, tests and documentation.',
+      'A real-time workbench for inertial sensors. Connect an Inertial Sense IMX, a PX4 or ArduPilot flight controller, any microcontroller IMU or a ROS 2 topic, and within seconds the device is on screen as a live 3D model, with its raw signals at full rate, its health decoded bit by bit, and its magnetometer calibration laid bare. Then it measures what an integration needs: vibration spectra that expose motor tones and frame resonances, an Allan-deviation Noise Lab that writes the noise model Kalibr asks for, a magnetometer ellipsoid fit it applies to the stream, and a camera view that projects the IMU\'s horizon into the image and stabilises it by rotation alone. Sensors that only report gyro and accelerometer get attitude from a built-in fusion filter; every session can be recorded, replayed, or republished as standard ROS 2 topics. Developed against a real Inertial Sense RUG-3-IMX-5 for camera–IMU integration on an NVIDIA Jetson, and open source.',
+    role: 'Sole author: architecture, sensor drivers, the C++ bridge on the vendor SDK, sensor fusion, the analysis maths, the ROS 2 bridge, the 3D and WebGL dashboard, tests and documentation.',
     form: 'artifact',
     schemaType: 'SoftwareSourceCode',
     hero: {
       kind: 'image',
       media: {
         src: '/images/authority/imu-bench/imx-live.png',
-        alt: 'The imu-bench dashboard connected to a real Inertial Sense RUG-3-IMX-5 over USB: the enclosure drawn in 3D over a contour-line terrain with its X, Y and Z axes, live roll, pitch and yaw, an attitude indicator, a heading card, and the unit\'s serial number.',
+        alt: 'The imu-bench dashboard live on a real Inertial Sense RUG-3-IMX-5 over USB: the enclosure drawn in 3D over a contour-line terrain with its X, Y and Z axes, live roll, pitch and yaw, an attitude indicator, a heading card, and the unit\'s serial number.',
         caption:
-          'Connected to a real RUG-3-IMX-5 over USB: the enclosure, modelled from its drawing, turns by the attitude the unit reports.',
+          'Live on a real Inertial Sense RUG-3-IMX-5: the enclosure, modelled from its engineering drawing, moves with the sensor in real time.',
       },
     },
     videos: [
@@ -460,89 +463,111 @@ export const projects: ProjectRecord[] = [
         poster: '/images/authority/imu-bench/dashboard-poster.jpg',
         alt: 'Screen recording of the dashboard: the RUG-3 enclosure tilting and turning in 3D with axis callouts, while the roll, pitch and yaw readouts, the attitude indicator and the heading card follow it.',
         caption:
-          'The dashboard driven by its built-in simulator, recorded frame by frame. The same page runs against real sensors.',
+          'The full dashboard, recorded frame by frame from its built-in simulator; the same view runs live on real hardware.',
       },
     ],
     answer: {
-      what: 'An open-source tool that streams any IMU or AHRS into a live 3D dashboard, a replayable recording, or standard ROS 2 topics, whatever the sensor speaks.',
+      what: 'A real-time workbench that turns any inertial sensor into a live 3D view, a replayable recording and standard ROS 2 topics, whatever protocol the device speaks.',
       problem:
-        'Every inertial sensor arrives with its own protocol, units, axes and vendor tool. Bringing one up means learning all of that before you can even see whether it is pointing the right way, and the next sensor starts over.',
-      how: 'A Python server with one driver per protocol translates the device into a handful of messages in SI units, FRD body and NED world frames. The Inertial Sense driver runs the vendor SDK in a small C++ bridge; others read MAVLink, JSON or CSV lines, or ROS 2. A Madgwick filter supplies attitude when the sensor has none, and a React and three.js dashboard shows the device in 3D.',
-      role: 'I designed and wrote the drivers, the bridge, the fusion, the ROS 2 conversion, the dashboard and the tests, and brought it up on the IMX unit and PX4 software-in-the-loop.',
+        'Every inertial sensor arrives with its own protocol, units, axes and vendor tool. Bringing one up can take days before you can even see whether it is pointing the right way, and every new sensor starts that work over.',
+      how: 'A Python core with one driver per protocol translates each device into a small common language: SI units, an FRD body and a NED world. The Inertial Sense driver runs the vendor SDK through a C++ bridge; others speak MAVLink, JSON or CSV lines, or ROS 2. A Madgwick filter supplies attitude when the sensor has none, and a React, three.js and WebGL dashboard brings it all to life in 3D and runs the analysis: FFT spectra, Allan deviation in a background worker, a least-squares ellipsoid fit and pinhole camera geometry, each covered by tests.',
+      role: 'I designed and built all of it: the drivers, the bridge, the fusion, the ROS 2 conversion, the dashboard and the tests, and brought it up on a real IMX unit and on PX4 software-in-the-loop.',
     },
     stages: [
       {
         step: '01',
         title: 'Connect',
         detail:
-          'Drivers for the Inertial Sense IMX (vendor SDK, found on USB by itself and followed across replugs), MAVLink autopilots, any device that prints JSON or CSV lines over serial, UDP, TCP or stdin, and ROS 2 Imu topics.',
+          'Plug in and go: drivers for the Inertial Sense IMX (found on USB automatically and followed across replugs), MAVLink autopilots, anything that prints JSON or CSV over serial, UDP, TCP or stdin, and ROS 2 Imu topics.',
       },
       {
         step: '02',
         title: 'Normalise',
         detail:
-          'Every driver emits the same few messages: device, attitude, IMU, magnetometer, barometer, status, link. SI units, an FRD body and a NED world, converted to ROS conventions only at the ROS boundary.',
+          'Every driver speaks the same few messages (device, attitude, IMU, magnetometer, barometer, status, link) in SI units with an FRD body and a NED world, converted to ROS conventions only at the ROS boundary.',
       },
       {
         step: '03',
         title: 'Fuse',
         detail:
-          'A 6-axis Madgwick filter gives attitude to sensors that only report gyro and accelerometer, with a separate slow heading loop on the magnetometer so a bad calibration can only disturb yaw.',
+          'A 6-axis Madgwick filter gives attitude to sensors that only report gyro and accelerometer, with a separate magnetometer heading loop, so a poor calibration can never tilt the horizon.',
       },
       {
         step: '04',
         title: 'Show',
         detail:
-          'The device in 3D as what it is (an enclosure drawn from its datasheet, a quadrotor, or a breakout board), live strip charts with CSV export, decoded health, magnetometer coverage plots and the device\'s configuration.',
+          'The device in 3D as what it really is (an enclosure drawn from its datasheet, a quadrotor, or a breakout board), full-rate strip charts with CSV export, barometric height, decoded health, magnetometer coverage plots and the device\'s configuration.',
       },
       {
         step: '05',
+        title: 'Analyse',
+        detail:
+          'Welch spectra and a spectrogram show vibration by frequency; an Allan-deviation Noise Lab reads white noise, bias instability and random walk off a still capture and writes Kalibr\'s imu.yaml; an ellipsoid fit removes hard and soft iron; and the IMU\'s horizon, drawn into a synthetic or webcam image, gives the camera–IMU rotation and time offset.',
+      },
+      {
+        step: '06',
         title: 'Hand on',
         detail:
-          'Record and replay any session, or republish it as ROS 2 Imu, MagneticField and FluidPressure topics for the rest of a robot. Tests and CI cover the maths, the parsers and the decoders.',
+          'Record and replay any session, or republish it live as ROS 2 Imu, MagneticField and FluidPressure topics for the rest of the robot. A test suite and continuous integration cover the maths, the parsers and the decoders.',
       },
     ],
     measurements: [
       {
-        label: 'Inertial Sense RUG-3-IMX-5',
+        label: 'Raw IMU streaming',
         value: '1 kHz',
-        context: 'raw IMU over USB at 1.00 ms spacing; attitude at 143 Hz, measured on the unit',
+        context: 'from the Inertial Sense RUG-3-IMX-5 over USB at 1.00 ms spacing; attitude at 143 Hz',
       },
       {
-        label: 'Replug',
+        label: 'Hot-plug recovery',
         value: '0.12 s',
-        context: 'to notice the unplug; streaming resumes about 30 ms after the port comes back (relay test with the real unit)',
+        context: 'to detect an unplug; the stream is back about 30 ms after the sensor returns, on whatever port it gets',
       },
       {
-        label: 'Fusion, simulated motion',
+        label: 'Fused tilt accuracy',
         value: '0.06°',
-        context: 'mean tilt error with a 0.17 °/s gyro bias; 0.5° heading with a magnetometer',
+        context: 'mean error on simulated motion with a 0.17 °/s gyro bias; 0.5° heading with a magnetometer',
       },
       {
-        label: 'ROS 2 round trip',
+        label: 'ROS 2 fidelity',
         value: '0.001°',
-        context: 'mean attitude error after publishing and subscribing again, ROS 2 Jazzy',
+        context: 'attitude error after a full publish-and-subscribe round trip, ROS 2 Jazzy',
       },
     ],
     limits: [
-      'Run against one Inertial Sense unit (a RUG-3-IMX-5) and PX4 in software-in-the-loop; ArduPilot and a real flight controller have not been tested.',
-      'The line driver was tested with synthetic CSV and JSON streams; the bundled MPU-6050 sketch has not been run on hardware.',
-      'The fusion figures come from simulated motion, not a reference rig.',
-      'The dashboard recording on this page is the built-in simulator; the stills are a real IMX unit and PX4 software-in-the-loop.',
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
+      'Verified on a real Inertial Sense RUG-3-IMX-5 and on PX4 1.18 in software-in-the-loop; ArduPilot and real flight-controller hardware have not been run yet.',
+      'The line driver is verified with synthetic CSV and JSON streams; the bundled MPU-6050 sketch has not yet been run on hardware.',
+      'The fusion accuracy figures come from simulated motion, not a reference rig.',
+      'The video, the chart, spectrum and camera stills on this page come from the built-in simulator; the other stills are a real IMX unit and PX4 software-in-the-loop.',
     ],
     media: [
       {
         src: '/images/authority/imu-bench/px4-sitl.png',
         step: 'Connect',
-        alt: 'The same dashboard connected to PX4 1.18 running in software-in-the-loop over MAVLink: the name reads PX4, a quadrotor model with nose, right and down axes and a motor callout showing Disarmed and LOITER, and the firmware version.',
+        alt: 'The same dashboard connected over MAVLink to PX4 1.18 running in software-in-the-loop: the name reads PX4, a quadrotor model with nose, right and down axes and a motor callout showing Disarmed and LOITER, and the firmware version.',
         caption:
-          'The same page on PX4 1.18 in software-in-the-loop over MAVLink: it shows a quadrotor and reads the flight mode and sensor health.',
+          'Point it at a flight controller instead: on PX4 1.18 in software-in-the-loop it recognises the vehicle, draws a quadrotor and reads the flight mode and sensor health.',
+      },
+      {
+        src: '/images/authority/imu-bench/vibration.png',
+        step: 'Analyse',
+        alt: 'A log-scale power spectrum with X, Y and Z traces and peaks labelled in hertz, beside a 30-second spectrogram in which two motor tones step between throttle settings above a steady frame resonance.',
+        caption:
+          'Vibration by frequency, from the simulator: a motor tone and its harmonic stepping with throttle, and a fixed 23 Hz frame resonance.',
+      },
+      {
+        src: '/images/authority/imu-bench/camera.png',
+        step: 'Analyse',
+        alt: 'Left: a synthetic camera view with the horizon and pitch ladder predicted by the IMU drawn over the tilted scene. Right: the same image warped by rotation alone so the horizon is level, the cropped border hatched.',
+        caption:
+          'A camera on the IMU, here synthetic: once mount and time offset are dialled in, the predicted horizon sits on the real one and the stabilised view holds level.',
       },
       {
         src: '/images/authority/imu-bench/signals.png',
         step: 'Show',
         alt: 'Four live strip charts: tilt, angular rate, specific force and magnetic field, each with X, Y and Z traces in orange, green and blue, a time window selector and a CSV button per chart.',
-        caption: 'The raw signals, here from the simulator: tilt, angular rate, specific force and magnetic field.',
+        caption:
+          'Every signal at full rate, here from the simulator: tilt, angular rate, specific force and magnetic field, each exportable to CSV in one click.',
       },
     ],
     sources: [
@@ -556,7 +581,7 @@ export const projects: ProjectRecord[] = [
         label: 'Live demo',
         href: 'https://kronbii.github.io/imu-bench/',
         kind: 'demo',
-        note: 'The dashboard in the browser, driven by its built-in simulator.',
+        note: 'The full dashboard in your browser, no hardware needed, driven by its built-in simulator.',
       },
     ],
     articleSlug: '',
@@ -564,11 +589,16 @@ export const projects: ProjectRecord[] = [
     keywords: [
       'IMU',
       'AHRS',
+      'sensor fusion',
       'Inertial Sense IMX-5',
       'MAVLink',
       'PX4',
       'ROS 2',
       'Madgwick filter',
+      'Allan variance',
+      'Kalibr',
+      'vibration analysis',
+      'camera–IMU calibration',
       'Python',
       'C++',
       'TypeScript',
@@ -647,6 +677,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'We finished second: announced third in July 2023, and re-ranked to second afterwards.',
       'Twenty days only leaves so much time to optimise or document each subsystem.',
       'Track and traffic-sign behavior are tied to the WRO Future Engineers 2023 environment and cannot be generalized without new testing.',
@@ -785,6 +816,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Reported quality numbers are dataset-specific and become less constrained at larger enlargement factors.',
       '“Real time” is a property of a full pipeline on named hardware at a named input size, not of a model file. On an RTX 3070 laptop GPU it runs at about 130 FPS at ×2 and 60 FPS at ×4; on the Jetson Orin the drone carries, 20–30 FPS, faster than a thermal camera delivers frames.',
       'The next real test is task-based: does downstream detection actually improve?',
@@ -904,6 +936,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'PID tuning is system-specific; per-axis gains may differ because inertia and friction differ per axis.',
       'Sensor noise can turn derivative action into jitter unless it is filtered.',
     ],
@@ -1001,6 +1034,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'It needs a frame that shows the crack itself. Given only a thick mask, it traces the mask’s outline, not its centreline, and the default ORB corners can be too few to draw a path at all.',
       'The toolkit begins after segmentation and is not a crack detector.',
       'Validation at dataset scale, across crack types, widths, and imaging conditions, is the next step.',
@@ -1085,6 +1119,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'The service extracts and does not prescribe, dispense, or check interactions.',
       'Every result has to be checked by a person against the source image.',
       'Real prescription images can contain personal health information, so I don’t use them as demos.',
@@ -1168,6 +1203,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Daleel is independent: it is not an official election authority and has no institutional or political affiliation.',
       'I don’t present its dataset as complete, live, or officially certified.',
       'Correction workflows, contributor governance, legal review, and a visible policy for disputed information remain institutional work that a database cannot do on its own.',
@@ -1279,6 +1315,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'The trainer is not an official government application.',
       'Rules and exam procedures can change, so the question source and its update date should always be visible.',
       'Progress belongs to one browser unless a future feature exports or moves it.',
@@ -1377,6 +1414,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'The console is an internal admin tool for a technical assessment. It is not a customer-facing help desk.',
       'Local-first operation is a privacy and repeatability choice; it also creates operational responsibilities around model availability, queue state, and migrations.',
       'A failed inference and a failed support request are separate failure modes and are handled as such.',
@@ -1458,6 +1496,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Long-term reliability is the next bar to clear: migration tests, backup restoration, import validation, and rounding and currency handling.',
     ],
     media: [
@@ -1562,6 +1601,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Sync conflicts resolve last-write-wins, so if two devices edit the same entry before syncing, the later edit is the one kept.',
       'Exchange rates are the ones you set: totals stay in USD, and each entry keeps the USD value it was logged at.',
       'The iPhone app is built on a Mac and installed from Xcode.',
@@ -1704,6 +1744,7 @@ export const projects: ProjectRecord[] = [
       { label: 'Runs on', value: 'Phones & boards', context: 'iPhone 13 Pro, Raspberry Pi 5, Jetson, DX Robotics' },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'The 98% is an internal evaluation under controlled conditions; real use varies with lighting, camera angle, and signing speed.',
       'It recognizes the alphabet and a set of everyday words and expressions, not unrestricted continuous signing.',
     ],
@@ -1809,6 +1850,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'The repository also covers handwriting capture, a music player, and desk-to-desk messaging; this page sticks to the posture loop.',
       'It is a prototype: the posture model was tuned on our own team, not on a classroom of students.',
     ],
@@ -1889,6 +1931,7 @@ export const projects: ProjectRecord[] = [
       { label: 'Status', value: 'Ongoing', context: 'simulation project, since 2026' },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'It’s a simulation project: the flight tests simulate runway conditions rather than fly over a real runway.',
       'The model learned from online and synthetic images, so the 75–80% says how it does on that kind of data. Real debris on a real runway is the harder test.',
     ],
@@ -1978,6 +2021,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'The ~92% is development accuracy on the data I combined. It doesn’t tell you how it will do with one particular child in one particular room.',
       'It reads facial expressions, and an expression is not always what someone feels. It is a support tool, not a diagnosis.',
     ],
@@ -2096,6 +2140,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'These are small changes, not architecture work; the value is in the diagnosis and the tests, not the line count.',
       'My PX4 pull request was not the one merged: the maintainers kept #28283, opened first with the same fix, so I don’t count mine as an accepted contribution.',
     ],
@@ -2200,6 +2245,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'It aggregates public information only: no patient-level data, and it is not an epidemiological product.',
       'The source parsers are specific to one outbreak and its feeds; this is not a general surveillance system.',
       'There is no automated test suite yet, and the only documentation is a handoff note.',
@@ -2288,6 +2334,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Basira is in development. Benchmarks on public datasets guide the engineering but say nothing about clinical performance; the clinical validation study has not been run, and Basira is not a medical device.',
       'The live deployment uses a demo clinic and demo data only.',
     ],
@@ -2375,6 +2422,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'The photographs belong to the client, so none appear here, and the code is private.',
       'Style transfer is per photographer; the model does not generalize across agencies.',
     ],
@@ -2444,6 +2492,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Prototype authentication with one local workspace; live device ingestion is deferred; HIPAA and GDPR are designed-for-later, not implemented.',
       'All patient data in the demo is synthetic, including generated dermoscopic imagery.',
       'The device and its classifier belong to the product owner, so I don’t go into them here.',
@@ -2521,6 +2570,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Client names and outcomes stay private unless a client agrees otherwise.',
       'PadelEye is an early prototype with trained weights and scaffolding, not a product.',
     ],
@@ -2584,6 +2634,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'The physics is deliberately simplified, and the README says empirical tuning is needed.',
       'Wiring documentation is a placeholder and exact part numbers are not recorded.',
       'There are no test results or media in the repository; it is early mechatronics work, not a finished system.',
@@ -2672,6 +2723,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Roughly a third of the quest catalogue cannot be proven by a photo at all: a picture of a book does not show you read twenty pages, and “spend an hour with no phone” is photographed by the phone. For those quests the check only judges whether the photo is authentic, and a person still decides.',
       'The automated check is live in production. It was built to run in shadow mode first, recording what it would have decided while a moderator made the call, and to act on its own only where its verdicts agree with real moderator decisions.',
       'Some partner analytics, like a quest card being shown, are reported by the phone and cannot be confirmed by the server, so the dashboard keeps them apart from completions the backend recorded itself.',
@@ -2771,6 +2823,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Early prototype: the repository is days old, has no backend, no authentication, and no store release.',
       'A planned SOS and group-ride feature would involve location and emergency-contact data and is not built.',
       'Rami’s specific contribution is not yet stated on this page.',
@@ -2880,6 +2933,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Everything is simulation or software-in-the-loop. Nothing has flown with a fault yet, and the vehicle parameters are assumed rather than identified on a real frame.',
       'Simulated and Gazebo sensors are far cleaner than a vibrating 5-inch frame, so the false-alarm numbers are optimistic.',
       'In PX4 software-in-the-loop the diagnoser ran offline on the flight logs; no fault-tolerant controller ran inside PX4.',
@@ -3005,6 +3059,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Not built and not tested under the sky. Every performance figure is a model prediction.',
       'The lead screw’s periodic error, assumed ±4 µm, is the largest uncertainty and dominates the predicted budget.',
       'Single axis: declination drift can be measured, not corrected.',
@@ -3121,6 +3176,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Not taught yet: no student has taken the course, so I can’t say yet what students learn from it. A pilot plan says what the first cohort will measure.',
       'No rig has been built from the documents. The printable parts have not been printed, and the sketches’ motor and IMU drivers have been compiled but not run on hardware.',
       'Rig parameters, capstone pass limits and performance figures come from simulation with assumed values; session timings are estimates.',
@@ -3251,6 +3307,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Every figure comes from simulated video: a flat, straight road, an ideal lens and box-shaped vehicles. The tool has not been checked against radar or GPS on a real road; a field protocol for that is written. Its first run on real footage, a public motorway clip, has no reference speeds to compare against.',
       'The method was tuned on the same simulator, on other seeds, so real video will likely do worse than these numbers.',
       'Accuracy falls quickly with distance: at 75 m the 95th-percentile error is 7.6 km/h and fewer than half the vehicles are measured. A lamp post in the line of sight cut the share measured from 86 % to 50 %.',
@@ -3390,6 +3447,7 @@ export const projects: ProjectRecord[] = [
       { label: 'DARE @ LAU', value: '3rd place', context: 'April 2024, the first universities robotics competition' },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'The outdoor tests were small, early trials with dummy mines; there are no quantified outdoor results yet.',
       'The arm is a proof of concept: it moves obstacles and shows how a mine could be handled, not a finished extraction tool.',
     ],
@@ -3513,6 +3571,7 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
+      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'The mean effective pressures the scripts print are about half what they should be: the displacement constant is smaller than the engine’s swept volume of about 503 cc.',
       'Friction is a flat 10 % of indicated power, and there is no heat transfer to the cylinder walls, no emissions model and no knock.',
       'The engine turns at one fixed speed, and the speed-fluctuation curve is an idealised sine between the flywheel’s limits, not a simulation of the shaft.',
