@@ -145,3 +145,5 @@
   "Analyse" stage (stages renumbered to 06), card line and proof, two simulator stills (`vibration.png`,
   `camera.png`, registered in `media-size.ts` and the attribution file), new keywords, and a limit that says the
   panels are verified on simulated signals only.
+- Title rewritten for a technical reader: "imu-bench: from IMU bring-up to camera–IMU calibration", with a matching
+  meta title; the measured 1 kHz stays in the proof chip and results.
