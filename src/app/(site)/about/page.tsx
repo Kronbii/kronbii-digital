@@ -3,7 +3,9 @@ import Link from 'next/link'
 
 import { JsonLd } from '@/components/v2/json-ld'
 import { liveCrumbs } from '@/components/v2/schema'
+import { AimShot } from '@/components/vneo/aim'
 import { BackButton } from '@/components/vneo/back'
+import { CalmShot } from '@/components/vneo/calm'
 import { pageMeta } from '@/components/vneo/meta'
 import { about, type AboutEntry } from '@/content/vneo/about'
 import { HOME } from '@/content/vneo/site'
@@ -119,6 +121,12 @@ export default function VneoAbout() {
             Download my CV (PDF) ↗
           </a>
         </p>
+        <figure className="vn-about-shot">
+          <CalmShot>
+            <AimShot replay={about.emblem.replay} />
+          </CalmShot>
+          <figcaption>{about.emblem.caption}</figcaption>
+        </figure>
         {about.sections.map((s) => (
           <section key={s.id} className="vn-about-sec" aria-labelledby={`about-${s.id}`}>
             <h2 id={`about-${s.id}`}>{s.title}</h2>

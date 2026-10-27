@@ -266,25 +266,16 @@ export const showcase: ShowItem[] = [
       { kind: 'shot', id: 'tune' },
       'A simulated step response settling as the damping rises.'
     ),
-    size: 'one',
+    size: 'wide',
     area: 'pid',
   },
   {
     ...workItem('esp32-barn-door-star-tracker', undefined, ''),
-    size: 'wide',
+    size: 'tall',
     area: 'star',
     image: {
       src: '/images/authority/esp32-barn-door-star-tracker/cad-render-square.png',
       fit: 'contain',
-    },
-  },
-  {
-    ...workItem('drone-control-bootcamp', undefined, ''),
-    size: 'one',
-    area: 'boot',
-    image: {
-      src: '/images/authority/drone-control-bootcamp/plate.png',
-      position: '50% 42%',
     },
   },
 ]
@@ -340,12 +331,16 @@ export const community = {
   read: 'Read more',
 }
 
-/** Already shown above, so "More of the work" lists only the rest. */
+/**
+ * Already shown above, so "More of the work" lists only the rest; and the
+ * work kept off the home page, which only All projects lists.
+ */
 export const shownAbove = new Set([
   ...showcase.map((t) => t.slug),
   'basira-retinal-screening',
   'posture-aware-classroom-desk',
   'ree-personal-finance-tracker',
+  'drone-control-bootcamp',
 ])
 
 /** What I build (v3's sentence): one line, each phrase lit while pointed at. */
@@ -506,25 +501,36 @@ export const vneo = {
   },
   build,
   log,
-  /** The closing shot: sense, decide, act, as the robot pack (the drone swarm is in the backlog). */
+  /** After the selected projects: sense, decide, act, once around each of three machines, in its own footage. */
+  laps: {
+    no: 5,
+    label: 'The loop',
+    title: 'Three machines, one loop.',
+    hot: 'loop',
+    lede: 'Each of these senses, decides, and acts, then feeds back what happened. Here is each one once around, in its own footage.',
+    replay: 'Play again',
+  },
+  /** The closing shot: sense, decide, act, as a 5-inch quad that loses a rotor and flies on (the drone swarm is in the backlog). */
   loop: {
     label: 'Sense, decide, act',
     heading:
       'Sense, decide, act: robotics, computer vision, embedded systems, and edge AI.',
     replay: 'Play again',
+  },
+  /** The robot pack, the closing shot before the quad; it now opens the robotics and perception hub. */
+  pack: {
     accent: '#b7d3a8',
-    pack: {
-      words: ['Sense', 'Decide', 'Act'],
-      note: 'Illustration · 36 × Unitree Go2, simulated on a circuit board',
-      tracks: [30, 22, 27, 32],
-      track: 'Go2',
-      focus: ['Robotics', 'Computer vision', 'Embedded systems', 'Edge AI'],
-      id: 'ID lock · pack',
-      cap: '36 robots · one name',
-      credit:
-        'Unitree Go2 model © Unitree Robotics (BSD 3-Clause), via MuJoCo Menagerie.',
-      alt: 'Three words, sense, decide, act, as a pack of 36 simulated Unitree Go2 robot dogs on a circuit board is scanned and tracked, falls into ranks, and trots out into a ring; then four focus areas fly at the lens, robotics, computer vision, embedded systems, edge AI, as the pack gallops at it; then the robots walk into the letters RK., the board lights a trace between them, and a jump runs through the letters.',
-    },
+    replay: 'Play again',
+    words: ['Sense', 'Decide', 'Act'],
+    note: 'Illustration · 36 × Unitree Go2, simulated on a circuit board',
+    tracks: [30, 22, 27, 32],
+    track: 'Go2',
+    focus: ['Robotics', 'Computer vision', 'Embedded systems', 'Edge AI'],
+    id: 'ID lock · pack',
+    cap: '36 robots · one name',
+    credit:
+      'Unitree Go2 model © Unitree Robotics (BSD 3-Clause), via MuJoCo Menagerie.',
+    alt: 'Three words, sense, decide, act, as a pack of 36 simulated Unitree Go2 robot dogs on a circuit board is scanned and tracked, falls into ranks, and trots out into a ring; then four focus areas fly at the lens, robotics, computer vision, embedded systems, edge AI, as the pack gallops at it; then the robots walk into the letters RK., the board lights a trace between them, and a jump runs through the letters.',
   },
   more: {
     label: 'More of the work',

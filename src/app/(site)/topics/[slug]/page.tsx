@@ -5,10 +5,15 @@ import { notFound } from 'next/navigation'
 import { JsonLd } from '@/components/v2/json-ld'
 import { collectionJsonLd, liveCrumbs } from '@/components/v2/schema'
 import { BackButton } from '@/components/vneo/back'
+import { CalmShot } from '@/components/vneo/calm'
 import { pageMeta } from '@/components/vneo/meta'
+import { RobotsShot } from '@/components/vneo/robots'
 import { TopicLinks } from '@/components/vneo/topics'
-import { HOME, VN, workHref, writingHref } from '@/content/vneo/site'
+import { HOME, VN, vneo, workHref, writingHref } from '@/content/vneo/site'
 import { hubArticles, hubProjects, hubs } from '@/content/vneo/topics'
+
+/** The robot pack, which closed the home page before the quad, opens this hub. */
+const PACK_HUB = 'robotics-perception'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -79,6 +84,15 @@ export default async function Topic({ params }: Props) {
           {t.title}
         </h1>
         <p className="v7-more-lede">{t.definition}</p>
+
+        {t.slug === PACK_HUB ? (
+          <figure className="vn-topic-shot">
+            <CalmShot>
+              <RobotsShot replay={vneo.pack.replay} accent={vneo.pack.accent} />
+            </CalmShot>
+            <figcaption className="vn-loop-credit">{vneo.pack.credit}</figcaption>
+          </figure>
+        ) : null}
 
         {projects.length ? (
           <>

@@ -1758,8 +1758,8 @@
       'omni rot  rot  heat'
       'omni road road heat'
       'pano pano race race'
-      'imu  imu  crk  pid'
-      'star star crk  boot';
+      'imu  imu  crk  star'
+      'pid  pid  crk  star';
     grid-auto-rows: 300px;
     grid-auto-flow: row;
   }
@@ -2034,7 +2034,7 @@
   width: min(100%, calc((100svh - 200px) * 16 / 9));
   margin: 0 auto;
 }
-[data-vneo] .vn-loop .v6-replay {
+[data-vneo] :is(.vn-loop, .vn-replays) .v6-replay {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -2049,16 +2049,38 @@
   text-transform: uppercase;
   cursor: pointer;
 }
-[data-vneo] .vn-loop .v6-replay svg {
+[data-vneo] :is(.vn-loop, .vn-replays) .v6-replay svg {
   width: 14px;
   height: 14px;
 }
-[data-vneo] .vn-loop .v6-replay:hover {
+[data-vneo] :is(.vn-loop, .vn-replays) .v6-replay:hover {
   color: var(--sage);
 }
-[data-vneo] .vn-loop .v6-replay:disabled {
+[data-vneo] :is(.vn-loop, .vn-replays) .v6-replay:disabled {
   opacity: 0;
   pointer-events: none;
+}
+
+/* ---------- the loop after the selected projects (machines.tsx), and the shots on other pages ---------- */
+[data-vneo] .vn-laps {
+  padding: clamp(80px, 14vh, 140px) 0 0;
+}
+[data-vneo] .vn-laps-frame {
+  width: min(
+    1260px,
+    calc(100% - 2 * var(--gutter)),
+    calc((100svh - 200px) * 16 / 9)
+  );
+  margin: 28px auto 0;
+}
+[data-vneo] :is(.vn-about-shot, .vn-topic-shot) {
+  max-width: 1040px;
+  margin: 36px 0 8px;
+}
+[data-vneo] .vn-about-shot figcaption {
+  margin-top: 4px;
+  color: var(--ink3);
+  font-size: 0.92rem;
 }
 
 /* ---------- the robot pack (robots.tsx): the vision layer's boxes ---------- */
@@ -2174,7 +2196,7 @@
 
 @media (max-width: 640px) {
   /* a little less air between sections: a phone scrolls enough already */
-  [data-vneo] :is(.vn-work, .vn-community) {
+  [data-vneo] :is(.vn-work, .vn-laps, .vn-community) {
     padding-top: 72px;
   }
   [data-vneo] .vn-build {
@@ -2351,9 +2373,15 @@
     width: auto;
     margin-inline: calc(var(--gutter) * -1);
   }
-  [data-vneo] .vn-loop .v6-frame {
+  [data-vneo] :is(.vn-loop, .vn-laps) .v6-frame {
     border-radius: 0;
     box-shadow: none;
+  }
+  [data-vneo] .vn-laps-frame {
+    width: auto;
+  }
+  [data-vneo] .vn-laps .v6-replay {
+    margin-inline: var(--gutter);
   }
 }
 

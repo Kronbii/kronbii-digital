@@ -12,6 +12,7 @@ import { Community } from '@/components/vneo/community'
 import { Glance } from '@/components/vneo/glance'
 import { Hero } from '@/components/vneo/hero'
 import { Loop } from '@/components/vneo/loop'
+import { Laps } from '@/components/vneo/machines'
 import { Near } from '@/components/vneo/near'
 import { Slate, SlateMark } from '@/components/vneo/slate'
 import { pageMeta } from '@/components/vneo/meta'
@@ -86,12 +87,15 @@ export default function Vneo() {
         <Work />
       </Suspense>
       <Suspense>
+        <Laps />
+      </Suspense>
+      <Suspense>
         <Community />
       </Suspense>
 
       <section id="more" className="vn-more" aria-labelledby="more-h">
         <Slate
-          no={6}
+          no={7}
           label={c.more.label}
           title={c.more.title}
           hot={c.more.hot}
