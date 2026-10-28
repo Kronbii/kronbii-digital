@@ -2188,16 +2188,10 @@
  * desktop layout is untouched.
  * ====================================================================== */
 
-/* copy written for touch, shown only where there is no hover */
-[data-vneo] .vn-on-touch {
-  display: none;
-}
-@media (hover: none) and (max-width: 640px) {
-  [data-vneo] .vn-on-hover {
+/* the selected projects and the loop go straight from their title to the work: their ledes are for wider screens */
+@media (max-width: 640px) {
+  [data-vneo] :is(.vn-work, .vn-laps) .vn-slate-lede {
     display: none;
-  }
-  [data-vneo] .vn-on-touch {
-    display: inline;
   }
 }
 
