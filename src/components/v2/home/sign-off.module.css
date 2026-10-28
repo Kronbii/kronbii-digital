@@ -168,3 +168,28 @@
     transition: none;
   }
 }
+
+/* A phone: the card's padding close to the page's own gutter, the four
+   channels two by two in aligned columns, and the foot in one rhythm. */
+@media (max-width: 640px) {
+  .content {
+    padding: 2.25rem 1.5rem 1.75rem;
+  }
+  .channels {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    gap: 0.375rem 2rem;
+    margin-top: 0.25rem;
+  }
+  .flip {
+    font-size: clamp(1.5rem, 7.2vw, 1.75rem);
+  }
+  .foot {
+    gap: 1.5rem;
+    margin-top: 0.75rem;
+    padding-top: 1.25rem;
+  }
+  .sig {
+    width: min(100%, 240px);
+  }
+}
