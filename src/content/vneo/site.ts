@@ -319,14 +319,29 @@ export const community = {
   },
   mentoring: {
     label: 'Mentoring',
-    title: 'INJAZ Al-Arab and NASA Space Apps',
-    years: ['2021', '2022', '2023', '2024', '2026'],
-    note: 'Technical mentor to two INJAZ healthcare teams, LumiScan and Dosely, both awarded in 2026; lead technical organizer of NASA Space Apps Beirut, 2021–2024.',
+    title: 'INJAZ Al-Arab',
+    note: 'Technical mentor to two school healthcare teams, LumiScan and Dosely, from first idea to prototype; both were awarded in 2026.',
     image: {
       src: '/images/authority/injaz/dosely-booth.jpg',
       alt: 'Rami Kronbi with the Dosely team at their INJAZ Lebanon booth.',
     },
     href: writingHref('mentoring-two-healthcare-teams-at-injaz'),
+  },
+  /** The last row, the whole width: four years of Space Apps. */
+  organizing: {
+    label: 'Organizing',
+    title: 'NASA Space Apps Beirut',
+    years: ['2021', '2022', '2023', '2024'],
+    stats: [
+      { value: '250–400', label: 'participants a year' },
+      { value: '6×', label: 'teams I mentored in the global top 10' },
+    ],
+    note: 'Lead technical organizer for four years, running technical bootcamps on NASA data and mentoring the teams.',
+    image: {
+      src: '/images/authority/space-apps/hackathon-hall.jpg',
+      alt: 'Rami Kronbi taking a selfie in front of a hall full of teams working at laptops during NASA Space Apps Beirut.',
+    },
+    href: writingHref('what-four-years-of-technical-mentoring-taught-me'),
   },
   read: 'Read more',
 }

@@ -1174,6 +1174,66 @@
   letter-spacing: -0.02em;
   color: var(--sage);
 }
+/* INJAZ beside the talk: its picture takes the height the talk's slide sets */
+[data-vneo] .vn-ctile.is-mentoring .vn-ctile-photo {
+  flex: 1 0 auto;
+}
+/* NASA Space Apps across the last row: the hall on one side, the four years and the words on the other */
+[data-vneo] .vn-ctile.is-organizing {
+  grid-column: 1 / -1;
+}
+[data-vneo] .vn-ctile-side {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+}
+[data-vneo] .vn-ctile.is-organizing .vn-ctile-photo {
+  object-position: 50% 50%;
+}
+[data-vneo] .vn-ctile.is-organizing .vn-tile-cap p {
+  -webkit-line-clamp: 4;
+}
+/* two figures, between the years and the words */
+[data-vneo] .vn-ctile-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 32px;
+  margin-top: auto;
+  padding: 18px 16px 2px;
+}
+[data-vneo] .vn-ctile-stats b {
+  display: block;
+  font-weight: 700;
+  font-size: clamp(1.7rem, 2.6vw, 2.4rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+[data-vneo] .vn-ctile-stats span {
+  display: block;
+  max-width: 20ch;
+  margin-top: 6px;
+  color: var(--ink3);
+  font-size: 0.85rem;
+  line-height: 1.35;
+}
+@media (min-width: 641px) {
+  [data-vneo] .vn-ctile.is-organizing {
+    flex-direction: row;
+  }
+  [data-vneo] .vn-ctile.is-organizing .vn-ctile-photo {
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
+    margin: 14px 0 14px 14px;
+  }
+  [data-vneo] .vn-ctile.is-organizing .vn-ctile-side {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  [data-vneo] .vn-ctile.is-organizing .vn-years {
+    margin: 14px 14px 0;
+  }
+}
 @media (max-width: 1020px) {
   [data-vneo] .vn-cbento {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2496,6 +2556,23 @@
   }
   [data-vneo] .vn-cbento .vn-tile-cap {
     margin-top: auto;
+  }
+  /* Space Apps' two figures side by side, so its card is no taller than the others */
+  [data-vneo] .vn-cbento .vn-ctile-stats {
+    flex-wrap: nowrap;
+    gap: 16px;
+    padding: 14px 16px 0;
+  }
+  [data-vneo] .vn-cbento .vn-ctile-stats li {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  [data-vneo] .vn-cbento .vn-ctile-stats b {
+    font-size: clamp(1.2rem, 6vw, 1.5rem);
+  }
+  [data-vneo] .vn-cbento .vn-ctile-stats span {
+    max-width: none;
+    font-size: 0.78rem;
   }
 
   /* every project: compact rows, the picture beside the words, so the list scans like one */

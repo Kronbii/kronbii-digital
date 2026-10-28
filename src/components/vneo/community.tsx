@@ -13,9 +13,10 @@ import { Slate } from './slate'
 
 /*
  * In the community: the work built for people (each with its explainer
- * motion), and the rooms where it is shared: a talk, workshops, four years
- * of mentoring, each a compact tile with one small piece of motion of its
- * own. Then the writing, as a slim row. One tight bento, not a chapter each.
+ * motion), and the rooms where it is shared: a talk, workshops, mentoring at
+ * INJAZ, each a compact tile with one small piece of motion of its own, and
+ * four years of NASA Space Apps across the last row. Then the writing, as a
+ * slim row. One tight bento, not a chapter each.
  */
 
 function useOnSight(build: (el: HTMLElement, tl: gsap.core.Timeline) => void) {
@@ -158,6 +159,29 @@ function Workshops() {
 function Mentoring() {
   const m = community.mentoring
   const ref = useOnSight((_, tl) => {
+    focusIn(tl, '.vn-ctile-photo', 0, { blur: 14, scale: 1.04 })
+  })
+  return (
+    <li ref={ref} className="vn-ctile is-mentoring">
+      <Link
+        href={m.href}
+        className="vn-tile-link"
+        aria-label={`${m.label}: ${m.title}`}
+      />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img className="vn-ctile-photo" src={m.image.src} alt={m.image.alt} loading="lazy" />
+      <div className="vn-tile-cap">
+        <span className="vn-tile-kind">{m.label}</span>
+        <h3>{m.title}</h3>
+        <p>{m.note}</p>
+      </div>
+    </li>
+  )
+}
+
+function Organizing() {
+  const m = community.organizing
+  const ref = useOnSight((_, tl) => {
     focusIn(tl, '.vn-year', 0, { stagger: 0.5 * B, ca: 10, y: 10 })
     tl.fromTo(
       '.vn-years-line',
@@ -170,9 +194,10 @@ function Mentoring() {
       },
       0
     )
+    focusIn(tl, '.vn-ctile-stats b', 2 * B, { stagger: 0.4 * B, ca: 10, y: 8 })
   })
   return (
-    <li ref={ref} className="vn-ctile is-mentoring">
+    <li ref={ref} className="vn-ctile is-organizing">
       <Link
         href={m.href}
         className="vn-tile-link"
@@ -180,18 +205,28 @@ function Mentoring() {
       />
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img className="vn-ctile-photo" src={m.image.src} alt={m.image.alt} loading="lazy" />
-      <div className="vn-years" aria-hidden="true">
-        <span className="vn-years-line" />
-        {m.years.map((y) => (
-          <span key={y} className="vn-year fx">
-            {y}
-          </span>
-        ))}
-      </div>
-      <div className="vn-tile-cap">
-        <span className="vn-tile-kind">{m.label}</span>
-        <h3>{m.title}</h3>
-        <p>{m.note}</p>
+      <div className="vn-ctile-side">
+        <div className="vn-years" aria-hidden="true">
+          <span className="vn-years-line" />
+          {m.years.map((y) => (
+            <span key={y} className="vn-year fx">
+              {y}
+            </span>
+          ))}
+        </div>
+        <ul className="vn-ctile-stats">
+          {m.stats.map((s) => (
+            <li key={s.label}>
+              <b className="fx">{s.value}</b>
+              <span>{s.label}</span>
+            </li>
+          ))}
+        </ul>
+        <div className="vn-tile-cap">
+          <span className="vn-tile-kind">{m.label}</span>
+          <h3>{m.title}</h3>
+          <p>{m.note}</p>
+        </div>
       </div>
     </li>
   )
@@ -241,6 +276,7 @@ export function Community() {
         <Talk />
         <Workshops />
         <Mentoring />
+        <Organizing />
       </ul>
 
       <div className="vn-writing" aria-labelledby="writing-h">
