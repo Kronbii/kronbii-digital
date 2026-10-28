@@ -551,6 +551,8 @@ export const vneoChrome = {
     { label: 'About', href: `${VN}/about` },
     { label: 'Contact', href: `${HOME}#sign-off` },
   ],
+  /** The burger that holds the nav on a phone. */
+  menu: { open: 'Menu', close: 'Close the menu' },
   footer: {
     links: [
       { label: 'Projects', href: '/projects' },
