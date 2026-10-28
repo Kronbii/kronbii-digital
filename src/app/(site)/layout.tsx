@@ -12,6 +12,7 @@ import { NavTrail } from '@/components/vneo/back'
 import { Cursor } from '@/components/vneo/cursor'
 import { RaMark } from '@/components/vneo/emblem'
 import { Lens } from '@/components/vneo/lens'
+import { Menu } from '@/components/vneo/menu'
 import '@/components/vneo/vneo.css'
 import { HOME, VN, vneoChrome } from '@/content/vneo/site'
 
@@ -82,6 +83,7 @@ export default function VneoLayout({
             </Link>
           ))}
         </nav>
+        <Menu />
       </header>
       <main id="v7-main">{children}</main>
       <footer className="v7-footer">

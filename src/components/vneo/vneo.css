@@ -391,13 +391,147 @@
   margin-inline: auto;
 }
 
-/* ---------- the top bar on phones ---------- */
+/* ---------- the top bar on phones: its links fold into a menu (menu.tsx) ---------- */
 [data-vneo] .v7-nav a {
   white-space: nowrap;
 }
+[data-vneo] .vn-burger,
+[data-vneo] .vn-menu {
+  display: none;
+}
 @media (max-width: 640px) {
-  [data-vneo] .v7-nav a:nth-child(2) {
+  [data-vneo] .v7-nav {
     display: none;
+  }
+  /* two lines, the lower one shorter, that cross into an × */
+  [data-vneo] .vn-burger {
+    display: grid;
+    place-items: center end;
+    width: 44px;
+    height: 44px;
+    margin: -6px -10px -6px auto;
+    padding: 0 10px;
+    border-radius: 999px;
+    color: var(--ink);
+    filter: drop-shadow(-1px 0 0 rgba(var(--fr-m), 0.75))
+      drop-shadow(1px 0 0 rgba(var(--fr-g), 0.75));
+    -webkit-tap-highlight-color: transparent;
+  }
+  [data-vneo] .vn-burger i {
+    grid-area: 1 / 1;
+    width: 22px;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    transform: translateY(-4px);
+    transition:
+      transform 0.45s var(--ease),
+      width 0.45s var(--ease);
+  }
+  [data-vneo] .vn-burger i + i {
+    width: 14px;
+    transform: translateY(4px);
+  }
+  [data-vneo] .vn-burger[aria-expanded='true'] i {
+    width: 22px;
+    transform: rotate(45deg);
+  }
+  [data-vneo] .vn-burger[aria-expanded='true'] i + i {
+    transform: rotate(-45deg);
+  }
+  [data-vneo] .vn-burger:focus-visible {
+    outline: 2px solid var(--sage);
+    outline-offset: -4px;
+  }
+
+  /* the sheet: under the bar's emblem and ×, every link set large and numbered */
+  [data-vneo] .vn-menu {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    padding: 96px var(--gutter) calc(28px + env(safe-area-inset-bottom));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: rgb(var(--bg-rgb));
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.25s var(--ease),
+      visibility 0s linear 0.25s;
+  }
+  [data-vneo] .vn-menu[data-open] {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.35s var(--ease);
+  }
+  [data-vneo] .vn-menu ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--hair);
+  }
+  [data-vneo] .vn-menu li {
+    border-bottom: 1px solid var(--hair);
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 0.2s var(--ease),
+      transform 0.2s var(--ease);
+  }
+  [data-vneo] .vn-menu[data-open] li {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.5s var(--ease),
+      transform 0.6s var(--ease);
+    transition-delay: calc(60ms + var(--i) * 45ms);
+  }
+  [data-vneo] .vn-menu a {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 15px 0;
+    font-size: 2.1rem;
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    -webkit-tap-highlight-color: transparent;
+    transition: color 0.2s;
+  }
+  [data-vneo] .vn-menu a small {
+    min-width: 2ch;
+    color: var(--ink3);
+    font-family: var(--f-mono);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+  }
+  [data-vneo] .vn-menu a:active,
+  [data-vneo] .vn-menu a[aria-current='page'] {
+    color: var(--sage);
+  }
+  [data-vneo] .vn-menu a:focus-visible {
+    outline: 2px solid var(--sage);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  [data-vneo] .vn-menu-foot {
+    margin-top: auto;
+    padding-top: 32px;
+    color: var(--ink3);
+    font-family: var(--f-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+  }
+}
+@media (max-width: 640px) and (prefers-reduced-motion: reduce) {
+  [data-vneo] :is(.vn-burger i, .vn-menu, .vn-menu li, .vn-menu[data-open] li) {
+    transition: none;
+  }
+  [data-vneo] .vn-menu li {
+    transform: none;
   }
 }
 
@@ -2188,16 +2322,10 @@
  * desktop layout is untouched.
  * ====================================================================== */
 
-/* copy written for touch, shown only where there is no hover */
-[data-vneo] .vn-on-touch {
-  display: none;
-}
-@media (hover: none) and (max-width: 640px) {
-  [data-vneo] .vn-on-hover {
+/* the selected projects and the loop go straight from their title to the work: their ledes are for wider screens */
+@media (max-width: 640px) {
+  [data-vneo] :is(.vn-work, .vn-laps) .vn-slate-lede {
     display: none;
-  }
-  [data-vneo] .vn-on-touch {
-    display: inline;
   }
 }
 

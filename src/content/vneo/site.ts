@@ -473,10 +473,8 @@ export const vneo = {
     label: 'Work',
     title: 'Selected projects.',
     hot: 'projects',
+    /** Not on a phone, where the title goes straight to the grid. */
     lede: 'The most important come first and play as you arrive; hover any to see it again, or press Watch for the full view. Each says what it does, my part, and one result.',
-    /** The same, for a phone: no hover there, and the grid becomes a row to swipe. */
-    ledeTouch:
-      'The most important come first, each playing as it comes into view; swipe for the rest, or press Watch for the full view. Each says what it does, my part, and one result.',
     all: 'All projects',
     open: 'Open the project',
     watch: 'Watch',
@@ -507,6 +505,7 @@ export const vneo = {
     label: 'The loop',
     title: 'Three machines, one loop.',
     hot: 'loop',
+    /** Not on a phone, where the title goes straight to the shot. */
     lede: 'Each of these senses, decides, and acts, then feeds back what happened. Here is each one once around, in its own footage.',
     replay: 'Play again',
   },
@@ -552,6 +551,8 @@ export const vneoChrome = {
     { label: 'About', href: `${VN}/about` },
     { label: 'Contact', href: `${HOME}#sign-off` },
   ],
+  /** The burger that holds the nav on a phone. */
+  menu: { open: 'Menu', close: 'Close the menu' },
   footer: {
     links: [
       { label: 'Projects', href: '/projects' },

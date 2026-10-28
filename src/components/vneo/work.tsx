@@ -103,12 +103,7 @@ export function Work() {
         label={c.label}
         title={c.title}
         hot={c.hot}
-        lede={
-          <>
-            <span className="vn-on-hover">{c.lede}</span>
-            <span className="vn-on-touch">{c.ledeTouch}</span>
-          </>
-        }
+        lede={c.lede}
         id="work-h"
       >
         <Link className="v7-go" href={`${VN}/projects`}>
