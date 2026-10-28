@@ -6,6 +6,23 @@
  * Mono kept for the few labels that need it.
  */
 
+/*
+ * A stage's scale is its frame's size over its own, as a number:
+ * tan(atan2(a, b)) = a / b. Safari gets atan2 wrong when given container
+ * units, so the frame's size goes in through these registered lengths,
+ * which every browser turns into pixels first.
+ */
+@property --frame-w {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+@property --frame-h {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
 [data-v7] {
   --bg: #0b0d0c;
   --bg-rgb: 11, 13, 12;
@@ -563,7 +580,9 @@ html:has([data-v7]) body {
   width: 1200px;
   height: 1200px;
   transform-origin: 0 0;
-  transform: scale(tan(atan2(100cqw, 1200px)));
+  --frame-w: 100cqw;
+  --frame-h: 100cqh;
+  transform: scale(tan(atan2(var(--frame-w), 1200px)));
   color: var(--ink);
   font-family: var(--f-display);
 }

@@ -44,7 +44,10 @@
   width: 1920px;
   height: 1080px;
   transform-origin: 0 0;
-  transform: scale(tan(atan2(100cqw, 1920px)));
+  /* the frame's size, as registered lengths (v7.css says why) */
+  --frame-w: 100cqw;
+  --frame-h: 100cqh;
+  transform: scale(tan(atan2(var(--frame-w), 1920px)));
 }
 [data-vneo] .v6-shot[data-armed][data-state='idle'] .v6-scene {
   visibility: hidden;
@@ -79,10 +82,10 @@
   }
   [data-vneo] .v6-shot[data-crop] .v6-stage {
     transform: translate(
-        calc(var(--cx) * -1 * tan(atan2(100cqw, var(--cw)))),
-        calc(var(--cy) * -1 * tan(atan2(100cqw, var(--cw))))
+        calc(var(--cx) * -1 * tan(atan2(var(--frame-w), var(--cw)))),
+        calc(var(--cy) * -1 * tan(atan2(var(--frame-w), var(--cw))))
       )
-      scale(tan(atan2(100cqw, var(--cw))));
+      scale(tan(atan2(var(--frame-w), var(--cw))));
   }
 }
 /* the scenes' own type, in Vneo's faces */
@@ -700,10 +703,13 @@
   background: transparent;
 }
 [data-vneo] .vn-pane .v6-stage {
-  transform: scale(tan(atan2(100cqw, 1920px))) !important;
+  transform: scale(tan(atan2(var(--frame-w), 1920px))) !important;
 }
 [data-vneo] .vn-tile-media[data-fit='full'] .v6-stage {
-  --k: min(tan(atan2(100cqw, 1920px)), tan(atan2(100cqh, 1080px)));
+  --k: min(
+    tan(atan2(var(--frame-w), 1920px)),
+    tan(atan2(var(--frame-h), 1080px))
+  );
   transform: translate(
       calc((100cqw - 1920px * var(--k)) / 2),
       calc((100cqh - 1080px * var(--k)) / 2)
@@ -712,8 +718,8 @@
 }
 [data-vneo] .vn-tile-media[data-fit='crop'] .v6-stage {
   --k: max(
-    tan(atan2(100cqw, var(--cw, 1920px))),
-    tan(atan2(100cqh, var(--chp, 1080px)))
+    tan(atan2(var(--frame-w), var(--cw, 1920px))),
+    tan(atan2(var(--frame-h), var(--chp, 1080px)))
   );
   transform: translate(
       calc(
@@ -740,7 +746,10 @@
   background: transparent;
 }
 [data-vneo] :is(.vn-pane, .vn-tile-media) .v7-stage {
-  --k: max(tan(atan2(100cqw, 1200px)), tan(atan2(100cqh, 1200px)));
+  --k: max(
+    tan(atan2(var(--frame-w), 1200px)),
+    tan(atan2(var(--frame-h), 1200px))
+  );
   transform: translate(
       calc((100cqw - 1200px * var(--k)) / 2),
       calc((100cqh - 1200px * var(--k)) / 2)
@@ -1705,7 +1714,10 @@
 }
 /* scenes in wide tiles show whole (no cropping their top and bottom) */
 [data-vneo] .vn-tile-media[data-fit='full'] .v7-stage {
-  --k: min(tan(atan2(100cqw, 1200px)), tan(atan2(100cqh, 1200px)));
+  --k: min(
+    tan(atan2(var(--frame-w), 1200px)),
+    tan(atan2(var(--frame-h), 1200px))
+  );
 }
 [data-vneo] .vn-talk-slide,
 [data-vneo] .vn-years,
@@ -2335,7 +2347,10 @@
     min-height: 0;
   }
   [data-vneo] .vn-cbento .vn-tile-media .v7-stage {
-    --k: min(tan(atan2(100cqw, 1200px)), tan(atan2(100cqh, 1200px)));
+    --k: min(
+      tan(atan2(var(--frame-w), 1200px)),
+      tan(atan2(var(--frame-h), 1200px))
+    );
   }
   [data-vneo] .vn-cbento :is(.vn-git, .vn-years) {
     flex: 1 0 auto;
