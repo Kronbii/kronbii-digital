@@ -2677,6 +2677,15 @@
   color: var(--sage);
   box-shadow: inset 0 0 0 1px rgba(var(--sage-rgb), 0.6);
 }
+/* a topic's own few paragraphs, under its definition */
+[data-vneo] .vn-topic-intro {
+  display: grid;
+  gap: 14px;
+  max-width: 66ch;
+  margin-top: 28px;
+  color: var(--ink2);
+  line-height: 1.65;
+}
 [data-vneo] .vn-topic-h {
   margin-top: 48px;
   font-weight: 600;
