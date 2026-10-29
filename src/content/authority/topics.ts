@@ -37,6 +37,12 @@ export const topics: TopicRecord[] = [
       'Software and control designed around real devices, bounded compute, sensors, timing, and actuators — with reusable libraries where possible.',
     definition:
       'Software and control designed around real devices, bounded compute, sensors, timing, and actuators.',
+    intro: [
+      'Most of what I build ends up on a small board that has to sense, decide and act on time: an Arduino, an ESP32, a flight controller, a Jetson. The algorithm is rarely the hard part. The hard part is everything around it: a loop that has to run at a fixed rate, an output that hits its limit, a sensor whose noise you have to measure before you can trust it.',
+      'The projects below go roughly from small to large. Two early Arduino loops, one hitting targets with bursts of water and one following a light on two axes, made error, overshoot and settling things I could watch. easyPID is a PID controller as a library that doesn’t care which board it runs on, with the parts a real loop needs: timing, anti-windup and a filtered derivative.',
+      'The race car splits the work between a Jetson Nano that sees and an Arduino Mega that steers, and the BEMO desk puts a camera in front of an ESP32 that moves the desk. On the 5-inch drone the inner loops are Betaflight’s, so my work was sizing the propulsion and power, tuning, and testing GPS and the radio link. The star tracker’s ESP32 times every microstep from the exact geometry of the mechanism, and the IMU test bench measures what a sensor needs before it goes into a system.',
+      'Some of it goes back upstream: in Betaflight, my fix to the Redpine radio driver’s debug output is merged, and one for short flash reads is approved and waiting to merge. And the drone-control bootcamp puts the whole stack into seven evenings, from PID on an RC circuit to a quadrotor that survives losing a rotor; it’s ready for its first cohort.',
+    ],
     questions: [
       'Which embedded control systems has Rami Kronbi built?',
       'Where does reusable open-source code live?',

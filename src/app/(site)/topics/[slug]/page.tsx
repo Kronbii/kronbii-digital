@@ -84,6 +84,13 @@ export default async function Topic({ params }: Props) {
           {t.title}
         </h1>
         <p className="v7-more-lede">{t.definition}</p>
+        {t.intro ? (
+          <div className="vn-topic-intro">
+            {t.intro.map((p) => (
+              <p key={p}>{p}</p>
+            ))}
+          </div>
+        ) : null}
 
         {t.slug === PACK_HUB ? (
           <figure className="vn-topic-shot">

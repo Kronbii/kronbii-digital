@@ -124,6 +124,8 @@ export interface TopicRecord {
   metaTitle: string
   metaDescription: string
   definition: string
+  /** A few paragraphs of my own on how the work in this field connects, under the definition. */
+  intro?: string[]
   questions: string[]
   reviewMentions?: string[]
 }
