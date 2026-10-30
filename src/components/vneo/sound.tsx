@@ -4,9 +4,10 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { vneoChrome } from '@/content/vneo/site'
 
-// Bach's Prelude in C (BWV 846), Kimiko Ishizaka's Open Well-Tempered Clavier
-// recording (CC0), cut into a seamless 2:33 loop and set quiet (-24 LUFS).
-const SRC = '/audio/prelude-loop.m4a'
+// "S.T.A.Y." from Hans Zimmer's Interstellar score, whole, as a seamless 6:09 loop:
+// its quiet ending laid over its quiet opening, evened out a little and set quiet
+// (-24 LUFS). Built by soundtrack/calm.py --stay.
+const SRC = '/audio/stay-loop.m4a'
 const KEY = 'vn-sound'
 const VOLUME = 0.8
 const FADE_IN = 4
@@ -23,7 +24,7 @@ type Player = {
 const touch = () => matchMedia('(hover: none)').matches
 
 /*
- * A quiet piano loop under the site, on unless the visitor mutes it. It starts as
+ * Music under the site, on unless the visitor mutes it. It starts as
  * the page opens, so it fades in with the intro wherever the browser allows sound
  * on its own; where it holds it until a gesture (an iPhone always, most browsers
  * on a first visit), it fades in on the visitor's first click, tap or key,
