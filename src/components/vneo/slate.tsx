@@ -21,7 +21,6 @@ export function Slate({
   label,
   title,
   hot,
-  lede,
   id,
   children,
 }: {
@@ -29,7 +28,6 @@ export function Slate({
   label: string
   title: string
   hot: string
-  lede?: ReactNode
   id: string
   children?: ReactNode
 }) {
@@ -74,7 +72,7 @@ export function Slate({
         0.2 * B
       )
       tl.fromTo(
-        '.vn-slate-lede, .vn-slate-extra',
+        '.vn-slate-extra',
         { opacity: 0, y: 12 },
         { opacity: 1, y: 0, duration: B, ease: 'power2.out', stagger: 0.3 * B },
         1.1 * B
@@ -111,7 +109,6 @@ export function Slate({
         <em>{hot}</em>
         {b}
       </h2>
-      {lede ? <p className="vn-slate-lede">{lede}</p> : null}
       {children ? <div className="vn-slate-extra">{children}</div> : null}
     </header>
   )

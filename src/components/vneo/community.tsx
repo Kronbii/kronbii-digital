@@ -245,7 +245,6 @@ export function Community() {
         label={c.label}
         title={c.title}
         hot={c.hot}
-        lede={c.lede}
         id="community-h"
       />
       <ul className="vn-cbento">

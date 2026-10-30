@@ -752,11 +752,6 @@
   line-height: 1.02;
   letter-spacing: -0.035em;
 }
-[data-vneo] .vn-slate-lede {
-  margin-top: 16px;
-  max-width: 54ch;
-  color: var(--ink2);
-}
 [data-vneo] .vn-slate-extra {
   margin-top: 18px;
 }
@@ -2381,13 +2376,6 @@
  * phone-width query or hides an element that only phones show, so the
  * desktop layout is untouched.
  * ====================================================================== */
-
-/* the selected projects and the loop go straight from their title to the work: their ledes are for wider screens */
-@media (max-width: 640px) {
-  [data-vneo] :is(.vn-work, .vn-laps) .vn-slate-lede {
-    display: none;
-  }
-}
 
 /* the robot pack, cropped to 4:3 on a phone: its type re-set to the narrower frame */
 @media (max-width: 720px) {
