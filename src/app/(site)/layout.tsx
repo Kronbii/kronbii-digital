@@ -13,6 +13,7 @@ import { Cursor } from '@/components/vneo/cursor'
 import { RaMark } from '@/components/vneo/emblem'
 import { Lens } from '@/components/vneo/lens'
 import { Menu } from '@/components/vneo/menu'
+import { Sound } from '@/components/vneo/sound'
 import '@/components/vneo/vneo.css'
 import { HOME, VN, vneoChrome } from '@/content/vneo/site'
 
@@ -83,6 +84,7 @@ export default function VneoLayout({
             </Link>
           ))}
         </nav>
+        <Sound />
         <Menu />
       </header>
       <main id="v7-main">{children}</main>

@@ -568,6 +568,12 @@ export const vneoChrome = {
   ],
   /** The burger that holds the nav on a phone. */
   menu: { open: 'Menu', close: 'Close the menu' },
+  /** The music toggle in the top bar (sound.tsx). */
+  sound: {
+    on: 'Play the music',
+    off: 'Stop the music',
+    piece: 'Bach, Prelude in C, played by Kimiko Ishizaka',
+  },
   footer: {
     links: [
       { label: 'Projects', href: '/projects' },
