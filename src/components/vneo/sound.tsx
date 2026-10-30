@@ -4,13 +4,14 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { vneoChrome } from '@/content/vneo/site'
 
-// "S.T.A.Y." from Hans Zimmer's Interstellar score, whole, as a seamless 6:09 loop:
+// "S.T.A.Y." from Hans Zimmer's Interstellar score, whole, as a seamless 6:09 loop that
+// begins where the organ and bass bring in the theme:
 // its quiet ending laid over its quiet opening, evened out a little and set quiet
 // (-24 LUFS). Built by soundtrack/calm.py --stay.
 const SRC = '/audio/stay-loop.m4a'
 const KEY = 'vn-sound'
 const VOLUME = 0.8
-const FADE_IN = 4
+const FADE_IN = 1.5
 const FADE_OUT = 0.8
 const SAID = 5000 // how long the caption stays out when the music starts
 
