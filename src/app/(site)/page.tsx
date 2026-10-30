@@ -63,7 +63,6 @@ export default function Vneo() {
   })
   const c = vneo
   const groups = moreGroups()
-  const n = groups.reduce((k, g) => k + g.items.length, 0)
   return (
     <>
       <JsonLd data={[homeJsonLd]} />
@@ -76,11 +75,7 @@ export default function Vneo() {
       <Suspense>
         <div className="vn-log vn-v3">
           <SlateMark no={3} label={c.log.label} />
-          <FlightLog
-            title={c.log.title}
-            lede={c.log.lede}
-            points={c.log.points}
-          />
+          <FlightLog title={c.log.title} points={c.log.points} />
         </div>
       </Suspense>
       <Suspense>
@@ -99,7 +94,6 @@ export default function Vneo() {
           label={c.more.label}
           title={c.more.title}
           hot={c.more.hot}
-          lede={`${n} more projects.`}
           id="more-h"
         />
         <div className="v7-groups">

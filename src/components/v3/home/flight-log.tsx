@@ -19,7 +19,7 @@ export interface Waypoint {
  * Everything is readable without the motion: under reduced motion the track
  * is drawn in full.
  */
-export function FlightLog({ title, lede, points }: { title: string; lede: string; points: Waypoint[] }) {
+export function FlightLog({ title, lede, points }: { title: string; lede?: string; points: Waypoint[] }) {
   const list = useRef<HTMLOListElement>(null)
   const svg = useRef<SVGSVGElement>(null)
   const base = useRef<SVGPathElement>(null)
@@ -117,7 +117,7 @@ export function FlightLog({ title, lede, points }: { title: string; lede: string
           <h2 className={styles.h2} id="log-h">
             {title}
           </h2>
-          <p className={styles.lede}>{lede}</p>
+          {lede ? <p className={styles.lede}>{lede}</p> : null}
         </header>
 
         <div className={styles.track}>

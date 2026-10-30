@@ -288,7 +288,6 @@ export const community = {
   label: 'In the community',
   title: 'Built for people, and shared in person.',
   hot: 'people',
-  lede: 'Software for families in a crisis and for clinics, a desk for students, and the talks and workshops where I teach what I know.',
   built: [
     { ...scene('families'), size: 'big' as const },
     { ...scene('clinics'), size: 'tall' as const },
@@ -382,7 +381,6 @@ const build = {
 const log = {
   label: 'Experience',
   title: 'Flight log',
-  lede: 'My experience, one waypoint at a time: where I have worked, taught, mentored, and co-founded.',
   points: [
     {
       when: '2021 – 2024',
@@ -488,8 +486,6 @@ export const vneo = {
     label: 'Work',
     title: 'Selected projects.',
     hot: 'projects',
-    /** Not on a phone, where the title goes straight to the grid. */
-    lede: 'The most important come first and play as you arrive; hover any to see it again, or press Watch for the full view. Each says what it does, my part, and one result.',
     all: 'All projects',
     open: 'Open the project',
     watch: 'Watch',
@@ -502,7 +498,6 @@ export const vneo = {
     label: 'Writing',
     title: 'How the work was done.',
     hot: 'done',
-    lede: v3Home.notes.lede,
     items: [
       'designing-election-information-for-verifiability',
       'building-technology-around-crisis-response-operations',
@@ -520,8 +515,6 @@ export const vneo = {
     label: 'The loop',
     title: 'Three machines, one loop.',
     hot: 'loop',
-    /** Not on a phone, where the title goes straight to the shot. */
-    lede: 'Each of these senses, decides, and acts, then feeds back what happened. Here is each one once around, in its own footage.',
     replay: 'Play again',
   },
   /** The closing shot: sense, decide, act, as a 5-inch quad that loses a rotor and flies on (the drone swarm is in the backlog). */

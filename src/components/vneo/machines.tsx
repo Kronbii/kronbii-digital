@@ -672,7 +672,6 @@ export function Laps() {
         label={c.label}
         title={c.title}
         hot={c.hot}
-        lede={c.lede}
         id="laps-h"
       />
       <div className="vn-laps-frame">

@@ -103,7 +103,6 @@ export function Work() {
         label={c.label}
         title={c.title}
         hot={c.hot}
-        lede={c.lede}
         id="work-h"
       >
         <Link className="v7-go" href={`${VN}/projects`}>
