@@ -567,6 +567,8 @@ export const vneoChrome = {
     off: 'Stop the music',
     /** The caption that slides out beside the bars: once when the music starts, and on hover or focus. */
     started: { touch: 'Sound on · tap to mute', mouse: 'Sound on · click to mute' },
+    /** At the foot of the screen, while the browser holds the music until a first gesture. */
+    ask: { touch: 'Tap anywhere for sound', mouse: 'Click anywhere for sound' },
     stopped: 'Sound off',
     mute: 'Mute',
     play: 'Play music',
