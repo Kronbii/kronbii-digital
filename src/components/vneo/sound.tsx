@@ -29,8 +29,9 @@ const touch = () => matchMedia('(hover: none)').matches
  * the page opens, so it fades in with the intro wherever the browser allows sound
  * on its own; where it holds it until a gesture (an iPhone always, most browsers
  * on a first visit), it fades in on the visitor's first click, tap or key,
- * anywhere. A visitor who muted it on an earlier visit hears nothing. The button
- * mutes and unmutes and remembers; a caption under it says it can be muted when
+ * anywhere. The button mutes and unmutes, and a mute holds for the rest of the
+ * visit (the tab's session); a new visit starts with the music on again. A caption
+ * under the button says it can be muted when
  * the music starts. It fades out while the tab is hidden and back in when it
  * returns.
  */
@@ -138,7 +139,8 @@ export function Sound() {
   useEffect(() => {
     let off = false
     try {
-      off = localStorage.getItem(KEY) === 'off'
+      off = sessionStorage.getItem(KEY) === 'off'
+      localStorage.removeItem(KEY) // a mute was once kept for good: no longer
     } catch {}
     if (off) return
     start(false)
@@ -181,7 +183,7 @@ export function Sound() {
     chosen.current = true
     const on = !playing
     try {
-      localStorage.setItem(KEY, on ? 'on' : 'off')
+      sessionStorage.setItem(KEY, on ? 'on' : 'off')
     } catch {}
     if (on) start(true)
     else stop()
