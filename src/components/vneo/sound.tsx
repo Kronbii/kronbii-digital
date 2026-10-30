@@ -35,6 +35,7 @@ export function Sound() {
   const sayTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
   const player = useRef<Player | null>(null)
   const wanted = useRef(false)
+  const chosen = useRef(false) // the visitor has used the button: page gestures no longer start it
   const button = useRef<HTMLButtonElement>(null)
 
   const fadeTo = (p: Player, level: number, secs: number) => {
@@ -54,6 +55,10 @@ export function Sound() {
     wanted.current = true
     // made and resumed inside the visitor's gesture, which is what lets it sound
     if (!player.current) {
+      // on an iPhone, Web Audio is silenced by the ring/silent switch unless the
+      // page says it is playing music (Safari 17+)
+      const session = (navigator as { audioSession?: { type: string } }).audioSession
+      if (session) session.type = 'playback'
       const ctx = new AudioContext()
       const gain = ctx.createGain()
       gain.gain.value = 0
@@ -62,6 +67,11 @@ export function Sound() {
     }
     const p = player.current
     void p.ctx.resume()
+    // older iOS only lets a context sound after something has played inside the gesture
+    const hush = p.ctx.createBufferSource()
+    hush.buffer = p.ctx.createBuffer(1, 1, p.ctx.sampleRate)
+    hush.connect(p.ctx.destination)
+    hush.start()
     setPlaying(true)
     p.buffer ??= fetch(SRC)
       .then((r) => r.arrayBuffer())
@@ -76,8 +86,15 @@ export function Sound() {
         node.start()
         p.node = node
         fadeTo(p, VOLUME, FADE_IN)
+        // the caption only once it can be heard
         const { touch, mouse } = vneoChrome.sound.started
-        say(matchMedia('(hover: none)').matches ? touch : mouse, SAID)
+        const announce = () => {
+          if (p.ctx.state !== 'running') return
+          p.ctx.removeEventListener('statechange', announce)
+          say(matchMedia('(hover: none)').matches ? touch : mouse, SAID)
+        }
+        p.ctx.addEventListener('statechange', announce)
+        announce()
       })
       .catch(() => {
         wanted.current = false
@@ -108,10 +125,15 @@ export function Sound() {
       off = localStorage.getItem(KEY) === 'off'
     } catch {}
     if (off) return
-    const events = ['pointerup', 'keydown'] as const
+    // every kind of gesture a browser may count, and kept until one of them has
+    // really let the sound start: a tap that ends a scroll doesn't, on an iPhone
+    const events = ['pointerup', 'touchend', 'click', 'keydown'] as const
     const first = (e: Event) => {
       if (button.current?.contains(e.target as Node)) return
-      events.forEach((t) => window.removeEventListener(t, first, true))
+      if (chosen.current || player.current?.ctx.state === 'running') {
+        events.forEach((t) => window.removeEventListener(t, first, true))
+        return
+      }
       start()
     }
     events.forEach((t) => window.addEventListener(t, first, true))
@@ -139,6 +161,7 @@ export function Sound() {
   }, [])
 
   const toggle = () => {
+    chosen.current = true
     const on = !playing
     try {
       localStorage.setItem(KEY, on ? 'on' : 'off')
