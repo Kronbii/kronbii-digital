@@ -565,7 +565,11 @@ export const vneoChrome = {
   sound: {
     on: 'Play the music',
     off: 'Stop the music',
-    piece: 'Bach, Prelude in C, played by Kimiko Ishizaka',
+    /** The caption that slides out beside the bars: once when the music starts, and on hover or focus. */
+    started: { touch: 'Sound on · tap to mute', mouse: 'Sound on · click to mute' },
+    stopped: 'Sound off',
+    mute: 'Mute',
+    play: 'Play music',
   },
   footer: {
     links: [

@@ -11,6 +11,7 @@ const KEY = 'vn-sound'
 const VOLUME = 0.8
 const FADE_IN = 4
 const FADE_OUT = 0.8
+const SAID = 5000 // how long the caption stays out when the music starts
 
 type Player = {
   ctx: AudioContext
@@ -24,10 +25,14 @@ type Player = {
  * visitor's first click, tap or key, so it fades in then, unless they turned it
  * off on an earlier visit; the button turns it on and off and remembers. It
  * fades out while the tab is hidden and back in when it returns. The file is
- * only fetched once the music is wanted.
+ * only fetched once the music is wanted. When it starts, a caption slides out
+ * from the bars to say it can be muted, then folds back; hover or focus brings
+ * it out again.
  */
 export function Sound() {
   const [playing, setPlaying] = useState(false)
+  const [said, setSaid] = useState<string | null>(null)
+  const sayTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
   const player = useRef<Player | null>(null)
   const wanted = useRef(false)
   const button = useRef<HTMLButtonElement>(null)
@@ -38,6 +43,12 @@ export function Sound() {
     p.gain.gain.setValueAtTime(p.gain.gain.value, now)
     p.gain.gain.linearRampToValueAtTime(level, now + secs)
   }
+
+  const say = useCallback((text: string, ms: number) => {
+    clearTimeout(sayTimer.current)
+    setSaid(text)
+    sayTimer.current = setTimeout(() => setSaid(null), ms)
+  }, [])
 
   const start = useCallback(() => {
     wanted.current = true
@@ -65,17 +76,20 @@ export function Sound() {
         node.start()
         p.node = node
         fadeTo(p, VOLUME, FADE_IN)
+        const { touch, mouse } = vneoChrome.sound.started
+        say(matchMedia('(hover: none)').matches ? touch : mouse, SAID)
       })
       .catch(() => {
         wanted.current = false
         setPlaying(false)
       })
     if (p.node) fadeTo(p, VOLUME, FADE_IN)
-  }, [])
+  }, [say])
 
   const stop = useCallback(() => {
     wanted.current = false
     setPlaying(false)
+    say(vneoChrome.sound.stopped, SAID / 2)
     const p = player.current
     if (!p) return
     fadeTo(p, 0, FADE_OUT)
@@ -85,7 +99,7 @@ export function Sound() {
       node?.stop()
       if (!wanted.current) void p.ctx.suspend()
     }, FADE_OUT * 1000 + 50)
-  }, [])
+  }, [say])
 
   // the first click, tap or key anywhere but this button starts it, unless it was turned off before
   useEffect(() => {
@@ -118,7 +132,10 @@ export function Sound() {
       }
     }
     document.addEventListener('visibilitychange', vis)
-    return () => document.removeEventListener('visibilitychange', vis)
+    return () => {
+      document.removeEventListener('visibilitychange', vis)
+      clearTimeout(sayTimer.current)
+    }
   }, [])
 
   const toggle = () => {
@@ -137,7 +154,6 @@ export function Sound() {
       className="vn-sound"
       aria-pressed={playing}
       aria-label={playing ? vneoChrome.sound.off : vneoChrome.sound.on}
-      title={vneoChrome.sound.piece}
       data-playing={playing ? '' : undefined}
       onClick={toggle}
     >
@@ -145,6 +161,13 @@ export function Sound() {
       <i />
       <i />
       <i />
+      <span
+        className="vn-sound-cap"
+        aria-hidden="true"
+        data-said={said ? '' : undefined}
+      >
+        {said ?? (playing ? vneoChrome.sound.mute : vneoChrome.sound.play)}
+      </span>
     </button>
   )
 }
