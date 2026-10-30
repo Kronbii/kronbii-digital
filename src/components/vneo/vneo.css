@@ -452,6 +452,42 @@
     animation: none;
   }
 }
+/* its caption: under the bars, sliding out once when the music starts, and on hover or focus */
+[data-vneo] .vn-sound {
+  position: relative;
+}
+[data-vneo] .vn-sound-cap {
+  position: absolute;
+  top: calc(100% + 2px);
+  right: 6px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(var(--bg-rgb), 0.86);
+  box-shadow: 0 0 0 1px rgba(var(--ink-rgb), 0.12);
+  color: var(--ink2);
+  font-family: var(--font-v7-mono), ui-monospace, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition:
+    opacity 0.45s var(--ease),
+    transform 0.45s var(--ease);
+}
+[data-vneo] .vn-sound-cap[data-said],
+[data-vneo] .vn-sound:focus-visible .vn-sound-cap {
+  opacity: 1;
+  transform: none;
+}
+@media (hover: hover) {
+  [data-vneo] .vn-sound:hover .vn-sound-cap {
+    opacity: 1;
+    transform: none;
+  }
+}
 
 /* ---------- the top bar on phones: its links fold into a menu (menu.tsx) ---------- */
 [data-vneo] .v7-nav a {
