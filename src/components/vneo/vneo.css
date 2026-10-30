@@ -488,33 +488,6 @@
     transform: none;
   }
 }
-/* the invitation at the foot of the screen, above the intro, while the browser holds the music */
-[data-vneo] .vn-sound-ask {
-  position: fixed;
-  left: 50%;
-  bottom: max(22px, env(safe-area-inset-bottom));
-  z-index: 1001;
-  padding: 7px 14px;
-  border-radius: 999px;
-  background: rgba(var(--bg-rgb), 0.86);
-  box-shadow: 0 0 0 1px rgba(var(--ink-rgb), 0.14);
-  color: var(--ink2);
-  font-family: var(--font-v7-mono), ui-monospace, monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  pointer-events: none;
-  opacity: 0;
-  transform: translate(-50%, 6px);
-  transition:
-    opacity 0.6s var(--ease),
-    transform 0.6s var(--ease);
-}
-[data-vneo] .vn-sound-ask[data-asking] {
-  opacity: 1;
-  transform: translate(-50%, 0);
-}
 
 /* ---------- the top bar on phones: its links fold into a menu (menu.tsx) ---------- */
 [data-vneo] .v7-nav a {

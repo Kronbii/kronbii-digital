@@ -1,7 +1,6 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
 
 import { vneoChrome } from '@/content/vneo/site'
 
@@ -13,8 +12,6 @@ const VOLUME = 0.8
 const FADE_IN = 4
 const FADE_OUT = 0.8
 const SAID = 5000 // how long the caption stays out when the music starts
-const ASK_AFTER = 1200 // if the browser hasn't let it play by then, invite a tap
-const ASK_FOR = 9000
 
 type Player = {
   ctx: AudioContext
@@ -26,22 +23,20 @@ type Player = {
 const touch = () => matchMedia('(hover: none)').matches
 
 /*
- * A quiet piano loop under the site. It tries to start as the page opens, so it
- * fades in with the intro wherever the browser allows sound on its own; where
- * it doesn't (an iPhone always, most browsers on a first visit), a line at the
- * foot of the screen, above the intro, invites a tap, and the first click, tap
- * or key fades it in. A visitor who turned it off on an earlier visit hears
- * nothing and sees no invitation. The button turns it on and off and remembers;
- * a caption under it says it can be muted when the music starts. It fades out
- * while the tab is hidden and back in when it returns.
+ * A quiet piano loop under the site, on unless the visitor mutes it. It starts as
+ * the page opens, so it fades in with the intro wherever the browser allows sound
+ * on its own; where it holds it until a gesture (an iPhone always, most browsers
+ * on a first visit), it fades in on the visitor's first click, tap or key,
+ * anywhere. A visitor who muted it on an earlier visit hears nothing. The button
+ * mutes and unmutes and remembers; a caption under it says it can be muted when
+ * the music starts. It fades out while the tab is hidden and back in when it
+ * returns.
  */
 export function Sound() {
   const [wanting, setWanting] = useState(false)
   const [running, setRunning] = useState(false)
   const playing = wanting && running
   const [said, setSaid] = useState<string | null>(null)
-  const [asking, setAsking] = useState(false)
-  const [root, setRoot] = useState<HTMLElement | null>(null)
   const sayTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
   const player = useRef<Player | null>(null)
   const wanted = useRef(false)
@@ -81,7 +76,6 @@ export function Sound() {
         const heard = () => {
           const on = ctx.state === 'running'
           setRunning(on)
-          if (on) setAsking(false)
           if (on && !told && wanted.current) {
             told = true
             say(touch() ? vneoChrome.sound.started.touch : vneoChrome.sound.started.mouse, SAID)
@@ -138,22 +132,17 @@ export function Sound() {
     }, FADE_OUT * 1000 + 50)
   }, [say])
 
-  // as the page opens: try to play at once, and listen for the first gesture in case the browser holds it
+  // as the page opens: play at once, and listen for the first gesture in case the browser holds it
   useEffect(() => {
-    setRoot(document.querySelector<HTMLElement>('[data-vneo]'))
     let off = false
     try {
       off = localStorage.getItem(KEY) === 'off'
     } catch {}
     if (off) return
     start(false)
-    const ask = setTimeout(() => {
-      if (!chosen.current && player.current?.ctx.state !== 'running') setAsking(true)
-    }, ASK_AFTER)
-    const stopAsking = setTimeout(() => setAsking(false), ASK_AFTER + ASK_FOR)
     // every kind of gesture a browser may count, kept until one of them has really
     // let the sound start: a tap that ends a scroll doesn't, on an iPhone
-    const events = ['pointerup', 'touchend', 'click', 'keydown'] as const
+    const events = ['pointerdown', 'pointerup', 'touchend', 'click', 'keydown'] as const
     const first = (e: Event) => {
       if (button.current?.contains(e.target as Node)) return
       if (chosen.current || player.current?.ctx.state === 'running') {
@@ -163,11 +152,7 @@ export function Sound() {
       start(true)
     }
     events.forEach((t) => window.addEventListener(t, first, true))
-    return () => {
-      clearTimeout(ask)
-      clearTimeout(stopAsking)
-      events.forEach((t) => window.removeEventListener(t, first, true))
-    }
+    return () => events.forEach((t) => window.removeEventListener(t, first, true))
   }, [start])
 
   // quiet while the tab is hidden
@@ -192,7 +177,6 @@ export function Sound() {
 
   const toggle = () => {
     chosen.current = true
-    setAsking(false)
     const on = !playing
     try {
       localStorage.setItem(KEY, on ? 'on' : 'off')
@@ -224,19 +208,6 @@ export function Sound() {
           {said ?? (playing ? vneoChrome.sound.mute : vneoChrome.sound.play)}
         </span>
       </button>
-      {/* outside the top bar, so it shows above the intro too */}
-      {root
-        ? createPortal(
-            <p
-              className="vn-sound-ask"
-              aria-hidden="true"
-              data-asking={asking ? '' : undefined}
-            >
-              {touch() ? vneoChrome.sound.ask.touch : vneoChrome.sound.ask.mouse}
-            </p>,
-            root
-          )
-        : null}
     </>
   )
 }
