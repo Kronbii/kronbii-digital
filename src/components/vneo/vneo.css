@@ -391,6 +391,68 @@
   margin-inline: auto;
 }
 
+/* ---------- the music toggle (sound.tsx): four thin bars that breathe while it plays ---------- */
+[data-vneo] .vn-sound {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  width: 44px;
+  height: 44px;
+  margin: -6px -10px -6px -8px;
+  border-radius: 999px;
+  color: var(--ink2);
+  filter: drop-shadow(-1px 0 0 rgba(var(--fr-m), 0.6))
+    drop-shadow(1px 0 0 rgba(var(--fr-g), 0.6));
+  transition: color 0.3s;
+  -webkit-tap-highlight-color: transparent;
+}
+[data-vneo] .vn-sound:hover,
+[data-vneo] .vn-sound[data-playing] {
+  color: var(--sage);
+}
+[data-vneo] .vn-sound:focus-visible {
+  outline: 2px solid var(--sage);
+  outline-offset: -4px;
+}
+[data-vneo] .vn-sound i {
+  width: 2px;
+  height: 14px;
+  border-radius: 2px;
+  background: currentColor;
+  transform: scaleY(0.18);
+  transition: transform 0.8s var(--ease);
+}
+[data-vneo] .vn-sound[data-playing] i {
+  transform: scaleY(0.6);
+  animation: vn-breathe 2.4s var(--ease) infinite alternate;
+}
+[data-vneo] .vn-sound[data-playing] i:nth-child(2) {
+  animation-duration: 3.1s;
+  animation-delay: -1.2s;
+}
+[data-vneo] .vn-sound[data-playing] i:nth-child(3) {
+  animation-duration: 2.7s;
+  animation-delay: -0.4s;
+}
+[data-vneo] .vn-sound[data-playing] i:nth-child(4) {
+  animation-duration: 3.5s;
+  animation-delay: -2s;
+}
+@keyframes vn-breathe {
+  from {
+    transform: scaleY(0.3);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-vneo] .vn-sound[data-playing] i {
+    animation: none;
+  }
+}
+
 /* ---------- the top bar on phones: its links fold into a menu (menu.tsx) ---------- */
 [data-vneo] .v7-nav a {
   white-space: nowrap;
@@ -402,6 +464,13 @@
 @media (max-width: 640px) {
   [data-vneo] .v7-nav {
     display: none;
+  }
+  /* the music toggle takes the right edge's space first, the burger beside it */
+  [data-vneo] .vn-sound {
+    margin-left: auto;
+  }
+  [data-vneo] .vn-sound + .vn-burger {
+    margin-left: 0;
   }
   /* two lines, the lower one shorter, that cross into an × */
   [data-vneo] .vn-burger {
