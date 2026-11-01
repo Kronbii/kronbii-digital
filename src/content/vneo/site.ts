@@ -156,7 +156,15 @@ export type ShowItem = WorkItem & {
   size: TileSize
   /** Its place in the desktop grid (grid-template-areas in vneo.css). */
   area: string
-  image?: { src: string; position?: string; fit?: 'contain'; poster?: string }
+  image?: {
+    src: string
+    position?: string
+    fit?: 'contain'
+    poster?: string
+    /** Footage or a picture with words in it: its size, and the part any tile keeps whole (vneo.css) */
+    size?: [number, number]
+    focus?: [x: number, y: number, w: number, h: number]
+  }
   figure?: { from: string; fromNote: string; to: string; toNote: string }
   /** Opens outside the site (a project with no page here yet). */
   external?: boolean
@@ -203,6 +211,9 @@ export const showcase: ShowItem[] = [
     image: {
       src: '/images/authority/quadrotor-rotor-fault-recovery/rotor-loss-sim.mp4',
       poster: '/images/authority/quadrotor-rotor-fault-recovery/rotor-loss-sim-poster.jpg',
+      // four plots, labelled edge to edge: shown whole
+      size: [1280, 720],
+      focus: [0, 0, 1280, 720],
     },
   },
   {
@@ -212,6 +223,9 @@ export const showcase: ShowItem[] = [
     image: {
       src: '/images/authority/road-speed-audit/a40-tile.mp4',
       poster: '/images/authority/road-speed-audit/a40-tile-poster.jpg',
+      // its label sits top left: kept whole with the road beside it
+      size: [960, 540],
+      focus: [0, 0, 600, 540],
     },
   },
   {
@@ -248,6 +262,9 @@ export const showcase: ShowItem[] = [
     image: {
       src: '/images/authority/imu-bench/tile.mp4',
       poster: '/images/authority/imu-bench/tile-poster.jpg',
+      // axis labels at its edges: shown whole
+      size: [672, 600],
+      focus: [0, 0, 672, 600],
     },
   },
   {
