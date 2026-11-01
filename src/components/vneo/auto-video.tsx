@@ -45,17 +45,21 @@ function row(el: HTMLElement) {
  * nothing, not even its poster, until it is near the screen, plays while it is, and rests off it, so
  * footage further down never takes the connection from what the visitor is looking at. Footage at
  * the top of a page (`eager`) has its poster in the page from the start, and starts loading with it.
+ * Footage in a card that rests until it is asked (`held`) shows its poster and waits for the card to
+ * play it (see playIn).
  */
 export function AutoVideo({
   src,
   poster,
   alt,
   eager = false,
+  held = false,
 }: {
   src: string
   poster: string
   alt: string
   eager?: boolean
+  held?: boolean
 }) {
   const ref = useRef<HTMLVideoElement>(null)
   useEffect(() => {
@@ -79,6 +83,7 @@ export function AutoVideo({
       { rootMargin: '50% 0px' }
     )
     near.observe(row(v))
+    if (held) return () => near.disconnect()
     // on a touch screen it never shows a play button: a phone that refuses footage on its own
     // (iOS in Low Power Mode) starts it with the visitor's first tap anywhere
     const touch = matchMedia(TOUCH).matches
@@ -107,7 +112,7 @@ export function AutoVideo({
       io.disconnect()
       refused.delete(v)
     }
-  }, [poster])
+  }, [poster, held])
   return (
     <video
       ref={ref}

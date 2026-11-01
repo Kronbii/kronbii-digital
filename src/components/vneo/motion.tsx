@@ -54,13 +54,16 @@ export function Motion({
   motion,
   label,
   tile = false,
+  held = false,
 }: {
   motion: MotionRef
   label: string
   /** In a grid of tiles: rest on the last frame where a hover exists, no ambient loops. */
   tile?: boolean
+  /** Rest on touch screens too, until the host plays it (playIn). */
+  held?: boolean
 }) {
-  const autoplay = !(tile && hoverable())
+  const autoplay = !(held || (tile && hoverable()))
   if (motion.kind === 'shot') {
     const S = SHOTS[motion.id]
     return (
@@ -91,4 +94,18 @@ export function replayIn(el: HTMLElement | null) {
   el?.querySelector<HTMLButtonElement>(
     '.v6-replay:not(:disabled), .v7-replay:not(:disabled)'
   )?.click()
+}
+
+/** Plays what is inside `el`: its motion from the start, its footage from where it rested. */
+export function playIn(el: HTMLElement | null) {
+  replayIn(el)
+  // footage showing its controls (less motion asked for, or refused) is the visitor's to start
+  el?.querySelectorAll('video').forEach((v) => {
+    if (!v.controls) v.play().catch(() => {})
+  })
+}
+
+/** Rests what is inside `el`: footage pauses where it is (motion rests on its last frame by itself). */
+export function restIn(el: HTMLElement | null) {
+  el?.querySelectorAll('video').forEach((v) => v.pause())
 }
