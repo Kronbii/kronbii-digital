@@ -8,7 +8,7 @@ import { FringePath } from '@/components/v7/optic'
 import { B, drawIn, focusIn } from '@/components/v7/tempo'
 import { community, vneo } from '@/content/vneo/site'
 
-import { Motion, replayIn } from './motion'
+import { Motion, fitStyle, replayIn } from './motion'
 import { Slate } from './slate'
 
 /*
@@ -260,7 +260,11 @@ export function Community() {
               className="vn-tile-link"
               aria-label={`${b.name}: ${b.title}`}
             />
-            <div className="vn-tile-media" aria-hidden="true">
+            <div
+              className="vn-tile-media"
+              aria-hidden="true"
+              style={fitStyle({ kind: 'scene', id: b.id })}
+            >
               <Motion motion={{ kind: 'scene', id: b.id }} label={b.alt} tile />
             </div>
             <div className="vn-tile-cap">

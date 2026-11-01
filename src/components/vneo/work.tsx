@@ -6,7 +6,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { AutoVideo } from '@/components/vneo/auto-video'
 import { showcase, vneo, VN } from '@/content/vneo/site'
 
-import { Motion, playIn, restIn } from './motion'
+import { Motion, fitStyle, fitVars, playIn, restIn } from './motion'
 import { Slate } from './slate'
 
 /*
@@ -115,14 +115,17 @@ export function Work() {
               className="vn-tile-media"
               aria-hidden="true"
               data-fit={
-                // every piece fills its tile, except the upstream graph, which needs its whole width,
-                // a square explainer in a tall tile, which would lose its sides, and a project's own scene,
-                // whose figure and stack sit at its edges
-                (item.motion?.kind === 'shot' && item.motion.id === 'ship') ||
-                (item.motion?.kind === 'scene' && item.size === 'tall') ||
-                item.motion?.kind === 'own'
-                  ? 'full'
-                  : 'crop'
+                // a piece fills its tile as far as its focus allows (fitStyle), except the upstream
+                // graph, which is shown whole; a scene always keeps its drawing whole
+                item.motion?.kind === 'shot' && item.motion.id === 'ship' ? 'full' : 'crop'
+              }
+              data-media={item.image?.size ? 'fit' : undefined}
+              style={
+                item.motion
+                  ? fitStyle(item.motion)
+                  : item.image?.size
+                    ? fitVars(item.image)
+                    : undefined
               }
             >
               {item.motion ? (

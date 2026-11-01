@@ -950,21 +950,6 @@
     )
     scale(var(--k)) !important;
 }
-[data-vneo] .vn-tile-media[data-fit='crop'] .v6-stage {
-  --k: max(
-    tan(atan2(var(--frame-w), var(--cw, 1920px))),
-    tan(atan2(var(--frame-h), var(--chp, 1080px)))
-  );
-  transform: translate(
-      calc(
-        (100cqw - var(--cw, 1920px) * var(--k)) / 2 - var(--cx, 0px) * var(--k)
-      ),
-      calc(
-        (100cqh - var(--chp, 1080px) * var(--k)) / 2 - var(--cy, 0px) * var(--k)
-      )
-    )
-    scale(var(--k)) !important;
-}
 [data-vneo] .vn-pane .v7-scene {
   left: 50%;
   width: auto;
@@ -979,7 +964,7 @@
   box-shadow: none;
   background: transparent;
 }
-[data-vneo] :is(.vn-pane, .vn-tile-media) .v7-stage {
+[data-vneo] .vn-pane .v7-stage {
   --k: max(
     tan(atan2(var(--frame-w), 1200px)),
     tan(atan2(var(--frame-h), 1200px))
@@ -989,6 +974,91 @@
       calc((100cqh - 1200px * var(--k)) / 2)
     )
     scale(var(--k));
+}
+/*
+ * A piece in a card, whatever the card's shape. Two regions of the piece, in its own pixels: its
+ * fill (--fill-x/y/w/h, by default all of it) covers the card, unless that would cut its focus
+ * (--focus-x/y/w/h), which always stays whole. A card names them for its piece (motion.tsx,
+ * fitStyle); a shot's focus is otherwise the region it crops to on a phone, a scene's its square,
+ * footage's its whole frame. Centred on the focus, kept over the card as far as the fill reaches,
+ * else the fill sits centred. Gives the scale (--k) and the offset (--tx, --ty).
+ */
+[data-vneo] .vn-tile-media[data-fit='crop'] .v6-stage {
+  --sw: 1920px;
+  --sh: 1080px;
+  --fx: var(--focus-x, var(--cx, 0px));
+  --fy: var(--focus-y, var(--cy, 0px));
+  --fw: var(--focus-w, var(--cw, 1920px));
+  --fh: var(--focus-h, var(--chp, 1080px));
+}
+[data-vneo] .vn-tile-media .v7-stage {
+  --sw: 1200px;
+  --sh: 1200px;
+  --fx: var(--focus-x, 0px);
+  --fy: var(--focus-y, 0px);
+  --fw: var(--focus-w, 1200px);
+  --fh: var(--focus-h, 1200px);
+}
+[data-vneo] .vn-tile-media[data-media='fit'] {
+  container-type: size;
+}
+[data-vneo] .vn-tile-media[data-media='fit'] > :is(video, img) {
+  --frame-w: 100cqw;
+  --frame-h: 100cqh;
+  --sw: var(--media-w);
+  --sh: var(--media-h);
+  --fx: var(--focus-x, 0px);
+  --fy: var(--focus-y, 0px);
+  --fw: var(--focus-w, var(--sw));
+  --fh: var(--focus-h, var(--sh));
+}
+[data-vneo]
+  :is(
+    .vn-tile-media[data-fit='crop'] .v6-stage,
+    .vn-tile-media .v7-stage,
+    .vn-tile-media[data-media='fit'] > :is(video, img)
+  ) {
+  --ax: var(--fill-x, 0px);
+  --ay: var(--fill-y, 0px);
+  --aw: var(--fill-w, var(--sw));
+  --ah: var(--fill-h, var(--sh));
+  --k: min(
+    max(
+      tan(atan2(var(--frame-w), var(--aw))),
+      tan(atan2(var(--frame-h), var(--ah)))
+    ),
+    tan(atan2(var(--frame-w), var(--fw))),
+    tan(atan2(var(--frame-h), var(--fh)))
+  );
+  --mx: calc((100cqw - var(--aw) * var(--k)) / 2 - var(--ax) * var(--k));
+  --my: calc((100cqh - var(--ah) * var(--k)) / 2 - var(--ay) * var(--k));
+  --tx: clamp(
+    min(calc(100cqw - (var(--ax) + var(--aw)) * var(--k)), var(--mx)),
+    calc(50cqw - (var(--fx) + var(--fw) / 2) * var(--k)),
+    max(calc(var(--ax) * -1 * var(--k)), var(--mx))
+  );
+  --ty: clamp(
+    min(calc(100cqh - (var(--ay) + var(--ah)) * var(--k)), var(--my)),
+    calc(50cqh - (var(--fy) + var(--fh) / 2) * var(--k)),
+    max(calc(var(--ay) * -1 * var(--k)), var(--my))
+  );
+}
+[data-vneo] :is(.vn-tile-media[data-fit='crop'] .v6-stage, .vn-tile-media .v7-stage) {
+  transform: translate(var(--tx), var(--ty)) scale(var(--k)) !important;
+  /* only the fill shows: where the card is wider or taller than it, the card's own ground does */
+  clip-path: inset(
+    var(--ay) calc(var(--sw) - var(--ax) - var(--aw))
+      calc(var(--sh) - var(--ay) - var(--ah)) var(--ax)
+  );
+}
+[data-vneo] .vn-tile-media[data-media='fit'] > :is(video, img) {
+  inset: auto;
+  left: 0;
+  top: 0;
+  width: calc(var(--sw) * var(--k));
+  height: calc(var(--sh) * var(--k));
+  object-fit: fill;
+  transform: translate(var(--tx), var(--ty));
 }
 [data-vneo] :is(.vn-pane, .vn-tile-media) .v7-replay {
   display: none;
@@ -1998,13 +2068,6 @@
   flex: 1;
   min-height: 220px;
 }
-/* scenes in wide tiles show whole (no cropping their top and bottom) */
-[data-vneo] .vn-tile-media[data-fit='full'] .v7-stage {
-  --k: min(
-    tan(atan2(var(--frame-w), 1200px)),
-    tan(atan2(var(--frame-h), 1200px))
-  );
-}
 [data-vneo] .vn-talk-slide,
 [data-vneo] .vn-years,
 [data-vneo] .vn-git {
@@ -2618,12 +2681,6 @@
     flex: 1 0 auto;
     aspect-ratio: 1;
     min-height: 0;
-  }
-  [data-vneo] .vn-cbento .vn-tile-media .v7-stage {
-    --k: min(
-      tan(atan2(var(--frame-w), 1200px)),
-      tan(atan2(var(--frame-h), 1200px))
-    );
   }
   [data-vneo] .vn-cbento :is(.vn-git, .vn-years) {
     flex: 1 0 auto;
