@@ -69,9 +69,13 @@ export function PanoSphere({ clock }: { clock: ShotClock }) {
     return startGL(cv, async (THREE, renderer) => {
       const scene = new THREE.Scene()
       const camera = new THREE.PerspectiveCamera(FOV, 1920 / 1080, 0.02, 100)
-      const tex = await new THREE.TextureLoader().loadAsync(
-        '/images/v6/pano-equirect.jpg'
-      )
+      // the same request as the DOM sheet's background (no CORS mode, which the page's own
+      // picture doesn't need), so the browser fetches it once for both
+      const img = new Image()
+      img.src = '/images/v6/pano-equirect.jpg'
+      await img.decode()
+      const tex = new THREE.Texture(img)
+      tex.needsUpdate = true
       tex.colorSpace = THREE.SRGBColorSpace
       tex.anisotropy = 8
       const mat = new THREE.ShaderMaterial({

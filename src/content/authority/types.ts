@@ -2,7 +2,9 @@
 export type PublicationState = 'ready' | 'review' | 'hold'
 
 export interface AuthorityMedia {
+  /** A picture, or footage that plays like an animated one (an .mp4, with a `poster`). */
   src: string
+  poster?: string
   alt: string
   caption?: string
   credit?: string

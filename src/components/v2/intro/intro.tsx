@@ -94,11 +94,31 @@ function wanted(root: HTMLElement) {
   }
 }
 
+/**
+ * The overlay's CSS failsafe has cleared it already: its script came after the visitor
+ * had been given the page (a slow connection). It stays away rather than coming back,
+ * and the page carries on as if it had landed on the name.
+ */
+let late = false
+function cleared(root: HTMLElement, el: HTMLElement) {
+  late ||= !!el.getAnimations?.().some((a) => {
+    const delay = a.effect?.getTiming().delay
+    return (
+      (a as CSSAnimation).animationName?.includes('failsafe') &&
+      typeof delay === 'number' &&
+      typeof a.currentTime === 'number' &&
+      a.currentTime >= delay
+    )
+  })
+  if (late) root.dataset.intro = 'done'
+  return late
+}
+
 // Start as soon as this module runs: the overlay is already in the HTML.
 if (typeof window !== 'undefined') {
   const root = document.querySelector<HTMLElement>('[data-intro-root]')
   const el = document.querySelector<HTMLElement>('[data-intro-overlay]')
-  if (root?.dataset.intro === 'on' && el) runPreflight(el, root)
+  if (root?.dataset.intro === 'on' && el && !cleared(root, el)) runPreflight(el, root)
 }
 
 export function Intro() {
@@ -111,6 +131,10 @@ export function Intro() {
     if (!root || !el) return
     let run = currentRun()
     if (!run) {
+      if (cleared(root, el)) {
+        setLive(false)
+        return
+      }
       const state = root.dataset.intro
       if (!(state === 'on' || (state === undefined && wanted(root)))) {
         root.dataset.intro = 'off'

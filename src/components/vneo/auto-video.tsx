@@ -31,44 +31,93 @@ function startOnTap() {
   document.addEventListener('click', go, { capture: true, passive: true })
 }
 
-/** Muted looping footage that plays on its own, unless the visitor asks for less motion. */
-export function AutoVideo({ src, poster, alt }: { src: string; poster: string; alt: string }) {
+/** The row it sits in when that row scrolls sideways (a phone's swipe rows), else itself. */
+function row(el: HTMLElement) {
+  for (let p = el.parentElement; p; p = p.parentElement) {
+    const x = getComputedStyle(p).overflowX
+    if (x === 'auto' || x === 'scroll') return p
+  }
+  return el
+}
+
+/**
+ * Muted looping footage that plays on its own, unless the visitor asks for less motion. It loads
+ * nothing, not even its poster, until it is near the screen, plays while it is, and rests off it, so
+ * footage further down never takes the connection from what the visitor is looking at. Footage at
+ * the top of a page (`eager`) has its poster in the page from the start, and starts loading with it.
+ */
+export function AutoVideo({
+  src,
+  poster,
+  alt,
+  eager = false,
+}: {
+  src: string
+  poster: string
+  alt: string
+  eager?: boolean
+}) {
   const ref = useRef<HTMLVideoElement>(null)
   useEffect(() => {
     const v = ref.current
     if (!v) return
+    const show = () => {
+      if (!v.poster) v.poster = poster
+    }
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      show()
       v.controls = true
       return
     }
-    if (!matchMedia(TOUCH).matches) {
-      v.play().catch(() => {
-        v.controls = true
-      })
-      return
-    }
-    // on a touch screen it plays while on screen and never shows a play button: a phone that refuses
-    // footage on its own (iOS in Low Power Mode) starts it with the visitor's first tap anywhere
+    // the poster comes with its row, so a tile further along a swipe row is ready when it is swiped to
+    const near = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return
+        show()
+        near.disconnect()
+      },
+      { rootMargin: '50% 0px' }
+    )
+    near.observe(row(v))
+    // on a touch screen it never shows a play button: a phone that refuses footage on its own
+    // (iOS in Low Power Mode) starts it with the visitor's first tap anywhere
+    const touch = matchMedia(TOUCH).matches
     const io = new IntersectionObserver(
       ([e]) => {
         if (e.isIntersecting) {
           onScreen.add(v)
+          show()
           v.play().catch(() => {
-            refused.add(v)
-            startOnTap()
+            if (!touch) v.controls = true
+            else {
+              refused.add(v)
+              startOnTap()
+            }
           })
         } else {
           onScreen.delete(v)
           v.pause()
         }
       },
-      { rootMargin: '25% 0px' }
+      { rootMargin: '50% 0px' }
     )
     io.observe(v)
     return () => {
+      near.disconnect()
       io.disconnect()
       refused.delete(v)
     }
-  }, [])
-  return <video ref={ref} src={src} poster={poster} aria-label={alt} muted loop playsInline preload="metadata" />
+  }, [poster])
+  return (
+    <video
+      ref={ref}
+      src={src}
+      poster={eager ? poster : undefined}
+      aria-label={alt}
+      muted
+      loop
+      playsInline
+      preload={eager ? 'metadata' : 'none'}
+    />
+  )
 }

@@ -370,7 +370,7 @@ function build(root: HTMLElement, tl: gsap.core.Timeline) {
 export function MachinesPhoneShot({ replay }: { replay: string }) {
   const near = useRef<HTMLDivElement>(null)
 
-  // the footage loads three screens ahead, the first machine's first; a muted play and pause
+  // the footage and its posters load three screens ahead, the first machine's first; a muted play and pause
   // gets a phone to buffer it (one that saves power refuses, and the posters stand in)
   useEffect(() => {
     const el = near.current
@@ -382,6 +382,7 @@ export function MachinesPhoneShot({ replay }: { replay: string }) {
         const shot = el.closest('.v6-shot')
         const vids = Array.from(el.parentElement?.querySelectorAll('video') ?? [])
         vids.forEach((v, j) => {
+          v.poster = v.dataset.poster ?? ''
           v.preload = 'auto'
           v.load()
           if (j < 2 && shot?.getAttribute('data-state') === 'idle')
@@ -463,9 +464,9 @@ export function MachinesPhoneShot({ replay }: { replay: string }) {
                 <div className="mp-in">
                   {c.img ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={c.img} alt="" />
+                    <img src={c.img} alt="" loading="lazy" />
                   ) : c.src ? (
-                    <video src={c.src} poster={c.poster} muted playsInline preload="none" />
+                    <video src={c.src} data-poster={c.poster} muted playsInline preload="none" />
                   ) : (
                     <div className="mp-pid">
                       <svg viewBox="0 0 640 480">
