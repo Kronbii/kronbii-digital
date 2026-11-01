@@ -3,6 +3,7 @@ import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js'
 
 import { buildDrone } from '@/components/three/drone/geometry'
+import { introModelBytes } from '@/components/v2/intro/timing'
 
 /*
  * The specimen's airframe, behind one small interface so the flight
@@ -94,7 +95,9 @@ function rotorBlurTexture(): THREE.CanvasTexture {
 export async function loadE58(labels: string[]): Promise<Airframe> {
   const loader = new GLTFLoader()
   loader.setMeshoptDecoder(MeshoptDecoder)
-  const gltf: GLTF = await loader.loadAsync(E58_URL)
+  // the intro may already have it, or have it on the way
+  const bytes = await introModelBytes()
+  const gltf: GLTF = bytes ? await loader.parseAsync(bytes, '') : await loader.loadAsync(E58_URL)
 
   const model = gltf.scene
   const materials: THREE.MeshStandardMaterial[] = []

@@ -530,7 +530,7 @@ export const LABEL =
 export function MachinesShot({ replay }: { replay: string }) {
   const near = useRef<HTMLDivElement>(null)
 
-  // the footage loads once the shot is near (a phone swaps in its own cut first, and loads that instead)
+  // the footage and its posters load once the shot is near (a phone swaps in its own cut first, and loads that instead)
   useEffect(() => {
     const el = near.current
     if (!el || matchMedia(PHONE).matches) return
@@ -541,6 +541,7 @@ export function MachinesShot({ replay }: { replay: string }) {
         el.parentElement
           ?.querySelectorAll('video')
           .forEach((v) => {
+            v.poster = v.dataset.poster ?? ''
             v.preload = 'auto'
             v.load()
           })
@@ -621,14 +622,14 @@ export function MachinesShot({ replay }: { replay: string }) {
                 {c.img ? (
                   <div className="lm-media lm-still" style={place(c)}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={c.img} alt="" />
+                    <img src={c.img} alt="" loading="lazy" />
                   </div>
                 ) : c.src ? (
                   <video
                     className="lm-media"
                     style={place(c)}
                     src={c.src}
-                    poster={c.poster}
+                    data-poster={c.poster}
                     muted
                     playsInline
                     preload="none"

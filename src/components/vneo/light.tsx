@@ -435,8 +435,8 @@ export function LightShot({ replay }: { replay: string }) {
         <div className="ll-act">
           <video
             className="ll-vid"
-            src="/images/authority/pid-light-tracker/video-two-axis-final.mp4"
-            poster="/images/authority/pid-light-tracker/video-two-axis-final-poster.jpg"
+            src="/images/authority/pid-light-tracker/video-two-axis-final-small.mp4"
+            poster="/images/authority/pid-light-tracker/video-two-axis-final-small-poster.jpg"
             muted
             playsInline
             preload="auto"

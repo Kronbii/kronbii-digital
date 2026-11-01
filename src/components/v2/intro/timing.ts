@@ -5,6 +5,19 @@ export const INTRO_COOKIE = 'v2-intro'
 export const INTRO_MODEL = '/models/eachine-e58-web.glb'
 export const INTRO_PRELOAD = [INTRO_MODEL]
 
+let modelBytes: Promise<ArrayBuffer | null> | undefined
+/**
+ * The E58's bytes, fetched once per page (picking up the home page's preload), so the intro and
+ * the hero's specimen share one download. Each caller gets its own copy: the intro hands its copy
+ * to a worker.
+ */
+export function introModelBytes(): Promise<ArrayBuffer | null> {
+  modelBytes ??= fetch(INTRO_MODEL)
+    .then((r) => (r.ok ? r.arrayBuffer() : null))
+    .catch(() => null)
+  return modelBytes.then((b) => b && b.slice(0))
+}
+
 /**
  * How fast the flight plays. The marks below are the choreography's own time,
  * in seconds of flight; the clock runs this many times faster than real time,

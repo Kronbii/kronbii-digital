@@ -3,7 +3,7 @@ import { gsap } from 'gsap'
 import { v2Intro } from '@/content/v2/home'
 
 import type { FlightReadout, PreflightScene, PreflightSize } from './preflight-scene'
-import { FLIGHT_SPEED, INTRO_COOKIE, INTRO_MODEL, PREFLIGHT as PF } from './timing'
+import { FLIGHT_SPEED, INTRO_COOKIE, PREFLIGHT as PF, introModelBytes } from './timing'
 
 /*
  * The preflight's driver. Plain DOM and GSAP over the server-rendered overlay,
@@ -159,11 +159,9 @@ export function runPreflight(el: HTMLElement, root: HTMLElement): PreflightRun {
   const onResize = () => layer?.resize()
   window.addEventListener('resize', onResize)
 
-  // The model was requested at first paint (the layout's preload); this picks up
+  // The model was requested at first paint (the page's preload); this picks up
   // that response, and the bytes go to whichever layer draws.
-  const modelBytes = fetch(INTRO_MODEL)
-    .then((r) => (r.ok ? r.arrayBuffer() : null))
-    .catch(() => null)
+  const modelBytes = introModelBytes()
 
   const workerLayer = (): Layer | null => {
     let w: Worker

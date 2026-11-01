@@ -265,7 +265,8 @@ export const projects: ProjectRecord[] = [
         caption: 'Simulated: where the sweep meets its start, chaining leaves a 2.09° break; after bundle adjustment it is 0.03°.',
       },
       {
-        src: '/images/authority/spherical-panorama/goat.webp',
+        src: '/images/authority/spherical-panorama/goat.mp4',
+        poster: '/images/authority/spherical-panorama/goat-poster.jpg',
         alt: 'Interactive Three.js viewer showing the reconstructed panorama being explored.',
         caption: 'View — the reconstructed geometry in the Three.js viewer.',
       },

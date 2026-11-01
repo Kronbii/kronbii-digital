@@ -189,7 +189,7 @@ export const plain: Record<string, PlainWork> = {
     part: 'Sole author',
     field: 'open',
     image: {
-      src: '/images/authority/imu-bench/plate.png',
+      src: '/images/authority/imu-bench/plate.webp',
       alt: 'An Inertial Sense RUG-3 enclosure drawn in 3D, tilted over a contour-line terrain, with its orange X, green Y and blue Z axes and mono callouts.',
     },
   },
@@ -279,7 +279,7 @@ export const plain: Record<string, PlainWork> = {
     part: 'Sole author',
     field: 'machines',
     image: {
-      src: '/images/authority/quadrotor-rotor-fault-recovery/plate.png',
+      src: '/images/authority/quadrotor-rotor-fault-recovery/plate.webp',
       alt: 'Plot of position error after one rotor stops in simulated hover: the nominal controller flips, the estimating pipeline recovers.',
     },
   },
@@ -301,7 +301,7 @@ export const plain: Record<string, PlainWork> = {
     part: 'Sole author',
     field: 'machines',
     image: {
-      src: '/images/authority/drone-control-bootcamp/plate.png',
+      src: '/images/authority/drone-control-bootcamp/plate.webp',
       alt: 'Plot of the seesaw rig’s beam angle under a single PID loop and a rate and angle cascade, with a tap at four seconds.',
     },
   },
@@ -312,7 +312,7 @@ export const plain: Record<string, PlainWork> = {
     part: 'Sole author',
     field: 'civic',
     image: {
-      src: '/images/authority/road-speed-audit/plate.png',
+      src: '/images/authority/road-speed-audit/plate.webp',
       alt: 'A rendered street scene labelled “Simulated scene”, with tracked vehicles showing measured and true speeds.',
     },
   },

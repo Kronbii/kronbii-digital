@@ -78,7 +78,7 @@ function tileFit(src: string): 'tall' | 'whole' | undefined {
 
 /** One picture or clip from the project, placed in the page where it belongs. */
 type Inline =
-  | { kind: 'image'; src: string; alt: string; caption?: string; step?: string }
+  | { kind: 'image'; src: string; poster?: string; alt: string; caption?: string; step?: string }
   | { kind: 'video'; src: string; poster: string; alt: string; caption?: string; step?: string }
 
 function InlineFigure({ m }: { m: Inline }) {
@@ -95,6 +95,9 @@ function InlineFigure({ m }: { m: Inline }) {
           playsInline
           preload="none"
         />
+      ) : m.src.endsWith('.mp4') ? (
+        // footage that stands in for an animated picture plays on its own, like one
+        <AutoVideo src={m.src} poster={m.poster ?? ''} alt={m.alt} />
       ) : (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={m.src} alt={m.alt} loading="lazy" />
@@ -234,7 +237,12 @@ export function Case({ slug }: { slug: string }) {
             </div>
           ) : p.videos?.length ? (
             <figure className="vn-case-video">
-              <AutoVideo src={p.videos[0].src} poster={p.videos[0].poster} alt={p.videos[0].alt} />
+              <AutoVideo
+                src={p.videos[0].src}
+                poster={p.videos[0].poster}
+                alt={p.videos[0].alt}
+                eager
+              />
               {p.videos[0].caption ? <figcaption>{p.videos[0].caption}</figcaption> : null}
             </figure>
           ) : slug === 'landmine-detection-extraction-robot' ? (

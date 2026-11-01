@@ -7,19 +7,51 @@ import { vneoChrome } from '@/content/vneo/site'
 // "S.T.A.Y." from Hans Zimmer's Interstellar score, whole, as a seamless 6:09 loop that
 // begins where the organ and bass bring in the theme:
 // its quiet ending laid over its quiet opening, evened out a little and set quiet
-// (-24 LUFS). Built by soundtrack/calm.py --stay.
+// (-24 LUFS). Built by soundtrack/calm.py --stay, then
+// `ffmpeg -i stay-loop.wav -c:a aac -b:a 96k -ar 48000 -movflags +faststart stay-loop.m4a`.
 const SRC = '/audio/stay-loop.m4a'
+// The loop's first 45 s, encoded the same way (the same command with `-t 45`), so it decodes
+// to the same samples: it arrives in seconds on a slow connection and plays while the whole
+// loop is on its way, and the loop takes over from it mid-phrase without a seam.
+const OPENING = '/audio/stay-opening.m4a'
 const KEY = 'vn-sound'
 const VOLUME = 0.8
 const FADE_IN = 1.5
 const FADE_OUT = 0.8
+const HANDOVER = 0.05 // the opening hands over to the loop in this long
+const TAIL = 2.5 // an opening that runs out before the loop arrives fades out over its last seconds
 const SAID = 5000 // how long the caption stays out when the music starts
 
 type Player = {
   ctx: AudioContext
   gain: GainNode
+  /** what is sounding, through a level of its own: the opening at first, then the loop */
   node?: AudioBufferSourceNode
+  level?: GainNode
+  /** when the opening started on the context's clock, while it is the one sounding */
+  openedAt?: number
+  opening?: Promise<AudioBuffer | undefined>
   buffer?: Promise<AudioBuffer>
+  loop?: AudioBuffer
+}
+
+const load = (ctx: AudioContext, url: string) =>
+  fetch(url, { priority: 'low' } as RequestInit)
+    .then((r) => r.arrayBuffer())
+    .then((b) => ctx.decodeAudioData(b))
+
+/** Plays `buffer` from `offset` at `at` on the context's clock, and returns its level. */
+function playFrom(p: Player, buffer: AudioBuffer, at: number, offset: number, loop: boolean) {
+  const level = p.ctx.createGain()
+  level.connect(p.gain)
+  const node = p.ctx.createBufferSource()
+  node.buffer = buffer
+  node.loop = loop
+  node.connect(level)
+  node.start(at, offset)
+  p.node = node
+  p.level = level
+  return level.gain
 }
 
 const touch = () => matchMedia('(hover: none)').matches
@@ -96,24 +128,56 @@ export function Sound() {
         hush.connect(p.ctx.destination)
         hush.start()
       }
-      p.buffer ??= fetch(SRC, { priority: 'low' } as RequestInit)
-        .then((r) => r.arrayBuffer())
-        .then((b) => p.ctx.decodeAudioData(b))
+      // the opening first, then the whole loop, so the two never share the connection
+      p.opening ??= load(p.ctx, OPENING).catch(() => undefined)
+      p.buffer ??= p.opening.then(() => load(p.ctx, SRC))
+      void p.opening.then((opening) => {
+        if (!opening || !wanted.current || p.node || p.loop) return
+        const at = p.ctx.currentTime
+        const level = playFrom(p, opening, at, 0, false)
+        p.openedAt = at
+        // only on a very slow connection does it run out before the loop is in: it fades out
+        level.setValueAtTime(1, at + opening.duration - TAIL)
+        level.linearRampToValueAtTime(0, at + opening.duration)
+        // scheduled on the context's clock: if it is still held, the fade waits for it
+        fadeTo(p, VOLUME, FADE_IN)
+      })
       p.buffer
         .then((buffer) => {
-          if (!wanted.current || p.node) return
-          const node = p.ctx.createBufferSource()
-          node.buffer = buffer
-          node.loop = true
-          node.connect(p.gain)
-          node.start()
-          p.node = node
-          // scheduled on the context's clock: if it is still held, the fade waits for it
-          fadeTo(p, VOLUME, FADE_IN)
+          p.loop = buffer
+          if (!wanted.current) return
+          const opened = p.openedAt
+          const prev = p.node
+          if (opened === undefined || !prev?.buffer) {
+            if (prev) return
+            playFrom(p, buffer, p.ctx.currentTime, 0, true)
+            fadeTo(p, VOLUME, FADE_IN)
+            return
+          }
+          // the loop takes over from the opening where it has got to
+          const prevLevel = p.level!.gain
+          const end = prev.buffer.duration
+          const at = p.ctx.currentTime + HANDOVER
+          const pos = at - opened
+          p.openedAt = undefined
+          const level = playFrom(p, buffer, at, Math.min(pos, end), true)
+          level.setValueAtTime(0, at)
+          if (pos < end - TAIL) {
+            // the same samples: a crossfade too short to hear
+            level.linearRampToValueAtTime(1, at + HANDOVER)
+            prevLevel.cancelScheduledValues(at)
+            prevLevel.setValueAtTime(1, at)
+            prevLevel.linearRampToValueAtTime(0, at + HANDOVER)
+            prev.stop(at + HANDOVER)
+          } else {
+            // the opening is fading out or has stopped: the loop comes back in where it got to
+            level.linearRampToValueAtTime(1, at + FADE_IN)
+          }
         })
         .catch(() => {
           wanted.current = false
           setWanting(false)
+          fadeTo(p, 0, FADE_OUT)
         })
       if (p.node) fadeTo(p, VOLUME, FADE_IN)
     },
@@ -129,6 +193,8 @@ export function Sound() {
     fadeTo(p, 0, FADE_OUT)
     const node = p.node
     p.node = undefined
+    p.level = undefined
+    p.openedAt = undefined
     setTimeout(() => {
       node?.stop()
       if (!wanted.current) void p.ctx.suspend()

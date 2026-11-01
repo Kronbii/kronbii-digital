@@ -175,8 +175,8 @@ export const showcase: ShowItem[] = [
     size: 'big',
     area: 'mine',
     image: {
-      src: '/images/authority/landmine/navigation.mp4',
-      poster: '/images/authority/landmine/navigation-poster.jpg',
+      src: '/images/authority/landmine/navigation-tile.mp4',
+      poster: '/images/authority/landmine/navigation-tile-poster.jpg',
     },
   },
   {
@@ -211,8 +211,8 @@ export const showcase: ShowItem[] = [
     size: 'wide',
     area: 'road',
     image: {
-      src: '/images/authority/road-speed-audit/a40-speed-overlay.mp4',
-      poster: '/images/authority/road-speed-audit/a40-speed-overlay-poster.jpg',
+      src: '/images/authority/road-speed-audit/a40-tile.mp4',
+      poster: '/images/authority/road-speed-audit/a40-tile-poster.jpg',
     },
   },
   {
