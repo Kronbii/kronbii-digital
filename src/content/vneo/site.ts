@@ -165,8 +165,7 @@ export type ShowItem = WorkItem & {
 /**
  * The work, as one tight grid, from most to least important: the landmine
  * robot and the drone first, then OmniSign, the rotor-fault study, the
- * road-speed audit and the thermal model. The first four pieces with motion
- * play in turn like a reel.
+ * road-speed audit and the thermal model.
  */
 export const showcase: ShowItem[] = [
   {
@@ -279,8 +278,6 @@ export const showcase: ShowItem[] = [
     },
   },
 ]
-/** How many of the first motion tiles play in turn when the grid arrives. */
-export const FEATURED = 4
 
 /** In the community: the work built for people, and the rooms where it is shared. */
 const scene = (id: Chapter['id']) => chapters.find((c) => c.id === id)!

@@ -4,22 +4,19 @@ import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { AutoVideo } from '@/components/vneo/auto-video'
-import { FEATURED, showcase, vneo, VN } from '@/content/vneo/site'
+import { showcase, vneo, VN } from '@/content/vneo/site'
 
-import { Motion, replayIn } from './motion'
+import { Motion, playIn, restIn } from './motion'
 import { Slate } from './slate'
 
 /*
  * Selected work, with no scroll to sit through: v4's slate, then one tight
- * v3 bento. The four featured pieces hold the big tiles and, when the grid
- * comes into view, play one after another like a reel, each lit while it
- * runs; any tile plays again on hover or focus. "Watch" opens a theater: the
- * piece at full size with what it shows, what it is, my part, and the fact to
- * check, stepping to the previous or next piece. On touch screens each tile
- * plays as it comes into view.
+ * v3 bento. Every card rests on a still, so the grid reads calmly: a card
+ * plays while it is pointed at or focused, and on a touch screen while it
+ * crosses the middle of the screen. "Watch" opens a theater: the piece at full
+ * size with what it shows, what it is, my part, and the fact to check,
+ * stepping to the previous or next piece.
  */
-
-const STEP = 3300 // ms per featured piece in the opening run
 
 export function Work() {
   const c = vneo.work
@@ -29,50 +26,24 @@ export function Work() {
   const watchable = showcase
     .map((t, i) => (t.motion ? i : -1))
     .filter((i) => i >= 0)
-  const featured = new Set(watchable.slice(0, FEATURED))
 
-  // the opening run: the featured tiles play in turn, once, while the grid is in view
+  // with no pointer to hover with, the card crossing the middle of the screen plays, and only that one
   useEffect(() => {
     const el = grid.current
     if (!el) return
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return
-    const tiles = Array.from(el.querySelectorAll<HTMLElement>('[data-feature]'))
-    let timer = 0
-    let stopped = false
-    let k = 0
-    const clear = () => tiles.forEach((t) => delete t.dataset.live)
-    const stop = () => {
-      stopped = true
-      clearTimeout(timer)
-      clear()
-    }
-    const next = () => {
-      if (stopped) return
-      clear()
-      if (k >= tiles.length) return
-      const t = tiles[k++]
-      t.dataset.live = ''
-      replayIn(t)
-      timer = window.setTimeout(next, STEP)
-    }
+    if (matchMedia('(hover: hover) and (pointer: fine)').matches) return
     const io = new IntersectionObserver(
-      ([e]) => {
-        if (e.intersectionRatio >= 0.3) {
-          io.disconnect()
-          next()
-        }
-      },
-      { threshold: [0, 0.3] }
+      (es) =>
+        es.forEach((e) =>
+          (e.isIntersecting ? playIn : restIn)(e.target as HTMLElement)
+        ),
+      { rootMargin: '-40% -30% -40% -30%' }
     )
-    io.observe(el)
-    // the reader takes over: any hover ends the run
-    el.addEventListener('pointerover', stop, { once: true })
-    return () => {
-      io.disconnect()
-      stop()
-      el.removeEventListener('pointerover', stop)
-    }
+    el.querySelectorAll<HTMLElement>(':scope > .vn-tile').forEach((t) =>
+      io.observe(t)
+    )
+    return () => io.disconnect()
   }, [])
 
   // the theater
@@ -120,9 +91,10 @@ export function Work() {
             key={item.slug}
             className={`vn-tile is-${item.size}`}
             style={{ '--area': item.area } as React.CSSProperties}
-            data-feature={featured.has(i) ? '' : undefined}
-            onPointerEnter={(ev) => replayIn(ev.currentTarget)}
-            onFocusCapture={(ev) => replayIn(ev.currentTarget)}
+            onPointerEnter={(ev) => playIn(ev.currentTarget)}
+            onPointerLeave={(ev) => restIn(ev.currentTarget)}
+            onFocusCapture={(ev) => playIn(ev.currentTarget)}
+            onBlurCapture={(ev) => restIn(ev.currentTarget)}
           >
             {item.external ? (
               <a
@@ -154,7 +126,7 @@ export function Work() {
               }
             >
               {item.motion ? (
-                <Motion motion={item.motion} label={item.alt} tile />
+                <Motion motion={item.motion} label={item.alt} tile held />
               ) : item.figure ? (
                 <div className="vn-figure">
                   <span>
@@ -172,6 +144,7 @@ export function Work() {
                   src={item.image.src}
                   poster={item.image.poster ?? ''}
                   alt={item.alt}
+                  held
                 />
               ) : item.image ? (
                 // eslint-disable-next-line @next/next/no-img-element

@@ -1521,13 +1521,6 @@
 [data-vneo] .vn-tile.is-big .vn-tile-cap h3 {
   font-size: 1.45rem;
 }
-/* the piece now playing in the opening run */
-[data-vneo] .vn-tile[data-live] {
-  box-shadow:
-    0 0 0 2px var(--sage),
-    -3px 0 0 rgba(var(--fr-m), 0.5),
-    3px 0 0 rgba(var(--fr-g), 0.5);
-}
 [data-vneo] .vn-watch {
   position: absolute;
   z-index: 5;
@@ -1559,8 +1552,7 @@
   fill: currentColor;
 }
 [data-vneo] .vn-tile:hover .vn-watch,
-[data-vneo] .vn-tile:focus-within .vn-watch,
-[data-vneo] .vn-tile[data-live] .vn-watch {
+[data-vneo] .vn-tile:focus-within .vn-watch {
   opacity: 1;
   transform: none;
 }
