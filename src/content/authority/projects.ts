@@ -57,8 +57,7 @@ export const projects: ProjectRecord[] = [
           'GPS accuracy, RF link quality, and flight performance evaluated under the GNSS jamming that is common in Lebanon.',
       },
     ],
-    limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',],
+    limits: [],
     sources: [
       {
         label: 'Betaflight',
@@ -214,7 +213,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Pure-rotation camera model — translation while sweeping introduces parallax that no homography can explain.',
       'A phone-height horizontal sweep sees a band around the viewer, so the poles are never captured; filling is not reconstruction.',
       'Blank walls and repeated textures weaken ORB matching and can force interpolation.',
@@ -394,7 +392,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Tuning is system-specific; a gain set that behaves on one plant will misbehave on another.',
       'Autotuning drives the process into sustained oscillation and requires safe actuator bounds, a tolerant process, and a person ready to stop the run.',
       'Filter and anti-windup behavior are choices with tradeoffs; the library exposes them rather than hiding them.',
@@ -678,7 +675,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'We finished second: announced third in July 2023, and re-ranked to second afterwards.',
       'Twenty days only leaves so much time to optimise or document each subsystem.',
       'Track and traffic-sign behavior are tied to the WRO Future Engineers 2023 environment and cannot be generalized without new testing.',
@@ -817,7 +813,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Reported quality numbers are dataset-specific and become less constrained at larger enlargement factors.',
       '“Real time” is a property of a full pipeline on named hardware at a named input size, not of a model file. On an RTX 3070 laptop GPU it runs at about 130 FPS at ×2 and 60 FPS at ×4; on the Jetson Orin the drone carries, 20–30 FPS, faster than a thermal camera delivers frames.',
       'The next real test is task-based: does downstream detection actually improve?',
@@ -937,7 +932,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'PID tuning is system-specific; per-axis gains may differ because inertia and friction differ per axis.',
       'Sensor noise can turn derivative action into jitter unless it is filtered.',
     ],
@@ -1035,7 +1029,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'It needs a frame that shows the crack itself. Given only a thick mask, it traces the mask’s outline, not its centreline, and the default ORB corners can be too few to draw a path at all.',
       'The toolkit begins after segmentation and is not a crack detector.',
       'Validation at dataset scale, across crack types, widths, and imaging conditions, is the next step.',
@@ -1120,7 +1113,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'The service extracts and does not prescribe, dispense, or check interactions.',
       'Every result has to be checked by a person against the source image.',
       'Real prescription images can contain personal health information, so I don’t use them as demos.',
@@ -1204,7 +1196,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Daleel is independent: it is not an official election authority and has no institutional or political affiliation.',
       'I don’t present its dataset as complete, live, or officially certified.',
       'Correction workflows, contributor governance, legal review, and a visible policy for disputed information remain institutional work that a database cannot do on its own.',
@@ -1316,7 +1307,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'The trainer is not an official government application.',
       'Rules and exam procedures can change, so the question source and its update date should always be visible.',
       'Progress belongs to one browser unless a future feature exports or moves it.',
@@ -1415,7 +1405,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'The console is an internal admin tool for a technical assessment. It is not a customer-facing help desk.',
       'Local-first operation is a privacy and repeatability choice; it also creates operational responsibilities around model availability, queue state, and migrations.',
       'A failed inference and a failed support request are separate failure modes and are handled as such.',
@@ -1497,7 +1486,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Long-term reliability is the next bar to clear: migration tests, backup restoration, import validation, and rounding and currency handling.',
     ],
     media: [
@@ -1602,7 +1590,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Sync conflicts resolve last-write-wins, so if two devices edit the same entry before syncing, the later edit is the one kept.',
       'Exchange rates are the ones you set: totals stay in USD, and each entry keeps the USD value it was logged at.',
       'The iPhone app is built on a Mac and installed from Xcode.',
@@ -1745,7 +1732,6 @@ export const projects: ProjectRecord[] = [
       { label: 'Runs on', value: 'Phones & boards', context: 'iPhone 13 Pro, Raspberry Pi 5, Jetson, DX Robotics' },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'The 98% is an internal evaluation under controlled conditions; real use varies with lighting, camera angle, and signing speed.',
       'It recognizes the alphabet and a set of everyday words and expressions, not unrestricted continuous signing.',
     ],
@@ -1851,7 +1837,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'The repository also covers handwriting capture, a music player, and desk-to-desk messaging; this page sticks to the posture loop.',
       'It is a prototype: the posture model was tuned on our own team, not on a classroom of students.',
     ],
@@ -1932,7 +1917,6 @@ export const projects: ProjectRecord[] = [
       { label: 'Status', value: 'Ongoing', context: 'simulation project, since 2026' },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'It’s a simulation project: the flight tests simulate runway conditions rather than fly over a real runway.',
       'The model learned from online and synthetic images, so the 75–80% says how it does on that kind of data. Real debris on a real runway is the harder test.',
     ],
@@ -2022,7 +2006,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'The ~92% is development accuracy on the data I combined. It doesn’t tell you how it will do with one particular child in one particular room.',
       'It reads facial expressions, and an expression is not always what someone feels. It is a support tool, not a diagnosis.',
     ],
@@ -2141,7 +2124,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'These are small changes, not architecture work; the value is in the diagnosis and the tests, not the line count.',
       'My PX4 pull request was not the one merged: the maintainers kept #28283, opened first with the same fix, so I don’t count mine as an accepted contribution.',
     ],
@@ -2246,7 +2228,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'It aggregates public information only: no patient-level data, and it is not an epidemiological product.',
       'The source parsers are specific to one outbreak and its feeds; this is not a general surveillance system.',
       'There is no automated test suite yet, and the only documentation is a handoff note.',
@@ -2335,7 +2316,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Basira is in development. Benchmarks on public datasets guide the engineering but say nothing about clinical performance; the clinical validation study has not been run, and Basira is not a medical device.',
       'The live deployment uses a demo clinic and demo data only.',
     ],
@@ -2423,7 +2403,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'The photographs belong to the client, so none appear here, and the code is private.',
       'Style transfer is per photographer; the model does not generalize across agencies.',
     ],
@@ -2493,7 +2472,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Prototype authentication with one local workspace; live device ingestion is deferred; HIPAA and GDPR are designed-for-later, not implemented.',
       'All patient data in the demo is synthetic, including generated dermoscopic imagery.',
       'The device and its classifier belong to the product owner, so I don’t go into them here.',
@@ -2571,7 +2549,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Client names and outcomes stay private unless a client agrees otherwise.',
       'PadelEye is an early prototype with trained weights and scaffolding, not a product.',
     ],
@@ -2635,7 +2612,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'The physics is deliberately simplified, and the README says empirical tuning is needed.',
       'Wiring documentation is a placeholder and exact part numbers are not recorded.',
       'There are no test results or media in the repository; it is early mechatronics work, not a finished system.',
@@ -2724,7 +2700,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Roughly a third of the quest catalogue cannot be proven by a photo at all: a picture of a book does not show you read twenty pages, and “spend an hour with no phone” is photographed by the phone. For those quests the check only judges whether the photo is authentic, and a person still decides.',
       'The automated check is live in production. It was built to run in shadow mode first, recording what it would have decided while a moderator made the call, and to act on its own only where its verdicts agree with real moderator decisions.',
       'Some partner analytics, like a quest card being shown, are reported by the phone and cannot be confirmed by the server, so the dashboard keeps them apart from completions the backend recorded itself.',
@@ -2824,7 +2799,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Early prototype: the repository is days old, has no backend, no authentication, and no store release.',
       'A planned SOS and group-ride feature would involve location and emergency-contact data and is not built.',
       'Rami’s specific contribution is not yet stated on this page.',
@@ -2934,7 +2908,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Everything is simulation or software-in-the-loop. Nothing has flown with a fault yet, and the vehicle parameters are assumed rather than identified on a real frame.',
       'Simulated and Gazebo sensors are far cleaner than a vibrating 5-inch frame, so the false-alarm numbers are optimistic.',
       'In PX4 software-in-the-loop the diagnoser ran offline on the flight logs; no fault-tolerant controller ran inside PX4.',
@@ -3060,7 +3033,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Not built and not tested under the sky. Every performance figure is a model prediction.',
       'The lead screw’s periodic error, assumed ±4 µm, is the largest uncertainty and dominates the predicted budget.',
       'Single axis: declination drift can be measured, not corrected.',
@@ -3177,7 +3149,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Not taught yet: no student has taken the course, so I can’t say yet what students learn from it. A pilot plan says what the first cohort will measure.',
       'No rig has been built from the documents. The printable parts have not been printed, and the sketches’ motor and IMU drivers have been compiled but not run on hardware.',
       'Rig parameters, capstone pass limits and performance figures come from simulation with assumed values; session timings are estimates.',
@@ -3308,7 +3279,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'Every figure comes from simulated video: a flat, straight road, an ideal lens and box-shaped vehicles. The tool has not been checked against radar or GPS on a real road; a field protocol for that is written. Its first run on real footage, a public motorway clip, has no reference speeds to compare against.',
       'The method was tuned on the same simulator, on other seeds, so real video will likely do worse than these numbers.',
       'Accuracy falls quickly with distance: at 75 m the 95th-percentile error is 7.6 km/h and fewer than half the vehicles are measured. A lamp post in the line of sight cut the share measured from 86 % to 50 %.',
@@ -3448,7 +3418,6 @@ export const projects: ProjectRecord[] = [
       { label: 'DARE @ LAU', value: '3rd place', context: 'April 2024, the first universities robotics competition' },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'The outdoor tests were small, early trials with dummy mines; there are no quantified outdoor results yet.',
       'The arm is a proof of concept: it moves obstacles and shows how a mine could be handled, not a finished extraction tool.',
     ],
