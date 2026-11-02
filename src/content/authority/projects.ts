@@ -3486,9 +3486,9 @@ export const projects: ProjectRecord[] = [
     metaTitle:
       'Four-cylinder engine simulator in MATLAB',
     metaDescription:
-      'MATLAB scripts that simulate a four-cylinder spark-ignition engine: slider-crank kinematics, a thermodynamic cycle, crank torque, a flywheel, and gear ratios.',
+      'MATLAB simulator of a four-cylinder spark-ignition engine: slider-crank kinematics, a first-law cycle with heat transfer and gas exchange, crank torque, a flywheel, full-load torque and power curves, and gear ratios.',
     summary:
-      'A MATLAB simulator I wrote as the main project of the Automotive Engineering course at RHU, in fall 2024. They simulate a four-stroke, four-cylinder spark-ignition engine at 2000 rpm over a full 720° cycle: the slider-crank kinematics, a single-zone thermodynamic cycle, the crank torque of one cylinder and of all four, a flywheel to smooth it, the engine’s performance figures, and the ratios of an eight-speed gearbox.',
+      'A MATLAB simulator I wrote as the main project of the Automotive Engineering course at RHU, in fall 2024, since reworked into a first-law cycle simulation. It follows a 2.0 L four-stroke, four-cylinder spark-ignition engine through a full 720° cycle: the slider-crank kinematics, the gas in a cylinder with its burn, the heat it loses to the walls and its flow through the valves, the crank torque of one cylinder and of all four, a flywheel and the crank speed it allows, full-load torque and power from 1000 to 6000 rpm, and the ratios of an eight-speed gearbox.',
     role: 'Sole author, Automotive Engineering course project.',
     form: 'diagram',
     schemaType: 'SoftwareSourceCode',
@@ -3501,81 +3501,103 @@ export const projects: ProjectRecord[] = [
     },
     videos: [
       {
-        src: '/images/authority/ice-engine/four-cylinder-animation.mp4',
-        poster: '/images/authority/ice-engine/four-cylinder-animation-poster.jpg',
-        alt: 'Four slider-cranks turning together through one 720° cycle, each cylinder’s chamber flashing as it fires in the order 1-3-4-2, with a crank-angle readout.',
-        caption: 'The four-cylinder animation from the simulator: one full cycle, firing order 1-3-4-2.',
+        src: '/images/authority/ice-engine/engine-simulation.mp4',
+        poster: '/images/authority/ice-engine/engine-simulation-poster.jpg',
+        alt: 'The four cylinders of the simulated engine turning through three cycles: pistons, rods and cranks to scale, the gas in each cylinder coloured by its temperature, a flame at each ignition and the ports lighting up as the valves open, beside live charts of cylinder pressure, the pressure–volume loop and crank torque.',
+        caption: 'The engine running, drawn from the simulator’s own results: four cylinders firing 1-3-4-2, slowed 133 times.',
+      },
+      {
+        src: '/images/authority/ice-engine/simulation-run.mp4',
+        poster: '/images/authority/ice-engine/simulation-run-poster.jpg',
+        alt: 'A run of the simulator: the console prints the cycle converging, the performance figures and the gear ratios, while each graph the scripts produce draws itself in, ending on a card of the results.',
+        caption: 'A full run of the scripts in GNU Octave: every line they print and every figure they draw.',
       },
     ],
     media: [
-      { src: '/images/authority/ice-engine/pv-diagram.webp', step: 'Thermodynamic cycle', alt: 'Pressure–volume diagram of one cylinder over a full cycle, coloured by phase.', caption: 'The P–V loop of one cylinder: the work per cycle is its area, about 460 J.' },
-      { src: '/images/authority/ice-engine/pressure-crank-angle.webp', step: 'Thermodynamic cycle', alt: 'Cylinder pressure against crank angle, with intake, compression, combustion, expansion, and exhaust shaded.', caption: 'Pressure over the 720° cycle, peaking near 34 atm after ignition.' },
-      { src: '/images/authority/ice-engine/torque-four-cylinder.webp', step: 'Torque', alt: 'Crank torque of four cylinders 180° apart, summed, with its mean.', caption: 'Four cylinders 180° apart: a mean of about 146 N·m.' },
-      { src: '/images/authority/ice-engine/torque-flywheel.webp', step: 'Flywheel and performance', alt: 'Torque before and after adding the flywheel, with the surplus-energy area shaded.', caption: 'The flywheel absorbs about 370 J of surplus energy per cycle.' },
-      { src: '/images/authority/ice-engine/piston-velocity.webp', step: 'Kinematics', alt: 'Piston velocity against crank angle with and without an 18 mm crank offset.', caption: 'Piston velocity with and without the 18 mm offset.' },
-      { src: '/images/authority/ice-engine/gear-ratios.webp', step: 'Gearbox', alt: 'Bar chart of the eight gear ratios from 5.38 in first to 0.64 in eighth.', caption: 'The eight gear ratios, 5.38 down to 0.64, with sixth as direct drive.' },
+      { src: '/images/authority/ice-engine/results/pv-diagram.webp', step: 'Thermodynamic cycle', alt: 'Pressure–volume diagram of one cylinder over a full cycle, coloured by phase.', caption: 'The P–V loop of one cylinder at 2000 rpm: 501 J of net work per cycle, from a peak of 59 bar.' },
+      { src: '/images/authority/ice-engine/results/heat-release.webp', step: 'Thermodynamic cycle', alt: 'Heat release rate of the Wiebe burn and the heat lost to the walls, against crank angle.', caption: 'The burn releases the fuel’s heat over 60° from the spark; about a fifth of it goes to the walls.' },
+      { src: '/images/authority/ice-engine/results/gas-exchange.webp', step: 'Gas exchange', alt: 'Mass flow through the intake and exhaust valves over the cycle, with the valve lifts shaded.', caption: 'Choked blowdown as the exhaust valve opens, then the piston pushes the rest out; a little backflow at each end of the intake.' },
+      { src: '/images/authority/ice-engine/results/torque-single-cylinder.webp', step: 'Torque', alt: 'Crank torque of one cylinder, split into its gas and inertia parts.', caption: 'One cylinder’s torque, split into the push of the gas and the inertia of the moving parts.' },
+      { src: '/images/authority/ice-engine/results/torque-four-cylinder.webp', step: 'Torque', alt: 'Crank torque of four cylinders 180° apart, summed, with its mean.', caption: 'Four cylinders 180° apart: a mean of 160 N·m before friction.' },
+      { src: '/images/authority/ice-engine/results/speed-fluctuation.webp', step: 'Flywheel', alt: 'Crank speed over the cycle with the flywheel, around 2000 rpm.', caption: 'With a 10.6 cm flywheel the crank speed swings by the 4% it was sized for.' },
+      { src: '/images/authority/ice-engine/results/torque-power-curve.webp', step: 'Performance and speed sweep', alt: 'Full-load brake torque and brake power from 1000 to 6000 rpm.', caption: 'Full load: 138 N·m at 1500 rpm and 45.1 kW at 4000 rpm.' },
+      { src: '/images/authority/ice-engine/results/gear-ratios.webp', step: 'Gearbox', alt: 'Bar chart of the eight gear ratios from 5.48 in first to 0.64 in eighth, with the road speed in each gear.', caption: 'The eight ratios, 5.48 down to 0.64, with the road speed in each gear at 4000 rpm.' },
     ],
     answer: {
-      what: 'A MATLAB model of a four-stroke, four-cylinder spark-ignition engine through one full cycle, from the geometry of its crank to the gear ratios of the car it drives.',
+      what: 'A MATLAB model of a 2.0 L four-stroke, four-cylinder spark-ignition engine, from the geometry of its crank through the gas in its cylinders to its torque curve and the gear ratios of the car it drives.',
       problem:
-        'An engine is one chain of dependencies: the crank geometry sets the cylinder volume, the volume sets the pressure, the pressure and the moving masses set the torque, and the torque decides the flywheel and the gearbox. Simulating it means following that chain end to end.',
-      how: 'One file holds every parameter. A slider-crank solution gives piston motion and cylinder volume at each crank angle. A single-zone cycle with polytropic strokes, Wiebe combustion and orifice-flow gas exchange is iterated until its temperature converges. A linear force and moment solve gives the crank torque, four phase-shifted cylinders are summed, and the result sizes a flywheel and an eight-speed gearbox.',
-      role: 'I wrote the whole simulator, as the main project of the Automotive Engineering course at RHU in fall 2024.',
+        'An engine is one chain of dependencies: the crank geometry sets the cylinder volume, the volume and the valves set how much charge a cylinder holds, the burn and the walls set the pressure, the pressure and the moving masses set the torque, and the torque decides the flywheel and what the gearbox has to work with. Simulating it means following that chain end to end.',
+      how: 'One file holds every parameter. A closed-form slider-crank solution gives piston motion and cylinder volume at each crank angle. A first-law model follows the gas in one cylinder over the whole cycle, with a Wiebe burn, Woschni heat transfer and compressible flow through lifting valves, and repeats until the cycle comes back to where it started. A linear force and moment solve gives the crank torque; four phase-shifted cylinders are summed, and the result sizes a flywheel. Running the cycle from 1000 to 6000 rpm gives the full-load torque and power, and an eight-speed gearbox is designed for the vehicle.',
+      role: 'I wrote the simulator as the main project of the Automotive Engineering course at RHU in fall 2024. The version shown here is a later rework that fixes the original’s bugs and replaces its gas cycle.',
     },
     measurements: [
-      { label: 'Engine power', value: '30.6 kW', context: 'four cylinders at 2000 rpm' },
-      { label: 'Mean torque', value: '146 N·m', context: 'four cylinders' },
-      { label: 'Fuel conversion', value: '28%', context: 'efficiency' },
-      { label: 'Flywheel', value: '13.6 cm', context: 'radius of a 50 mm steel disc, for a 4% speed fluctuation' },
+      { label: 'Peak torque', value: '138 N·m', context: 'at 1500 rpm, full load' },
+      { label: 'Peak power', value: '45.1 kW', context: 'at 4000 rpm' },
+      { label: 'Brake efficiency', value: '28.6%', context: 'at 2000 rpm, 289 g/kWh' },
+      { label: 'Flywheel', value: '10.6 cm', context: 'radius of a 50 mm steel disc, for a 4% speed fluctuation' },
     ],
     stages: [
       {
         step: '01',
         title: 'Parameters',
         detail:
-          'One file holds every input: link lengths and masses, 2000 rpm, valve and combustion timing in crank degrees, gas properties, and the flywheel and transmission constants.',
+          'One file holds every input: link lengths and masses, the design speed and the speeds to sweep, valve and spark timing in crank degrees, gas and fuel properties, heat-transfer and friction constants, and the flywheel and vehicle constants.',
       },
       {
         step: '02',
         title: 'Kinematics',
         detail:
-          'Piston position, velocity and acceleration, connecting-rod angle and cylinder volume at every crank angle, for a cylinder axis through the crankshaft (compression ratio 9.8) and one offset by −18 mm (10.1).',
+          'A closed-form slider-crank solution gives piston position, velocity and acceleration, the rod’s motion and the cylinder volume at every crank angle, for a cylinder axis through the crankshaft (compression ratio 9.8) and one offset by −18 mm (10.1), checked against numerical derivatives.',
       },
       {
         step: '03',
         title: 'Thermodynamic cycle',
         detail:
-          'Polytropic compression and expansion; a Wiebe burn (a = 5, m = 2) over 60° around top dead centre toward a constant-volume end-of-combustion state; exhaust blowdown and intake as compressible orifice flow with residual-gas mixing; repeated until the cycle temperature converges.',
+          'The first law for the gas in one cylinder, in steps of a tenth of a degree: a Wiebe burn (a = 5, m = 2) over 60° from a spark at 30° before top dead centre, Woschni heat transfer to the walls, and separate properties for fresh and burned gas.',
       },
       {
         step: '04',
-        title: 'Torque',
+        title: 'Gas exchange',
         detail:
-          'At each crank angle an 8×8 linear system of forces and moments, with masses, rod inertia, gravity and gas force, gives the crank torque; four cylinders shifted by 180° are summed.',
+          'Valves that lift and fall, with compressible flow through them, choked or subsonic, in either direction: blowdown, backflow and the residual gas left behind. The cycle repeats until it comes back to the state it started from.',
       },
       {
         step: '05',
-        title: 'Flywheel and performance',
+        title: 'Torque',
         detail:
-          'A flywheel sized from the torque-excess energy for a 0.04 speed-fluctuation coefficient, as a steel disc 50 mm thick; work, indicated and brake power, MEP and BMEP, efficiencies, specific fuel consumption, volumetric efficiency and piston speed.',
+          'At each crank angle an 8×8 linear system of forces and moments, with masses, rod inertia, gravity, the gas force and the crankcase pressure, gives the crank torque, split into its gas and inertia parts; four cylinders 180° apart are summed.',
       },
       {
         step: '06',
-        title: 'Gearbox',
+        title: 'Flywheel',
         detail:
-          'Eight gear ratios solved with fsolve between a top speed of 245 km/h and a first gear for a 2600 kg vehicle on a 7 % grade.',
+          'The largest swing in shaft energy over the cycle sizes a steel flywheel 50 mm thick for a 4% speed fluctuation, and the crank speed it allows is worked out from the torque.',
       },
       {
         step: '07',
+        title: 'Performance and speed sweep',
+        detail:
+          'IMEP, pumping and friction losses (Heywood’s correlation), BMEP, power, torque, efficiencies, BSFC and volumetric efficiency, then the cycle again from 1000 to 6000 rpm for the full-load torque and power curves.',
+      },
+      {
+        step: '08',
+        title: 'Gearbox',
+        detail:
+          'Eight progressive ratios between a top speed of 245 km/h and a first gear for a 2600 kg vehicle on a 7 % grade, solved exactly, with the road speed in each gear.',
+      },
+      {
+        step: '09',
         title: 'Animation',
-        detail: 'The four slider-cranks drawn moving together, each cylinder flashing as it fires.',
+        detail:
+          'The four cylinders running from the results: pistons, valves, gas temperature and a spark at each ignition.',
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
-      'The mean effective pressures the scripts print are about half what they should be: the displacement constant is smaller than the engine’s swept volume of about 503 cc.',
-      'Friction is a flat 10 % of indicated power, and there is no heat transfer to the cylinder walls, no emissions model and no knock.',
-      'The engine turns at one fixed speed, and the speed-fluctuation curve is an idealised sine between the flywheel’s limits, not a simulation of the shaft.',
+      'A single-zone model: one temperature for the whole charge, a Wiebe burn rather than a combustion model, and no knock or emissions.',
+      'The manifolds are held at atmospheric pressure, and one 33 mm valve per port without overlap limits the breathing, which is why power peaks at 4000 rpm.',
+      'Heat transfer and friction come from published correlations (Woschni, Heywood), not measurements, and every result is at full load.',
+      'The gearbox is designed for the assignment’s 2600 kg vehicle and its 450 N·m engine torque, more than this 2.0 L engine makes.',
+      'The results come from GNU Octave; the scripts use only base MATLAB, but this version has not been run in MATLAB itself.',
     ],
     sources: [
       {
@@ -3595,6 +3617,10 @@ export const projects: ProjectRecord[] = [
       'Wiebe function',
       'flywheel design',
       'gear ratios',
+      'Woschni heat transfer',
+      'engine cycle simulation',
+      'torque curve',
+      'GNU Octave',
     ],
   },
 ]
