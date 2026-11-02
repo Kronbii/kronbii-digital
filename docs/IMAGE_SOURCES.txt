@@ -123,6 +123,17 @@ vibration.png, camera.png
             synthetic camera scene rendered by the dashboard (WebGL), not a
             real camera image.
 
+ice-engine/engine-simulation.mp4, engine-simulation-poster.jpg
+  source:   https://github.com/Kronbii/ICE-matlab-simulator/blob/main/docs/media/engine-simulation.mp4
+            rendered by tools/render_engine_video.py in that repository from the
+            part2.mat the MATLAB scripts saved; here re-encoded at 1280 x 720, 30 fps.
+
+ice-engine/simulation-run.mp4, simulation-run-poster.jpg
+  source:   https://github.com/Kronbii/ICE-matlab-simulator/blob/main/docs/media/simulation-run.mp4
+            rendered by tools/render_run_video.py from a run of the scripts in GNU
+            Octave (its console log and part2.mat); here re-encoded at 1280 x 720.
+            The two videos replace four-cylinder-animation.mp4 and its poster.
+
 RE-ENCODED FOR THE WEB (2026-11-01)
 
 Measured page loads at 3G, slow 4G, fast 4G and Wi-Fi speeds showed these files

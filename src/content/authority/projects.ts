@@ -3501,10 +3501,16 @@ export const projects: ProjectRecord[] = [
     },
     videos: [
       {
-        src: '/images/authority/ice-engine/four-cylinder-animation.mp4',
-        poster: '/images/authority/ice-engine/four-cylinder-animation-poster.jpg',
-        alt: 'Four slider-cranks turning together through one 720° cycle, each cylinder’s chamber flashing as it fires in the order 1-3-4-2, with a crank-angle readout.',
-        caption: 'The four-cylinder animation from the simulator: one full cycle, firing order 1-3-4-2.',
+        src: '/images/authority/ice-engine/engine-simulation.mp4',
+        poster: '/images/authority/ice-engine/engine-simulation-poster.jpg',
+        alt: 'The four cylinders of the simulated engine turning through three cycles: pistons, rods and cranks to scale, the gas in each cylinder coloured by its temperature, a flame at each ignition and the ports lighting up as the valves open, beside live charts of cylinder pressure, the pressure–volume loop and crank torque.',
+        caption: 'The engine running, drawn from the simulator’s own results: four cylinders firing 1-3-4-2, slowed 133 times.',
+      },
+      {
+        src: '/images/authority/ice-engine/simulation-run.mp4',
+        poster: '/images/authority/ice-engine/simulation-run-poster.jpg',
+        alt: 'A run of the simulator: the console prints the cycle converging, the performance figures and the gear ratios, while each graph the scripts produce draws itself in, ending on a card of the results.',
+        caption: 'A full run of the scripts in GNU Octave: every line they print and every figure they draw.',
       },
     ],
     media: [
@@ -3572,7 +3578,6 @@ export const projects: ProjectRecord[] = [
       },
     ],
     limits: [
-      'The analysis panels are verified on simulated signals with known noise, vibration and distortion (the Noise Lab recovers the simulated white noise to within 1 %); long captures from the real unit are still to come.',
       'The mean effective pressures the scripts print are about half what they should be: the displacement constant is smaller than the engine’s swept volume of about 503 cc.',
       'Friction is a flat 10 % of indicated power, and there is no heat transfer to the cylinder walls, no emissions model and no knock.',
       'The engine turns at one fixed speed, and the speed-fluctuation curve is an idealised sine between the flywheel’s limits, not a simulation of the shaft.',

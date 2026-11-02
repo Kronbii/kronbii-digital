@@ -44,6 +44,8 @@ export const mediaSize: Record<string, [number, number]> = {
   '/images/authority/bsheel/bsheel-feed.jpg': [780, 1688],
   '/images/authority/bsheel/bsheel-proof-upload.jpg': [780, 1688],
   '/images/authority/bsheel/bsheel-quest-picker.jpg': [780, 1688],
+  '/images/authority/ice-engine/engine-simulation-poster.jpg': [1280, 720],
+  '/images/authority/ice-engine/simulation-run-poster.jpg': [1280, 720],
   '/images/authority/ice-engine/cylinder-volume.webp': [1280, 800],
   '/images/authority/ice-engine/gear-ratios.webp': [1280, 800],
   '/images/authority/ice-engine/piston-displacement.webp': [1280, 800],
