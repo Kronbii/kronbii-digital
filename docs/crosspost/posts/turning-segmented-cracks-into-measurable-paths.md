@@ -20,7 +20,7 @@ Version 1.0 deals with each of those. It reads the skeleton as a graph of ends a
 
 Real crack datasets label pixels, not lines, so they cannot say how long a crack really is. I wrote a generator that draws synthetic cracks with exact ground truth (the centreline, the width at every point, the junctions and the ends) and then damages each mask the way segmentation output tends to be damaged: ragged edges, breaks, pinholes, specks. On 100 of those images, version 1.0 sits 0.52 px from the true centreline on average, gets each image’s total length within 1.9% and the width within 0.65 px, and scores an F1 of 0.97 within 3 px. The first version scores 0.20 and misses most of every crack.
 
-On real masks there is no true line, so the check there is steadiness. I traced all 458 hand-drawn masks of the Concrete Crack Segmentation Dataset (Özgenel, 2019), then damaged each mask and traced it again. The second trace sits a median 0.86 px from the first and its length changes by a median 0.75%. Each mask, 8 to 12 megapixels, takes a median 0.63 s on one laptop core.
+On real masks there is no true line, so the check there is steadiness. I traced all 458 hand-drawn masks of the Concrete Crack Segmentation Dataset (Özgenel, 2019), then damaged each mask and traced it again. The second trace sits a median 0.86 px from the first and its length changes by a median 0.74%. Each mask, 8 to 12 megapixels, takes a median 0.63 s on one laptop core.
 
 ### Why packaging matters
 

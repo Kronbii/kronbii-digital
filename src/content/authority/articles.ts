@@ -531,7 +531,7 @@ void loop() {
       },
       {
         kind: 'p',
-        text: 'On real masks there is no true line, so the check there is steadiness. I traced all 458 hand-drawn masks of the Concrete Crack Segmentation Dataset (Özgenel, 2019), then damaged each mask and traced it again. The second trace sits a median 0.86 px from the first and its length changes by a median 0.75%. Each mask, 8 to 12 megapixels, takes a median 0.63 s on one laptop core.',
+        text: 'On real masks there is no true line, so the check there is steadiness. I traced all 458 hand-drawn masks of the Concrete Crack Segmentation Dataset (Özgenel, 2019), then damaged each mask and traced it again. The second trace sits a median 0.86 px from the first and its length changes by a median 0.74%. Each mask, 8 to 12 megapixels, takes a median 0.63 s on one laptop core.',
       },
       { kind: 'h3', text: 'Why packaging matters' },
       {
