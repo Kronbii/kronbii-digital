@@ -609,22 +609,38 @@
   opacity: 0.42;
 }
 .v6-scene .s10-pt {
-  fill: var(--sunk);
-  stroke: var(--accent2);
-  stroke-width: 2.5;
+  fill: var(--paper);
+  stroke: none;
 }
-.v6-scene .s10-ed {
-  stroke: var(--accent);
-  stroke-width: 3.5;
-  stroke-linecap: round;
-}
-.v6-scene .s10-curve {
+.v6-scene .s10-pt.s10-j {
   fill: none;
   stroke: var(--paper);
-  stroke-width: 4;
+  stroke-width: 3;
+}
+.v6-scene .s10-ed {
+  fill: none;
+  stroke: var(--paper);
+  stroke-width: 2.5;
   stroke-linecap: round;
   stroke-linejoin: round;
-  filter: drop-shadow(0 0 8px rgba(var(--paper-rgb), 0.7));
+}
+.v6-scene .s10-bridge {
+  stroke: var(--paper);
+  stroke-width: 3;
+  stroke-dasharray: 9 7;
+  opacity: 0;
+}
+/* the trace, thin to wide: the fringe's green to its magenta */
+.v6-scene .s10-run {
+  fill: none;
+  stroke: color-mix(
+    in oklab,
+    rgb(var(--fr-m, 224, 143, 208)) var(--w),
+    rgb(var(--fr-g, 166, 230, 143))
+  );
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 .v6-scene .s10-scan {
   position: absolute;

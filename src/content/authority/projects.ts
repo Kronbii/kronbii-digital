@@ -961,78 +961,108 @@ export const projects: ProjectRecord[] = [
     slug: 'fine-crack-tracing-toolkit',
     state: 'ready',
     title: 'Fine crack tracing toolkit',
-    metaTitle:
-      'Fine crack tracing: from segmentation masks to measurable paths',
+    metaTitle: 'Fine crack tracing: from crack masks to measured centrelines',
     metaDescription:
-      'A Python package and CLI that turns crack masks into ordered lines, splines, overlays, and metrics for infrastructure inspection.',
+      'A Python package and CLI that turns crack segmentation masks into measured centrelines: length, width at every point, branches and bridged breaks, benchmarked against exact ground truth.',
     summary:
-      'An installable Python package and CLI for turning pre-segmented crack masks into ordered lines, optional splines, visual overlays, and evaluation metrics.',
+      'An installable Python package and CLI that turns a crack segmentation mask into measured centrelines: each crack’s length, its width at every point, its branches, and the breaks the mask left in it.',
     role: 'Built it from scratch and maintain it.',
     form: 'artifact',
     schemaType: 'SoftwareSourceCode',
     hero: {
       kind: 'image',
       media: {
-        src: '/images/authority/fine-crack/test-frame.png',
-        alt: 'A segmentation mask of a thin crack, red on black: the input the tracing toolkit starts from.',
+        src: '/images/authority/fine-crack/hero.jpg',
+        alt: 'A cracked concrete wall with its crack network traced as lines coloured from mint to magenta by width, white rings at the junctions.',
         caption:
-          'The input: a crack mask from a segmentation model, before it is traced into an ordered path.',
+          'A wall from the Concrete Crack Segmentation Dataset (Özgenel, 2019, CC BY 4.0), traced from its hand-drawn mask. The colour is the width across the crack at that point, mint for thin and magenta for wide; rings mark junctions.',
       },
     },
+    videos: [
+      {
+        src: '/images/authority/fine-crack/trace-run.mp4',
+        poster: '/images/authority/fine-crack/trace-run-poster.jpg',
+        alt: 'A cracked concrete wall: the mask fades in over the photo, a white skeleton sweeps down the cracks with rings at the junctions, then the finished lines draw along every branch, coloured by width.',
+        caption:
+          'The tracer’s own output on a wall from the Concrete Crack Segmentation Dataset (Özgenel, 2019, CC BY 4.0), played in order: the skeleton, its ends and junctions, then the smoothed centreline coloured by width.',
+      },
+    ],
     answer: {
-      what: 'A Python package and command-line interface that turn pre-segmented crack masks into ordered paths, smoothed curves, overlays, and metric exports.',
+      what: 'A Python package and command-line tool that turns a crack segmentation mask into measured centrelines: where each crack runs, how long it is, how wide it is at every point, where it branches and where the mask broke it.',
       problem:
-        'A segmentation mask names the pixels but leaves inspection engineers without an ordered trace, a comparable reference, or an evaluation record.',
-      how: 'The toolkit accepts frames and masks, extracts candidate crack points, orders them with a choice of classic, minimum-spanning-tree, or greedy strategies, optionally fits smoother curves, generates overlays, and exports metrics as CSV and JSON.',
-      role: 'I built it from scratch for real-time crack and damage extraction: not just a segmentation mask, but metric details you can measure. I maintain the package, its command-line interface, and its documentation.',
+        'A segmentation mask names the crack pixels, but an inspection needs a length, a width it can compare with a limit, the branches, and a line it can put on a drawing or compare with the last survey.',
+      how: 'It thins each crack to a skeleton and reads it as a graph of ends and junctions, cuts the spurs ragged mask edges leave, joins pieces whose ends face each other across a break, and splits each crack into a trunk and branches. Each line is smoothed in proportion to the crack’s width, centred, and measured across the crack at every point to a fraction of a pixel. Where a skeleton cannot describe a crack, Shi-Tomasi corners walked onto the centreline and linked by a minimum spanning tree take over.',
+      role: 'I built it from scratch for crack and damage extraction: not just a segmentation mask, but measurements. Version 1.0 rebuilds it around the skeleton approach that worked in practice, with a synthetic benchmark to check every step. I maintain the package, its command-line interface and its documentation.',
     },
     stages: [
       {
         step: '01',
-        title: 'Ingest',
+        title: 'Thin',
         detail:
-          'The toolkit consumes raw frames and pre-segmented masks. It begins after segmentation and does not attempt to detect cracks itself.',
+          'Any mask goes in: binary, colour, RGBA or a probability map. Each crack is thinned to a one-pixel skeleton and read as a graph; side branches shorter than 2.5 half-widths of the crack are cut as spurs from ragged edges.',
       },
       {
         step: '02',
-        title: 'Order',
+        title: 'Join',
         detail:
-          'Candidate points can be ordered with a classic approach, a minimum-spanning-tree path, or a greedy alternative, chosen for the geometry at hand.',
+          'Pieces that a segmentation break split apart are joined when their ends face each other, within three crack widths. Bridged stretches stay flagged in every output. Free ends are carried out to the tips of the mask.',
       },
       {
         step: '03',
-        title: 'Smooth',
+        title: 'Measure',
         detail:
-          'Optional spline fitting produces smoother traces without erasing meaningful bends. ORB or Shi-Tomasi features support corner detection where local structure matters.',
+          'Each crack becomes a trunk and its branches. The width across the crack is found at every point to sub-pixel, and a pixel size turns lengths and widths into millimetres, with the length of crack in each width class.',
       },
       {
         step: '04',
-        title: 'Evaluate',
+        title: 'Score',
         detail:
-          'Outputs can be evaluated with precision, recall, F1, IoU, mean and maximum distance, and RMS error, and exported to CSV and JSON.',
+          'A generator draws synthetic cracks with exact centrelines and widths, then damages their masks; a benchmark scores every tracer on them, the first version included. An eval command scores any trace against reference lines.',
       },
     ],
     media: [
       {
-        src: '/images/authority/fine-crack/centreline-trace.png',
-        step: 'Order',
-        alt: 'Three crack shapes on a dark background, with a green polyline traced through each crack and pixel lengths labelled beside them.',
+        src: '/images/authority/fine-crack/before-after.webp',
+        step: 'Thin',
+        alt: 'The repository’s test mask traced twice. Left: purple corner points linked around the outline of each crack. Right: one line down the middle of each crack, coloured by width, with junction rings and a dashed join across a break.',
         caption:
-          'Given a thin crack image, Shi-Tomasi corners ordered by a minimum spanning tree follow the centreline, 5–10 % short of a skeleton reference. The frame here is a 3 px skeleton of the mask, standing in for a fine crack.',
+          'The repository’s test mask. The first version linked Shi-Tomasi corners with a spanning tree and traced each crack’s outline; version 1.0 follows the centreline, finds the branches, bridges the break between the top two pieces, and colours the line by width.',
       },
       {
-        src: '/images/authority/fine-crack/trace-comparison.png',
-        step: 'Evaluate',
-        alt: 'The same three crack masks traced three ways: default ORB with almost no path, Shi-Tomasi with MST following the outline, and a skeleton reference in pink.',
+        src: '/images/authority/fine-crack/stages.webp',
+        step: 'Join',
+        alt: 'Four panels of the same wall crop: the mask, its skeleton with short spurs in red, the graph after pruning and bridging with the trunk in white and branches in colour, and the finished line on the photo.',
         caption:
-          'The same mask used as the frame. With default settings, ORB finds almost no corners on a flat mask and one crack is recorded as 0 px; Shi-Tomasi with MST ordering traces the mask’s outline rather than its centreline.',
+          'One crop, step by step: the mask, its raw skeleton with the spurs that get cut in red, the graph split into a trunk and branches, and the finished line coloured by width.',
+      },
+      {
+        src: '/images/authority/fine-crack/real-gallery.jpg',
+        step: 'Measure',
+        alt: 'Three cracked walls traced and labelled with each crack’s length and maximum width in pixels.',
+        caption:
+          'Three more walls from the dataset. Across all 458 of its masks the tracer found 1,008 cracks, branches in 416 images and 126 breaks to bridge, in a median 0.63 s per 8 to 12 megapixel mask on one laptop core.',
+      },
+      {
+        src: '/images/authority/fine-crack/benchmark.webp',
+        step: 'Score',
+        alt: 'Bar charts of centreline F1 and length error for four tracers on clean, ragged, broken and realistic synthetic masks.',
+        caption:
+          'On 100 synthetic images with exact ground truth, version 1.0 scores an F1 of 0.97 within 3 px, sits 0.52 px from the true centreline, and gets each image’s total length within 1.9% on average. The first version scores 0.20 and misses most of each crack; a plain skeleton overstates ragged cracks by 21%.',
+      },
+      {
+        src: '/images/authority/fine-crack/width-sweep.webp',
+        step: 'Score',
+        alt: 'Line charts of distance from the true centreline and length error against crack width from 1.5 to 32 pixels for four tracers.',
+        caption:
+          'Single ragged cracks from 1.5 to 32 px wide. The corner tracers drift further from the centre as cracks widen; version 1.0 stays within about a pixel and a half and within 2.5% of the true length.',
       },
     ],
     limits: [
-      'It needs a frame that shows the crack itself. Given only a thick mask, it traces the mask’s outline, not its centreline, and the default ORB corners can be too few to draw a path at all.',
+      'It measures the mask it is given, so a width is only as good as the segmentation behind it.',
+      'Widths are in pixels until a pixel size is given, and a pixel size assumes the camera faces the surface square on; it does not correct perspective.',
+      'Bridging guesses that two facing ends are one crack. Bridged stretches stay flagged so they can be counted separately or left out.',
       'The toolkit begins after segmentation and is not a crack detector.',
-      'Validation at dataset scale, across crack types, widths, and imaging conditions, is the next step.',
-      'The metrics keep their standard definitions; the package does not redefine them.',
+      'The benchmark is synthetic. On real masks, the check is how steady the trace stays when the mask is damaged, not how close it is to a measured crack.',
     ],
     sources: [
       {
@@ -1041,9 +1071,14 @@ export const projects: ProjectRecord[] = [
         kind: 'repository',
       },
       {
-        label: 'Package README and CLI documentation',
+        label: 'README, results and CLI documentation',
         href: 'https://github.com/Kronbii/fine-crack-tracing#readme',
         kind: 'documentation',
+      },
+      {
+        label: 'Concrete Crack Segmentation Dataset (Özgenel, 2019)',
+        href: 'https://data.mendeley.com/datasets/jwsn7tfbrp/1',
+        kind: 'listing',
       },
     ],
     articleSlug: 'turning-segmented-cracks-into-measurable-paths',
@@ -1053,10 +1088,10 @@ export const projects: ProjectRecord[] = [
     ],
     keywords: [
       'crack tracing',
+      'crack width measurement',
+      'skeletonization',
       'segmentation post-processing',
       'infrastructure inspection',
-      'ordered paths',
-      'evaluation metrics',
     ],
   },
   {

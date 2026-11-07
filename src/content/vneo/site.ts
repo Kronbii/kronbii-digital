@@ -98,7 +98,7 @@ export const reel = (
       id: 'trace',
       tab: 'Trace',
       slug: 'fine-crack-tracing-toolkit',
-      line: 'A crack already found in an image, turned into an ordered path you can measure.',
+      line: 'A crack mask turned into measured centrelines: length, width at every point, branches.',
     },
     {
       id: 'ship',
@@ -271,7 +271,7 @@ export const showcase: ShowItem[] = [
     ...workItem(
       'fine-crack-tracing-toolkit',
       { kind: 'shot', id: 'trace' },
-      'A crack mask becomes candidate points, a spanning tree, and one smooth path.'
+      'A crack mask becomes a skeleton, a graph of branches, and a width at every point.'
     ),
     size: 'tall',
     area: 'crk',
