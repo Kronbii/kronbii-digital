@@ -71,7 +71,7 @@ export const shotAlt: Record<ShotId, string> = {
   heat: 'A low-resolution thermal street scene, swept by its three-times enhanced output, with the ×2, ×3, and ×4 quality figures.',
   tune: 'A simulated step response settling as the damping rises, beside the easyPID library’s name and features.',
   trace:
-    'A crack mask scanned in, candidate points placed down the crack, a spanning tree grown through them, and the smoothed path drawn, exporting CSV and JSON.',
+    'A crack mask scanned in and thinned to a one-pixel skeleton, its ends and junctions marked and a break bridged, then each centreline redrawn and coloured by the crack’s width, exporting CSV, JSON and GeoJSON.',
   ship: 'A git graph of five upstream pull requests: three merge into main, one stays open, one is closed.',
 }
 

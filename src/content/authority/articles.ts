@@ -498,25 +498,40 @@ void loop() {
     title: 'Turning segmented cracks into measurable paths',
     metaTitle: 'Turning segmented cracks into measurable paths',
     metaDescription:
-      'A segmentation mask says which pixels belong to a crack. Inspection needs the next layer: an ordered line and measurements you can compare.',
-    dek: 'A segmentation mask says which pixels belong to a crack. Inspection work often needs the next layer: an ordered line, a trace, and measurements that can be compared.',
+      'A segmentation mask says which pixels belong to a crack. Inspection needs the next layer: a centreline, a length, and a width you can compare. How I get there, and how I check it.',
+    dek: 'A segmentation mask says which pixels belong to a crack. Inspection needs the next layer: a centreline, a length, and a width you can compare. Here is how I get there, and how I check it.',
     heroMedia: {
-      src: '/images/authority/fine-crack/test-frame.png',
-      alt: 'Test frame from the fine-crack tracing repository showing a thin crack across a rough surface.',
-      caption: 'Test frame — a starting point for tracing evaluation.',
+      src: '/images/authority/fine-crack/hero.jpg',
+      alt: 'A cracked concrete wall with its crack network traced as lines coloured from mint to magenta by width, white rings at the junctions.',
+      caption:
+        'A wall from the Concrete Crack Segmentation Dataset (Özgenel, 2019, CC BY 4.0), traced from its hand-drawn mask; colour is the width across the crack.',
     },
     body: [
       {
         kind: 'p',
-        text: 'Crack segmentation produces a region. Many inspection tasks need a path. They need to trace where the crack runs, smooth the trace without erasing meaningful bends, compare it with a reference, and export results that can be analyzed outside a notebook.',
+        text: 'Crack segmentation produces a region. An inspection needs a measurement: how long the crack is, how wide it gets, where it branches, and a line that can go on a drawing or be compared with the last survey. The fine-crack tracing toolkit is the step between the two. It is an installable Python package with a command-line interface, and it starts after segmentation, so any model can feed it.',
+      },
+      { kind: 'h3', text: 'From corners to a skeleton' },
+      {
+        kind: 'p',
+        text: 'My first version placed Shi-Tomasi corners inside the mask and linked them with a minimum spanning tree. It worked when the frame showed a thin crack. On a wide mask the corners sit on the edges, so the line traced the outline instead of the middle, and with the default quality threshold a long crack kept only a few dozen corners.',
       },
       {
         kind: 'p',
-        text: 'I built the fine-crack tracing toolkit from scratch for real-time crack and damage extraction: not just a mask, but metric details you can measure. It is an installable Python project with a command-line interface. It consumes raw frames and pre-segmented masks, extracts candidate crack points, orders them, optionally fits smoother curves, generates overlays, and exports metrics in CSV and JSON.',
+        text: 'What worked in practice was to skeletonise the mask: thin it to a one-pixel line down its middle. A raw skeleton is not a measurement yet, though. Ragged mask edges sprout short false branches, a break in the mask splits one crack into pieces, the line stops half a width short of each end, and its pixel staircase overstates the length of a diagonal crack by up to 8%.',
       },
       {
         kind: 'p',
-        text: 'The repository exposes several ordering strategies rather than pretending one heuristic fits every geometry: a classic approach, a minimum-spanning-tree path, and a greedy alternative. ORB or Shi-Tomasi features can support corner detection where local structure matters. The output can be evaluated with precision, recall, F1, IoU, mean and maximum distance, and RMS error.',
+        text: 'Version 1.0 deals with each of those. It reads the skeleton as a graph of ends and junctions, cuts side branches shorter than 2.5 half-widths of the crack, joins pieces whose ends face each other across a break, carries the ends out to the tips, and splits each crack into a trunk and its branches. Then it smooths each line in proportion to the crack’s width, centres it, and measures the width across the crack at every point to a fraction of a pixel. The corner tracer stays as the fallback for any crack whose skeleton cannot describe its mask, with one fix: its corners are walked onto the centreline before they are linked.',
+      },
+      { kind: 'h3', text: 'Checking it' },
+      {
+        kind: 'p',
+        text: 'Real crack datasets label pixels, not lines, so they cannot say how long a crack really is. I wrote a generator that draws synthetic cracks with exact ground truth (the centreline, the width at every point, the junctions and the ends) and then damages each mask the way segmentation output tends to be damaged: ragged edges, breaks, pinholes, specks. On 100 of those images, version 1.0 sits 0.52 px from the true centreline on average, gets each image’s total length within 1.9% and the width within 0.65 px, and scores an F1 of 0.97 within 3 px. The first version scores 0.20 and misses most of every crack.',
+      },
+      {
+        kind: 'p',
+        text: 'On real masks there is no true line, so the check there is steadiness. I traced all 458 hand-drawn masks of the Concrete Crack Segmentation Dataset (Özgenel, 2019), then damaged each mask and traced it again. The second trace sits a median 0.86 px from the first and its length changes by a median 0.75%. Each mask, 8 to 12 megapixels, takes a median 0.63 s on one laptop core.',
       },
       { kind: 'h3', text: 'Why packaging matters' },
       {
@@ -525,15 +540,11 @@ void loop() {
       },
       {
         kind: 'p',
-        text: 'Turning the work into a package changes the engineering question. Inputs and outputs need contracts. Configuration needs predictable precedence. Runs need named output directories. Metrics need stable serialization. A command such as `fine-tracing run` or `fine-tracing metrics` becomes a repeatable interface rather than a memory of which cells to execute.',
+        text: 'Turning the work into a package changes the engineering question. Inputs and outputs need contracts. Settings need one place to live. Runs need named output folders. Results need stable formats: JSON with the full geometry, a CSV row per crack, GeoJSON and SVG for other tools. A command such as `fine-tracing trace` or `fine-tracing bench` becomes a repeatable interface rather than a memory of which cells to execute.',
       },
       {
         kind: 'p',
-        text: 'The toolkit is not a crack detector. It begins after segmentation. That boundary is useful: it keeps the package focused on geometry and evaluation while allowing different segmentation models to feed it.',
-      },
-      {
-        kind: 'p',
-        text: 'The next serious validation step is dataset-level comparison across crack types, widths, branching patterns, and imaging conditions. The current value is the reproducible bridge from mask to path—the layer required before a thin visual defect can become a measurement.',
+        text: 'What it still cannot do is see past the mask. A width is only as good as the segmentation behind it, a pixel size assumes the camera faces the surface square on, and a bridge is a guess that two facing ends are one crack, so bridged stretches stay flagged. The next step is cracks measured by hand, so the widths can be checked in millimetres and not only against generated ground truth.',
       },
     ],
     sources: [
@@ -543,14 +554,19 @@ void loop() {
         kind: 'repository',
       },
       {
-        label: 'Package README and CLI documentation',
+        label: 'README, results and CLI documentation',
         href: 'https://github.com/Kronbii/fine-crack-tracing#readme',
         kind: 'documentation',
+      },
+      {
+        label: 'Concrete Crack Segmentation Dataset (Özgenel, 2019)',
+        href: 'https://data.mendeley.com/datasets/jwsn7tfbrp/1',
+        kind: 'listing',
       },
     ],
     projectSlug: 'fine-crack-tracing-toolkit',
     topics: ['computer-vision', 'infrastructure-inspection', 'open-source-engineering'],
-    keywords: ['crack tracing', 'ordered paths', 'IoU', 'segmentation post-processing'],
+    keywords: ['crack tracing', 'skeletonization', 'crack width', 'segmentation post-processing'],
   },
   {
     slug: 'extracting-medicine-names-from-multilingual-prescriptions',

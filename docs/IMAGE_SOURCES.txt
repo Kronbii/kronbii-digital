@@ -34,6 +34,12 @@ thermal-super-resolution/x3-showcase.png
   source:   https://github.com/Kronbii/thermal-super-resolution/blob/main/results/showcase/_x3_showcase.png
 fine-crack/test-frame.png
   source:   https://github.com/Kronbii/fine-crack-detection/blob/main/test-frames/test.png
+fine-crack/hero.jpg, fine-crack/real-gallery.jpg, fine-crack/trace-run.mp4, fine-crack/trace-run-poster.jpg
+  source:   https://github.com/Kronbii/fine-crack-tracing/tree/main/docs/media (traced by fine-tracing 1.0)
+  photos:   Concrete Crack Segmentation Dataset, Çağlar Fırat Özgenel, Mendeley Data 2019,
+            https://data.mendeley.com/datasets/jwsn7tfbrp/1, CC BY 4.0 (images 609, 120, 607, 284; resized, traced lines drawn on them)
+fine-crack/before-after.webp, fine-crack/stages.webp, fine-crack/benchmark.webp, fine-crack/width-sweep.webp
+  source:   https://github.com/Kronbii/fine-crack-tracing/tree/main/docs/media (converted to WebP)
 daleel/hero.jpeg
   source:   https://github.com/Kronbii/daleel/blob/main/showcase/hero.jpeg
 motorcycle-trainer/sign-127.webp

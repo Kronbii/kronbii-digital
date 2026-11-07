@@ -230,13 +230,13 @@ export const plain: Record<string, PlainWork> = {
   },
   'fine-crack-tracing-toolkit': {
     kind: 'Vision · inspection',
-    line: 'Turns cracks already found in an image into ordered, measurable paths, with overlays and metrics.',
-    proof: 'An installable Python package',
+    line: 'Turns a crack mask into measured centrelines: length, width at every point, branches, and breaks bridged.',
+    proof: 'F1 0.97 on a synthetic benchmark',
     part: 'Built from scratch',
     field: 'vision',
     image: {
-      src: '/images/authority/fine-crack/test-frame.png',
-      alt: 'A segmentation mask of a thin crack, the input the toolkit traces, used as an input to the tracing toolkit.',
+      src: '/images/authority/fine-crack/hero.jpg',
+      alt: 'A cracked concrete wall with its crack network traced as lines coloured by width, rings at the junctions.',
     },
   },
   'lebanese-motorcycle-theory-trainer': {

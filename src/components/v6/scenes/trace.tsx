@@ -1,11 +1,19 @@
 'use client'
 
-import { traceCurve, traceEdges, tracePoints } from '@/content/v6/frames'
+import type { CSSProperties } from 'react'
+
+import {
+  traceBridges,
+  traceNodes,
+  traceRuns,
+  traceSkeleton,
+} from '@/content/v6/frames'
 
 import { B, BAR, driver, type Impact } from '../armed'
 import { Shot, type Rect } from '../shot'
 
-/* 08 TRACE: a crack mask becomes an ordered path, a curve, and metrics. */
+/* 08 TRACE: a crack mask is thinned to a skeleton, read as a graph of ends,
+   junctions and bridged breaks, and redrawn with its width at every point. */
 
 const IMPACTS: Impact[] = [
   { t: 0, k: 0.6, flash: 0.35, ghost: 0.6 },
@@ -13,14 +21,15 @@ const IMPACTS: Impact[] = [
 ]
 const CROP: Rect = [1130, 48, 710, 984]
 const STEPS = [
-  'Pre-segmented mask',
-  'Candidate points',
-  'Order · classic / MST / greedy',
-  'Curve · overlay · metrics',
+  'Mask from any model',
+  'Thinned to a skeleton',
+  'Ends · junctions · gaps bridged',
+  'Width along the crack',
 ]
-const TAGS = ['Mask', 'Points', 'Order · MST', 'Curve']
-const NP = tracePoints.length
-const NE = traceEdges.length
+const TAGS = ['Mask', 'Skeleton', 'Graph', 'Width']
+const NN = traceNodes.length
+const NR = traceRuns.length
+const NS = traceSkeleton.length
 
 function build(root: HTMLElement, tl: gsap.core.Timeline) {
   const tag = root.querySelector<HTMLElement>('.s10-tag')!
@@ -69,7 +78,18 @@ function build(root: HTMLElement, tl: gsap.core.Timeline) {
     0.04
   )
   tl.to('.s10-scan', { opacity: 0, duration: 0.05, ease: 'none' }, 0.34)
-  // candidate points pop down the crack, in tree order
+  // the skeleton thins out of the mask, top to bottom
+  root.querySelectorAll<SVGPolylineElement>('.s10-ed').forEach((e) => {
+    const k = +e.dataset.k!
+    const len = +e.getAttribute('stroke-dasharray')!
+    tl.fromTo(
+      e,
+      { strokeDashoffset: len },
+      { strokeDashoffset: 0, duration: 0.12, ease: 'none' },
+      B + (k / NS) * 0.26
+    )
+  })
+  // its ends and junctions are marked, and the break is bridged
   root.querySelectorAll<SVGCircleElement>('.s10-pt').forEach((c) => {
     const k = +c.dataset.k!
     const x = +c.getAttribute('cx')!,
@@ -78,27 +98,31 @@ function build(root: HTMLElement, tl: gsap.core.Timeline) {
       c,
       { scale: 0, svgOrigin: `${x} ${y}` },
       { scale: 1, svgOrigin: `${x} ${y}`, duration: 0.14, ease: 'back.out(3)' },
-      B + (k / NP) * 0.3
+      2 * B + (k / NN) * 0.24
     )
   })
-  // the spanning tree grows edge by edge, depth first
-  root.querySelectorAll<SVGLineElement>('.s10-ed').forEach((e) => {
-    const k = +e.dataset.k!
-    const len = +e.getAttribute('stroke-dasharray')!
-    tl.fromTo(
-      e,
-      { strokeDashoffset: len },
-      { strokeDashoffset: 0, duration: 0.05, ease: 'none' },
-      2 * B + (k / NE) * 0.38
-    )
-  })
-  // the smoothed main run draws, and the exports land
   tl.fromTo(
-    '.s10-curve',
-    { strokeDashoffset: traceCurve.length },
-    { strokeDashoffset: 0, duration: 0.3, ease: 'power2.inOut' },
+    '.s10-bridge',
+    { opacity: 0 },
+    { opacity: 1, duration: 0.12, ease: 'none' },
+    2 * B + 0.12
+  )
+  // the centreline is redrawn, coloured by the crack's width as it goes
+  tl.to(
+    '.s10-ed',
+    { opacity: 0.18, duration: 0.2, ease: 'none' },
     3 * B
   )
+  root.querySelectorAll<SVGPolylineElement>('.s10-run').forEach((r) => {
+    const k = +r.dataset.k!
+    const len = +r.getAttribute('stroke-dasharray')!
+    tl.fromTo(
+      r,
+      { strokeDashoffset: len },
+      { strokeDashoffset: 0, duration: 0.04, ease: 'none' },
+      3 * B + (k / NR) * 0.34
+    )
+  })
   tl.fromTo(
     '.s10-ink',
     { opacity: 0.42 },
@@ -190,32 +214,44 @@ export function TraceShot({
             alt=""
           />
           <svg viewBox="0 0 470 944">
-            {traceEdges.map(([x1, y1, x2, y2, len, k]) => (
-              <line
+            {traceSkeleton.map(({ points, length }, k) => (
+              <polyline
                 key={`e${k}`}
                 className="s10-ed"
+                points={points}
+                strokeDasharray={length}
+                strokeDashoffset={length}
+                data-k={k}
+              />
+            ))}
+            {traceBridges.map(([x1, y1, x2, y2], k) => (
+              <line
+                key={`b${k}`}
+                className="s10-bridge"
                 x1={x1}
                 y1={y1}
                 x2={x2}
                 y2={y2}
-                strokeDasharray={len}
-                strokeDashoffset={len}
+              />
+            ))}
+            {traceRuns.map(({ points, w, length }, k) => (
+              <polyline
+                key={`r${k}`}
+                className="s10-run"
+                points={points}
+                strokeDasharray={length}
+                strokeDashoffset={length}
+                style={{ '--w': `${Math.round(w * 100)}%` } as CSSProperties}
                 data-k={k}
               />
             ))}
-            <polyline
-              className="s10-curve"
-              points={traceCurve.points}
-              strokeDasharray={traceCurve.length}
-              strokeDashoffset={traceCurve.length}
-            />
-            {tracePoints.map(([x, y, k]) => (
+            {traceNodes.map(([x, y, kind], k) => (
               <circle
-                key={`p${k}`}
-                className="s10-pt"
+                key={`n${k}`}
+                className={`s10-pt s10-${kind}`}
                 cx={x}
                 cy={y}
-                r={5}
+                r={kind === 'j' ? 11 : 5}
                 data-k={k}
               />
             ))}
@@ -227,6 +263,7 @@ export function TraceShot({
           <div className="s10-out">
             <span className="s10-file">CSV</span>
             <span className="s10-file">JSON</span>
+            <span className="s10-file">GeoJSON</span>
           </div>
         </div>
       </div>
