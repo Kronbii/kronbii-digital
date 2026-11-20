@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { Suspense } from 'react'
 import { preload } from 'react-dom'
 
@@ -14,11 +13,10 @@ import { Hero } from '@/components/vneo/hero'
 import { Loop } from '@/components/vneo/loop'
 import { Laps } from '@/components/vneo/machines'
 import { Near } from '@/components/vneo/near'
-import { Slate } from '@/components/vneo/slate'
 import { pageMeta } from '@/components/vneo/meta'
 import { Work } from '@/components/vneo/work'
 import { experienceBoard, nowYear } from '@/content/vneo/experience-board'
-import { VN, moreGroups, vneo } from '@/content/vneo/site'
+import { vneo } from '@/content/vneo/site'
 import { siteConfig } from '@/lib/site'
 
 export const metadata: Metadata = pageMeta({
@@ -63,7 +61,6 @@ export default function Vneo() {
     fetchPriority: 'high',
   })
   const c = vneo
-  const groups = moreGroups()
   return (
     <>
       <JsonLd data={[homeJsonLd]} />
@@ -85,38 +82,6 @@ export default function Vneo() {
       <Suspense>
         <Community />
       </Suspense>
-
-      <section id="more" className="vn-more" aria-labelledby="more-h">
-        <Slate
-          no={7}
-          label={c.more.label}
-          title={c.more.title}
-          hot={c.more.hot}
-          id="more-h"
-        />
-        <div className="v7-groups">
-          {groups.map((g) => (
-            <div key={g.label} className="v7-group">
-              <h3>{g.label}</h3>
-              <ul>
-                {g.items.map((it) => (
-                  <li key={it.href}>
-                    <Link href={it.href}>
-                      <b>{it.title}</b>
-                      <span>{it.line}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-        <p className="v7-more-all">
-          <Link className="v7-go" href={`${VN}/projects`}>
-            {c.more.all} →
-          </Link>
-        </p>
-      </section>
 
       <Suspense>
         <Loop />

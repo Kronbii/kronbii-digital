@@ -176,10 +176,8 @@ export function Work() {
               </button>
             ) : null}
             <div className="vn-tile-cap">
-              <span className="vn-tile-kind">{item.kind}</span>
               <h3>{item.title}</h3>
               <p>{item.line}</p>
-              <span className="vn-badge">{item.proof}</span>
             </div>
           </li>
         ))}

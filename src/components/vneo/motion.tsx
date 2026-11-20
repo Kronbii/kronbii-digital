@@ -99,6 +99,8 @@ export function replayIn(el: HTMLElement | null) {
 /** Plays what is inside `el`: its motion from the start, its footage from where it rested. */
 export function playIn(el: HTMLElement | null) {
   replayIn(el)
+  // a card in play shows its picture in colour (vneo.css, one lens for every picture)
+  if (el) el.dataset.live = ''
   // footage showing its controls (less motion asked for, or refused) is the visitor's to start
   el?.querySelectorAll('video').forEach((v) => {
     if (!v.controls) v.play().catch(() => {})
@@ -107,6 +109,7 @@ export function playIn(el: HTMLElement | null) {
 
 /** Rests what is inside `el`: footage pauses where it is (motion rests on its last frame by itself). */
 export function restIn(el: HTMLElement | null) {
+  if (el) delete el.dataset.live
   el?.querySelectorAll('video').forEach((v) => v.pause())
 }
 

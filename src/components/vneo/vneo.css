@@ -1111,6 +1111,42 @@
   padding: 8%;
   background: #f6f6f1;
 }
+/*
+ * One lens for every picture. Photos, footage and the reel's shots on the
+ * cards rest as one duotone, black to Sage, so pictures from a dozen cameras
+ * (and one thermal camera) read as one set; a contained picture sits on the
+ * page's dark, not on white. A card comes back to colour while it is pointed
+ * at, focused, or playing. The drawn scenes are Sage already and are left
+ * alone.
+ */
+[data-vneo] :is(.vn-grid, .vn-showcase) .vn-tile-media:has(> img, > video, .v6-frame) {
+  isolation: isolate;
+}
+[data-vneo] :is(.vn-grid, .vn-showcase) .vn-tile-media:has(> img, > video, .v6-frame)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--sage);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  transition: opacity 0.6s var(--ease);
+}
+[data-vneo] :is(.vn-grid, .vn-showcase) .vn-tile-media > :is(img, video),
+[data-vneo] :is(.vn-grid, .vn-showcase) .vn-tile-media .v6-frame {
+  filter: grayscale(1) contrast(1.1) brightness(0.8);
+  transition: filter 0.6s var(--ease);
+}
+[data-vneo] :is(.vn-grid, .vn-showcase) .vn-tile-media > img[style*='contain'] {
+  background: var(--ground);
+}
+[data-vneo] :is(.vn-grid, .vn-showcase) .vn-tile:is(:hover, :focus-within, [data-live]) .vn-tile-media::after {
+  opacity: 0;
+}
+[data-vneo] :is(.vn-grid, .vn-showcase) .vn-tile:is(:hover, :focus-within, [data-live]) .vn-tile-media > :is(img, video),
+[data-vneo] :is(.vn-grid, .vn-showcase) .vn-tile:is(:hover, :focus-within, [data-live]) .vn-tile-media .v6-frame {
+  filter: none;
+}
 [data-vneo] .vn-figure {
   position: absolute;
   inset: 0;
@@ -2101,10 +2137,7 @@
       'mine mine fpv  fpv'
       'mine mine fpv  fpv'
       'omni rot  rot  heat'
-      'omni road road heat'
-      'pano pano race race'
-      'imu  imu  crk  star'
-      'pid  pid  crk  star';
+      'omni road road heat';
     grid-auto-rows: 300px;
     grid-auto-flow: row;
   }

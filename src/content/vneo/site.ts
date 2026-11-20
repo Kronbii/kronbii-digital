@@ -169,14 +169,17 @@ export type ShowItem = WorkItem & {
   figure?: { from: string; fromNote: string; to: string; toNote: string }
   /** Opens outside the site (a project with no page here yet). */
   external?: boolean
+  /** Benched: off the home grid, still on All projects (its tile settings kept for when it comes back). */
+  home?: false
 }
 
 /**
  * The work, as one tight grid, from most to least important: the landmine
  * robot and the drone first, then OmniSign, the rotor-fault study, the
- * road-speed audit and the thermal model.
+ * road-speed audit and the thermal model. The six after them are benched:
+ * the home page shows six, and All projects shows everything.
  */
-export const showcase: ShowItem[] = [
+const shelf: ShowItem[] = [
   {
     ...workItem('landmine-detection-extraction-robot', undefined, ''),
     alt: 'RViz shows the rover’s 2D map and planned path, then the rover drives itself through the indoor arena.',
@@ -246,6 +249,7 @@ export const showcase: ShowItem[] = [
     ),
     size: 'wide',
     area: 'pano',
+    home: false,
   },
   {
     ...workItem(
@@ -255,11 +259,13 @@ export const showcase: ShowItem[] = [
     ),
     size: 'wide',
     area: 'race',
+    home: false,
   },
   {
     ...workItem('imu-bench', undefined, ''),
     size: 'wide',
     area: 'imu',
+    home: false,
     image: {
       src: '/images/authority/imu-bench/tile.mp4',
       poster: '/images/authority/imu-bench/tile-poster.jpg',
@@ -276,6 +282,7 @@ export const showcase: ShowItem[] = [
     ),
     size: 'tall',
     area: 'crk',
+    home: false,
   },
   {
     ...workItem(
@@ -285,17 +292,20 @@ export const showcase: ShowItem[] = [
     ),
     size: 'wide',
     area: 'pid',
+    home: false,
   },
   {
     ...workItem('esp32-barn-door-star-tracker', undefined, ''),
     size: 'tall',
     area: 'star',
+    home: false,
     image: {
       src: '/images/authority/esp32-barn-door-star-tracker/cad-render-square.png',
       fit: 'contain',
     },
   },
 ]
+export const showcase = shelf.filter((t) => t.home !== false)
 
 /** In the community: the work built for people, and the rooms where it is shared. */
 const scene = (id: Chapter['id']) => chapters.find((c) => c.id === id)!
