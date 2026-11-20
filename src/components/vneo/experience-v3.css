@@ -1,0 +1,644 @@
+/*
+ * Experience as a type-led index (experience-v3.tsx). Type is the design:
+ * the places I work now set huge in the display face with a magazine
+ * caption beside each, everything before as a contents page on the same two
+ * columns, hairlines between. On a phone the two columns stack.
+ */
+
+/* the floating preview's fringe: from showing up, and from being thrown */
+@property --xv3-ca {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --xv3-v {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+[data-vneo] .vn-xv3 {
+  --name: 23vw;
+  --gap: clamp(28px, 3.6vw, 64px);
+  position: relative;
+  padding: clamp(80px, 14vh, 140px) 0 0;
+}
+[data-vneo] .vn-xv3-lede {
+  max-width: 52ch;
+  color: var(--ink2);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+[data-vneo] .vn-xv3-body {
+  margin: clamp(44px, 6vw, 96px) var(--gutter) 0;
+}
+
+/* ---------- the two labels, each over a hairline ---------- */
+[data-vneo] .vn-xv3-h {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 14px;
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.04em;
+}
+[data-vneo] .vn-xv3-leads-h {
+  color: var(--ink2);
+}
+[data-vneo] .vn-xv3-index-h {
+  margin-top: clamp(64px, 7vw, 112px);
+}
+[data-vneo] .vn-xv3-h::after,
+[data-vneo] .vn-xv3-lead::after,
+[data-vneo] .vn-xv3-row::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--hair);
+  transform: scaleX(var(--draw, 1));
+  transform-origin: 0 50%;
+}
+[data-vneo] .vn-xv3-h::after {
+  background: var(--hair2);
+}
+[data-vneo] .vn-xv3-h i,
+[data-vneo] .vn-xv3-live {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--sage);
+  box-shadow:
+    0 0 0 3px rgba(var(--sage-rgb), 0.14),
+    0 0 12px rgba(var(--sage-rgb), 0.45);
+}
+
+/* ---------- where I work now: the names, huge, each with its caption ---------- */
+[data-vneo] .vn-xv3-lead {
+  position: relative;
+  padding-block: clamp(26px, 3vw, 44px) clamp(28px, 3vw, 44px);
+}
+/* the hairline lands out of its own fringe on first sight */
+[data-vneo] .vn-xv3-lead::after {
+  box-shadow:
+    0 calc(var(--rca, 0) * -1px) 0 rgba(var(--fr-g), 0.6),
+    0 calc(var(--rca, 0) * 1px) 0 rgba(var(--fr-m), 0.6);
+}
+[data-vneo] .vn-xv3-name {
+  margin-left: -0.06em;
+  font-size: var(--name);
+  font-weight: 650;
+  line-height: 0.84;
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+  transition:
+    opacity 0.5s var(--ease),
+    filter 0.6s var(--ease);
+}
+[data-vneo] .vn-xv3-long {
+  contain: inline-size;
+  margin-top: 14px;
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  transition: opacity 0.5s var(--ease);
+}
+[data-vneo] .vn-xv3-cap {
+  max-width: 31rem;
+  margin-top: 20px;
+  transition: opacity 0.5s var(--ease);
+}
+[data-vneo] .vn-xv3-when {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.74rem;
+}
+[data-vneo] .vn-xv3-when b {
+  color: var(--sage);
+  font-weight: 500;
+}
+[data-vneo] .vn-xv3-role {
+  margin-top: 10px;
+  font-size: clamp(1.12rem, 1.3vw, 1.3rem);
+  font-weight: 560;
+  line-height: 1.25;
+  letter-spacing: -0.012em;
+}
+[data-vneo] .vn-xv3-note {
+  margin-top: 6px;
+  color: var(--ink2);
+  font-family: var(--f-serif);
+  font-size: clamp(1.1rem, 1.25vw, 1.25rem);
+  font-style: italic;
+  line-height: 1.38;
+}
+[data-vneo] .vn-xv3-cap .vn-xv3-more-text {
+  margin-top: 10px;
+  color: var(--ink3);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+[data-vneo] .vn-xv3-capfoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 22px;
+  margin-top: 14px;
+  color: var(--ink3);
+  font-size: 0.86rem;
+}
+
+/* links in the captions and the open entries */
+[data-vneo] :is(.vn-xv3-capfoot, .vn-xv3-links) a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  color: var(--sage);
+  text-decoration: underline;
+  text-decoration-color: rgba(var(--sage-rgb), 0.35);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: text-decoration-color 0.25s ease;
+}
+[data-vneo] :is(.vn-xv3-capfoot, .vn-xv3-links) a:hover {
+  text-decoration-color: var(--sage);
+}
+[data-vneo] .vn-xv3-arrow {
+  flex: none;
+  width: 0.72em;
+  height: 0.72em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  transition: transform 0.35s var(--ease);
+}
+[data-vneo] .vn-xv3-arrow[data-out] {
+  transform: rotate(-45deg);
+}
+[data-vneo] a:hover > .vn-xv3-arrow,
+[data-vneo] a:hover .vn-xv3-work-t .vn-xv3-arrow {
+  transform: translateX(3px);
+}
+[data-vneo] a:hover > .vn-xv3-arrow[data-out] {
+  transform: rotate(-45deg) translateX(3px);
+}
+
+/* ---------- before, and alongside: a contents page ---------- */
+[data-vneo] .vn-xv3-row {
+  position: relative;
+}
+[data-vneo] .vn-xv3-hit {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 20px 40px 20px 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: opacity 0.4s var(--ease);
+}
+[data-vneo] .vn-xv3-org {
+  display: block;
+  contain: inline-size;
+  font-size: clamp(1.6rem, 2.5vw, 2.5rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  transition: transform 0.5s var(--ease);
+}
+[data-vneo] .vn-xv3-rmain {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 14px;
+  margin-top: 8px;
+}
+[data-vneo] .vn-xv3-rrole {
+  flex-basis: 100%;
+  color: var(--ink2);
+  font-size: 1rem;
+  line-height: 1.4;
+}
+[data-vneo] :is(.vn-xv3-rkind, .vn-xv3-rwhen) {
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+}
+[data-vneo] .vn-xv3-rwhen b {
+  color: var(--sage);
+  font-weight: 500;
+}
+[data-vneo] .vn-xv3-mark {
+  position: absolute;
+  top: 30px;
+  right: 4px;
+  width: 14px;
+  height: 14px;
+  color: var(--ink2);
+  transition: color 0.3s ease;
+}
+[data-vneo] .vn-xv3-mark::before,
+[data-vneo] .vn-xv3-mark::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: calc(50% - 0.75px);
+  width: 100%;
+  height: 1.5px;
+  border-radius: 1px;
+  background: currentColor;
+  transition: transform 0.5s var(--ease);
+}
+[data-vneo] .vn-xv3-mark::after {
+  transform: rotate(90deg);
+}
+[data-vneo] .vn-xv3-row[data-open] .vn-xv3-mark {
+  color: var(--sage);
+}
+[data-vneo] .vn-xv3-row[data-open] .vn-xv3-mark::after {
+  transform: rotate(0deg);
+}
+[data-vneo] .vn-xv3-hit:focus-visible {
+  outline-offset: 2px;
+}
+
+/* an open entry: it unfolds, and its words come into focus */
+[data-vneo] .vn-xv3-more {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition:
+    grid-template-rows 0.5s var(--ease),
+    visibility 0s linear 0.5s;
+}
+[data-vneo] .vn-xv3-row[data-open] .vn-xv3-more {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition:
+    grid-template-rows 0.75s var(--ease),
+    visibility 0s;
+}
+[data-vneo] .vn-xv3-more-in {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: clip;
+  overflow-clip-margin: 8px;
+}
+[data-vneo] .vn-xv3-more-in > * {
+  opacity: 0;
+  filter: blur(6px);
+  translate: 0 10px;
+  transition:
+    opacity 0.3s ease,
+    filter 0.3s ease,
+    translate 0.3s ease;
+}
+[data-vneo] .vn-xv3-row[data-open] .vn-xv3-more-in > * {
+  opacity: 1;
+  filter: none;
+  translate: 0 0;
+  transition:
+    opacity 0.7s var(--ease) 0.12s,
+    filter 0.8s var(--ease) 0.12s,
+    translate 0.8s var(--ease) 0.12s;
+}
+[data-vneo] .vn-xv3-row[data-open] .vn-xv3-more-in > .vn-xv3-work {
+  transition-delay: 0.24s;
+}
+[data-vneo] .vn-xv3-text {
+  order: -1;
+  padding-bottom: 30px;
+}
+[data-vneo] .vn-xv3-text .vn-xv3-note {
+  max-width: 38ch;
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(1.18rem, 1.5vw, 1.45rem);
+  line-height: 1.34;
+}
+[data-vneo] .vn-xv3-text .vn-xv3-more-text {
+  max-width: 60ch;
+  margin-top: 12px;
+  color: var(--ink2);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+[data-vneo] .vn-xv3-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 40px;
+  margin-top: 18px;
+}
+[data-vneo] .vn-xv3-fields dt {
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.68rem;
+}
+[data-vneo] .vn-xv3-fields dd {
+  margin: 2px 0 0;
+  color: var(--ink2);
+  font-size: 0.94rem;
+}
+[data-vneo] .vn-xv3-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 20px;
+  font-size: 0.98rem;
+}
+[data-vneo] .vn-xv3-links li {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+[data-vneo] .vn-xv3-links small {
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.66rem;
+}
+[data-vneo] .vn-xv3-work {
+  display: grid;
+  gap: 18px;
+  margin-top: -6px;
+  padding-bottom: 30px;
+}
+[data-vneo] .vn-xv3-work a {
+  display: grid;
+  gap: 10px;
+  width: min(100%, 22rem);
+}
+[data-vneo] .vn-xv3-thumb {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--surface);
+}
+[data-vneo] .vn-xv3-thumb img {
+  object-fit: cover;
+  transition: transform 0.9s var(--ease);
+}
+[data-vneo] .vn-xv3-work a:hover .vn-xv3-thumb img {
+  transform: scale(1.04);
+}
+[data-vneo] .vn-xv3-work-t {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 0.95rem;
+}
+
+/* community work: one line, its home is further down */
+[data-vneo] .vn-xv3-also {
+  margin-top: clamp(28px, 3vw, 40px);
+  color: var(--ink2);
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+[data-vneo] .vn-xv3-also em {
+  font-size: 1.12em;
+}
+[data-vneo] .vn-xv3-also a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: rgba(var(--sage-rgb), 0.45);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition:
+    color 0.25s ease,
+    text-decoration-color 0.25s ease;
+}
+[data-vneo] .vn-xv3-also a:hover {
+  color: var(--sage);
+  text-decoration-color: var(--sage);
+}
+
+/* ---------- the floating preview, for the pointer only ---------- */
+[data-vneo] .vn-xv3-peek {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 30;
+  width: 18rem;
+  pointer-events: none;
+  will-change: transform;
+}
+[data-vneo] .vn-xv3-peek-in {
+  --k: calc(var(--xv3-ca) + var(--xv3-v));
+  display: grid;
+  opacity: 0;
+  scale: 0.94;
+  filter: blur(10px);
+  --xv3-ca: 8;
+  transition:
+    opacity 0.3s ease,
+    scale 0.5s var(--ease),
+    filter 0.45s var(--ease),
+    --xv3-ca 0.7s var(--ease);
+}
+[data-vneo] .vn-xv3-peek[data-on] .vn-xv3-peek-in {
+  opacity: 1;
+  scale: 1;
+  filter: none;
+  --xv3-ca: 0;
+}
+[data-vneo] .vn-xv3-peek-l {
+  grid-area: 1 / 1;
+  align-self: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+[data-vneo] .vn-xv3-peek-l[data-on] {
+  opacity: 1;
+}
+[data-vneo] .vn-xv3-peek-img {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--raised);
+  box-shadow:
+    calc(var(--k) * -1px) 0 0 rgba(var(--fr-m), 0.7),
+    calc(var(--k) * 1px) 0 0 rgba(var(--fr-g), 0.7),
+    0 28px 60px rgba(0, 0, 0, 0.55);
+}
+[data-vneo] .vn-xv3-peek-img img {
+  object-fit: cover;
+}
+[data-vneo] .vn-xv3-peek-t {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 8px;
+  border-radius: 3px;
+  background: var(--bg);
+  color: var(--ink2);
+  font-family: var(--f-mono);
+  font-size: 0.7rem;
+}
+[data-vneo] .vn-xv3-peek-note {
+  display: block;
+  padding: 16px 18px 18px;
+  border-radius: 4px;
+  background: var(--raised);
+  box-shadow:
+    0 0 0 1px var(--hair2),
+    0 28px 60px rgba(0, 0, 0, 0.55);
+  color: var(--ink);
+  font-family: var(--f-serif);
+  font-size: 1.08rem;
+  font-style: italic;
+  line-height: 1.4;
+  text-shadow:
+    calc(var(--k) * -1px) 0 0 rgba(var(--fr-m), 0.7),
+    calc(var(--k) * 1px) 0 0 rgba(var(--fr-g), 0.7);
+}
+
+/* ---------- the pointer: focus follows it ---------- */
+@media (hover: hover) and (pointer: fine) {
+  /* a rack focus: the name you point at stays sharp, the others soften */
+  [data-vneo]
+    .vn-xv3-leads:has(.vn-xv3-lead:hover)
+    .vn-xv3-lead:not(:hover)
+    .vn-xv3-name {
+    opacity: 0.3;
+    filter: blur(3px);
+  }
+  [data-vneo]
+    .vn-xv3-leads:has(.vn-xv3-lead:hover)
+    .vn-xv3-lead:not(:hover)
+    :is(.vn-xv3-cap, .vn-xv3-long) {
+    opacity: 0.4;
+  }
+  [data-vneo] .vn-xv3-index:has(.vn-xv3-hit:hover) .vn-xv3-hit:not(:hover) {
+    opacity: 0.36;
+  }
+  [data-vneo] .vn-xv3-hit:hover .vn-xv3-org {
+    transform: translateX(0.22em);
+  }
+  [data-vneo] .vn-xv3-hit:hover .vn-xv3-mark {
+    color: var(--sage);
+  }
+}
+
+/* ---------- two columns: names and orgs on the left, words on the right ---------- */
+@media (min-width: 821px) {
+  [data-vneo] .vn-xv3 {
+    --name: clamp(5rem, 13.5vw, 16rem);
+  }
+  [data-vneo] .vn-xv3-body {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    column-gap: var(--gap);
+  }
+  [data-vneo] .vn-xv3-body > * {
+    grid-column: 1 / -1;
+  }
+  [data-vneo]
+    :is(
+      .vn-xv3-leads,
+      .vn-xv3-index,
+      .vn-xv3-lead,
+      .vn-xv3-row,
+      .vn-xv3-rowh,
+      .vn-xv3-hit,
+      .vn-xv3-more,
+      .vn-xv3-more-in
+    ) {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: 1 / -1;
+  }
+  [data-vneo] .vn-xv3-lead {
+    align-items: start;
+  }
+  /* the caption hangs from the name's cap height */
+  [data-vneo] .vn-xv3-cap {
+    margin-top: calc(var(--name) * 0.07);
+  }
+  [data-vneo] .vn-xv3-hit {
+    align-items: baseline;
+    padding: clamp(20px, 1.9vw, 28px) 40px clamp(20px, 1.9vw, 28px) 0;
+  }
+  [data-vneo] .vn-xv3-rmain {
+    margin: 0;
+  }
+  [data-vneo] .vn-xv3-rrole {
+    font-size: 1.05rem;
+  }
+  [data-vneo] .vn-xv3-mark {
+    top: calc(clamp(20px, 1.9vw, 28px) + 0.5em);
+  }
+  [data-vneo] .vn-xv3-more {
+    grid-template-rows: 0fr;
+  }
+  [data-vneo] .vn-xv3-more-in {
+    align-items: start;
+  }
+  [data-vneo] .vn-xv3-work {
+    grid-column: 1;
+    contain: inline-size;
+    margin-top: 4px;
+  }
+  [data-vneo] .vn-xv3-text {
+    grid-column: 2;
+    grid-row: 1;
+    padding-bottom: 40px;
+  }
+}
+
+/* wide enough for a contents page's columns: role, kind, dates, mark */
+@media (min-width: 1180px) {
+  [data-vneo] .vn-xv3-hit {
+    padding-right: 0;
+  }
+  [data-vneo] .vn-xv3-rmain {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 6.5rem 7.5rem 14px;
+    column-gap: 20px;
+  }
+  [data-vneo] .vn-xv3-rwhen {
+    text-align: right;
+  }
+  [data-vneo] .vn-xv3-mark {
+    position: relative;
+    top: 0.1em;
+    right: auto;
+    align-self: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-vneo] :is(.vn-xv3-more-in > *, .vn-xv3-peek-in) {
+    filter: none;
+    translate: none;
+    scale: none;
+  }
+  [data-vneo]
+    .vn-xv3-leads:has(.vn-xv3-lead:hover)
+    .vn-xv3-lead:not(:hover)
+    .vn-xv3-name {
+    filter: none;
+  }
+  [data-vneo] .vn-xv3-hit:hover .vn-xv3-org {
+    transform: none;
+  }
+}

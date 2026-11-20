@@ -1,0 +1,673 @@
+/*
+ * Experience, v5: the departures board (experience-v5.tsx). A near-black
+ * housing of split-flap tiles: each tile two halves on a hinge, the
+ * characters in the mono, a lit status in Sage with the green and magenta
+ * fringe at its edges. Where I work now in big tiles, the rest logged under
+ * it; the gate information opens under the board, or under the row on a
+ * phone.
+ *
+ * Sizes come from the board's width: --s is one tile's pitch, --tg the slit
+ * between tiles, --cg the space between columns (one tile and its slit).
+ */
+
+[data-vneo] .vn-xv5 {
+  padding: clamp(80px, 14vh, 140px) 0 0;
+}
+[data-vneo] .vn-xv5 .xv5-lede {
+  max-width: 52ch;
+  color: var(--ink2);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+/* ---------- the housing ---------- */
+[data-vneo] .vn-xv5 .xv5-board {
+  position: relative;
+  margin: clamp(28px, 4vw, 44px) var(--gutter) 0;
+  padding: clamp(18px, 2.2vw, 30px) clamp(10px, 1.6vw, 24px)
+    clamp(12px, 1.4vw, 18px);
+  border-radius: 22px;
+  background:
+    radial-gradient(90% 70% at 0% 0%, rgba(var(--sage-rgb), 0.06), transparent 60%),
+    linear-gradient(180deg, #0d100e, #060807 70%);
+  box-shadow:
+    0 0 0 1px var(--hair),
+    inset 0 1px 0 rgba(var(--ink-rgb), 0.06),
+    inset 0 -18px 40px -30px #000,
+    0 40px 90px -50px #000;
+  container-type: inline-size;
+}
+
+/* the pitch: big tiles for where I work now, the log in small ones */
+[data-vneo] .vn-xv5 .xv5-panel.is-lead {
+  --P: calc(100cqi / 27);
+  --s: var(--P);
+}
+[data-vneo] .vn-xv5 .xv5-panel.is-rest {
+  --s: calc(100cqi / 56);
+  margin-top: clamp(22px, 2.6vw, 34px);
+  padding-top: clamp(18px, 2.2vw, 28px);
+  border-top: 1px solid var(--hair);
+}
+[data-vneo] .vn-xv5 .xv5-panel,
+[data-vneo] .vn-xv5 .xv5-roleline {
+  --sr: calc(100cqi / 56);
+  --tg: max(2px, calc(var(--s) * 0.09));
+  --cg: calc(var(--s) + var(--tg));
+  --pad: calc(var(--s) * 0.5);
+}
+[data-vneo] .vn-xv5 .xv5-roleline {
+  --s: var(--sr);
+}
+
+[data-vneo] .vn-xv5 .xv5-panel h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 12px;
+  padding-left: var(--pad);
+  color: var(--ink2);
+  font-size: 0.92rem;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+[data-vneo] .vn-xv5 .xv5-panel.is-lead h3 {
+  color: var(--ink);
+}
+
+/* the column heads */
+[data-vneo] .vn-xv5 .xv5-labels {
+  display: flex;
+  gap: var(--cg);
+  margin-bottom: 8px;
+  padding: 0 var(--pad);
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+[data-vneo] .vn-xv5 .xv5-labels span {
+  flex: none;
+  width: calc(var(--n) * var(--s) - var(--tg));
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* ---------- the rows ---------- */
+[data-vneo] .vn-xv5 .xv5-rows {
+  display: grid;
+  gap: calc(var(--s) * 0.12);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+[data-vneo] .vn-xv5 .xv5-hit {
+  --chr: rgba(var(--ink-rgb), 0.9);
+  --tu: #1d2320, #171c19;
+  --tl: #121614, #0e110f;
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: calc(var(--s) * 0.24) var(--pad);
+  border: 0;
+  border-radius: calc(var(--s) * 0.2 + 6px);
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+[data-vneo] .vn-xv5 .xv5-row:not([data-live]) .xv5-hit {
+  --chr: rgba(var(--ink-rgb), 0.7);
+}
+[data-vneo] .vn-xv5 .xv5-cols {
+  display: flex;
+  align-items: center;
+  gap: var(--cg);
+}
+[data-vneo] .vn-xv5 .xv5-col {
+  position: relative;
+  display: flex;
+  flex: none;
+  gap: var(--tg);
+}
+[data-vneo] .vn-xv5 .xv5-roleline {
+  margin-top: calc(var(--s) * 0.32);
+  padding-left: calc(9 * var(--P));
+}
+[data-vneo] .vn-xv5 .xv5-row:not([data-live]) .xv5-c-status {
+  --chr: rgba(var(--ink-rgb), 0.46);
+}
+[data-vneo] .vn-xv5 .xv5-col[data-lit] {
+  --chr: var(--sage);
+  text-shadow:
+    -0.035em 0 0 rgba(var(--fr-m), 0.55),
+    0.035em 0 0 rgba(var(--fr-g), 0.55),
+    0 0 0.45em rgba(var(--sage-rgb), 0.4);
+}
+
+/* the status lamp, in the gap before the status */
+[data-vneo] .vn-xv5 .xv5-c-status::before,
+[data-vneo] .vn-xv5 .xv5-lamp {
+  content: '';
+  width: max(6px, calc(var(--s) * 0.2));
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: rgba(var(--ink-rgb), 0.16);
+}
+[data-vneo] .vn-xv5 .xv5-c-status::before {
+  position: absolute;
+  top: 50%;
+  left: calc(var(--cg) * -0.5);
+  transform: translate(-50%, -50%);
+}
+[data-vneo] .vn-xv5 .xv5-lamp {
+  display: inline-block;
+  flex: none;
+  width: 7px;
+}
+[data-vneo] .vn-xv5 .xv5-col[data-lit]::before,
+[data-vneo] .vn-xv5 .xv5-lamp {
+  background: var(--sage);
+  box-shadow:
+    -1px 0 0 rgba(var(--fr-m), 0.7),
+    1px 0 0 rgba(var(--fr-g), 0.7),
+    0 0 10px 1px rgba(var(--sage-rgb), 0.55);
+  animation: xv5-lamp 2.5s ease-in-out infinite;
+}
+@keyframes xv5-lamp {
+  50% {
+    opacity: 0.45;
+    box-shadow: 0 0 4px 0 rgba(var(--sage-rgb), 0.3);
+  }
+}
+
+/* pointing at a flight lights it; the chosen one keeps a Sage edge */
+@media (hover: hover) {
+  [data-vneo] .vn-xv5 .xv5-hit:hover {
+    --chr: var(--ink);
+    --tu: #232a26, #1c221f;
+    --tl: #161b18, #111512;
+    background: rgba(var(--ink-rgb), 0.04);
+    box-shadow: inset 0 0 0 1px var(--hair);
+  }
+  [data-vneo] .vn-xv5 .xv5-hit:hover .xv5-c-status:not([data-lit]) {
+    --chr: rgba(var(--ink-rgb), 0.74);
+  }
+  [data-vneo] .vn-xv5 .xv5-hit:hover .xv5-col[data-lit] {
+    --chr: var(--sage2);
+  }
+}
+[data-vneo] .vn-xv5 .xv5-row[data-on] .xv5-hit {
+  --chr: var(--ink);
+  --tu: #222a24, #1b221d;
+  --tl: #151b17, #101411;
+  background: rgba(var(--sage-rgb), 0.075);
+  box-shadow:
+    inset 3px 0 0 var(--sage),
+    inset 0 0 0 1px rgba(var(--sage-rgb), 0.28);
+}
+[data-vneo] .vn-xv5 .xv5-row[data-on] .xv5-c-status:not([data-lit]) {
+  --chr: rgba(var(--ink-rgb), 0.74);
+}
+
+/* ---------- a split-flap tile ---------- */
+[data-vneo] .vn-xv5 .xv5-t {
+  --th: calc(var(--s) * 1.42);
+  --r: max(2px, calc(var(--s) * 0.1));
+  position: relative;
+  display: block;
+  flex: none;
+  width: calc(var(--s) - var(--tg));
+  height: var(--th);
+  border-radius: var(--r);
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.8),
+    0 0 0 0.5px rgba(0, 0, 0, 0.9);
+  color: var(--chr, rgba(var(--ink-rgb), 0.9));
+  font-family: var(--f-mono);
+  font-size: calc(var(--s) * 1.08);
+  font-style: normal;
+  font-weight: 500;
+  text-align: center;
+  white-space: pre;
+  perspective: calc(var(--th) * 4.5);
+  transition: color 0.3s ease;
+}
+/* the halves: top above the hinge, bottom below it, the slit between them */
+[data-vneo] .vn-xv5 .xv5-t::before,
+[data-vneo] .vn-xv5 .xv5-t::after,
+[data-vneo] .vn-xv5 .xv5-f {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: calc(50% - 0.5px);
+  overflow: hidden;
+  backface-visibility: hidden;
+}
+[data-vneo] .vn-xv5 .xv5-t::before,
+[data-vneo] .vn-xv5 .xv5-fu {
+  top: 0;
+  border-radius: var(--r) var(--r) 1px 1px;
+  background: linear-gradient(180deg, var(--tu, #1d2320, #171c19));
+  line-height: var(--th);
+}
+[data-vneo] .vn-xv5 .xv5-t::after,
+[data-vneo] .vn-xv5 .xv5-fl {
+  bottom: 0;
+  border-radius: 1px 1px var(--r) var(--r);
+  background: linear-gradient(180deg, var(--tl, #121614, #0e110f));
+  line-height: 0;
+}
+[data-vneo] .vn-xv5 .xv5-t::before,
+[data-vneo] .vn-xv5 .xv5-t::after {
+  content: attr(data-c);
+}
+[data-vneo] .vn-xv5 .xv5-t[data-u]::before {
+  content: attr(data-u);
+}
+[data-vneo] .vn-xv5 .xv5-t[data-l]::after {
+  content: attr(data-l);
+}
+/* the flaps, only while a tile moves */
+[data-vneo] .vn-xv5 .xv5-f {
+  z-index: 1;
+  display: block;
+  font-style: normal;
+}
+[data-vneo] .vn-xv5 .xv5-fu {
+  transform-origin: 50% 100%;
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+}
+[data-vneo] .vn-xv5 .xv5-fl {
+  transform-origin: 50% 0;
+  box-shadow: inset 0 1px 0 rgba(var(--ink-rgb), 0.05);
+}
+
+/* the full board only, or the compact one only */
+[data-vneo] .vn-xv5 [data-at='small'],
+[data-vneo] .vn-xv5 .xv5-sub {
+  display: none;
+}
+
+[data-vneo] .vn-xv5 .xv5-hint {
+  margin-top: clamp(14px, 1.6vw, 20px);
+  padding: 0 calc(100cqi / 112);
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.68rem;
+  text-align: right;
+}
+[data-vneo] .vn-xv5[data-on] .xv5-hint {
+  visibility: hidden;
+}
+
+/* ---------- the gate information ---------- */
+[data-vneo] .vn-xv5 .xv5-gate {
+  margin: 14px var(--gutter) 0;
+  padding: clamp(20px, 2.6vw, 34px);
+  border-radius: 22px;
+  background:
+    radial-gradient(80% 120% at 100% 0%, rgba(var(--sage-rgb), 0.06), transparent 60%),
+    var(--surface);
+  box-shadow:
+    0 0 0 1px rgba(var(--sage-rgb), 0.24),
+    0 30px 70px -40px #000;
+  animation: xv5-gate 0.75s var(--ease) both;
+}
+@keyframes xv5-gate {
+  from {
+    clip-path: inset(0 0 100% 0 round 22px);
+    transform: translateY(-8px);
+  }
+  to {
+    clip-path: inset(0 0 0 0 round 22px);
+    transform: none;
+  }
+}
+[data-vneo] .vn-xv5 .xv5-gate-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(14px, 2vw, 26px);
+}
+[data-vneo] .vn-xv5 .xv5-gate-call {
+  --s: clamp(26px, 2.6vw, 36px);
+  --tg: 3px;
+  display: flex;
+  gap: var(--tg);
+  --chr: var(--sage);
+  text-shadow:
+    -0.035em 0 0 rgba(var(--fr-m), 0.55),
+    0.035em 0 0 rgba(var(--fr-g), 0.55);
+}
+[data-vneo] .vn-xv5 .xv5-gate-id h3 {
+  font-size: clamp(1.7rem, 2.8vw, 2.5rem);
+  font-weight: 650;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+[data-vneo] .vn-xv5 .xv5-gate-id h3 small {
+  display: block;
+  margin-top: 6px;
+  color: var(--ink3);
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: 0;
+}
+[data-vneo] .vn-xv5 .xv5-gate-id p {
+  margin-top: 8px;
+  color: var(--ink2);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+[data-vneo] .vn-xv5 .xv5-gate-id p span {
+  margin-left: 12px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  box-shadow: 0 0 0 1px var(--hair2);
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.66rem;
+  font-weight: 400;
+  vertical-align: 2px;
+}
+[data-vneo] .vn-xv5 .xv5-gate-x {
+  display: grid;
+  place-items: center;
+  align-self: start;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--raised);
+  box-shadow: 0 0 0 1px var(--hair);
+  color: var(--ink2);
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+[data-vneo] .vn-xv5 .xv5-gate-x:hover {
+  color: var(--ink);
+  box-shadow: 0 0 0 1px rgba(var(--sage-rgb), 0.55);
+}
+[data-vneo] .vn-xv5 .xv5-gate-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 18px clamp(24px, 4vw, 64px);
+  margin-top: clamp(18px, 2.2vw, 26px);
+  padding-top: clamp(18px, 2.2vw, 26px);
+  border-top: 1px solid var(--hair);
+}
+[data-vneo] .vn-xv5 .xv5-gate-note {
+  max-width: 54ch;
+  color: var(--ink);
+  font-family: var(--f-serif);
+  font-size: clamp(1.18rem, 1.6vw, 1.4rem);
+  font-style: italic;
+  line-height: 1.4;
+}
+[data-vneo] .vn-xv5 .xv5-gate-more {
+  max-width: 64ch;
+  margin-top: 12px;
+  color: var(--ink2);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+[data-vneo] .vn-xv5 .xv5-gate-fields {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  margin: 0;
+}
+[data-vneo] .vn-xv5 .xv5-gate-fields dt,
+[data-vneo] .vn-xv5 .xv5-gate-k {
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+[data-vneo] .vn-xv5 .xv5-gate-fields dd {
+  margin: 3px 0 0;
+  color: var(--ink2);
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+[data-vneo] .vn-xv5 .xv5-gate-out {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 18px clamp(24px, 4vw, 56px);
+  margin-top: clamp(18px, 2.2vw, 26px);
+}
+[data-vneo] .vn-xv5 .xv5-gate-k {
+  margin-bottom: 8px;
+}
+[data-vneo] .vn-xv5 .xv5-gate-work {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+[data-vneo] .vn-xv5 .xv5-gate-work a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 6px 18px 6px 6px;
+  border-radius: 14px;
+  background: var(--raised);
+  box-shadow: 0 0 0 1px var(--hair);
+  color: var(--ink);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: box-shadow 0.2s ease;
+}
+[data-vneo] .vn-xv5 .xv5-gate-work a:hover,
+[data-vneo] .vn-xv5 .xv5-gate-work a:focus-visible {
+  box-shadow: 0 0 0 1px rgba(var(--sage-rgb), 0.55);
+}
+[data-vneo] .vn-xv5 .xv5-thumb {
+  position: relative;
+  flex: none;
+  width: 92px;
+  height: 60px;
+  overflow: hidden;
+  border-radius: 9px;
+  background: var(--sunk);
+}
+[data-vneo] .vn-xv5 .xv5-thumb img {
+  object-fit: cover;
+}
+[data-vneo] .vn-xv5 .xv5-gate-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  font-size: 0.92rem;
+}
+[data-vneo] .vn-xv5 .xv5-gate-links a {
+  color: var(--sage);
+  text-decoration: underline;
+  text-decoration-color: rgba(var(--sage-rgb), 0.4);
+  text-underline-offset: 3px;
+}
+[data-vneo] .vn-xv5 .xv5-gate-links a:hover {
+  text-decoration-color: var(--sage);
+}
+[data-vneo] .vn-xv5 .xv5-gate-site {
+  margin-left: auto;
+}
+
+/* ---------- community work: one quiet line ---------- */
+[data-vneo] .vn-xv5 .xv5-also {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+  margin: 22px var(--gutter) 0;
+  color: var(--ink3);
+  font-size: 0.88rem;
+}
+[data-vneo] .vn-xv5 .xv5-also-label {
+  margin-right: 4px;
+}
+[data-vneo] .vn-xv5 .xv5-also a {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 5px 14px 5px 6px;
+  border-radius: 999px;
+  box-shadow: 0 0 0 1px var(--hair);
+  color: var(--ink2);
+  transition:
+    box-shadow 0.2s ease,
+    color 0.2s ease;
+}
+[data-vneo] .vn-xv5 .xv5-also a small {
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.68rem;
+}
+[data-vneo] .vn-xv5 .xv5-also a:hover,
+[data-vneo] .vn-xv5 .xv5-also a:focus-visible {
+  box-shadow: 0 0 0 1px rgba(var(--sage-rgb), 0.55);
+  color: var(--ink);
+}
+[data-vneo] .vn-xv5 .xv5-also-call .xv5-t {
+  font-size: inherit;
+}
+[data-vneo] .vn-xv5 .xv5-also-call {
+  --s: 15px;
+  --tg: 1.5px;
+  font-size: 13px;
+  --chr: rgba(var(--ink-rgb), 0.72);
+  display: flex;
+  gap: var(--tg);
+}
+[data-vneo] .vn-xv5 .xv5-also a.xv5-also-to {
+  padding: 6px 2px;
+  box-shadow: none;
+  color: var(--sage);
+  text-decoration: underline;
+  text-decoration-color: rgba(var(--sage-rgb), 0.4);
+  text-underline-offset: 3px;
+}
+
+/* ---------- compact: flight, destination and status; the role beneath ---------- */
+@media (max-width: 859px) {
+  [data-vneo] .vn-xv5 .xv5-panel.is-lead {
+    --P: min(48px, calc(100cqi / 12.4));
+  }
+  [data-vneo] .vn-xv5 .xv5-panel.is-rest {
+    --s: min(34px, calc(100cqi / 18.9));
+  }
+  [data-vneo] .vn-xv5 .xv5-panel {
+    --cg: calc(var(--s) * 0.6 + var(--tg));
+    --pad: calc(var(--s) * 0.35);
+  }
+  [data-vneo] .vn-xv5 [data-at='desk'] {
+    display: none;
+  }
+  [data-vneo] .vn-xv5 [data-at='small'] {
+    display: flex;
+  }
+  [data-vneo] .vn-xv5 .xv5-c-dest:not([data-at]) .xv5-t:nth-child(n + 9) {
+    display: none;
+  }
+  [data-vneo] .vn-xv5 .xv5-sub {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 2px 10px;
+    margin-top: calc(var(--s) * 0.3);
+    padding-left: calc(3.6 * var(--s));
+    color: var(--ink2);
+    font-size: 0.86rem;
+    font-weight: 500;
+    line-height: 1.35;
+  }
+  [data-vneo] .vn-xv5 .is-lead .xv5-sub {
+    flex-direction: column;
+    gap: 3px;
+    color: var(--ink);
+    font-size: 0.92rem;
+  }
+  [data-vneo] .vn-xv5 .xv5-sub small {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--ink3);
+    font-family: var(--f-mono);
+    font-size: 0.7rem;
+    font-weight: 400;
+  }
+  [data-vneo] .vn-xv5 .xv5-sub small[data-lit] {
+    color: var(--sage);
+  }
+  [data-vneo] .vn-xv5 .xv5-gate {
+    margin: 8px 0 10px;
+    padding: 18px;
+    border-radius: 18px;
+  }
+  [data-vneo] .vn-xv5 .xv5-gate-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  [data-vneo] .vn-xv5 .xv5-gate-x {
+    width: 36px;
+    height: 36px;
+  }
+  [data-vneo] .vn-xv5 .xv5-gate-site {
+    margin-left: 0;
+  }
+}
+@media (max-width: 640px) {
+  [data-vneo] .vn-xv5 .xv5-board {
+    border-radius: 18px;
+  }
+  [data-vneo] .vn-xv5 .xv5-gate-head {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 12px;
+  }
+  [data-vneo] .vn-xv5 .xv5-gate-call {
+    --s: 20px;
+    --tg: 2px;
+  }
+  [data-vneo] .vn-xv5 .xv5-gate-id h3 {
+    font-size: 1.5rem;
+  }
+  [data-vneo] .vn-xv5 .xv5-gate-id p span {
+    margin-left: 8px;
+  }
+  [data-vneo] .vn-xv5 .xv5-thumb {
+    width: 72px;
+    height: 48px;
+  }
+  [data-vneo] .vn-xv5 .xv5-gate-fields {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
+  [data-vneo] .vn-xv5 .xv5-also {
+    font-size: 0.84rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-vneo] .vn-xv5 .xv5-gate,
+  [data-vneo] .vn-xv5 .xv5-col[data-lit]::before,
+  [data-vneo] .vn-xv5 .xv5-lamp {
+    animation: none;
+  }
+  [data-vneo] .vn-xv5 .xv5-hit,
+  [data-vneo] .vn-xv5 .xv5-t {
+    transition: none;
+  }
+}

@@ -1,0 +1,856 @@
+/*
+ * Experience as staff passes on lanyards (experience-v4.tsx). Two rails: the
+ * places I work now, big sage passes with a "Now" stripe; then the rest,
+ * smaller and dark. A pass is sized in em, so one font size per rack scales
+ * the whole card. The bodies' transforms come from matter-js on a wide
+ * screen; on a phone or with reduced motion the passes hang still in rows.
+ */
+
+[data-vneo] .vn-xv4 {
+  --metal: linear-gradient(90deg, #5f6762, #c6cdc7 42%, #8e968f 62%, #5a625d);
+  padding: clamp(80px, 14vh, 140px) 0 0;
+  overflow-x: clip;
+}
+[data-vneo] .vn-xv4 .xv4-lede {
+  max-width: 52ch;
+  color: var(--ink2);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+[data-vneo] .vn-xv4 .xv4-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+}
+[data-vneo] .vn-xv4 .xv4-hint svg {
+  width: 15px;
+  height: 15px;
+  color: var(--sage);
+}
+
+/* ---------- a rack: its label, the rail, the passes ---------- */
+[data-vneo] .vn-xv4 .xv4-rack {
+  position: relative;
+  margin: clamp(36px, 4.4vw, 52px) var(--gutter) 0;
+  container-type: inline-size;
+}
+[data-vneo] .vn-xv4 .xv4-rack[data-held] {
+  z-index: 5;
+}
+[data-vneo] .vn-xv4 .xv4-stage {
+  --rail-y: 1.1em;
+  --rope: 4.5em;
+  --clip-h: 1.5em;
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+  font-size: clamp(13px, 100cqi / 60, 16px);
+}
+[data-vneo] .vn-xv4 .xv4-rack:not([data-lead]) .xv4-stage {
+  --rope: 3.9em;
+  font-size: clamp(12px, 100cqi / 77, 14px);
+}
+[data-vneo] .vn-xv4 .xv4-rack-h {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 0.2em;
+  color: var(--ink2);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+[data-vneo] .vn-xv4 .xv4-rack[data-lead] .xv4-rack-h {
+  color: var(--ink);
+}
+[data-vneo] .vn-xv4 .xv4-rack[data-lead] .xv4-rack-h::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--sage);
+  box-shadow: 0 0 0 4px rgba(var(--sage-rgb), 0.16);
+}
+[data-vneo] .vn-xv4 .xv4-hang {
+  position: relative;
+  margin-top: 0.7em;
+  padding-top: var(--rail-y);
+}
+/* the index of a sideways row (narrow screens only) */
+[data-vneo] .vn-xv4 .xv4-index {
+  display: none;
+}
+
+/* the rail: a steel rod on two wall mounts */
+[data-vneo] .vn-xv4 .xv4-rail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--rail-y) - 0.24em);
+  height: 0.48em;
+  border-radius: 0.24em;
+  background: linear-gradient(180deg, #59615c 0%, #2b322e 45%, #171b19 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 0.6em 1.1em -0.5em rgba(0, 0, 0, 0.9);
+}
+[data-vneo] .vn-xv4 .xv4-rail i {
+  position: absolute;
+  top: -0.85em;
+  width: 0.8em;
+  height: 1.9em;
+  border-radius: 0.22em;
+  background: linear-gradient(180deg, var(--raised), var(--surface));
+  box-shadow: 0 0 0 1px var(--hair2);
+}
+[data-vneo] .vn-xv4 .xv4-rail i:first-child {
+  left: -0.2em;
+}
+[data-vneo] .vn-xv4 .xv4-rail i:last-child {
+  right: -0.2em;
+}
+[data-vneo] .vn-xv4 .xv4-straps {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+[data-vneo] .vn-xv4 .xv4-strap path {
+  fill: none;
+  stroke-linecap: round;
+}
+[data-vneo] .vn-xv4 .xv4-strap-band {
+  stroke: #343b37;
+  stroke-width: 0.66em;
+}
+[data-vneo] .vn-xv4 .xv4-strap-line {
+  stroke: rgba(var(--ink-rgb), 0.16);
+  stroke-width: 0.08em;
+  stroke-dasharray: 0.3em 0.22em;
+}
+[data-vneo] .vn-xv4 .xv4-strap[data-now] .xv4-strap-band {
+  stroke: #8fae80;
+}
+[data-vneo] .vn-xv4 .xv4-strap[data-now] .xv4-strap-line {
+  stroke: rgba(16, 24, 13, 0.35);
+}
+
+[data-vneo] .vn-xv4 .xv4-passes {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  gap: 3.2em;
+  list-style: none;
+  margin: 0;
+  padding: 0 2.6em 2.8em;
+}
+
+/* ---------- a pass ---------- */
+[data-vneo] .vn-xv4 .xv4-pass {
+  position: relative;
+  flex: none;
+  padding-top: calc(var(--rope) + var(--clip-h));
+}
+[data-vneo] .vn-xv4 .xv4-pass:nth-child(3n + 2) {
+  --rope: 5.2em;
+}
+[data-vneo] .vn-xv4 .xv4-pass:nth-child(3n) {
+  --rope: 4.85em;
+}
+[data-vneo] .vn-xv4 .xv4-rack:not([data-lead]) .xv4-pass:nth-child(3n + 2) {
+  --rope: 4.5em;
+}
+[data-vneo] .vn-xv4 .xv4-rack:not([data-lead]) .xv4-pass:nth-child(3n) {
+  --rope: 4.2em;
+}
+[data-vneo] .vn-xv4 .xv4-pass[data-turned] {
+  z-index: 3;
+}
+[data-vneo] .vn-xv4 .xv4-pass[data-held] {
+  z-index: 4;
+}
+/* the lanyard, when it hangs still (the physics draws its own) */
+[data-vneo] .vn-xv4 .xv4-pass::before {
+  content: '';
+  position: absolute;
+  top: -0.6em;
+  left: 50%;
+  width: 0.66em;
+  height: calc(var(--rope) + 0.9em);
+  border-radius: 0.33em 0.33em 0 0;
+  background:
+    linear-gradient(90deg, transparent 44%, rgba(var(--ink-rgb), 0.16) 44% 56%, transparent 56%),
+    #343b37;
+  transform: translateX(-50%);
+}
+[data-vneo] .vn-xv4 .xv4-pass[data-now]::before {
+  background:
+    linear-gradient(90deg, transparent 44%, rgba(16, 24, 13, 0.35) 44% 56%, transparent 56%),
+    #8fae80;
+}
+[data-vneo] .vn-xv4 .xv4-rack[data-physics] .xv4-pass::before {
+  display: none;
+}
+
+[data-vneo] .vn-xv4 .xv4-body {
+  position: relative;
+  width: 16em;
+  height: 22.4em;
+}
+[data-vneo] .vn-xv4 .xv4-rack:not([data-lead]) .xv4-body {
+  width: 15em;
+  height: 21em;
+}
+[data-vneo] .vn-xv4 .xv4-rack[data-physics] .xv4-body {
+  will-change: transform;
+  user-select: none;
+  -webkit-user-select: none;
+}
+[data-vneo] .vn-xv4 .xv4-show {
+  position: absolute;
+  inset: 0;
+  perspective: 1400px;
+}
+/* the clip, through the slot */
+[data-vneo] .vn-xv4 .xv4-clip {
+  position: absolute;
+  top: calc(-1 * var(--clip-h));
+  left: 50%;
+  z-index: 2;
+  width: 1.3em;
+  height: calc(var(--clip-h) + 1.05em);
+  border-radius: 0.3em 0.3em 0.45em 0.45em;
+  background: var(--metal);
+  box-shadow:
+    inset 0 -0.35em 0 rgba(0, 0, 0, 0.25),
+    0 0.2em 0.35em rgba(0, 0, 0, 0.55);
+  transform: translateX(-50%);
+}
+[data-vneo] .vn-xv4 .xv4-clip::before {
+  content: '';
+  position: absolute;
+  top: 0.35em;
+  left: 50%;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  transform: translateX(-50%);
+}
+[data-vneo] .vn-xv4 .xv4-card {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  transform-style: preserve-3d;
+}
+[data-vneo] .vn-xv4 .xv4-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 0.9em;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  /* while a pass moves, its edges fringe green and magenta */
+  box-shadow:
+    calc(var(--ca, 0) * -1px) 0 0 rgba(var(--fr-m), 0.6),
+    calc(var(--ca, 0) * 1px) 0 0 rgba(var(--fr-g), 0.6),
+    0 1.6em 2.4em -1.3em rgba(0, 0, 0, 0.85),
+    0 0 0 1px var(--hair2);
+  transition: box-shadow 0.3s ease;
+}
+[data-vneo] .vn-xv4 .xv4-slot {
+  position: absolute;
+  top: 0.8em;
+  left: 50%;
+  width: 2.5em;
+  height: 0.5em;
+  border-radius: 0.25em;
+  background: var(--bg);
+  box-shadow: inset 0 0.1em 0.2em rgba(0, 0, 0, 0.7);
+  transform: translateX(-50%);
+}
+
+/* the front */
+[data-vneo] .vn-xv4 .xv4-front {
+  padding: 1.95em 1.15em 0;
+  background:
+    linear-gradient(160deg, rgba(var(--ink-rgb), 0.05), transparent 38%),
+    var(--raised);
+  color: var(--ink);
+}
+[data-vneo] .vn-xv4 .xv4-pass[data-now] .xv4-front {
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.26), transparent 42%),
+    var(--sage);
+  color: var(--sage-ink);
+  box-shadow:
+    calc(var(--ca, 0) * -1px) 0 0 rgba(var(--fr-m), 0.6),
+    calc(var(--ca, 0) * 1px) 0 0 rgba(var(--fr-g), 0.6),
+    0 1.6em 2.4em -1.3em rgba(0, 0, 0, 0.85);
+}
+[data-vneo] .vn-xv4 .xv4-kind {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--f-mono);
+  font-size: 0.6em;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.66;
+}
+[data-vneo] .vn-xv4 .xv4-kind svg {
+  width: 1.7em;
+  height: 1.7em;
+}
+[data-vneo] .vn-xv4 .xv4-org {
+  margin-top: 0.4em;
+  font-size: 1.55em;
+  font-weight: 650;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+[data-vneo] .vn-xv4 .xv4-orglong {
+  margin-top: 0.4em;
+  font-size: 0.66em;
+  line-height: 1.3;
+  opacity: 0.72;
+}
+/* the ID window: the callsign where a photo would be, inside the hero's lock */
+[data-vneo] .vn-xv4 .xv4-id {
+  position: relative;
+  display: grid;
+  flex: 1;
+  place-items: center;
+  min-height: 4.6em;
+  max-height: 9em;
+  margin-top: 0.85em;
+  border-radius: 0.4em;
+  background: var(--sunk);
+  color: var(--ink);
+}
+[data-vneo] .vn-xv4 .xv4-pass[data-now] .xv4-id {
+  background: rgba(16, 24, 13, 0.08);
+  color: var(--sage-ink);
+}
+[data-vneo] .vn-xv4 .xv4-call {
+  padding-left: 0.12em;
+  font-family: var(--f-mono);
+  font-size: 3.1em;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.12em;
+}
+[data-vneo] .vn-xv4 .xv4-lock {
+  position: absolute;
+  inset: 0.6em 0.7em;
+  color: var(--sage);
+}
+[data-vneo] .vn-xv4 .xv4-pass[data-now] .xv4-lock {
+  color: var(--sage-ink);
+}
+[data-vneo] .vn-xv4 .xv4-lock i {
+  position: absolute;
+  width: 0.95em;
+  height: 0.95em;
+  border: 0 solid currentColor;
+}
+[data-vneo] .vn-xv4 .xv4-lock i:nth-child(1) {
+  top: 0;
+  left: 0;
+  border-top-width: 0.14em;
+  border-left-width: 0.14em;
+}
+[data-vneo] .vn-xv4 .xv4-lock i:nth-child(2) {
+  top: 0;
+  right: 0;
+  border-top-width: 0.14em;
+  border-right-width: 0.14em;
+}
+[data-vneo] .vn-xv4 .xv4-lock i:nth-child(3) {
+  bottom: 0;
+  left: 0;
+  border-bottom-width: 0.14em;
+  border-left-width: 0.14em;
+}
+[data-vneo] .vn-xv4 .xv4-lock i:nth-child(4) {
+  right: 0;
+  bottom: 0;
+  border-right-width: 0.14em;
+  border-bottom-width: 0.14em;
+}
+[data-vneo] .vn-xv4 .xv4-role {
+  flex: none;
+  min-height: 2.56em;
+  margin: 0.8em 0 1.05em;
+  font-size: 0.92em;
+  font-weight: 500;
+  line-height: 1.28;
+  letter-spacing: -0.01em;
+}
+/* the stripe: "Now" on a current pass, the dates on the rest */
+[data-vneo] .vn-xv4 .xv4-band {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6em;
+  height: 2.7em;
+  margin: auto -1.15em 0;
+  padding: 0 1.15em;
+  border-top: 1px solid var(--hair);
+  background: rgba(var(--ink-rgb), 0.03);
+  color: var(--ink2);
+  font-family: var(--f-mono);
+  font-size: 1em;
+}
+[data-vneo] .vn-xv4 .xv4-band > span {
+  font-size: 0.74em;
+  letter-spacing: 0.04em;
+}
+[data-vneo] .vn-xv4 .xv4-pass[data-now] .xv4-band {
+  border-top: 0;
+  background: var(--sage-ink);
+  color: var(--sage);
+}
+[data-vneo] .vn-xv4 .xv4-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  font-weight: 600;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase;
+}
+[data-vneo] .vn-xv4 .xv4-live::before {
+  content: '';
+  width: 0.62em;
+  height: 0.62em;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 0.25em rgba(var(--sage-rgb), 0.18);
+  animation: xv4-xpdr 2.5s steps(1, end) infinite;
+}
+@keyframes xv4-xpdr {
+  0% {
+    opacity: 1;
+  }
+  6% {
+    opacity: 0.25;
+  }
+  12% {
+    opacity: 1;
+  }
+}
+[data-vneo] .vn-xv4 .xv4-pass[data-now] .xv4-valid {
+  color: rgba(var(--sage-rgb), 0.78);
+}
+
+/* the back: what I did there */
+[data-vneo] .vn-xv4 .xv4-back {
+  padding: 1.95em 1.1em 0;
+  background:
+    linear-gradient(200deg, rgba(var(--sage-rgb), 0.07), transparent 45%),
+    var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  transform: rotateY(180deg);
+}
+[data-vneo] .vn-xv4 .xv4-pass[data-now] .xv4-back {
+  box-shadow:
+    calc(var(--ca, 0) * -1px) 0 0 rgba(var(--fr-m), 0.6),
+    calc(var(--ca, 0) * 1px) 0 0 rgba(var(--fr-g), 0.6),
+    0 1.6em 2.4em -1.3em rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(var(--sage-rgb), 0.5);
+}
+[data-vneo] .vn-xv4 .xv4-back-in {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.62em;
+  min-height: 0;
+  margin-bottom: 0.8em;
+  overflow: hidden;
+  font-size: calc(var(--fit, 1) * 1em);
+}
+[data-vneo] .vn-xv4 .xv4-back .xv4-band {
+  margin-inline: -1.1em;
+  padding-inline: 1.1em;
+}
+[data-vneo] .vn-xv4 .xv4-band svg {
+  flex: none;
+  width: 1.05em;
+  height: 1.05em;
+  opacity: 0.6;
+}
+[data-vneo] .vn-xv4 .xv4-pass[data-now] .xv4-back .xv4-band {
+  background: rgba(var(--sage-rgb), 0.12);
+  color: var(--sage);
+}
+[data-vneo] .vn-xv4 .xv4-back-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2em 0.9em;
+  padding-bottom: 0.55em;
+  border-bottom: 1px solid var(--hair);
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.64em;
+}
+[data-vneo] .vn-xv4 .xv4-back-head b {
+  color: var(--sage);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+[data-vneo] .vn-xv4 .xv4-back-head span:first-of-type {
+  color: var(--ink);
+}
+[data-vneo] .vn-xv4 .xv4-note {
+  color: var(--ink);
+  font-family: var(--f-serif);
+  font-size: 1.04em;
+  font-style: italic;
+  line-height: 1.3;
+}
+[data-vneo] .vn-xv4 .xv4-more {
+  color: var(--ink2);
+  font-size: 0.78em;
+  line-height: 1.5;
+}
+[data-vneo] .vn-xv4 .xv4-fields {
+  display: grid;
+  gap: 0.35em;
+  margin: 0;
+  font-size: 0.74em;
+  line-height: 1.35;
+}
+[data-vneo] .vn-xv4 .xv4-fields div {
+  display: grid;
+  grid-template-columns: 3.6em minmax(0, 1fr);
+  gap: 0.5em;
+}
+[data-vneo] .vn-xv4 .xv4-fields dt {
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.86em;
+}
+[data-vneo] .vn-xv4 .xv4-fields dd {
+  margin: 0;
+  color: var(--ink2);
+}
+[data-vneo] .vn-xv4 .xv4-work,
+[data-vneo] .vn-xv4 .xv4-writing {
+  display: grid;
+  gap: 0.45em;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+[data-vneo] .vn-xv4 .xv4-work a {
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  padding: 0.35em;
+  border-radius: 0.5em;
+  background: rgba(var(--ink-rgb), 0.04);
+  box-shadow: 0 0 0 1px var(--hair);
+  color: var(--ink);
+  font-size: 0.78em;
+  font-weight: 500;
+  line-height: 1.25;
+  text-decoration: none;
+  transition: box-shadow 0.25s ease, background 0.25s ease;
+}
+[data-vneo] .vn-xv4 .xv4-work a:hover {
+  background: rgba(var(--sage-rgb), 0.08);
+  box-shadow: 0 0 0 1px rgba(var(--sage-rgb), 0.5);
+}
+[data-vneo] .vn-xv4 .xv4-thumb {
+  position: relative;
+  flex: none;
+  width: 3.4em;
+  height: 3.4em;
+  overflow: hidden;
+  border-radius: 0.35em;
+  background: var(--sunk);
+}
+[data-vneo] .vn-xv4 .xv4-thumb img {
+  object-fit: cover;
+}
+[data-vneo] .vn-xv4 .xv4-writing a,
+[data-vneo] .vn-xv4 .xv4-site {
+  color: var(--sage);
+  font-size: 0.78em;
+  line-height: 1.35;
+  text-decoration: underline;
+  text-decoration-color: rgba(var(--sage-rgb), 0.35);
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color 0.25s ease;
+}
+[data-vneo] .vn-xv4 .xv4-writing a:hover,
+[data-vneo] .vn-xv4 .xv4-site:hover {
+  text-decoration-color: var(--sage);
+}
+[data-vneo] .vn-xv4 .xv4-band .xv4-site {
+  font-size: 0.74em;
+  letter-spacing: 0.04em;
+}
+[data-vneo] .vn-xv4 .xv4-site::after {
+  content: ' ↗';
+}
+[data-vneo] .vn-xv4 .xv4-back :is(a, button):focus-visible {
+  outline: 2px solid var(--sage);
+  outline-offset: 2px;
+  border-radius: 0.3em;
+}
+
+/* the pass is the button: it covers the front; turned, the back takes the clicks */
+[data-vneo] .vn-xv4 .xv4-turn {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  padding: 0;
+  border: 0;
+  border-radius: 0.9em;
+  background: none;
+  cursor: pointer;
+}
+[data-vneo] .vn-xv4 .xv4-pass[data-turned] .xv4-turn {
+  pointer-events: none;
+}
+[data-vneo] .vn-xv4 .xv4-turn:focus-visible {
+  outline: 2px solid var(--sage);
+  outline-offset: 5px;
+}
+[data-vneo] .vn-xv4 .xv4-turn:hover + .xv4-card .xv4-front {
+  box-shadow:
+    calc(var(--ca, 0) * -1px) 0 0 rgba(var(--fr-m), 0.6),
+    calc(var(--ca, 0) * 1px) 0 0 rgba(var(--fr-g), 0.6),
+    0 1.8em 2.6em -1.2em rgba(0, 0, 0, 0.9),
+    0 0 0 1px rgba(var(--sage-rgb), 0.7);
+}
+[data-vneo] .vn-xv4 .xv4-rack[data-physics] .xv4-turn {
+  cursor: grab;
+}
+[data-vneo] .vn-xv4 .xv4-pass[data-held] .xv4-turn,
+[data-vneo] .vn-xv4 .xv4-pass[data-held] .xv4-back {
+  cursor: grabbing;
+}
+
+/* before the physics takes over, the passes wait off the rail (no flash, then the drop) */
+@media (scripting: enabled) and (min-width: 1000px) and (prefers-reduced-motion: no-preference) {
+  [data-vneo] .vn-xv4 .xv4-rack:not([data-physics]) .xv4-pass {
+    opacity: 0;
+    animation: xv4-failsafe 0.4s ease 4s forwards;
+  }
+}
+@keyframes xv4-failsafe {
+  to {
+    opacity: 1;
+  }
+}
+[data-vneo] .vn-xv4 .xv4-rack[data-armed] :is(.xv4-pass, .xv4-straps) {
+  opacity: 0;
+}
+
+/* ---------- community: stickers, not passes ---------- */
+[data-vneo] .vn-xv4 .xv4-also {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 18px;
+  margin: clamp(20px, 3vw, 32px) var(--gutter) 0;
+  padding-top: 22px;
+  border-top: 1px solid var(--hair);
+  color: var(--ink2);
+  font-size: 0.86rem;
+}
+[data-vneo] .vn-xv4 .xv4-also ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+[data-vneo] .vn-xv4 .xv4-sticker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 14px 7px 7px;
+  border-radius: 9px;
+  background: var(--raised);
+  box-shadow:
+    inset 0 0 0 1px var(--hair2),
+    0 8px 16px -10px rgba(0, 0, 0, 0.9);
+  color: var(--ink);
+  text-decoration: none;
+  transform: rotate(var(--tilt, 0deg));
+  transition:
+    transform 0.4s var(--ease),
+    box-shadow 0.25s ease;
+}
+[data-vneo] .vn-xv4 .xv4-sticker:hover,
+[data-vneo] .vn-xv4 .xv4-sticker:focus-visible {
+  transform: rotate(0deg) translateY(-2px);
+  box-shadow:
+    inset 0 0 0 1px rgba(var(--sage-rgb), 0.6),
+    0 12px 20px -10px rgba(0, 0, 0, 0.9);
+  outline: none;
+}
+[data-vneo] .vn-xv4 .xv4-sticker b {
+  padding: 4px 7px;
+  border-radius: 5px;
+  background: rgba(var(--sage-rgb), 0.14);
+  color: var(--sage);
+  font-family: var(--f-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+[data-vneo] .vn-xv4 .xv4-sticker span {
+  font-size: 0.86rem;
+  font-weight: 500;
+}
+[data-vneo] .vn-xv4 .xv4-sticker small {
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.68rem;
+}
+[data-vneo] .vn-xv4 .xv4-also-to {
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  text-decoration: underline;
+  text-decoration-color: var(--hair2);
+  text-underline-offset: 0.25em;
+}
+[data-vneo] .vn-xv4 .xv4-also-to:hover {
+  color: var(--sage);
+  text-decoration-color: currentColor;
+}
+[data-vneo] .vn-xv4 .xv4-also-to::after {
+  content: ' →';
+}
+
+/* ---------- below a desk-wide screen: rows that scroll sideways, no physics ---------- */
+@media (max-width: 999px) {
+  [data-vneo] .vn-xv4 .xv4-stage,
+  [data-vneo] .vn-xv4 .xv4-rack:not([data-lead]) .xv4-stage {
+    width: auto;
+    font-size: clamp(13px, 4.1vw, 16px);
+  }
+  /* one row at a time: every pass full size, a little taller for its back */
+  [data-vneo] .vn-xv4 .xv4-body,
+  [data-vneo] .vn-xv4 .xv4-rack:not([data-lead]) .xv4-body {
+    width: 16em;
+    height: 24em;
+  }
+  [data-vneo] .vn-xv4 .xv4-hang {
+    padding-top: 0;
+  }
+  [data-vneo] .vn-xv4 .xv4-index {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+  }
+  [data-vneo] .vn-xv4 .xv4-index button {
+    padding: 5px 10px;
+    border: 0;
+    border-radius: 999px;
+    background: none;
+    box-shadow: inset 0 0 0 1px var(--hair2);
+    color: var(--ink2);
+    font: 500 0.78rem/1.2 var(--f-display);
+    cursor: pointer;
+    transition:
+      background 0.25s ease,
+      color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+  [data-vneo] .vn-xv4 .xv4-index button[data-now]::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin: 0 6px 1px 0;
+    border-radius: 50%;
+    background: var(--sage);
+    vertical-align: middle;
+  }
+  [data-vneo] .vn-xv4 .xv4-index button[data-on] {
+    background: rgba(var(--sage-rgb), 0.14);
+    box-shadow: inset 0 0 0 1px rgba(var(--sage-rgb), 0.55);
+    color: var(--ink);
+  }
+  [data-vneo] .vn-xv4 .xv4-rail {
+    display: none;
+  }
+  /* the rail is the row's own background, so it runs the whole scroll */
+  [data-vneo] .vn-xv4 .xv4-passes {
+    gap: 1.15em;
+    margin-inline: calc(-1 * var(--gutter));
+    padding: var(--rail-y) var(--gutter) 2.4em;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+    background:
+      linear-gradient(180deg, #59615c 0%, #2b322e 45%, #171b19 100%) 0
+        calc(var(--rail-y) - 0.24em) / 100% 0.48em no-repeat local;
+  }
+  [data-vneo] .vn-xv4 .xv4-passes::-webkit-scrollbar {
+    display: none;
+  }
+  [data-vneo] .vn-xv4 .xv4-passes::after {
+    content: '';
+    flex: none;
+    width: 1px;
+  }
+  [data-vneo] .vn-xv4 .xv4-pass {
+    scroll-snap-align: start;
+    transform-origin: 50% 0;
+  }
+  [data-vneo] .vn-xv4 .xv4-rack[data-seen] .xv4-pass {
+    animation: xv4-sway calc(2.5s * 1.4) cubic-bezier(0.25, 0.6, 0.3, 1) calc(var(--i) * 0.14s) both;
+  }
+}
+/* a row hung by hand: it settles from a small swing, once */
+@keyframes xv4-sway {
+  0% {
+    transform: rotate(4deg);
+  }
+  28% {
+    transform: rotate(-2.2deg);
+  }
+  52% {
+    transform: rotate(1deg);
+  }
+  74% {
+    transform: rotate(-0.4deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-vneo] .vn-xv4 .xv4-live::before,
+  [data-vneo] .vn-xv4 .xv4-rack[data-seen] .xv4-pass {
+    animation: none;
+  }
+  [data-vneo] .vn-xv4 .xv4-sticker {
+    transition: none;
+  }
+}
