@@ -4,7 +4,9 @@
  * come from my CV, as the About page already says them.
  *
  * Each role is a strip. `lead` roles are where I work now and get the big
- * strips; the rest are logged under them. A `review` role renders only in
+ * strips; the rest are logged under them. Community work (`side`) is only
+ * mentioned here, in one line under the board: its home is the Community
+ * section. A `review` role renders only in
  * development (or a preview built with AUTHORITY_INCLUDE_REVIEW=1) until its
  * details are settled; `keep: false` takes a role off the board without
  * losing its record.
@@ -61,6 +63,8 @@ export interface Role {
   href?: string
   /** where I work now: a big strip */
   lead?: boolean
+  /** community work: one small mention under the board, not a strip; the Community section tells it */
+  side?: boolean
   state: PublicationState
   /** on the board; false keeps the record but takes it off */
   keep?: boolean
@@ -82,6 +86,10 @@ export const experience = {
   chart: {
     label: 'Every role on a timeline, from the year it started to the year it ended',
     now: 'Now',
+  },
+  also: {
+    label: 'Also, in the community',
+    to: 'See the Community section',
   },
   strip: {
     open: 'More',
@@ -182,6 +190,7 @@ export const roles: Role[] = [
     note: 'Took two school healthcare teams from first idea to award-winning prototypes.',
     more: 'LumiScan (Ahliah School), a melanoma-detection device, and Dosely (Saint Joseph School), an elderly-care set of a wearable bracelet, a pillbox, and an app. Both teams won awards: Best Community Impact and Best Healthcare Innovation.',
     writing: ['mentoring-two-healthcare-teams-at-injaz'],
+    side: true,
     state: 'ready',
   },
   {
@@ -196,6 +205,7 @@ export const roles: Role[] = [
     note: '“Git & GitHub” and “The Long Way into AI” at the CodewithSerah bootcamp, then a hands-on Git workshop for the LAU Byblos Software Engineering Club.',
     with: ['Tarek AlSaleh, who wrote the workshop material'],
     writing: ['talks-workshops-and-teaching'],
+    side: true,
     state: 'ready',
     keep: false,
   },
@@ -211,6 +221,7 @@ export const roles: Role[] = [
     where: 'GDG North Lebanon',
     note: 'On-device multimodal assistants: can GPT-Vision fit on small hardware?',
     writing: ['talks-workshops-and-teaching'],
+    side: true,
     state: 'ready',
     keep: false,
   },
@@ -297,6 +308,7 @@ export const roles: Role[] = [
     note: 'Organized the university’s robotics competitions, including Lebanon’s first IEEE Micromouse.',
     more: 'IEEE Micromouse 2023–2024 was the first in Lebanon, held at RHU in May 2024, where I mentored a number of the teams. I also mentored teams for the World Robot Olympiad and other competitions.',
     href: 'https://www.rhu.edu.lb/media-room/news/rafik-hariri-university-is-set-to-make-history-by-hosting-lebanons-first-ever-micromouse-competition',
+    side: true,
     state: 'ready',
     keep: false,
   },
@@ -326,6 +338,7 @@ export const roles: Role[] = [
     note: 'Technical bootcamps on NASA data and mentoring, for 250–400 participants a year.',
     more: 'Teams I mentored reached the global top 10 six times. I competed too: our team won a Distinctive Team Award in 2021. Space Apps Beirut gave me its Exceptional Volunteering Certification in 2024.',
     writing: ['what-four-years-of-technical-mentoring-taught-me'],
+    side: true,
     state: 'ready',
   },
   {
@@ -339,6 +352,7 @@ export const roles: Role[] = [
     when: '2021 – 2024',
     note: 'Founded and led National Physics Day across four universities: UOB, LAU, AUB, and LU.',
     writing: ['turning-physics-outreach-into-a-multi-university-program'],
+    side: true,
     state: 'ready',
     keep: false,
   },

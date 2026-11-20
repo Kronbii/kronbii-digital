@@ -1380,6 +1380,46 @@
 [data-vneo] .vn-ctile.is-organizing .vn-ctile-photo {
   object-position: 50% 50%;
 }
+/* the other rooms I organized: small, under the cap, each its own link above the tile's */
+[data-vneo] .vn-org-also {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--hair);
+  color: var(--ink3);
+  font-size: 0.82rem;
+}
+[data-vneo] .vn-org-also ul {
+  display: grid;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+[data-vneo] .vn-org-also li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+}
+[data-vneo] .vn-org-also a {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: rgba(var(--sage-rgb), 0.4);
+  text-underline-offset: 3px;
+}
+[data-vneo] .vn-org-also a:hover,
+[data-vneo] .vn-org-also a:focus-visible {
+  text-decoration-color: var(--sage);
+}
+[data-vneo] .vn-org-also small {
+  color: var(--ink3);
+  font-size: inherit;
+}
 [data-vneo] .vn-ctile.is-organizing .vn-tile-cap p {
   -webkit-line-clamp: 4;
 }

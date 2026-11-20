@@ -361,6 +361,22 @@ export const community = {
       { value: '6×', label: 'teams I mentored in the global top 10' },
     ],
     note: 'Lead technical organizer for four years, running technical bootcamps on NASA data and mentoring the teams.',
+    /** the other rooms I organized, one line each */
+    also: {
+      label: 'Also organized',
+      items: [
+        {
+          title: 'IEEE Micromouse at RHU',
+          note: 'Lebanon’s first, May 2024',
+          href: 'https://www.rhu.edu.lb/media-room/news/rafik-hariri-university-is-set-to-make-history-by-hosting-lebanons-first-ever-micromouse-competition',
+        },
+        {
+          title: 'National Physics Day',
+          note: 'across four universities',
+          href: writingHref('turning-physics-outreach-into-a-multi-university-program'),
+        },
+      ],
+    },
     image: {
       src: '/images/authority/space-apps/hackathon-hall.jpg',
       alt: 'Rami Kronbi taking a selfie in front of a hall full of teams working at laptops during NASA Space Apps Beirut.',

@@ -550,6 +550,50 @@
   display: none;
 }
 
+/* ---------- community work: one quiet line, pointing to its section ---------- */
+[data-vneo] .vn-exp-also {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+  margin: 22px var(--gutter) 0;
+  color: var(--ink3);
+  font-size: 0.88rem;
+}
+[data-vneo] .vn-exp-also > span {
+  margin-right: 4px;
+}
+[data-vneo] .vn-exp-also a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  box-shadow: 0 0 0 1px var(--hair);
+  color: var(--ink2);
+  transition:
+    box-shadow 0.2s ease,
+    color 0.2s ease;
+}
+[data-vneo] .vn-exp-also a small {
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.68rem;
+}
+[data-vneo] .vn-exp-also a:hover,
+[data-vneo] .vn-exp-also a:focus-visible {
+  box-shadow: 0 0 0 1px rgba(var(--sage-rgb), 0.55);
+  color: var(--ink);
+}
+[data-vneo] .vn-exp-also a.vn-exp-also-to {
+  padding: 6px 2px;
+  box-shadow: none;
+  color: var(--sage);
+  text-decoration: underline;
+  text-decoration-color: rgba(var(--sage-rgb), 0.4);
+  text-underline-offset: 3px;
+}
+
 /* ---------- picking (development only) ---------- */
 [data-vneo] .vn-strip-pick {
   display: flex;

@@ -98,13 +98,19 @@ export function Experience({
     return () => io.disconnect()
   }, [])
 
+  // community work is only mentioned under the board; its home is the Community section
+  const board = useMemo(() => roles.filter((r) => !r.side), [roles])
+  const side = roles
+    .filter((r) => r.side && kept(r))
+    .sort((a, b) => (b.from ?? now) - (a.from ?? now))
+
   // contrails in take-off order; roles whose start is not settled yet sit just before now
   const flights = useMemo(
     () =>
-      [...roles].sort(
+      [...board].sort(
         (a, b) => (a.from ?? now - 0.3) - (b.from ?? now - 0.3)
       ),
-    [roles, now]
+    [board, now]
   )
   const span = now - START
   const x = (year: number) =>
@@ -114,8 +120,8 @@ export function Experience({
     (_, i) => START + i
   )
 
-  const lead = roles.filter((r) => r.lead)
-  const rest = roles
+  const lead = board.filter((r) => r.lead)
+  const rest = board
     .filter((r) => !r.lead)
     .sort((a, b) => {
       const end = (r: BoardRole) => (r.to === 'now' ? now : r.to)
@@ -253,8 +259,23 @@ export function Experience({
         </ol>
       </div>
 
+      {side.length ? (
+        <p className="vn-exp-also">
+          <span>{c.also.label}</span>
+          {side.map((r) => (
+            <a key={r.id} href="#community">
+              {r.org}
+              <small>{r.when}</small>
+            </a>
+          ))}
+          <a className="vn-exp-also-to" href="#community">
+            {c.also.to}
+          </a>
+        </p>
+      ) : null}
+
       {PICKING ? (
-        <PickDock roles={roles} kept={kept} title={title} reset={() => {
+        <PickDock roles={board} kept={kept} title={title} reset={() => {
           setPicks({})
           try {
             localStorage.removeItem(PICKS_KEY)
