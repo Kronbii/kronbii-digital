@@ -21,6 +21,8 @@ import './experience.css'
  *
  * In development only, each strip can be kept or dropped and a title chosen,
  * and the dock copies the picks, so the board can be decided by looking at it.
+ * Add ?live to the address to see the board as it ships: no picker, only the
+ * roles kept.
  */
 
 const PICKING = process.env.NODE_ENV === 'development'
@@ -44,10 +46,14 @@ export function Experience({
   const [hot, setHot] = useState<string | null>(null)
   const [open, setOpen] = useState<Record<string, boolean>>({})
   const [picks, setPicks] = useState<Picks>({})
+  // ?live: the development board as it ships
+  const [live, setLive] = useState(false)
+  const picking = PICKING && !live
 
   // the picker remembers its choices in this browser
   useEffect(() => {
     if (!PICKING) return
+    setLive(new URLSearchParams(window.location.search).has('live'))
     try {
       const saved = localStorage.getItem(PICKS_KEY)
       if (saved) setPicks(JSON.parse(saved) as Picks)
@@ -99,7 +105,10 @@ export function Experience({
   }, [])
 
   // community work is only mentioned under the board; its home is the Community section
-  const board = useMemo(() => roles.filter((r) => !r.side), [roles])
+  const board = useMemo(
+    () => roles.filter((r) => !r.side && (!live || kept(r))),
+    [roles, live, kept]
+  )
   const side = roles
     .filter((r) => r.side && kept(r))
     .sort((a, b) => (b.from ?? now) - (a.from ?? now))
@@ -235,6 +244,7 @@ export function Experience({
               hot={hot === r.id}
               onHot={setHot}
               pick={pick}
+              picking={picking}
             />
           ))}
         </ol>
@@ -254,6 +264,7 @@ export function Experience({
               hot={hot === r.id}
               onHot={setHot}
               pick={pick}
+              picking={picking}
             />
           ))}
         </ol>
@@ -274,7 +285,7 @@ export function Experience({
         </p>
       ) : null}
 
-      {PICKING ? (
+      {picking ? (
         <PickDock roles={board} kept={kept} title={title} reset={() => {
           setPicks({})
           try {
@@ -296,6 +307,7 @@ function Strip({
   hot,
   onHot,
   pick,
+  picking,
 }: {
   r: BoardRole
   lead?: boolean
@@ -306,6 +318,8 @@ function Strip({
   hot: boolean
   onHot: (id: string | null) => void
   pick: (id: string, p: { keep?: boolean; role?: string }) => void
+  /** the development picker is showing */
+  picking: boolean
 }) {
   const detail = `strip-${r.id}-more`
   return (
@@ -418,7 +432,7 @@ function Strip({
         </div>
       </div>
 
-      {PICKING ? (
+      {picking ? (
         <div className="vn-strip-pick">
           <button
             type="button"
@@ -492,6 +506,7 @@ function PickDock({
       <button type="button" onClick={reset}>
         Reset
       </button>
+      <a href="?live#experience">See it as it ships</a>
       <output hidden data-picks={text} />
     </div>
   )

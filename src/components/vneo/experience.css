@@ -660,6 +660,13 @@
   font-weight: 600;
   cursor: pointer;
 }
+[data-vneo] .vn-exp-dock a {
+  padding: 7px 12px 7px 4px;
+  color: var(--sage);
+  text-decoration: underline;
+  text-decoration-color: rgba(var(--sage-rgb), 0.4);
+  text-underline-offset: 3px;
+}
 [data-vneo] .vn-exp-dock button + button {
   background: none;
   color: var(--ink2);
