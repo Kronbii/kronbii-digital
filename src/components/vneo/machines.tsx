@@ -510,7 +510,10 @@ function build(root: HTMLElement, tl: gsap.core.Timeline) {
   // past the hold the pulse keeps going round, at the lap's pace
   let raf = 0
   let doneAt = 0
+  let seen = false
   const tick = () => {
+    raf = 0
+    if (!seen) return
     raf = requestAnimationFrame(tick)
     if (reduce || tl.isActive() || tl.progress() < 1) {
       doneAt = 0
@@ -520,8 +523,16 @@ function build(root: HTMLElement, tl: gsap.core.Timeline) {
     const beats = (performance.now() - doneAt) / 1000 / (B / (tl.timeScale() || 1))
     placePulse(geo(1), (4 + beats) % 6, 1)
   }
-  raf = requestAnimationFrame(tick)
-  return () => cancelAnimationFrame(raf)
+  // only while the shot is on screen: off it, nothing would see the pulse move
+  const io = new IntersectionObserver(([e]) => {
+    seen = e.isIntersecting
+    if (seen && !raf) raf = requestAnimationFrame(tick)
+  })
+  io.observe(root)
+  return () => {
+    cancelAnimationFrame(raf)
+    io.disconnect()
+  }
 }
 
 export const LABEL =

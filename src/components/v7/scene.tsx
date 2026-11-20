@@ -102,6 +102,12 @@ export function Scene({
     const io = new IntersectionObserver(
       ([e]) => {
         if (e.intersectionRatio >= 0.45 && !played.current) play()
+        // the ambient loop rests while the scene is off screen
+        const l = loop.current
+        if (l) {
+          if (e.isIntersecting) l.resume()
+          else l.pause()
+        }
       },
       { threshold: [0, 0.45, 1] }
     )

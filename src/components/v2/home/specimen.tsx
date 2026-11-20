@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js'
 
+import { drawGap } from '@/components/v6/gl/pace'
 import { v2Home } from '@/content/v2/home'
 
 import { loadE58, proceduralDrone, type Airframe } from './airframes'
@@ -175,7 +176,7 @@ export function Specimen() {
       setFailed(true)
       return
     }
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75))
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
     renderer.outputColorSpace = THREE.SRGBColorSpace
     renderer.toneMapping = THREE.ACESFilmicToneMapping
     renderer.toneMappingExposure = 1.05
@@ -280,6 +281,16 @@ export function Specimen() {
     }
 
     loadE58(modelLabels)
+      .then(async (a) => {
+        // its shaders compile before it mounts (off the main thread where the
+        // driver allows), so its first frame doesn't stall the opening screen
+        try {
+          await renderer.compileAsync(a.root, camera, scene)
+        } catch {
+          /* compiled on its first frame instead */
+        }
+        return a
+      })
       .then((a) => mountAirframe(a, 'model'))
       .catch(() => {
         if (!disposed)
@@ -504,8 +515,15 @@ export function Specimen() {
       placeCallouts()
     }
 
-    function frame() {
+    let drawnAt = 0
+    function frame(now: number) {
       raf = 0
+      // at most 60 frames a second, and 30 while the page scrolls (pace.ts)
+      if (now - drawnAt < drawGap(now)) {
+        if (visible) raf = window.requestAnimationFrame(frame)
+        return
+      }
+      drawnAt = now
       const dt = Math.min(clock.getDelta(), 1 / 30)
       t += dt
       if (!reduced) terrainMat.uniforms.uTime.value = t
