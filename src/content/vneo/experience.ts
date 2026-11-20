@@ -186,8 +186,8 @@ export const roles: Role[] = [
     note: 'An innovation space and incubator that helps university students build practical projects and grow local ideas into products.',
     with: ['Al Ghad Lana'],
     href: 'https://www.alghadlana.com',
-    state: 'ready',
-    open: 'Is this the same place as Chronos? My title here',
+    state: 'review',
+    open: 'Is this the same place as Chronos? My title, and whether it is still running',
   },
   {
     id: 'injaz',
