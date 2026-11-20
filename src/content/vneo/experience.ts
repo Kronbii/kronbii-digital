@@ -91,7 +91,6 @@ export const experience = {
     writing: 'Written about it',
     site: 'Visit',
     since: 'Since',
-    unknown: 'Start date to come',
   },
 }
 
@@ -145,8 +144,8 @@ export const roles: Role[] = [
     note: 'An engineering space and incubator for Lebanese startups that take on the country’s real problems.',
     more: 'We fund startups, work beside their founders as engineers, and help them grow working products out of their ideas: products built for Lebanon as it really is, not as we wish it were.',
     lead: true,
-    state: 'review',
-    open: 'Chronos is not public yet; start date',
+    state: 'ready',
+    open: 'Start date',
   },
   {
     id: 'freelance',

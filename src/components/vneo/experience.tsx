@@ -32,9 +32,6 @@ type Picks = Record<string, { keep: boolean; role?: string }>
 const isNow = (r: BoardRole) => r.to === 'now'
 const isPoint = (r: BoardRole) => r.to !== 'now' && r.to === r.from
 
-/** "2024" for a whole year, the printed dates otherwise */
-const since = (r: BoardRole) =>
-  r.from === undefined ? c.strip.unknown : String(Math.floor(r.from))
 
 export function Experience({
   roles,
@@ -311,10 +308,11 @@ function Strip({
           {lead ? <p className="vn-strip-note">{r.note}</p> : null}
         </div>
         <span className="vn-strip-when">
-          {lead && isNow(r) ? (
+          {/* a big strip still flying says the year it started; with no start settled, just "Now" */}
+          {lead && isNow(r) && r.from !== undefined ? (
             <>
               <small>{c.strip.since}</small>
-              {since(r)}
+              {Math.floor(r.from)}
             </>
           ) : (
             r.when
