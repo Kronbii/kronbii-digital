@@ -116,12 +116,6 @@ export const roles: Role[] = [
     org: 'CNRS-L',
     orgLong: 'National Council for Scientific Research, Lebanon',
     role: 'Research and development engineer',
-    roles: [
-      'Research and development engineer',
-      'Research engineer',
-      'Researcher',
-      'Research assistant',
-    ],
     kind: 'research',
     to: 'now',
     when: 'Now',
@@ -129,8 +123,8 @@ export const roles: Role[] = [
     note: 'Research and development at Lebanon’s national council for scientific research, the public body behind the country’s national research centers.',
     href: 'https://www.cnrs.edu.lb/',
     lead: true,
-    state: 'review',
-    open: 'Title, start date, and a line on what I work on',
+    state: 'ready',
+    open: 'Start date, and a line on what I work on',
   },
   {
     id: 'chronos',

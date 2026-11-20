@@ -68,7 +68,11 @@ export function Experience({
     [picks]
   )
   const title = useCallback(
-    (r: BoardRole) => (PICKING && picks[r.id]?.role) || r.role,
+    (r: BoardRole) => {
+      const picked = picks[r.id]?.role
+      // a picked title counts only while the role still offers a choice
+      return PICKING && picked && r.roles?.includes(picked) ? picked : r.role
+    },
     [picks]
   )
 
