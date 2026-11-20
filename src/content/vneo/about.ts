@@ -28,7 +28,7 @@ export const about: {
 } = {
   title: 'About',
   description:
-    'Rami Kronbi’s record beyond the projects: a mechatronics degree from RHU, embedded and vision engineering at Oreyeon, teaching and mentoring, community work, awards, and certificates.',
+    'Rami Kronbi’s record beyond the projects: a mechatronics degree from RHU, embedded and vision engineering at Oreyeon, research and development at CNRS-L, engineering at the Chronos incubator, teaching and mentoring, community work, awards, and certificates.',
   lede: 'I’m a robotics, vision, and embedded systems engineer in Beirut. This is the record behind the projects: where I studied, where I work, where I teach, and what came of it.',
   emblem: {
     caption:
@@ -59,6 +59,19 @@ export const about: {
           where: 'Oreyeon, Coimbra, Portugal (hybrid)',
           href: 'https://www.oreyeon.com/',
           note: 'Real-time vision for airport runway safety, on NVIDIA Jetson.',
+        },
+        {
+          when: 'Now',
+          what: 'Research and development engineer',
+          where: 'CNRS-L, the National Council for Scientific Research, Lebanon',
+          href: 'https://www.cnrs.edu.lb/',
+          note: 'Research and development at Lebanon’s national council for scientific research, the public body behind the country’s national research centers.',
+        },
+        {
+          when: '2026 – now',
+          what: 'Engineer',
+          where: 'Chronos, with Al Ghad Lana',
+          note: 'An engineering space and incubator for Lebanese startups that take on the country’s real problems. We fund startups, work beside their founders as engineers, and help them grow working products out of their ideas.',
         },
         {
           when: '2022 – 2025',
@@ -175,12 +188,6 @@ export const about: {
           what: 'Co-founder, Evoid',
           note: 'A small applied computer-vision venture that built apps for clients.',
           href: writingHref('what-a-small-vision-venture-taught-me-about-scope'),
-        },
-        {
-          when: '2026',
-          what: 'Space²',
-          note: 'An emerging innovation space and incubator in Lebanon that helps university students build practical projects and grow local ideas into products. We run it together with Al Ghad Lana.',
-          href: 'https://www.alghadlana.com',
         },
         {
           when: '2021 – 2024',
