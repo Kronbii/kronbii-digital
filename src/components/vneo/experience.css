@@ -1,0 +1,717 @@
+/*
+ * Experience as a flight-strip board (experience.tsx). The flight paths are
+ * contrails, faint at take-off and bright at the nose; the strips are a
+ * tower's paper strips, ruled into fields, the callsign on the left, the
+ * controller's pencil note in the serif.
+ */
+
+[data-vneo] .vn-exp {
+  --row: 15px;
+  --call-w: 52px;
+  padding: clamp(80px, 14vh, 140px) 0 0;
+}
+[data-vneo] .vn-exp-lede {
+  max-width: 52ch;
+  color: var(--ink2);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+/* ---------- the flight paths ---------- */
+[data-vneo] .vn-exp-chart {
+  position: relative;
+  margin: clamp(28px, 4vw, 44px) var(--gutter) 0;
+  padding: 18px clamp(16px, 2.4vw, 28px) 14px;
+  border-radius: 20px;
+  background:
+    radial-gradient(120% 140% at 100% 50%, rgba(var(--sage-rgb), 0.07), transparent 60%),
+    var(--surface);
+  box-shadow: 0 0 0 1px var(--hair);
+}
+[data-vneo] .vn-exp-readout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 18px;
+  min-height: 1.5em;
+  margin-bottom: 14px;
+  color: var(--ink2);
+  font-family: var(--f-mono);
+  font-size: 0.74rem;
+}
+[data-vneo] .vn-exp-readout b {
+  color: var(--sage);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+[data-vneo] .vn-exp-readout-idle {
+  color: var(--ink3);
+}
+[data-vneo] .vn-exp-paths {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+[data-vneo] .vn-exp-path {
+  transition: opacity 0.25s ease;
+}
+[data-vneo] .vn-exp[data-hot] .vn-exp-path:not([data-hot]) {
+  opacity: 0.26;
+}
+[data-vneo] .vn-exp-path[data-dropped] {
+  opacity: 0.16;
+}
+[data-vneo] .vn-exp-path-hit,
+[data-vneo] .vn-exp-axis {
+  display: grid;
+  grid-template-columns: var(--call-w) minmax(0, 1fr);
+  align-items: center;
+  width: 100%;
+}
+[data-vneo] .vn-exp-path-hit {
+  height: var(--row);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+[data-vneo] .vn-exp-call {
+  color: rgba(var(--ink-rgb), 0.62);
+  font-family: var(--f-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  transition: color 0.25s ease;
+}
+[data-vneo] .vn-exp-path[data-hot] .vn-exp-call,
+[data-vneo] .vn-exp-path[data-now] .vn-exp-call {
+  color: var(--sage);
+}
+[data-vneo] .vn-exp-track {
+  position: relative;
+  height: 100%;
+}
+/* a contrail: thin and faint where it took off, bright at the nose */
+[data-vneo] .vn-exp-trail {
+  position: absolute;
+  top: 50%;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(var(--sage-rgb), 0.08), rgba(var(--sage-rgb), 0.9));
+  transform: translateY(-50%) scaleX(0);
+  transform-origin: 0 50%;
+  transition:
+    transform 1s var(--ease) calc(var(--i) * 0.06s),
+    height 0.2s ease;
+}
+[data-vneo] .vn-exp[data-seen] .vn-exp-trail {
+  transform: translateY(-50%) scaleX(1);
+}
+[data-vneo] .vn-exp-path[data-hot] .vn-exp-trail {
+  height: 3px;
+  filter: drop-shadow(-1.5px 0 rgba(var(--fr-m), 0.75))
+    drop-shadow(1.5px 0 rgba(var(--fr-g), 0.75));
+}
+/* a start still to be settled fades in dashed */
+[data-vneo] .vn-exp-path[data-unsure] .vn-exp-trail {
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(var(--sage-rgb), 0.85) 0 3px,
+    transparent 3px 6px
+  );
+}
+/* one day, one dot */
+[data-vneo] .vn-exp-path[data-point] .vn-exp-trail {
+  width: 7px !important;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--sage);
+  transform: translate(-50%, -50%) scale(0);
+}
+[data-vneo] .vn-exp[data-seen] .vn-exp-path[data-point] .vn-exp-trail {
+  transform: translate(-50%, -50%) scale(1);
+}
+/* still flying: the nose sits on the now line and blinks, once a bar */
+[data-vneo] .vn-exp-path[data-now] .vn-exp-trail::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -6px;
+  width: 10px;
+  height: 10px;
+  background: var(--sage);
+  clip-path: polygon(0 0, 100% 50%, 0 100%, 28% 50%);
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: opacity 0.4s ease 1.4s;
+}
+[data-vneo] .vn-exp[data-seen] .vn-exp-path[data-now] .vn-exp-trail::after {
+  opacity: 1;
+  animation: vn-xpdr 2.5s steps(1, end) 2s infinite;
+}
+@keyframes vn-xpdr {
+  0% {
+    opacity: 1;
+  }
+  6% {
+    opacity: 0.25;
+  }
+  12% {
+    opacity: 1;
+  }
+}
+[data-vneo] .vn-exp-axis {
+  position: relative;
+  height: 22px;
+  margin-top: 8px;
+}
+[data-vneo] .vn-exp-axis .vn-exp-track {
+  height: 100%;
+}
+[data-vneo] .vn-exp-year,
+[data-vneo] .vn-exp-nowmark {
+  position: absolute;
+  bottom: 0;
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.62rem;
+}
+/* the year's gridline, up through every row */
+[data-vneo] .vn-exp-year::before,
+[data-vneo] .vn-exp-nowmark::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 6px);
+  width: 1px;
+  height: calc(var(--rows) * var(--row) + 6px);
+  background: var(--hair);
+}
+[data-vneo] .vn-exp-nowmark {
+  right: 0;
+  color: var(--sage);
+  transform: translateX(50%);
+}
+[data-vneo] .vn-exp-nowmark::before {
+  left: 50%;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(var(--sage-rgb), 0.6) 0 4px,
+    transparent 4px 8px
+  );
+}
+
+/* ---------- the bays ---------- */
+[data-vneo] .vn-exp-bay {
+  margin: clamp(40px, 6vw, 64px) var(--gutter) 0;
+}
+[data-vneo] .vn-exp-bay > h3 {
+  margin-bottom: 16px;
+  color: var(--ink2);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+[data-vneo] .vn-exp-bay > ol {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+[data-vneo] .vn-exp-bay.is-lead > ol {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 14px;
+}
+
+/* ---------- a strip ---------- */
+[data-vneo] .vn-strip {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--hair);
+  transition:
+    box-shadow 0.25s ease,
+    opacity 0.25s ease;
+}
+[data-vneo] .vn-strip[data-hot] {
+  box-shadow: 0 0 0 1px rgba(var(--sage-rgb), 0.45);
+}
+[data-vneo] .vn-strip[data-dropped] {
+  opacity: 0.42;
+}
+[data-vneo] .vn-strip[data-dropped] .vn-strip-role {
+  text-decoration: line-through;
+  text-decoration-color: rgba(var(--fr-m), 0.8);
+}
+[data-vneo] .vn-strip-head {
+  position: relative;
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) 132px 108px 48px;
+  min-height: 62px;
+}
+[data-vneo] .vn-strip-call {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border-right: 1px solid var(--hair);
+  background: rgba(var(--ink-rgb), 0.03);
+  color: var(--ink2);
+  font-family: var(--f-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+[data-vneo] .vn-strip[data-now] .vn-strip-call {
+  background: var(--sage);
+  color: var(--sage-ink);
+}
+[data-vneo] .vn-strip-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.58rem;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+[data-vneo] .vn-strip-live::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: vn-xpdr 2.5s steps(1, end) infinite;
+}
+[data-vneo] .vn-strip-id {
+  display: grid;
+  align-content: center;
+  gap: 2px;
+  min-width: 0;
+  padding: 11px 18px;
+}
+[data-vneo] .vn-strip-org {
+  color: var(--ink3);
+  font-size: 0.8rem;
+}
+[data-vneo] .vn-strip-role {
+  color: var(--ink);
+  font-size: 1.02rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+[data-vneo] .vn-strip-when,
+[data-vneo] .vn-strip-kind {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  border-left: 1px solid var(--hair);
+  color: var(--ink2);
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+}
+[data-vneo] .vn-strip-kind {
+  color: var(--ink3);
+}
+[data-vneo] .vn-strip-when small {
+  color: var(--ink3);
+  font-size: inherit;
+}
+/* the plus that opens a strip; its hit area is the whole strip */
+[data-vneo] .vn-strip-toggle {
+  position: static;
+  border: 0;
+  border-left: 1px solid var(--hair);
+  background: none;
+  color: var(--ink2);
+  cursor: pointer;
+}
+[data-vneo] .vn-strip-toggle::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+[data-vneo] .vn-strip-toggle::before {
+  content: '';
+  display: block;
+  width: 12px;
+  height: 12px;
+  margin: auto;
+  background:
+    linear-gradient(currentColor, currentColor) center / 12px 1.5px no-repeat,
+    linear-gradient(currentColor, currentColor) center / 1.5px 12px no-repeat;
+  transition: transform 0.3s var(--ease);
+}
+[data-vneo] .vn-strip-toggle[aria-expanded='true']::before {
+  transform: rotate(45deg);
+}
+[data-vneo] .vn-strip-head:hover .vn-strip-toggle {
+  color: var(--sage);
+}
+[data-vneo] .vn-strip-toggle:focus-visible {
+  outline: none;
+}
+[data-vneo] .vn-strip-toggle:focus-visible::after {
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 2px var(--sage);
+}
+
+/* what an open strip says */
+[data-vneo] .vn-strip-more-in {
+  display: grid;
+  gap: 14px;
+  max-width: 980px;
+  padding: 6px 22px 20px calc(64px + 18px);
+}
+[data-vneo] .vn-strip[data-open]:not(.is-lead) .vn-strip-more-in {
+  animation: vn-strip-open 0.5s var(--ease);
+}
+@keyframes vn-strip-open {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+/* the controller's pencil note */
+[data-vneo] .vn-strip-note {
+  max-width: 60ch;
+  color: var(--ink2);
+  font-family: var(--f-serif);
+  font-size: 1.14rem;
+  font-style: italic;
+  line-height: 1.42;
+}
+[data-vneo] .vn-strip-text {
+  max-width: 68ch;
+  color: var(--ink2);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+[data-vneo] .vn-strip-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 32px;
+  margin: 0;
+  font-size: 0.86rem;
+}
+[data-vneo] .vn-strip-fields dt {
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.66rem;
+}
+[data-vneo] .vn-strip-fields dd {
+  margin: 2px 0 0;
+  color: var(--ink2);
+}
+[data-vneo] .vn-strip-work {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+[data-vneo] .vn-strip-work a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 16px 6px 6px;
+  border-radius: 12px;
+  background: var(--raised);
+  box-shadow: 0 0 0 1px var(--hair);
+  color: var(--ink);
+  font-size: 0.86rem;
+  font-weight: 500;
+  transition: box-shadow 0.2s ease;
+}
+[data-vneo] .vn-strip-work a:hover,
+[data-vneo] .vn-strip-work a:focus-visible {
+  box-shadow: 0 0 0 1px rgba(var(--sage-rgb), 0.55);
+}
+[data-vneo] .vn-strip-thumb {
+  position: relative;
+  flex: none;
+  width: 60px;
+  height: 42px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--sunk);
+}
+[data-vneo] .vn-strip-thumb img {
+  object-fit: cover;
+}
+[data-vneo] .vn-strip-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  font-size: 0.88rem;
+}
+[data-vneo] .vn-strip-links a {
+  color: var(--sage);
+  text-decoration: underline;
+  text-decoration-color: rgba(var(--sage-rgb), 0.4);
+  text-underline-offset: 3px;
+}
+[data-vneo] .vn-strip-links a:hover {
+  text-decoration-color: var(--sage);
+}
+
+/* ---------- a big strip: where I work now ---------- */
+[data-vneo] .vn-strip.is-lead {
+  display: flex;
+  flex-direction: column;
+  padding-left: 76px;
+  border-radius: 14px;
+}
+[data-vneo] .vn-strip.is-lead .vn-strip-call {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 76px;
+  justify-content: space-between;
+  padding: 18px 0;
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
+  letter-spacing: 0.14em;
+}
+/* the callsign runs up the strip's edge, "Now" at the top */
+[data-vneo] .vn-strip.is-lead .vn-strip-call {
+  flex-direction: row;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+[data-vneo] .vn-strip.is-lead .vn-strip-live {
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+}
+/* no toggle to cover it, and the callsign spans the whole strip */
+[data-vneo] .vn-strip.is-lead .vn-strip-head {
+  position: static;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    'id id'
+    'when kind';
+  min-height: 0;
+}
+[data-vneo] .vn-strip.is-lead .vn-strip-id {
+  grid-area: id;
+  gap: 6px;
+  padding: 22px 24px 18px;
+}
+[data-vneo] .vn-strip.is-lead .vn-strip-org {
+  color: var(--ink);
+  font-size: clamp(2rem, 3.4vw, 2.9rem);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+}
+[data-vneo] .vn-strip.is-lead .vn-strip-org span {
+  display: block;
+  margin-top: 8px;
+  color: var(--ink3);
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: 0;
+}
+[data-vneo] .vn-strip.is-lead .vn-strip-role {
+  color: var(--ink2);
+  font-size: 1.04rem;
+  font-weight: 500;
+}
+[data-vneo] .vn-strip.is-lead .vn-strip-note {
+  margin-top: 10px;
+}
+[data-vneo] .vn-strip.is-lead .vn-strip-when,
+[data-vneo] .vn-strip.is-lead .vn-strip-kind {
+  padding: 12px 24px;
+  border-top: 1px solid var(--hair);
+}
+[data-vneo] .vn-strip.is-lead .vn-strip-when {
+  grid-area: when;
+  border-left: 0;
+}
+[data-vneo] .vn-strip.is-lead .vn-strip-kind {
+  grid-area: kind;
+}
+[data-vneo] .vn-strip.is-lead .vn-strip-more {
+  flex: 1;
+  border-top: 1px solid var(--hair);
+}
+[data-vneo] .vn-strip.is-lead .vn-strip-more-in {
+  padding: 18px 24px 22px;
+}
+[data-vneo] .vn-strip.is-lead .vn-strip-more:has(> .vn-strip-more-in:empty) {
+  display: none;
+}
+
+/* ---------- picking (development only) ---------- */
+[data-vneo] .vn-strip-pick {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 8px 16px;
+  border-top: 1px dashed rgba(var(--fr-m), 0.35);
+  background: rgba(var(--fr-m), 0.05);
+  font-size: 0.75rem;
+}
+[data-vneo] .vn-strip-pick button,
+[data-vneo] .vn-strip-pick select {
+  position: relative;
+  z-index: 1;
+  padding: 4px 12px;
+  border: 1px solid rgba(var(--sage-rgb), 0.6);
+  border-radius: 999px;
+  background: none;
+  color: var(--sage);
+  font: inherit;
+  cursor: pointer;
+}
+[data-vneo] .vn-strip-pick button[aria-pressed='false'] {
+  border-color: rgba(var(--fr-m), 0.7);
+  color: rgb(var(--fr-m));
+}
+[data-vneo] .vn-strip-pick select {
+  background: var(--raised);
+  color: var(--ink);
+}
+[data-vneo] .vn-strip-pending {
+  color: rgb(var(--fr-m));
+}
+[data-vneo] .vn-exp-dock {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 8px 8px 18px;
+  border-radius: 999px;
+  background: var(--raised);
+  box-shadow:
+    0 0 0 1px rgba(var(--fr-m), 0.45),
+    0 12px 40px rgba(0, 0, 0, 0.5);
+  color: var(--ink2);
+  font-size: 0.82rem;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+[data-vneo] .vn-exp-dock b {
+  color: var(--ink);
+}
+[data-vneo] .vn-exp-dock button {
+  padding: 7px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--sage);
+  color: var(--sage-ink);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+[data-vneo] .vn-exp-dock button + button {
+  background: none;
+  color: var(--ink2);
+  box-shadow: inset 0 0 0 1px var(--hair2);
+}
+
+/* ---------- a phone ---------- */
+@media (max-width: 720px) {
+  [data-vneo] .vn-exp {
+    --row: 12px;
+    --call-w: 34px;
+  }
+  [data-vneo] .vn-exp-call {
+    font-size: 0.5rem;
+    letter-spacing: 0.04em;
+  }
+  [data-vneo] .vn-exp-year:nth-of-type(even) {
+    visibility: hidden;
+  }
+  [data-vneo] .vn-exp-year:nth-of-type(even)::before {
+    visibility: visible;
+  }
+  [data-vneo] .vn-strip-head {
+    grid-template-columns: 52px minmax(0, 1fr) 44px;
+    grid-template-areas:
+      'call id toggle'
+      'call when toggle';
+  }
+  [data-vneo] .vn-strip-call {
+    grid-area: call;
+    font-size: 0.7rem;
+  }
+  [data-vneo] .vn-strip-id {
+    grid-area: id;
+    padding: 12px 14px 2px;
+  }
+  [data-vneo] .vn-strip-when {
+    grid-area: when;
+    padding: 0 14px 12px;
+    border-left: 0;
+    font-size: 0.66rem;
+  }
+  [data-vneo] .vn-strip-kind {
+    display: none;
+  }
+  [data-vneo] .vn-strip-toggle {
+    grid-area: toggle;
+  }
+  [data-vneo] .vn-strip-more-in {
+    padding: 6px 16px 18px;
+  }
+  [data-vneo] .vn-strip.is-lead {
+    padding-left: 56px;
+  }
+  [data-vneo] .vn-strip.is-lead .vn-strip-call {
+    width: 56px;
+    font-size: 1.15rem;
+  }
+  [data-vneo] .vn-strip.is-lead .vn-strip-head {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      'id id'
+      'when kind';
+  }
+  [data-vneo] .vn-strip.is-lead .vn-strip-kind {
+    display: flex;
+  }
+  [data-vneo] .vn-strip.is-lead .vn-strip-id,
+  [data-vneo] .vn-strip.is-lead .vn-strip-more-in {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  [data-vneo] .vn-strip.is-lead .vn-strip-when,
+  [data-vneo] .vn-strip.is-lead .vn-strip-kind {
+    padding: 10px 18px;
+  }
+  [data-vneo] .vn-exp-dock {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    justify-content: space-between;
+    transform: none;
+    font-size: 0.74rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-vneo] .vn-exp-trail,
+  [data-vneo] .vn-exp-path[data-now] .vn-exp-trail::after {
+    transition: none;
+  }
+  [data-vneo] .vn-exp[data-seen] .vn-exp-path[data-now] .vn-exp-trail::after,
+  [data-vneo] .vn-strip-live::before {
+    animation: none;
+  }
+  [data-vneo] .vn-strip[data-open]:not(.is-lead) .vn-strip-more-in {
+    animation: none;
+  }
+}
