@@ -65,7 +65,7 @@ export const about: {
           what: 'Research and development engineer',
           where: 'CNRS-L, the National Council for Scientific Research, Lebanon',
           href: 'https://www.cnrs.edu.lb/',
-          note: 'Research and development at Lebanon’s national council for scientific research, the public body behind the country’s national research centers.',
+          note: 'I work on the council’s data analysis, embedded, vision and surveying projects.',
         },
         {
           when: '2026 – now',
