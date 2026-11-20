@@ -16,6 +16,7 @@ This repo (`Kronbii/kronbii-digital`) is the source of ramikronbi.com, Rami Kron
 | `src/components/authority/` | Blocks for project, article and topic pages |
 | `public/images/authority/<project>/` | Project media; list each file's public source in `docs/IMAGE_SOURCES.txt` |
 | `next.config.js` | Redirects for removed or renamed pages |
+| `docs/design-ideas/` | Reusable UI ideas and the house style: every option explored (with screenshots), how each works, and what else it suits; read it before designing anything new, here or in Rami's other projects |
 | `docs/ACTION_ITEMS.md` | Open to-dos for Rami and for Claude |
 | `docs/crosspost/` | Exports the writing and republishes it on DEV, Medium and Hashnode |
 | `videos/` | Showreel sources (HyperFrames and hand-rolled); not part of the site build |
