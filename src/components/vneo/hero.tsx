@@ -12,9 +12,7 @@ import { vneo } from '@/content/vneo/site'
  * The first screen: v6's name slam, at Vneo's calmer tempo, beside v2's
  * drone. RAMI drops in out of a colour fringe, KRONBI slides in on the next
  * beat, the ID-lock brackets close on the name, and the title decodes out of
- * glyph noise, and the links rise in; beside it, the E58 you can tilt, which levels itself. When
- * the preflight played, the name is already where it landed, and the slam
- * picks up at the lock.
+ * glyph noise, and the links rise in; beside it, the E58 you can tilt, which levels itself.
  */
 
 const LOCK = 2 * B
@@ -26,7 +24,6 @@ export function Hero() {
   useEffect(() => {
     const el = root.current
     if (!el) return
-    const host = el.closest<HTMLElement>('[data-intro-root]')
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
     const sub = el.querySelector<HTMLElement>('.vn-hero-sub')!
 
@@ -128,42 +125,8 @@ export function Hero() {
         el.dataset.rolled = ''
         return
       }
-      const state = () => host?.dataset.intro
-      const start = () => {
-        el.dataset.rolled = ''
-        if (state() === 'done')
-          tl.progress(0)
-            .seek(LOCK - 0.02, false)
-            .play()
-        else tl.play(0)
-      }
-      tl.progress(0)
       el.dataset.rolled = ''
-      const s = state()
-      if (s === 'on' || s === 'playing' || s === 'reveal') {
-        // the name is the preflight's to place
-        gsap.set('.vn-n1, .vn-n2, .vn-n2 > span', {
-          opacity: 1,
-          scale: 1,
-          x: 0,
-          filter: 'none',
-          '--ca': 0,
-        })
-        const mo = new MutationObserver(() => {
-          const v = state()
-          if (v === 'done' || v === 'off') {
-            mo.disconnect()
-            start()
-          }
-        })
-        if (host)
-          mo.observe(host, {
-            attributes: true,
-            attributeFilter: ['data-intro'],
-          })
-        return () => mo.disconnect()
-      }
-      start()
+      tl.play(0)
     }, el)
     return () => ctx.revert()
   }, [c.sub])

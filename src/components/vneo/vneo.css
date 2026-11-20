@@ -804,28 +804,12 @@
     height: clamp(400px, 58svh, 600px);
   }
 }
-/* the preflight's name is set like this one (.vn-name), so it lands on it letter for letter */
-[data-v7][data-vneo] [data-intro-overlay] :is([data-part='n1'], [data-part='n2']) {
-  font-weight: 700;
-  line-height: 0.86;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
-  font-variation-settings: 'opsz' 96;
-}
-/* the preflight lands on this name; the slam waits for its own entrance */
-[data-vneo][data-intro='on'] #vneo-name,
-[data-vneo][data-intro='playing'] #vneo-name,
-[data-vneo][data-intro='reveal'] #vneo-name {
-  opacity: 0;
-}
-[data-vneo][data-intro='on'] #vneo-name {
-  animation: v7-failsafe 0.4s ease 6.5s forwards;
-}
-[data-vneo][data-intro='off']
-  .vn-hero:not([data-rolled])
-  :is(.vn-n1, .vn-n2, .vn-chip) {
-  opacity: 0;
-  animation: v7-failsafe 0.4s ease 3s forwards;
+/* the name waits for its entrance (with no script, it is simply there) */
+@media (scripting: enabled) {
+  [data-vneo] .vn-hero:not([data-rolled]) :is(.vn-n1, .vn-n2, .vn-chip) {
+    opacity: 0;
+    animation: v7-failsafe 0.4s ease 3s forwards;
+  }
 }
 
 /* ---------- a slate (v4's), in Sage ---------- */

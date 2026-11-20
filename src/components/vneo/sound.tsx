@@ -58,7 +58,7 @@ const touch = () => matchMedia('(hover: none)').matches
 
 /*
  * Music under the site, on unless the visitor mutes it. It starts as
- * the page opens, so it fades in with the intro wherever the browser allows sound
+ * the page opens, so it fades in with the hero wherever the browser allows sound
  * on its own; where it holds it until a gesture (an iPhone always, most browsers
  * on a first visit), it fades in on the visitor's first click, tap or key,
  * anywhere. The button mutes and unmutes, and a mute holds for the rest of the
