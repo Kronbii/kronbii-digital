@@ -2242,6 +2242,13 @@
       rgba(var(--fr-m), 0.3),
     calc(var(--lx, 0) * -1px) calc(var(--ly, 0) * -1px) 0 rgba(var(--fr-m), 0.7);
 }
+/* while the page scrolls, the fringe changes every other frame (lens.tsx): type keeps
+   only its outer pair of shadows then, half the drawing for each repaint */
+html[data-lens-busy] [data-vneo] :is(#v7-main h1, #v7-main h2, [data-lens]) {
+  text-shadow:
+    calc(var(--lx, 0) * 1px) calc(var(--ly, 0) * 1px) 0 rgba(var(--fr-g), 0.7),
+    calc(var(--lx, 0) * -1px) calc(var(--ly, 0) * -1px) 0 rgba(var(--fr-m), 0.7);
+}
 /* type that also fringes on its own (--ca, an entrance) takes both */
 [data-vneo] .fx {
   text-shadow:

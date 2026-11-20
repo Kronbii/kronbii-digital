@@ -37,6 +37,40 @@ export function Lens() {
     const collect = () => {
       els = Array.from(document.querySelectorAll<HTMLElement>(TARGETS))
       stale = false
+      measured = false
+    }
+
+    // where each target sits on the page, measured only when the layout changes:
+    // reading positions (or scrollY, or the window's size) inside every frame,
+    // right after the last frame's writes, would force a fresh style and layout
+    // each time; the scroll position comes from scroll events instead
+    type Box = {
+      x: number
+      y: number
+      w: number
+      h: number
+      img: boolean
+      k: number
+    }
+    let boxes: Box[] = []
+    let measured = false
+    let vw = innerWidth
+    let vh = innerHeight
+    let sy = scrollY
+    const measure = () => {
+      sy = scrollY
+      boxes = els.map((el) => {
+        const r = el.getBoundingClientRect()
+        return {
+          x: r.left + r.width / 2,
+          y: r.top + sy + r.height / 2,
+          w: r.width,
+          h: r.height,
+          img: el.hasAttribute('data-lens-img'),
+          k: parseFloat(el.dataset.lens ?? '') || 1,
+        }
+      })
+      measured = true
     }
 
     const axis = { x: innerWidth / 2, y: innerHeight / 2 }
@@ -46,18 +80,20 @@ export function Lens() {
     let holdGoal = 0
     let breath = 0
     let vy = 0
-    let lastY = scrollY
+    let lastY = sy
     let raf = 0
     let last = 0
+    let turn = 0
+    let busy = false
+    const root = document.documentElement
     const prev = new WeakMap<HTMLElement, number>()
 
     const frame = (now: number) => {
       raf = 0
       if (stale) collect()
+      if (!measured) measure()
       const dt = last ? Math.min(0.05, (now - last) / 1000) : 1 / 60
       last = now
-      const vw = innerWidth
-      const vh = innerHeight
 
       // the optical axis: the pointer, or the frame's centre when it is idle or absent
       const idle = !fine || reduced || now - lastMove > 4500
@@ -68,7 +104,7 @@ export function Lens() {
       axis.y += (gy - axis.y) * ka
 
       // breathing: scroll speed defocuses, and focus returns when the page stops
-      const y = scrollY
+      const y = sy
       const v = (y - lastY) / dt
       lastY = y
       vy += (v - vy) * (1 - Math.exp(-dt * 8))
@@ -79,21 +115,34 @@ export function Lens() {
       hold +=
         (holdGoal - hold) * (1 - Math.exp(-dt * (holdGoal > hold ? 2.6 : 6)))
 
+      // every fringe change repaints big display type, so type takes a new fringe
+      // every other frame while the lens moves (the eye can't tell 30 steps a
+      // second from 60 in a shift of a pixel or two), and while the page scrolls
+      // it also drops to its outer pair of shadows (vneo.css); photographs only
+      // move their layers, so they keep every frame
+      const moving = Math.abs(vy) > 60
+      if (moving !== busy) {
+        busy = moving
+        if (busy) root.dataset.lensBusy = ''
+        else delete root.dataset.lensBusy
+      }
+      turn = (turn + 1) % 2
+
       const dyn = GAIN * (1 + breath + hold * 4.5)
       const trail = GAIN * Math.max(-1, Math.min(1, vy / 2600)) * 2
       const half = Math.hypot(vw, vh) / 2
 
-      // read every position first, then write: interleaving the two would make
-      // each read wait for a fresh layout
-      const rects = els.map((el) => el.getBoundingClientRect())
       for (let i = 0; i < els.length; i++) {
         const el = els[i]
-        const r = rects[i]
-        if (r.bottom < -80 || r.top > vh + 80 || r.width === 0) continue
-        const w = parseFloat(el.dataset.lens ?? '') || 1
-        const max = el.hasAttribute('data-lens-img') ? MAX_IMG : MAX_TEXT
-        const dx = (r.left + r.width / 2 - axis.x) / half
-        const dy = (r.top + r.height / 2 - axis.y) / half
+        const b = boxes[i]
+        const cy = b.y - y
+        if (cy + b.h / 2 < -80 || cy - b.h / 2 > vh + 80 || b.w === 0) continue
+        const img = b.img
+        if (turn && !img) continue
+        const w = b.k
+        const max = img ? MAX_IMG : MAX_TEXT
+        const dx = (b.x - axis.x) / half
+        const dy = (cy - axis.y) / half
         // quarter-pixel steps: finer than the eye reads a fringe, and display
         // type only repaints when a step changes
         const qx = Math.round(dx * max * dyn * w * 4)
@@ -111,8 +160,16 @@ export function Lens() {
         Math.abs(vy) > 4 ||
         Math.abs(hold - holdGoal) > 0.004 ||
         hold > 0.004
-      if (settling && !document.hidden) raf = requestAnimationFrame(frame)
-      else last = 0
+      // one more frame once it settles, so type takes its final fringe too
+      if ((settling || turn) && !document.hidden)
+        raf = requestAnimationFrame(frame)
+      else {
+        last = 0
+        if (busy) {
+          busy = false
+          delete root.dataset.lensBusy
+        }
+      }
     }
     const wake = () => {
       if (!raf) raf = requestAnimationFrame(frame)
@@ -140,6 +197,16 @@ export function Lens() {
       stale = true
       wake()
     }
+    const onScroll = () => {
+      sy = scrollY
+      wake()
+    }
+    const onResize = () => {
+      vw = innerWidth
+      vh = innerHeight
+      measured = false
+      wake()
+    }
 
     // a page swap, or a section that changes what it shows, brings new type;
     // live readouts that only rewrite their text do not
@@ -152,27 +219,35 @@ export function Lens() {
       if (records.some((r) => nodes(r).some((n) => n.nodeType === 1))) onStale()
     })
     if (main) mo.observe(main, { childList: true, subtree: true })
+    // anything that changes the page's height (a strip opening, a font or a picture
+    // arriving) can move the targets: measure again on the next frame
+    const ro = new ResizeObserver(() => {
+      measured = false
+    })
+    if (main) ro.observe(main)
 
     addEventListener('pointermove', onMove, { passive: true })
     addEventListener('pointerdown', onDown, { passive: true })
     addEventListener('pointerup', onUp, { passive: true })
     addEventListener('pointercancel', onUp, { passive: true })
     addEventListener('blur', onUp)
-    addEventListener('scroll', wake, { passive: true })
-    addEventListener('resize', wake)
+    addEventListener('scroll', onScroll, { passive: true })
+    addEventListener('resize', onResize)
     document.addEventListener('visibilitychange', wake)
     wake()
 
     return () => {
       cancelAnimationFrame(raf)
+      delete root.dataset.lensBusy
       mo.disconnect()
+      ro.disconnect()
       removeEventListener('pointermove', onMove)
       removeEventListener('pointerdown', onDown)
       removeEventListener('pointerup', onUp)
       removeEventListener('pointercancel', onUp)
       removeEventListener('blur', onUp)
-      removeEventListener('scroll', wake)
-      removeEventListener('resize', wake)
+      removeEventListener('scroll', onScroll)
+      removeEventListener('resize', onResize)
       document.removeEventListener('visibilitychange', wake)
     }
   }, [])
