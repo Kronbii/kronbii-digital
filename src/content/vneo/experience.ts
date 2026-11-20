@@ -154,6 +154,7 @@ export const roles: Role[] = [
     when: '2025 – now',
     note: 'Vision and machine-learning pipelines for clients.',
     state: 'ready',
+    keep: false,
   },
   {
     id: 'bsheel',
@@ -196,6 +197,7 @@ export const roles: Role[] = [
     with: ['Tarek AlSaleh, who wrote the workshop material'],
     writing: ['talks-workshops-and-teaching'],
     state: 'ready',
+    keep: false,
   },
   {
     id: 'devfest',
@@ -210,6 +212,7 @@ export const roles: Role[] = [
     note: 'On-device multimodal assistants: can GPT-Vision fit on small hardware?',
     writing: ['talks-workshops-and-teaching'],
     state: 'ready',
+    keep: false,
   },
   {
     id: 'nasna',
@@ -252,6 +255,7 @@ export const roles: Role[] = [
     note: 'I led all the software: 2D then 3D LiDAR SLAM, navigation, detection and segmentation, and the arm’s kinematics.',
     projects: ['landmine-detection-extraction-robot'],
     state: 'ready',
+    keep: false,
   },
   {
     id: 'evoid',
@@ -266,6 +270,7 @@ export const roles: Role[] = [
     writing: ['what-a-small-vision-venture-taught-me-about-scope'],
     href: 'https://evoid.dev',
     state: 'ready',
+    keep: false,
   },
   {
     id: 'rhu-lab',
@@ -293,6 +298,7 @@ export const roles: Role[] = [
     more: 'IEEE Micromouse 2023–2024 was the first in Lebanon, held at RHU in May 2024, where I mentored a number of the teams. I also mentored teams for the World Robot Olympiad and other competitions.',
     href: 'https://www.rhu.edu.lb/media-room/news/rafik-hariri-university-is-set-to-make-history-by-hosting-lebanons-first-ever-micromouse-competition',
     state: 'ready',
+    keep: false,
   },
   {
     id: 'vibe',
@@ -306,6 +312,7 @@ export const roles: Role[] = [
     note: 'At a startup, I built emotion recognition on edge hardware to support children with autism.',
     projects: ['emotion-recognition-autism-support'],
     state: 'ready',
+    keep: false,
   },
   {
     id: 'space-apps',
@@ -333,6 +340,7 @@ export const roles: Role[] = [
     note: 'Founded and led National Physics Day across four universities: UOB, LAU, AUB, and LU.',
     writing: ['turning-physics-outreach-into-a-multi-university-program'],
     state: 'ready',
+    keep: false,
   },
   {
     id: 'rhu-degree',
@@ -350,5 +358,6 @@ export const roles: Role[] = [
     ],
     href: 'https://www.rhu.edu.lb/media-room/news/rhu-commencement-2025-a-tribute-to-legacy-learning-and-new-beginnings',
     state: 'ready',
+    keep: false,
   },
 ]
