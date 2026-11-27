@@ -211,6 +211,8 @@ New photographs: two of Rami from behind under Lebanon's cedars, with a tan back
 
 The E58 in WebGL over a contour terrain, with callouts and live readouts. It's beautiful, but it says "drones".
 
+**Status.** Benched as the hero (2026-11-27); the live site keeps it until a cedars hero ships. Rami may use it in another section: it would suit the FPV drone's project page, or the drone-control bootcamp page, where "drones" is the point (`src/components/v2/home/specimen.tsx`).
+
 ### v2 · Under the cedars
 
 ![v2, Rami under the cedars](img/hero-v2-desktop.webp)
@@ -257,9 +259,13 @@ The E58 in WebGL over a contour terrain, with callouts and live readouts. It's b
 
 **Motion.** The portrait focus-pulls in; the three leaders draw one per beat, their labels decoding out of glyph noise; the readouts count up once. **Code.** `hero-v5.tsx`, `hero-v5.css`. **Reuse it for** an "about me" that explains a person the way a spec sheet explains a machine.
 
+**Status.** Benched (2026-11-27): its plate language lives on in v8, on the cedar photo.
+
 <img src="img/hero-v5-phone.webp" alt="v5 on a phone" width="260">
 
 ### Round two: the cedars and the specimen, as pairs
+
+**Still in the running (2026-11-27):** v2 Cedars, v6 Cedars open, v8 Cedars specimen. The switch shows only these three, with v2 as the default.
 
 Rami liked v2 (cedars, his favourite) and v5 (specimen), and dropped v3 and v4 (benched in the code). He also noticed that v5 and the "What I build" section under it clashed: the same studio portrait twice in a row. So the hero and that section are now designed as **one pair**. A hero that shows the studio portrait pairs with the section showing him under the cedars, and every cedars hero pairs with the portrait: outdoors, then the studio. `Build` takes `photo="portrait" | "field"`, and `hero-variants.tsx` maps each hero to its section (`ABOUT`), so the switch flips both.
 
@@ -278,6 +284,8 @@ Rami liked v2 (cedars, his favourite) and v5 (specimen), and dropped v3 and v4 (
 ![v7, two frames matched by SIFT](img/hero-v7-desktop.webp)
 
 **The idea.** Identity the way a vision system establishes it. Both cedar photos sit side by side, with real correspondences between them: SIFT, a ratio test and RANSAC, run on the photos (`docs/design-ideas/tools/cedars-match.py`, output in `src/content/vneo/cedars-matches.json`: 23,414 and 22,451 keypoints, 685 matches, 491 kept). Faint Sage lines on the trees, brighter fringed lines on him, then one ID lock closes on him in both frames at once. His own field, applied to himself. **Code.** `hero-v7.tsx`, `hero-v7.css`. **Watch out.** Re-run the script if the photos change.
+
+**Status.** Benched (2026-11-27). It's a strong idea for a computer-vision project page, or a "how I see" piece.
 
 <img src="img/hero-v7-phone.webp" alt="v7 on a phone" width="260">
 
