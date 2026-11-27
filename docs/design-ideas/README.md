@@ -5,7 +5,7 @@ A library of interface ideas built for ramikronbi.com, kept so they can be reuse
 Each idea says what it is, why it works, how it is put together, how it moves, what it does on a phone and under reduced motion, what it is built with, where its code lives, what else it could be used for, and what to watch out for.
 
 - **House style** — the rules every idea follows
-- **Experience section, five takes** (November 2026) — v1 strips, v2 radar, v3 index, v4 passes, v5 departures
+- **Experience section, five takes** (November 2026) — v1 strips, v2 radar, v3 index, v4 passes, v5 departures; v2 and v3 shortlisted, v1, v4 and v5 kept for other sections
 - **Decluttering patterns** — quieter pages without losing anything
 - **Ways of working** — how to explore options and let Rami decide by looking
 - **Earlier ideas still in the code** — a catalogue from the site's previous versions
@@ -55,6 +55,8 @@ Built 2026-11-20 for the home page's experience section, from one data set: ever
 
 In development, compare them in place on the home page: `?exp=v2` … `?exp=v5`, or the switch in the bottom-right corner (`src/components/vneo/experience-variants.tsx`). Production renders v1 only.
 
+**Where they stand (2026-11-27).** Rami shortlisted **v2 (radar)** and **v3 (index)** for the experience section. **v1, v4 and v5** are in the backlog: not for experience, but kept, code and all, for another section where they fit better (each says where under *Status*).
+
 All five share three rules worth keeping for any "experience" or "timeline" section:
 1. **Where I work now comes first and largest**, readable without any interaction.
 2. **Community work is not experience.** Mentoring, organizing and talks get one quiet line pointing to the community section (roles marked `side: true`).
@@ -82,6 +84,8 @@ All five share three rules worth keeping for any "experience" or "timeline" sect
 
 **Watch out.** Callsigns must be meaningful three-letter codes or they read as noise. Keep the strips' field widths fixed so columns align across rows.
 
+**Status.** Backlog, kept for another section. Likely homes on this site: a project page's own build log (milestones as strips, the contrail as the project's timeline), or a release and changelog page for the site and its tools.
+
 <img src="img/experience-v1-strips-phone.webp" alt="v1 on a phone" width="260">
 
 ### v2 · Radar scope
@@ -105,6 +109,8 @@ All five share three rules worth keeping for any "experience" or "timeline" sect
 **Reuse it for.** Anything ranked by recency or distance: skills by when last used, a tech radar (adopt / trial / hold), sensors or devices in range, nearby events, a dashboard's "what changed recently".
 
 **Watch out.** Old years crowd the outer rings; label sparingly. Don't encode anything on the angle that isn't real (sectors are categories, not values).
+
+**Status.** Shortlisted for the experience section, with v3.
 
 <img src="img/experience-v2-radar-phone.webp" alt="v2 on a phone" width="260">
 
@@ -132,6 +138,8 @@ All five share three rules worth keeping for any "experience" or "timeline" sect
 
 **Watch out.** Long names break the scale (keep display names short, put long official names in the caption). Hover previews need a touch fallback.
 
+**Status.** Shortlisted for the experience section, with v2.
+
 <img src="img/experience-v3-index-phone.webp" alt="v3 on a phone" width="260">
 
 ### v4 · Access passes
@@ -158,6 +166,8 @@ All five share three rules worth keeping for any "experience" or "timeline" sect
 
 **Watch out.** Clean up the engine, runner and listeners on unmount; pause off screen. Separate drag from click with a movement threshold. Physics on phones is rarely worth it.
 
+**Status.** Backlog, kept for another section. Likely homes on this site: the community section or the About page's talks and awards, where a pass or a badge is literally what you get at a hackathon, a conference or a competition (Space Apps, DevFest, INJAZ, WRO).
+
 <img src="img/experience-v4-passes-phone.webp" alt="v4 on a phone" width="260">
 
 ### v5 · Departures board
@@ -181,6 +191,8 @@ All five share three rules worth keeping for any "experience" or "timeline" sect
 **Reuse it for.** Schedules and agendas (talks, workshops, a conference day), release trains, build or deploy status boards, "now playing" lists, any status-at-a-glance list.
 
 **Watch out.** Fixed tile counts force abbreviations (here "RHU", "CO-FOUNDER & OPS LEAD"); the full text must live in the accessible label and the detail panel. Keep the tile count reasonable for performance.
+
+**Status.** Backlog, kept for another section. Likely homes on this site: talks and workshops as a schedule (upcoming ones boarding, past ones landed), or the projects' status at a glance (shipped, in progress, retired).
 
 <img src="img/experience-v5-departures-phone.webp" alt="v5 on a phone" width="260">
 
