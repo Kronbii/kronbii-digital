@@ -277,7 +277,7 @@ Rami liked v2 (cedars, his favourite) and v5 (specimen), and dropped v3 and v4 (
 
 ![v7, two frames matched by SIFT](img/hero-v7-desktop.webp)
 
-**The idea.** Identity the way a vision system establishes it. Both cedar photos sit side by side, with real correspondences between them: SIFT, a ratio test and RANSAC, run on the photos (`tmp/cedars-match.py`, output in `src/content/vneo/cedars-matches.json`: 23,414 and 22,451 keypoints, 685 matches, 491 kept). Faint Sage lines on the trees, brighter fringed lines on him, then one ID lock closes on him in both frames at once. His own field, applied to himself. **Code.** `hero-v7.tsx`, `hero-v7.css`. **Watch out.** Re-run the script if the photos change.
+**The idea.** Identity the way a vision system establishes it. Both cedar photos sit side by side, with real correspondences between them: SIFT, a ratio test and RANSAC, run on the photos (`docs/design-ideas/tools/cedars-match.py`, output in `src/content/vneo/cedars-matches.json`: 23,414 and 22,451 keypoints, 685 matches, 491 kept). Faint Sage lines on the trees, brighter fringed lines on him, then one ID lock closes on him in both frames at once. His own field, applied to himself. **Code.** `hero-v7.tsx`, `hero-v7.css`. **Watch out.** Re-run the script if the photos change.
 
 <img src="img/hero-v7-phone.webp" alt="v7 on a phone" width="260">
 
