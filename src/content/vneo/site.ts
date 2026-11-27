@@ -313,6 +313,8 @@ export const community = {
   label: 'In the community',
   title: 'Built for people, and shared in person.',
   hot: 'people',
+  /** the section with only the rooms it is shared in (compare.tsx: community) */
+  person: { title: 'Shared in person.', hot: 'person' },
   built: [
     { ...scene('families'), size: 'big' as const },
     { ...scene('clinics'), size: 'tall' as const },
@@ -433,6 +435,11 @@ export const vneo = {
     first: 'Rami',
     last: 'Kronbi',
     sub: 'Robotics, vision & embedded systems engineer',
+    /** under the title, when the at-a-glance row is gone (compare.tsx: glance) */
+    cred: {
+      text: 'Valedictorian in mechatronics engineering, RHU 2025, with a 4.0/4.0',
+      href: 'https://www.rhu.edu.lb/media-room/news/rhu-commencement-2025-a-tribute-to-legacy-learning-and-new-beginnings',
+    },
     where: siteConfig.location.replace(', ', ' · '),
     chips: [
       { label: 'Work', href: '#work' },

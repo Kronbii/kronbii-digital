@@ -8,6 +8,7 @@ import { FringePath } from '@/components/v7/optic'
 import { B, drawIn, focusIn } from '@/components/v7/tempo'
 import { community, vneo } from '@/content/vneo/site'
 
+import { useChoice } from './compare'
 import { Motion, fitStyle, replayIn } from './motion'
 import { Slate } from './slate'
 
@@ -270,6 +271,9 @@ function Organizing() {
 
 export function Community() {
   const c = community
+  // the proposal: only the rooms it is shared in; the work built for people is on the projects
+  // page and in the experience section, and the writing is one click away in the menu
+  const person = useChoice('community') === 'new'
   return (
     <section
       id="community"
@@ -277,14 +281,16 @@ export function Community() {
       aria-labelledby="community-h"
     >
       <Slate
+        // a new key, so the heading plays its entrance again when the side flips
+        key={person ? 'person' : 'all'}
         no={6}
         label={c.label}
-        title={c.title}
-        hot={c.hot}
+        title={person ? c.person.title : c.title}
+        hot={person ? c.person.hot : c.hot}
         id="community-h"
       />
-      <ul className="vn-cbento">
-        {c.built.map((b) => (
+      <ul className="vn-cbento" data-mode={person ? 'person' : undefined}>
+        {(person ? [] : c.built).map((b) => (
           <li
             key={b.id}
             className={`vn-ctile is-built is-${b.size}`}
@@ -318,26 +324,28 @@ export function Community() {
         <Organizing />
       </ul>
 
-      <div className="vn-writing" aria-labelledby="writing-h">
-        <h3 id="writing-h" className="vn-writing-h">
-          {vneo.notes.label}
-        </h3>
-        <ul>
-          {vneo.notes.items.map((n) => (
-            <li key={n.href}>
-              <Link href={n.href}>
-                <b>{n.title}</b>
-                <span>{n.dek}</span>
+      {person ? null : (
+        <div className="vn-writing" aria-labelledby="writing-h">
+          <h3 id="writing-h" className="vn-writing-h">
+            {vneo.notes.label}
+          </h3>
+          <ul>
+            {vneo.notes.items.map((n) => (
+              <li key={n.href}>
+                <Link href={n.href}>
+                  <b>{n.title}</b>
+                  <span>{n.dek}</span>
+                </Link>
+              </li>
+            ))}
+            <li className="vn-writing-all">
+              <Link className="v7-go quiet" href={vneo.notes.all.href}>
+                {vneo.notes.all.label} →
               </Link>
             </li>
-          ))}
-          <li className="vn-writing-all">
-            <Link className="v7-go quiet" href={vneo.notes.all.href}>
-              {vneo.notes.all.label} →
-            </Link>
-          </li>
-        </ul>
-      </div>
+          </ul>
+        </div>
+      )}
     </section>
   )
 }

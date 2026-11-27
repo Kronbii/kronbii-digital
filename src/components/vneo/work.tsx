@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { AutoVideo } from '@/components/vneo/auto-video'
 import { showcase, vneo, VN } from '@/content/vneo/site'
 
+import { useChoice } from './compare'
 import { Motion, fitStyle, fitVars, playIn, restIn } from './motion'
 import { Slate } from './slate'
 
@@ -20,6 +21,8 @@ import { Slate } from './slate'
 
 export function Work() {
   const c = vneo.work
+  // the proposal: one card format in a three-by-two grid, and one way to all projects (compare.tsx: cards)
+  const uniform = useChoice('cards') === 'new'
   const grid = useRef<HTMLUListElement>(null)
   const theater = useRef<HTMLDialogElement>(null)
   const [open, setOpen] = useState<number | null>(null)
@@ -76,14 +79,17 @@ export function Work() {
         hot={c.hot}
         id="work-h"
       >
-        <Link className="v7-go" href={`${VN}/projects`}>
-          {c.all} →
-        </Link>
+        {uniform ? null : (
+          <Link className="v7-go" href={`${VN}/projects`}>
+            {c.all} →
+          </Link>
+        )}
       </Slate>
 
       <ul
         ref={grid}
         className="vn-bento vn-showcase"
+        data-uniform={uniform ? '' : undefined}
         aria-label="Selected work"
       >
         {showcase.map((item, i) => (

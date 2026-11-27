@@ -750,6 +750,22 @@
   line-height: 1.15;
   letter-spacing: -0.02em;
 }
+/* the one fact from the old at-a-glance row (compare.tsx: glance) */
+[data-vneo] .vn-hero-cred {
+  margin-top: 12px;
+  color: var(--ink2);
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+}
+[data-vneo] .vn-hero-cred a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--hair2);
+  text-underline-offset: 0.22em;
+  transition: text-decoration-color 0.3s;
+}
+[data-vneo] .vn-hero-cred a:hover {
+  text-decoration-color: var(--sage);
+}
 [data-vneo] .vn-chips {
   display: flex;
   flex-wrap: wrap;
@@ -806,7 +822,7 @@
 }
 /* the name waits for its entrance (with no script, it is simply there) */
 @media (scripting: enabled) {
-  [data-vneo] .vn-hero:not([data-rolled]) :is(.vn-n1, .vn-n2, .vn-chip) {
+  [data-vneo] .vn-hero:not([data-rolled]) :is(.vn-n1, .vn-n2, .vn-chip, .vn-hero-cred) {
     opacity: 0;
     animation: v7-failsafe 0.4s ease 3s forwards;
   }
@@ -1464,9 +1480,27 @@
     margin: 14px 14px 0;
   }
 }
+/* shared in person only (compare.tsx: community): the talk and INJAZ side by side, then
+   the workshops beside four years of Space Apps */
+[data-vneo] .vn-cbento[data-mode='person'] .vn-ctile.is-talk {
+  order: 1;
+}
+[data-vneo] .vn-cbento[data-mode='person'] .vn-ctile.is-mentoring {
+  order: 2;
+}
+[data-vneo] .vn-cbento[data-mode='person'] .vn-ctile.is-workshops {
+  order: 3;
+}
+[data-vneo] .vn-cbento[data-mode='person'] .vn-ctile.is-organizing {
+  order: 4;
+  grid-column: span 3;
+}
 @media (max-width: 1020px) {
   [data-vneo] .vn-cbento {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  [data-vneo] .vn-cbento[data-mode='person'] :is(.vn-ctile.is-workshops, .vn-ctile.is-organizing) {
+    grid-column: 1 / -1;
   }
 }
 @media (max-width: 560px) {
@@ -2223,6 +2257,39 @@
   }
   [data-vneo] .vn-showcase .vn-tile.is-big .vn-tile-cap p {
     -webkit-line-clamp: 3;
+  }
+
+  /* one card format (compare.tsx: cards): three by two, picture over name and one sentence */
+  [data-vneo] .vn-showcase[data-uniform] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-areas: none;
+    grid-auto-rows: auto;
+  }
+  [data-vneo] .vn-showcase[data-uniform] .vn-tile {
+    grid-area: auto;
+    grid-column: auto;
+    grid-row: auto;
+    flex-direction: column;
+  }
+  [data-vneo] .vn-showcase[data-uniform] .vn-tile .vn-tile-media {
+    flex: none;
+    height: auto;
+    aspect-ratio: 16 / 10;
+  }
+  [data-vneo] .vn-showcase[data-uniform] .vn-tile .vn-tile-cap {
+    flex: 1;
+    justify-content: flex-start;
+    padding: 14px 16px 16px;
+  }
+  [data-vneo] .vn-showcase[data-uniform] .vn-tile .vn-tile-cap h3 {
+    font-size: 1.15rem;
+  }
+  [data-vneo] .vn-showcase[data-uniform] .vn-tile .vn-tile-cap p {
+    -webkit-line-clamp: 2;
+  }
+  [data-vneo] .vn-showcase[data-uniform] .vn-tile .vn-watch {
+    right: 12px;
+    left: auto;
   }
 }
 

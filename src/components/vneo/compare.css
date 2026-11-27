@@ -1,0 +1,112 @@
+/* The before/after panel (development only, compare.tsx), in the corner. */
+[data-vneo] .vn-compare {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 85;
+  width: min(330px, calc(100vw - 32px));
+  padding: 12px;
+  border-radius: 18px;
+  background: var(--raised);
+  box-shadow:
+    0 0 0 1px rgba(var(--fr-m), 0.45),
+    0 16px 48px rgba(0, 0, 0, 0.55);
+  color: var(--ink2);
+  font-size: 0.78rem;
+}
+[data-vneo] .vn-compare-h {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding: 0 4px;
+  color: var(--ink3);
+  font-family: var(--f-mono);
+}
+[data-vneo] .vn-compare-h span {
+  display: flex;
+  gap: 4px;
+}
+[data-vneo] .vn-compare button {
+  padding: 4px 10px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--ink2);
+  font: inherit;
+  font-family: var(--f-mono);
+  cursor: pointer;
+}
+[data-vneo] .vn-compare-h button {
+  box-shadow: inset 0 0 0 1px var(--hair2);
+}
+[data-vneo] .vn-compare ol {
+  display: grid;
+  gap: 4px;
+  list-style: none;
+}
+[data-vneo] .vn-compare li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 4px;
+  border-top: 1px solid var(--hair);
+}
+[data-vneo] .vn-compare-name {
+  display: grid;
+  min-width: 0;
+  color: var(--ink);
+  text-decoration: none;
+}
+[data-vneo] .vn-compare-name b {
+  display: none;
+}
+[data-vneo] .vn-compare-name small {
+  overflow: hidden;
+  color: var(--ink3);
+  font-size: 0.7rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+[data-vneo] .vn-compare-seg {
+  display: flex;
+  flex: none;
+  padding: 2px;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1px var(--hair2);
+}
+[data-vneo] .vn-compare-seg button[aria-pressed='true'] {
+  background: var(--sage);
+  color: var(--sage-ink);
+}
+@media (max-width: 720px) {
+  [data-vneo] .vn-compare {
+    bottom: 72px;
+    right: 8px;
+    width: min(300px, calc(100vw - 16px));
+  }
+}
+[data-vneo] .vn-compare-pill {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 85;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--raised);
+  box-shadow:
+    0 0 0 1px rgba(var(--fr-m), 0.45),
+    0 12px 40px rgba(0, 0, 0, 0.5);
+  color: var(--ink);
+  font-family: var(--f-mono);
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+@media (max-width: 720px) {
+  [data-vneo] .vn-compare-pill {
+    right: 8px;
+    bottom: 72px;
+  }
+}
