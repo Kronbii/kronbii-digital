@@ -1,0 +1,56 @@
+/* The hero variant switch: development only, see hero-variants.tsx. */
+[data-vneo] .vn-hero-switch {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 85;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px;
+  border-radius: 999px;
+  background: var(--raised);
+  box-shadow:
+    0 0 0 1px rgba(var(--fr-m), 0.45),
+    0 12px 40px rgba(0, 0, 0, 0.5);
+  color: var(--ink3);
+  font-size: 0.74rem;
+}
+[data-vneo] .vn-hero-switch > span {
+  padding: 0 8px 0 10px;
+}
+[data-vneo] .vn-hero-switch button {
+  display: grid;
+  justify-items: center;
+  padding: 5px 10px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--ink2);
+  font: inherit;
+  font-family: var(--f-mono);
+  line-height: 1.1;
+  cursor: pointer;
+}
+[data-vneo] .vn-hero-switch button small {
+  color: var(--ink3);
+  font-family: var(--f-display);
+  font-size: 0.6rem;
+}
+[data-vneo] .vn-hero-switch button[aria-pressed='true'] {
+  background: var(--sage);
+  color: var(--sage-ink);
+}
+[data-vneo] .vn-hero-switch button[aria-pressed='true'] small {
+  color: var(--sage-ink);
+}
+@media (max-width: 720px) {
+  [data-vneo] .vn-hero-switch {
+    right: 8px;
+    bottom: 72px;
+  }
+  [data-vneo] .vn-hero-switch > span,
+  [data-vneo] .vn-hero-switch button small {
+    display: none;
+  }
+}

@@ -8,7 +8,7 @@ import { JsonLd } from '@/components/v2/json-ld'
 import { Build } from '@/components/vneo/build'
 import { Community } from '@/components/vneo/community'
 import { ExperienceV3 } from '@/components/vneo/experience-v3'
-import { Hero } from '@/components/vneo/hero'
+import { HeroSection } from '@/components/vneo/hero-variants'
 import { Laps } from '@/components/vneo/machines'
 import { Near } from '@/components/vneo/near'
 import { pageMeta } from '@/components/vneo/meta'
@@ -62,7 +62,7 @@ export default function Vneo() {
   return (
     <>
       <JsonLd data={[homeJsonLd]} />
-      <Hero />
+      <HeroSection />
       {/* each section hydrates as its own unit, so the hero's entrance keeps the main thread between them */}
       <Suspense>
         <Build />

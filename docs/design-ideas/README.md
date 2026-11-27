@@ -6,6 +6,7 @@ Each idea says what it is, why it works, how it is put together, how it moves, w
 
 - **House style** — the rules every idea follows
 - **Experience section, five takes** (November 2026) — v1 strips, v2 radar, v3 index, v4 passes, v5 departures; v3 is the live one, the other four are kept for other sections
+- **The first screen, five takes** (November 2026) — v1 drone, v2 cedars, v3 contact sheet, v4 sentence, v5 specimen
 - **Decluttering patterns** — quieter pages without losing anything
 - **Ways of working** — how to explore options and let Rami decide by looking
 - **Earlier ideas still in the code** — a catalogue from the site's previous versions
@@ -195,6 +196,68 @@ All five share three rules worth keeping for any "experience" or "timeline" sect
 **Status.** Backlog, kept for another section. Likely homes on this site: talks and workshops as a schedule (upcoming ones boarding, past ones landed), or the projects' status at a glance (shipped, in progress, retired).
 
 <img src="img/experience-v5-departures-phone.webp" alt="v5 on a phone" width="260">
+
+---
+
+## The first screen, five takes
+
+Built 2026-11-27. Rami felt the hero (his name beside a 3D drone) made him look like one niche: "I'm more than a niche, I am Rami". All five keep his name as the headline, in the same type, with the title, the valedictorian line, the three buttons and "Beirut · Lebanon". They differ in what stands beside the name. In development, compare them in place: `?hero=v2` … `?hero=v5`, or the switch in the bottom-right corner (`src/components/vneo/hero-variants.tsx`); production renders v1 until one is picked.
+
+New photographs: two of Rami from behind under Lebanon's cedars, with a tan backpack carrying a Lebanese flag patch and a "DRONE PILOT" patch (`public/images/vneo/rami-cedars-1.webp`, `-2.webp`, and `-sm` versions for phones). They were converted from the iPhone's HEIC with the location metadata stripped (`convert … -strip`).
+
+### v1 · The drone (as it was)
+
+![v1, the name beside the drone](img/hero-v1-desktop.webp)
+
+The E58 in WebGL over a contour terrain, with callouts and live readouts. It's beautiful, but it says "drones".
+
+### v2 · Under the cedars
+
+![v2, Rami under the cedars](img/hero-v2-desktop.webp)
+
+**The idea.** The person replaces the drone. The cedar photograph stands where the drone's plate was, and the ID-lock brackets (the site's identity mark) close on him, tagged `ID LOCK · RAMI`, not on his name. Pointing at the photo reveals two callouts on his backpack patches: "Lebanon" and "Drone pilot". Drones become one patch on his bag.
+
+![v2, the patches pointed at](img/hero-v2-desktop-point.webp)
+
+**Motion.** The name lands as before. The photo comes into focus out of the fringe, then the brackets travel from the photo's corners to close on him. **Phone:** the photo under the text at 4:5. There, the lens's colour split is off, because on a busy canopy it turns to grain without a pointer to steer it. **Code.** `hero-v2.tsx`, `hero-v2.css`. **Reuse it for** any portrait that should say "this is the person", with an ID lock on them, not on a caption.
+
+<img src="img/hero-v2-phone.webp" alt="v2 on a phone" width="260">
+
+### v3 · Contact sheet
+
+![v3, a contact sheet of his life and work](img/hero-v3-desktop.webp)
+
+**The idea.** A photographer's proof sheet of his life and work, three film strips of three frames. Each frame is a verb: built, flew, walked, mentored, spoke, organized, measured, won, me. All rest in the Sage duotone. The cedars frame is the pick, ringed in grease pencil. A loupe (hover or focus) lifts a frame, brings its colour back and writes its note in the margin. Breadth at a glance; the drone is one frame of nine.
+
+![v3, a frame under the loupe](img/hero-v3-desktop-point.webp)
+
+**Motion.** The frames develop one by one from a paper tone, half a beat apart, then the loop draws round the pick. **Phone:** each frame has its verb and line printed under it. **Code.** `hero-v3.tsx`, `hero-v3.css`. **Watch out.** Nine full-size images: cut ~480 px versions if it ships.
+
+<img src="img/hero-v3-phone.webp" alt="v3 on a phone" width="260">
+
+### v4 · One sentence
+
+![v4, the name and one sentence with pictures inline](img/hero-v4-desktop.webp)
+
+**The idea.** Typography is the hero and the sentence is the portfolio: "RAMI [his face] KRONBI." then "I build machines [rover] that move on their own, cameras [road speed] that understand what they see, and software [Bsheel] and courses [DevFest] that people use." Small pictures sit inline after their nouns. Pointing at a phrase lights it, colours its picture and floats a preview card with the project's name.
+
+![v4, a phrase pointed at](img/hero-v4-desktop-point.webp)
+
+**Motion.** The words rise one sixteenth-note triplet apart, each picture popping in with a fringe as its word lands. **Note.** It's the "What I build" section's sentence. If this ships, that section loses its sentence and keeps only the portrait, or goes. **Code.** `hero-v4.tsx`, `hero-v4.css`.
+
+<img src="img/hero-v4-phone.webp" alt="v4 on a phone" width="260">
+
+### v5 · Specimen: Rami
+
+![v5, Rami as the specimen](img/hero-v5-desktop.webp)
+
+**The idea.** Keep the drone's instrument plate, but the specimen is Rami. His profile portrait is labelled in the drone's callout language with his own loop: SENSE (the eye, computer vision), DECIDE (the head, control and robotics) and SHARE (the mouth, teaching, talks, mentoring). The readouts are NOW 3 roles, PROJECTS 19, TOP 10 6× and a BEIRUT pill. Pointing at a callout opens three examples from his work.
+
+![v5, a callout opened](img/hero-v5-desktop-point.webp)
+
+**Motion.** The portrait focus-pulls in; the three leaders draw one per beat, their labels decoding out of glyph noise; the readouts count up once. **Code.** `hero-v5.tsx`, `hero-v5.css`. **Reuse it for** an "about me" that explains a person the way a spec sheet explains a machine.
+
+<img src="img/hero-v5-phone.webp" alt="v5 on a phone" width="260">
 
 ---
 
