@@ -2,6 +2,8 @@
 
 import type * as THREE_NS from 'three'
 
+import { drawGap, scrolling } from './pace'
+
 /*
  * One WebGL canvas, set up in idle time (see the queue below). The drawing
  * buffer follows the canvas's displayed size (it sits inside a scaled stage,
@@ -98,7 +100,8 @@ export function startGL(
 ) {
   let disposed = false
   let stop = () => {}
-  let near = false
+  let play = () => {}
+  let visible = false
   let started = false
 
   const begin = async () => {
@@ -149,11 +152,14 @@ export function startGL(
 
     let w = 0,
       h = 0
+    // drops below 1 when this machine can't keep the scene smooth (see the loop)
+    let scale = 1
     const size = () => {
       const r = canvas.getBoundingClientRect()
-      const dpr = Math.min(window.devicePixelRatio || 1, opts.maxDpr ?? 2)
-      const nw = Math.max(2, Math.round(r.width * dpr))
-      const nh = Math.max(2, Math.round(r.height * dpr))
+      const dpr = Math.min(window.devicePixelRatio || 1, opts.maxDpr ?? 1.5)
+      const ratio = Math.max(dpr * scale, Math.min(dpr, 0.75))
+      const nw = Math.max(2, Math.round(r.width * ratio))
+      const nh = Math.max(2, Math.round(r.height * ratio))
       if (nw !== w || nh !== h) {
         w = nw
         h = nh
@@ -166,15 +172,41 @@ export function startGL(
     ro.observe(canvas.closest('.v6-frame') ?? canvas.parentElement ?? canvas)
     size()
 
+    // frames are drawn only while the canvas is on screen, at the pace of
+    // pace.ts; when they keep arriving late at rest, the scene steps its
+    // resolution down instead
     let raf = 0
+    let last = 0
+    let pace = 0
+    let late = 0
     const loop = (now: number) => {
+      raf = 0
+      if (!visible) {
+        last = 0
+        return
+      }
       raf = requestAnimationFrame(loop)
-      if (!near) return
+      if (last && now - last < drawGap(now)) return
+      if (last && !scrolling(now)) {
+        pace += (now - last - pace) * 0.1
+        late = pace > LATE ? late + 1 : 0
+        if (late > 45 && scale > 0.55) {
+          scale *= 0.8
+          late = 0
+          pace = 1000 / 60
+          size()
+        }
+      } else if (!last) pace = 1000 / 60
+      last = now
       gl.frame(now, { w, h })
     }
-    raf = requestAnimationFrame(loop)
+    play = () => {
+      if (!raf && visible) raf = requestAnimationFrame(loop)
+    }
+    play()
     stop = () => {
       cancelAnimationFrame(raf)
+      raf = 0
       ro.disconnect()
       gl.dispose?.()
       renderer.dispose()
@@ -182,23 +214,36 @@ export function startGL(
     }
   }
 
+  // set up well ahead of the reader (and in idle time anyway, see the queue);
+  // draw only while some of the canvas is actually on screen
   const io = new IntersectionObserver(
     ([e]) => {
-      near = e.isIntersecting
-      if (near && !started) void begin()
+      if (e.isIntersecting && !started) void begin()
     },
     { rootMargin: opts.margin ?? '90% 0px' }
   )
   io.observe(canvas)
+  const seen = new IntersectionObserver(
+    ([e]) => {
+      visible = e.isIntersecting
+      play()
+    },
+    { rootMargin: '10% 0px' }
+  )
+  seen.observe(canvas)
   queue.push(begin)
   pump()
 
   return () => {
     disposed = true
     io.disconnect()
+    seen.disconnect()
     stop()
   }
 }
+
+/** Frames this far apart, on average, for most of a second: the GPU is behind. */
+const LATE = 25
 
 /** The E58's look under the reel's lights: warm key, burgundy rim (or a host's own accent). */
 export function reelLights(

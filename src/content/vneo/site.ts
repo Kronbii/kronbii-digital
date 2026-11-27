@@ -1,8 +1,9 @@
 /**
  * Vneo: the site the versions were for. Its words are the ones Rami already
- * kept: v7's chapters (the work by who it serves), v3's plain-language layer
- * and flight log, v2's tracker field and sign-off, and v6's reel scenes for
- * the engineering underneath. Every fact comes from a ready record or a
+ * kept: v7's chapters (the work by who it serves), v3's plain-language layer,
+ * v2's tracker field and sign-off, and v6's reel scenes for the engineering
+ * underneath; the experience board has its own file (experience.ts). Every
+ * fact comes from a ready record or a
  * ready article; nothing marked [VERIFY] is used.
  */
 
@@ -168,14 +169,17 @@ export type ShowItem = WorkItem & {
   figure?: { from: string; fromNote: string; to: string; toNote: string }
   /** Opens outside the site (a project with no page here yet). */
   external?: boolean
+  /** Benched: off the home grid, still on All projects (its tile settings kept for when it comes back). */
+  home?: false
 }
 
 /**
  * The work, as one tight grid, from most to least important: the landmine
  * robot and the drone first, then OmniSign, the rotor-fault study, the
- * road-speed audit and the thermal model.
+ * road-speed audit and the thermal model. The six after them are benched:
+ * the home page shows six, and All projects shows everything.
  */
-export const showcase: ShowItem[] = [
+const shelf: ShowItem[] = [
   {
     ...workItem('landmine-detection-extraction-robot', undefined, ''),
     alt: 'RViz shows the rover’s 2D map and planned path, then the rover drives itself through the indoor arena.',
@@ -245,6 +249,7 @@ export const showcase: ShowItem[] = [
     ),
     size: 'wide',
     area: 'pano',
+    home: false,
   },
   {
     ...workItem(
@@ -254,11 +259,13 @@ export const showcase: ShowItem[] = [
     ),
     size: 'wide',
     area: 'race',
+    home: false,
   },
   {
     ...workItem('imu-bench', undefined, ''),
     size: 'wide',
     area: 'imu',
+    home: false,
     image: {
       src: '/images/authority/imu-bench/tile.mp4',
       poster: '/images/authority/imu-bench/tile-poster.jpg',
@@ -275,6 +282,7 @@ export const showcase: ShowItem[] = [
     ),
     size: 'tall',
     area: 'crk',
+    home: false,
   },
   {
     ...workItem(
@@ -284,17 +292,20 @@ export const showcase: ShowItem[] = [
     ),
     size: 'wide',
     area: 'pid',
+    home: false,
   },
   {
     ...workItem('esp32-barn-door-star-tracker', undefined, ''),
     size: 'tall',
     area: 'star',
+    home: false,
     image: {
       src: '/images/authority/esp32-barn-door-star-tracker/cad-render-square.png',
       fit: 'contain',
     },
   },
 ]
+export const showcase = shelf.filter((t) => t.home !== false)
 
 /** In the community: the work built for people, and the rooms where it is shared. */
 const scene = (id: Chapter['id']) => chapters.find((c) => c.id === id)!
@@ -350,6 +361,22 @@ export const community = {
       { value: '6×', label: 'teams I mentored in the global top 10' },
     ],
     note: 'Lead technical organizer for four years, running technical bootcamps on NASA data and mentoring the teams.',
+    /** the other rooms I organized, one line each */
+    also: {
+      label: 'Also organized',
+      items: [
+        {
+          title: 'IEEE Micromouse at RHU',
+          note: 'Lebanon’s first, May 2024',
+          href: 'https://www.rhu.edu.lb/media-room/news/rafik-hariri-university-is-set-to-make-history-by-hosting-lebanons-first-ever-micromouse-competition',
+        },
+        {
+          title: 'National Physics Day',
+          note: 'across four universities',
+          href: writingHref('turning-physics-outreach-into-a-multi-university-program'),
+        },
+      ],
+    },
     image: {
       src: '/images/authority/space-apps/hackathon-hall.jpg',
       alt: 'Rami Kronbi taking a selfie in front of a hall full of teams working at laptops during NASA Space Apps Beirut.',
@@ -386,59 +413,6 @@ const build = {
     alt: 'Rami Kronbi in profile, in black and white.',
     tag: 'ID lock · Rami',
   },
-}
-
-/**
- * My professional experience, in order: the roles, ventures and mentoring,
- * flown as v3's flight log. Projects and prizes live in their own sections.
- */
-const log = {
-  label: 'Experience',
-  title: 'Flight log',
-  points: [
-    {
-      when: '2021 – 2024',
-      what: 'Technical mentor and organizer, NASA Space Apps Beirut',
-      note: 'Ran technical bootcamps on NASA data and mentored hackathon teams, for 250–400 participants a year.',
-      href: writingHref('what-four-years-of-technical-mentoring-taught-me'),
-    },
-    {
-      when: '2022 – 2023',
-      what: 'Computer-vision intern, VIBE',
-      note: 'At a startup, I built emotion recognition on edge hardware to support children with autism.',
-      href: workHref('emotion-recognition-autism-support', VN),
-    },
-    {
-      when: '2022 – 2025',
-      what: 'Lab and teaching assistant, Rafik Hariri University',
-      note: 'Ran mechatronics lab sessions, and organized the university’s robotics competitions, including IEEE Micromouse.',
-      href: siteConfig.education.url,
-    },
-    {
-      when: '2023 – 2025',
-      what: 'Co-founder, Evoid',
-      note: 'Systems engineer and product manager at a small applied computer-vision venture in Beirut.',
-      href: writingHref('what-a-small-vision-venture-taught-me-about-scope'),
-    },
-    {
-      when: '2024 – now',
-      what: 'Embedded Systems & Vision Engineer, Oreyeon',
-      note: 'Full time: real-time vision for airport runway safety, on NVIDIA Jetson.',
-      href: siteConfig.employer.url,
-    },
-    {
-      when: '2024 – 2026',
-      what: 'Co-founder and operations lead, NASNA',
-      note: 'A crisis-response platform connecting displaced families with NGOs, donors, and volunteers.',
-      href: writingHref('building-technology-around-crisis-response-operations'),
-    },
-    {
-      when: '2026',
-      what: 'Technical mentor, INJAZ Al-Arab',
-      note: 'Took two school healthcare teams from first idea to award-winning prototypes.',
-      href: writingHref('mentoring-two-healthcare-teams-at-injaz'),
-    },
-  ],
 }
 
 const note = (slug: string) => {
@@ -522,7 +496,6 @@ export const vneo = {
     all: { label: 'All writing', href: `${VN}/writing` },
   },
   build,
-  log,
   /** After the selected projects: sense, decide, act, once around each of three machines, in its own footage. */
   laps: {
     no: 5,

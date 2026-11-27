@@ -86,7 +86,12 @@ function Talk() {
         aria-label={`${t.label}, ${t.event}: ${t.title}`}
       />
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className="vn-ctile-photo" src={t.image.src} alt={t.image.alt} loading="lazy" />
+      <img
+        className="vn-ctile-photo"
+        src={t.image.src}
+        alt={t.image.alt}
+        loading="lazy"
+      />
       <div className="vn-talk-slide" aria-hidden="true">
         <span className="vn-talk-event">
           {t.event} · {t.when}
@@ -169,7 +174,12 @@ function Mentoring() {
         aria-label={`${m.label}: ${m.title}`}
       />
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className="vn-ctile-photo" src={m.image.src} alt={m.image.alt} loading="lazy" />
+      <img
+        className="vn-ctile-photo"
+        src={m.image.src}
+        alt={m.image.alt}
+        loading="lazy"
+      />
       <div className="vn-tile-cap">
         <span className="vn-tile-kind">{m.label}</span>
         <h3>{m.title}</h3>
@@ -204,7 +214,12 @@ function Organizing() {
         aria-label={`${m.label}: ${m.title}`}
       />
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className="vn-ctile-photo" src={m.image.src} alt={m.image.alt} loading="lazy" />
+      <img
+        className="vn-ctile-photo"
+        src={m.image.src}
+        alt={m.image.alt}
+        loading="lazy"
+      />
       <div className="vn-ctile-side">
         <div className="vn-years" aria-hidden="true">
           <span className="vn-years-line" />
@@ -226,6 +241,27 @@ function Organizing() {
           <span className="vn-tile-kind">{m.label}</span>
           <h3>{m.title}</h3>
           <p>{m.note}</p>
+          {/* above the tile's own link, so each opens its own page */}
+          <div className="vn-org-also">
+            <span>{m.also.label}</span>
+            <ul>
+              {m.also.items.map((i) =>
+                i.href.startsWith('http') ? (
+                  <li key={i.title}>
+                    <a href={i.href} target="_blank" rel="noopener">
+                      {i.title}
+                    </a>
+                    <small>{i.note}</small>
+                  </li>
+                ) : (
+                  <li key={i.title}>
+                    <Link href={i.href}>{i.title}</Link>
+                    <small>{i.note}</small>
+                  </li>
+                )
+              )}
+            </ul>
+          </div>
         </div>
       </div>
     </li>

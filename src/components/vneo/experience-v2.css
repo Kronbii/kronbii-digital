@@ -1,0 +1,663 @@
+/*
+ * Experience as a radar scope (experience-v2.tsx). A dark glass with range
+ * rings a year apart, a scale around the rim, sectors named outside it; the
+ * contacts are sage tracks with a phosphor halo the sweep relights each turn.
+ * Beside it, where I work now as plain big type, and the readout of the
+ * contact in focus. Lines and labels inside the scope are sized from --k
+ * (viewBox units per pixel), so they keep their weight at any width.
+ */
+
+[data-vneo] .vn-xv2 {
+  padding: clamp(80px, 14vh, 140px) 0 0;
+}
+[data-vneo] .vn-xv2-lede {
+  max-width: 52ch;
+  color: var(--ink2);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+[data-vneo] .vn-xv2-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+  grid-template-areas:
+    'scope now'
+    'scope card'
+    'foot card';
+  grid-template-rows: auto 1fr auto;
+  column-gap: clamp(36px, 5vw, 88px);
+  row-gap: 26px;
+  align-items: start;
+  margin: clamp(32px, 4.5vw, 56px) var(--gutter) 0;
+}
+
+/* ---------- the scope ---------- */
+[data-vneo] .vn-xv2-scope {
+  grid-area: scope;
+  margin: 0;
+}
+[data-vneo] .vn-xv2-disc {
+  position: relative;
+  width: 100%;
+  max-width: min(100%, 78vh, 700px);
+  aspect-ratio: 1;
+  margin-inline: auto;
+}
+[data-vneo] .vn-xv2-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+[data-vneo] .vn-xv2-glass {
+  fill: url(#xv2-glass);
+}
+[data-vneo] .vn-xv2-ring {
+  fill: none;
+  stroke: rgba(var(--ink-rgb), 0.13);
+  stroke-dasharray: 1 1;
+}
+[data-vneo] .vn-xv2-ring[data-outer] {
+  stroke: rgba(var(--sage-rgb), 0.42);
+}
+[data-vneo] .vn-xv2-bounds path {
+  fill: none;
+  stroke: rgba(var(--ink-rgb), 0.12);
+}
+[data-vneo] .vn-xv2-ticks {
+  fill: none;
+  stroke: rgba(var(--ink-rgb), 0.22);
+}
+[data-vneo] .vn-xv2-ringlabel {
+  fill: rgba(var(--ink-rgb), 0.46);
+  font-family: var(--f-mono);
+}
+[data-vneo] .vn-xv2-sector text {
+  fill: var(--ink3);
+  font-family: var(--f-mono);
+}
+[data-vneo] .vn-xv2-sector[data-side] text {
+  fill: rgba(var(--ink-rgb), 0.3);
+}
+[data-vneo] .vn-xv2-sarc {
+  fill: none;
+  stroke: rgba(var(--sage-rgb), 0.4);
+  stroke-linecap: round;
+}
+[data-vneo] .vn-xv2-now {
+  fill: rgba(var(--sage-rgb), 0.08);
+  stroke: rgba(var(--sage-rgb), 0.55);
+}
+[data-vneo] .vn-xv2-nowlabel {
+  fill: var(--sage);
+  font-family: var(--f-mono);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+/* the sweep: an arm with the aberration's fringe, and the phosphor it leaves behind */
+[data-vneo] .vn-xv2-sweep {
+  position: absolute;
+  left: 8%;
+  top: 8%;
+  width: 84%;
+  height: 84%;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg 240deg,
+    rgba(var(--sage-rgb), 0.012) 262deg,
+    rgba(var(--sage-rgb), 0.05) 318deg,
+    rgba(var(--sage-rgb), 0.17) 359.4deg,
+    transparent 360deg
+  );
+  pointer-events: none;
+  will-change: transform;
+}
+[data-vneo] .vn-xv2-sweep::after {
+  content: '';
+  position: absolute;
+  left: calc(50% - 0.5px);
+  top: 0;
+  width: 1px;
+  height: 50%;
+  background: linear-gradient(
+    to top,
+    rgba(var(--sage-rgb), 0.05),
+    rgba(var(--sage-rgb), 0.85) 40%,
+    rgba(var(--sage-rgb), 0.95)
+  );
+  box-shadow:
+    -1.5px 0 0 rgba(var(--fr-g), 0.32),
+    1.5px 0 0 rgba(var(--fr-m), 0.32);
+}
+[data-vneo] .vn-xv2[data-still] .vn-xv2-sweep {
+  display: none;
+}
+
+/* ---------- the contacts ---------- */
+[data-vneo] .vn-xv2-c {
+  --glow: 0.45;
+  transition: opacity 0.3s ease;
+}
+[data-vneo] .vn-xv2[data-peek] .vn-xv2-c:not([data-on]):not(.is-side) {
+  opacity: 0.26;
+}
+[data-vneo] .vn-xv2-halo {
+  fill: none;
+  stroke: var(--sage);
+  stroke-linecap: round;
+  stroke-dasharray: 1 1;
+  opacity: calc(var(--glow) * 0.24);
+}
+[data-vneo] .vn-xv2-line {
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: 1 1;
+  opacity: calc(0.55 + var(--glow) * 0.45);
+  transition: stroke-width 0.2s ease;
+}
+/* a start not settled yet: dashed, fading out from now */
+[data-vneo] .vn-xv2-c[data-unsure] .vn-xv2-line {
+  stroke-dasharray: 0.09 0.075;
+  stroke-linecap: butt;
+}
+[data-vneo] .vn-xv2-c[data-on] .vn-xv2-line {
+  opacity: 1;
+  filter: drop-shadow(calc(-1.5px / var(--k)) 0 0 rgba(var(--fr-m), 0.8))
+    drop-shadow(calc(1.5px / var(--k)) 0 0 rgba(var(--fr-g), 0.8));
+}
+[data-vneo] .vn-xv2-c[data-on] .vn-xv2-halo {
+  opacity: calc(0.14 + var(--glow) * 0.2);
+}
+/* still going: a solid head on the centre's edge; over: a hollow one where it ended */
+[data-vneo] .vn-xv2-head {
+  fill: var(--bg);
+  stroke: var(--sage);
+}
+[data-vneo] .vn-xv2-head[data-going] {
+  fill: var(--sage);
+}
+[data-vneo] .vn-xv2-ping {
+  fill: none;
+  stroke: var(--sage);
+  opacity: calc(var(--glow) * var(--glow) * 0.55);
+}
+[data-vneo] .vn-xv2-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-linecap: round;
+  pointer-events: stroke;
+  cursor: pointer;
+}
+[data-vneo] .vn-xv2:not([data-seen]):not([data-still]) .vn-xv2-hit {
+  pointer-events: none;
+}
+/* community work, outside the range */
+[data-vneo] .vn-xv2-mark {
+  fill: rgba(var(--ink-rgb), 0.08);
+  stroke: rgba(var(--ink-rgb), 0.42);
+  opacity: calc(0.45 + var(--glow) * 0.55);
+}
+
+/* the data tags: a callsign, and the name under it */
+[data-vneo] .vn-xv2-tags {
+  position: absolute;
+  inset: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+}
+[data-vneo] .vn-xv2-tag {
+  --glow: 0.6;
+  position: absolute;
+  padding: 4px 6px;
+  border: 0;
+  border-radius: 7px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+[data-vneo] .vn-xv2-tag[data-a='r'] {
+  transform: translate(0, -50%);
+}
+[data-vneo] .vn-xv2-tag[data-a='l'] {
+  transform: translate(-100%, -50%);
+  text-align: right;
+}
+[data-vneo] .vn-xv2-tag[data-a='t'] {
+  transform: translate(-50%, -100%);
+  text-align: center;
+}
+[data-vneo] .vn-xv2-tag[data-a='b'] {
+  transform: translate(-50%, 0);
+  text-align: center;
+}
+[data-vneo] .vn-xv2[data-peek] .vn-xv2-tag:not([data-on]) {
+  opacity: 0.4;
+}
+[data-vneo] .vn-xv2-tag-in {
+  display: grid;
+  justify-items: start;
+  gap: 2px;
+}
+[data-vneo] .vn-xv2-tag[data-a='l'] .vn-xv2-tag-in {
+  justify-items: end;
+}
+[data-vneo] .vn-xv2-tag:is([data-a='t'], [data-a='b']) .vn-xv2-tag-in {
+  justify-items: center;
+}
+[data-vneo] .vn-xv2-tag b {
+  padding: 1px 5px;
+  border-radius: 4px;
+  color: rgba(var(--sage-rgb), calc(0.55 + var(--glow) * 0.45));
+  font-family: var(--f-mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.1em;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+[data-vneo] .vn-xv2-tag-in > span {
+  padding: 0 5px;
+  color: var(--ink2);
+  font-size: 0.86rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  transition: color 0.25s ease;
+}
+[data-vneo] .vn-xv2-tag[data-on] b {
+  background: var(--sage);
+  color: var(--sage-ink);
+}
+[data-vneo] .vn-xv2-tag[data-on] .vn-xv2-tag-in > span {
+  color: var(--ink);
+}
+[data-vneo] .vn-xv2-tag:focus-visible {
+  outline: 1.5px solid var(--sage);
+  outline-offset: 1px;
+}
+[data-vneo] .vn-xv2-cap {
+  margin-top: 14px;
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.7rem;
+  text-align: center;
+}
+
+/* ---------- in range now: where I work, readable at a glance ---------- */
+[data-vneo] .vn-xv2-now-list {
+  grid-area: now;
+}
+[data-vneo] .vn-xv2-now-h {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  color: var(--ink2);
+  font-family: var(--f-mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.02em;
+}
+[data-vneo] .vn-xv2-now-h i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--sage);
+  animation: vn-xv2-pulse 2.5s ease-out infinite;
+}
+@keyframes vn-xv2-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--sage-rgb), 0.55);
+  }
+  60%,
+  100% {
+    box-shadow: 0 0 0 9px rgba(var(--sage-rgb), 0);
+  }
+}
+[data-vneo] .vn-xv2-now-list ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--hair);
+}
+[data-vneo] .vn-xv2-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 15px 4px 15px 0;
+  border: 0;
+  border-bottom: 1px solid var(--hair);
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+[data-vneo] .vn-xv2-row::before {
+  content: '';
+  position: absolute;
+  inset: -1px auto -1px -14px;
+  width: 2px;
+  background: var(--sage);
+  transform: scaleY(0);
+  transition: transform 0.35s var(--ease);
+}
+[data-vneo] .vn-xv2-row[aria-pressed='true']::before {
+  transform: scaleY(1);
+}
+[data-vneo] .vn-xv2-row:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 1.5px var(--sage);
+  border-radius: 8px;
+}
+[data-vneo] .vn-xv2-row-call {
+  justify-self: start;
+  padding: 4px 7px;
+  border-radius: 5px;
+  box-shadow: inset 0 0 0 1px rgba(var(--sage-rgb), 0.45);
+  color: var(--sage);
+  font-family: var(--f-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+[data-vneo] .vn-xv2-row[data-on] .vn-xv2-row-call {
+  background: var(--sage);
+  color: var(--sage-ink);
+}
+[data-vneo] .vn-xv2-row-id {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+[data-vneo] .vn-xv2-row-org {
+  color: var(--ink);
+  font-size: clamp(1.3rem, 1.9vw, 1.6rem);
+  font-weight: 650;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+[data-vneo] .vn-xv2-row-role {
+  color: var(--ink2);
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+[data-vneo] .vn-xv2-row-since {
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+[data-vneo] .vn-xv2-row:hover .vn-xv2-row-since,
+[data-vneo] .vn-xv2-row[data-on] .vn-xv2-row-since {
+  color: var(--ink2);
+}
+
+/* ---------- the readout ---------- */
+[data-vneo] .vn-xv2-card {
+  grid-area: card;
+  position: relative;
+  padding: 18px 24px 24px;
+  border-radius: 18px;
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgba(var(--sage-rgb), 0.06), transparent 60%),
+    var(--surface);
+  box-shadow: 0 0 0 1px var(--hair);
+}
+[data-vneo] .vn-xv2-card-in {
+  display: grid;
+  gap: 10px;
+}
+[data-vneo] .vn-xv2-card-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  margin-bottom: 6px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--hair);
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+}
+[data-vneo] .vn-xv2-card-call {
+  color: var(--sage);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+[data-vneo] .vn-xv2-card-when {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  color: var(--ink2);
+}
+[data-vneo] .vn-xv2-card-when[data-going]::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--sage);
+  animation: vn-xv2-pulse 2.5s ease-out infinite;
+}
+[data-vneo] .vn-xv2-card-org {
+  color: var(--ink);
+  font-size: clamp(1.9rem, 2.7vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+[data-vneo] .vn-xv2-card-long {
+  margin-top: -4px;
+  color: var(--ink3);
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+[data-vneo] .vn-xv2-card-role {
+  color: var(--ink2);
+  font-size: 1.02rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+[data-vneo] .vn-xv2-card-note {
+  margin-top: 2px;
+  max-width: 46ch;
+  color: var(--ink2);
+  font-family: var(--f-serif);
+  font-size: 1.16rem;
+  font-style: italic;
+  line-height: 1.42;
+}
+[data-vneo] .vn-xv2-card-more {
+  max-width: 60ch;
+  color: var(--ink2);
+  font-size: 0.93rem;
+  line-height: 1.6;
+}
+[data-vneo] .vn-xv2-card-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 32px;
+  margin: 2px 0 0;
+  font-size: 0.86rem;
+}
+[data-vneo] .vn-xv2-card-fields dt {
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.66rem;
+}
+[data-vneo] .vn-xv2-card-fields dd {
+  margin: 2px 0 0;
+  color: var(--ink2);
+}
+[data-vneo] .vn-xv2-card-work {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+}
+[data-vneo] .vn-xv2-card-work a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 16px 6px 6px;
+  border-radius: 12px;
+  background: var(--raised);
+  box-shadow: 0 0 0 1px var(--hair);
+  color: var(--ink);
+  font-size: 0.86rem;
+  font-weight: 500;
+  transition: box-shadow 0.2s ease;
+}
+[data-vneo] .vn-xv2-card-work a:hover,
+[data-vneo] .vn-xv2-card-work a:focus-visible {
+  box-shadow: 0 0 0 1px rgba(var(--sage-rgb), 0.55);
+}
+[data-vneo] .vn-xv2-thumb {
+  position: relative;
+  flex: none;
+  width: 64px;
+  height: 44px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--sunk);
+}
+[data-vneo] .vn-xv2-thumb img {
+  object-fit: cover;
+}
+[data-vneo] .vn-xv2-card-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin-top: 2px;
+  font-size: 0.88rem;
+}
+[data-vneo] .vn-xv2-card-links a {
+  color: var(--sage);
+  text-decoration: underline;
+  text-decoration-color: rgba(var(--sage-rgb), 0.4);
+  text-underline-offset: 3px;
+}
+[data-vneo] .vn-xv2-card-links a:hover {
+  text-decoration-color: var(--sage);
+}
+
+/* ---------- community work: one quiet line ---------- */
+[data-vneo] .vn-xv2-foot {
+  grid-area: foot;
+}
+[data-vneo] .vn-xv2-also {
+  color: var(--ink3);
+  font-size: 0.88rem;
+  line-height: 1.7;
+  text-align: center;
+}
+[data-vneo] .vn-xv2-also a {
+  color: var(--ink2);
+  text-decoration: underline;
+  text-decoration-color: var(--hair2);
+  text-underline-offset: 3px;
+  transition:
+    color 0.2s ease,
+    text-decoration-color 0.2s ease;
+}
+[data-vneo] .vn-xv2-also a:hover,
+[data-vneo] .vn-xv2-also a:focus-visible {
+  color: var(--ink);
+  text-decoration-color: var(--sage);
+}
+[data-vneo] .vn-xv2-also small {
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.68rem;
+}
+
+/* ---------- narrower: the scope, then where I work now, then the readout ---------- */
+@media (max-width: 899px) {
+  [data-vneo] .vn-xv2-grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'scope'
+      'now'
+      'card'
+      'foot';
+    grid-template-rows: none;
+    row-gap: 30px;
+  }
+  [data-vneo] .vn-xv2-disc {
+    max-width: min(100%, 640px);
+  }
+  [data-vneo] .vn-xv2-row::before {
+    left: -10px;
+  }
+}
+
+/* ---------- a phone: callsigns only on the scope; the list names them ---------- */
+@media (max-width: 559px) {
+  [data-vneo] .vn-xv2-tag {
+    min-width: 30px;
+    min-height: 26px;
+    padding: 3px 3px;
+  }
+  [data-vneo] .vn-xv2-tag-in > span {
+    display: none;
+  }
+  [data-vneo] .vn-xv2-tag b {
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+  }
+  [data-vneo] .vn-xv2-row {
+    grid-template-columns: 50px minmax(0, 1fr) auto;
+    gap: 12px;
+    padding: 13px 2px 13px 0;
+  }
+  [data-vneo] .vn-xv2-row-org {
+    font-size: 1.25rem;
+  }
+  [data-vneo] .vn-xv2-row-role {
+    font-size: 0.84rem;
+  }
+  [data-vneo] .vn-xv2-row-since {
+    align-self: start;
+    padding-top: 4px;
+    font-size: 0.66rem;
+  }
+  [data-vneo] .vn-xv2-card {
+    padding: 16px 18px 20px;
+  }
+  [data-vneo] .vn-xv2-also {
+    text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-vneo] .vn-xv2-now-h i,
+  [data-vneo] .vn-xv2-card-when[data-going]::before {
+    animation: none;
+  }
+  [data-vneo] .vn-xv2-c,
+  [data-vneo] .vn-xv2-tag,
+  [data-vneo] .vn-xv2-row::before {
+    transition: none;
+  }
+}

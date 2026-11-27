@@ -4,8 +4,8 @@ import Link from 'next/link'
 import { useState } from 'react'
 
 /*
- * Every project, v3's way: tight tiles, a filter per field, each tile saying
- * what it is, what it does, and the one fact to check.
+ * Every project, v3's way: tight tiles and a filter per field, each tile just
+ * its name and one sentence; the rest is on its page.
  */
 
 export interface GridItem {
@@ -81,10 +81,8 @@ export function ProjectGrid({
               )}
             </div>
             <div className="vn-tile-cap">
-              <span className="vn-tile-kind">{t.kind}</span>
               <h2>{t.title}</h2>
               <p>{t.line}</p>
-              <span className="vn-badge">{t.proof}</span>
             </div>
           </li>
         ))}

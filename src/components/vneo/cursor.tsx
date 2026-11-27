@@ -56,10 +56,31 @@ export function Cursor() {
     let pressed = false
     let raf = 0
     let last = 0
+    const shown = { vx: '', vy: '', w: '', h: '' }
+    // the target's box: measured as the cursor locks on and a few times in the
+    // moment after (its hover styles may still be moving it), then followed by
+    // the scroll alone, since measuring it every frame would force a fresh
+    // layout each time
+    let aim: DOMRect | null = null
+    let aimAt = 0
+    let aimNext = 0
+    let aimY = 0
+    let pageY = scrollY
 
-    const goal = () => {
+    const goal = (now: number) => {
       if (target && target.isConnected) {
-        const r = target.getBoundingClientRect()
+        if (!aim || (now - aimAt < 600 && now >= aimNext)) {
+          aim = target.getBoundingClientRect()
+          aimY = pageY
+          aimNext = now + 150
+        }
+        const dy = aimY - pageY
+        const r = {
+          left: aim.left,
+          right: aim.right,
+          top: aim.top + dy,
+          bottom: aim.bottom + dy,
+        }
         const x0 = Math.max(4, r.left - PAD),
           y0 = Math.max(4, r.top - PAD)
         const x1 = Math.min(innerWidth - 4, r.right + PAD),
@@ -79,7 +100,7 @@ export function Cursor() {
       raf = 0
       const dt = last ? Math.min(0.05, (now - last) / 1000) : 1 / 60
       last = now
-      const g = goal()
+      const g = goal(now)
       const k = reduced ? 1 : 1 - Math.exp(-dt * (target ? 20 : 34))
       cur.x += (g.x - cur.x) * k
       cur.y += (g.y - cur.y) * k
@@ -90,11 +111,17 @@ export function Cursor() {
       vel.y *= decay
       const sx = reduced ? 0 : Math.max(-9, Math.min(9, vel.x * 0.006))
       const sy = reduced ? 0 : Math.max(-9, Math.min(9, vel.y * 0.006))
-      d.style.setProperty('--vx', sx.toFixed(2))
-      d.style.setProperty('--vy', sy.toFixed(2))
-      b.style.transform = `translate3d(${cur.x}px, ${cur.y}px, 0)`
-      b.style.width = `${cur.w}px`
-      b.style.height = `${cur.h}px`
+      // write only what changed: a new size means a layout, and a value written
+      // again every frame keeps the style dirty for everything that reads it
+      const vx = sx.toFixed(1)
+      const vy = sy.toFixed(1)
+      if (vx !== shown.vx) d.style.setProperty('--vx', (shown.vx = vx))
+      if (vy !== shown.vy) d.style.setProperty('--vy', (shown.vy = vy))
+      b.style.transform = `translate3d(${cur.x.toFixed(2)}px, ${cur.y.toFixed(2)}px, 0)`
+      const bw = `${cur.w.toFixed(1)}px`
+      const bh = `${cur.h.toFixed(1)}px`
+      if (bw !== shown.w) b.style.width = shown.w = bw
+      if (bh !== shown.h) b.style.height = shown.h = bh
       d.style.transform = `translate3d(${px.x}px, ${px.y}px, 0)`
       const moving =
         Math.abs(g.x - cur.x) +
@@ -111,6 +138,8 @@ export function Cursor() {
     const setTarget = (el: HTMLElement | null) => {
       if (el === target) return
       target = el
+      aim = null
+      aimAt = performance.now()
       t.textContent = el ? labelFor(el) : ''
       b.dataset.lock = el ? 'on' : 'off'
     }
@@ -155,9 +184,16 @@ export function Cursor() {
       b.dataset.show = d.dataset.show = 'off'
     }
     const onScroll = () => {
+      pageY = scrollY
       if (!visible) return
       const el = document.elementFromPoint(px.x, px.y)
       setTarget(el?.closest<HTMLElement>(TARGETS) ?? null)
+      // measured here, at the start of a frame, while the layout is still clean
+      // (and right for a target that doesn't scroll, like the header's links)
+      if (target) {
+        aim = target.getBoundingClientRect()
+        aimY = pageY
+      }
       wake()
     }
     addEventListener('pointermove', onMove, { passive: true })
@@ -165,6 +201,10 @@ export function Cursor() {
     addEventListener('pointerup', onUp, { passive: true })
     document.addEventListener('pointerout', onLeave)
     addEventListener('scroll', onScroll, { passive: true })
+    const onResize = () => {
+      aim = null
+    }
+    addEventListener('resize', onResize)
     return () => {
       cancelAnimationFrame(raf)
       removeEventListener('pointermove', onMove)
@@ -172,6 +212,7 @@ export function Cursor() {
       removeEventListener('pointerup', onUp)
       document.removeEventListener('pointerout', onLeave)
       removeEventListener('scroll', onScroll)
+      removeEventListener('resize', onResize)
       root.dataset.cursor = 'off'
     }
   }, [])

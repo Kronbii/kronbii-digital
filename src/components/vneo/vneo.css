@@ -804,28 +804,12 @@
     height: clamp(400px, 58svh, 600px);
   }
 }
-/* the preflight's name is set like this one (.vn-name), so it lands on it letter for letter */
-[data-v7][data-vneo] [data-intro-overlay] :is([data-part='n1'], [data-part='n2']) {
-  font-weight: 700;
-  line-height: 0.86;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
-  font-variation-settings: 'opsz' 96;
-}
-/* the preflight lands on this name; the slam waits for its own entrance */
-[data-vneo][data-intro='on'] #vneo-name,
-[data-vneo][data-intro='playing'] #vneo-name,
-[data-vneo][data-intro='reveal'] #vneo-name {
-  opacity: 0;
-}
-[data-vneo][data-intro='on'] #vneo-name {
-  animation: v7-failsafe 0.4s ease 6.5s forwards;
-}
-[data-vneo][data-intro='off']
-  .vn-hero:not([data-rolled])
-  :is(.vn-n1, .vn-n2, .vn-chip) {
-  opacity: 0;
-  animation: v7-failsafe 0.4s ease 3s forwards;
+/* the name waits for its entrance (with no script, it is simply there) */
+@media (scripting: enabled) {
+  [data-vneo] .vn-hero:not([data-rolled]) :is(.vn-n1, .vn-n2, .vn-chip) {
+    opacity: 0;
+    animation: v7-failsafe 0.4s ease 3s forwards;
+  }
 }
 
 /* ---------- a slate (v4's), in Sage ---------- */
@@ -1127,6 +1111,42 @@
   padding: 8%;
   background: #f6f6f1;
 }
+/*
+ * One lens for every picture. Photos, footage and the reel's shots on the
+ * cards rest as one duotone, black to Sage, so pictures from a dozen cameras
+ * (and one thermal camera) read as one set; a contained picture sits on the
+ * page's dark, not on white. A card comes back to colour while it is pointed
+ * at, focused, or playing. The drawn scenes are Sage already and are left
+ * alone.
+ */
+[data-vneo] :is(.vn-grid, .vn-showcase) .vn-tile-media:has(> img, > video, .v6-frame) {
+  isolation: isolate;
+}
+[data-vneo] :is(.vn-grid, .vn-showcase) .vn-tile-media:has(> img, > video, .v6-frame)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--sage);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  transition: opacity 0.6s var(--ease);
+}
+[data-vneo] :is(.vn-grid, .vn-showcase) .vn-tile-media > :is(img, video),
+[data-vneo] :is(.vn-grid, .vn-showcase) .vn-tile-media .v6-frame {
+  filter: grayscale(1) contrast(1.1) brightness(0.8);
+  transition: filter 0.6s var(--ease);
+}
+[data-vneo] :is(.vn-grid, .vn-showcase) .vn-tile-media > img[style*='contain'] {
+  background: var(--ground);
+}
+[data-vneo] :is(.vn-grid, .vn-showcase) .vn-tile:is(:hover, :focus-within, [data-live]) .vn-tile-media::after {
+  opacity: 0;
+}
+[data-vneo] :is(.vn-grid, .vn-showcase) .vn-tile:is(:hover, :focus-within, [data-live]) .vn-tile-media > :is(img, video),
+[data-vneo] :is(.vn-grid, .vn-showcase) .vn-tile:is(:hover, :focus-within, [data-live]) .vn-tile-media .v6-frame {
+  filter: none;
+}
 [data-vneo] .vn-figure {
   position: absolute;
   inset: 0;
@@ -1359,6 +1379,46 @@
 }
 [data-vneo] .vn-ctile.is-organizing .vn-ctile-photo {
   object-position: 50% 50%;
+}
+/* the other rooms I organized: small, under the cap, each its own link above the tile's */
+[data-vneo] .vn-org-also {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--hair);
+  color: var(--ink3);
+  font-size: 0.82rem;
+}
+[data-vneo] .vn-org-also ul {
+  display: grid;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+[data-vneo] .vn-org-also li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+}
+[data-vneo] .vn-org-also a {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: rgba(var(--sage-rgb), 0.4);
+  text-underline-offset: 3px;
+}
+[data-vneo] .vn-org-also a:hover,
+[data-vneo] .vn-org-also a:focus-visible {
+  text-decoration-color: var(--sage);
+}
+[data-vneo] .vn-org-also small {
+  color: var(--ink3);
+  font-size: inherit;
 }
 [data-vneo] .vn-ctile.is-organizing .vn-tile-cap p {
   -webkit-line-clamp: 4;
@@ -2117,10 +2177,7 @@
       'mine mine fpv  fpv'
       'mine mine fpv  fpv'
       'omni rot  rot  heat'
-      'omni road road heat'
-      'pano pano race race'
-      'imu  imu  crk  star'
-      'pid  pid  crk  star';
+      'omni road road heat';
     grid-auto-rows: 300px;
     grid-auto-flow: row;
   }
@@ -2183,6 +2240,13 @@
       rgba(var(--fr-g), 0.3),
     calc(var(--lx, 0) * -0.5px) calc(var(--ly, 0) * -0.5px) 0
       rgba(var(--fr-m), 0.3),
+    calc(var(--lx, 0) * -1px) calc(var(--ly, 0) * -1px) 0 rgba(var(--fr-m), 0.7);
+}
+/* while the page scrolls, the fringe changes every other frame (lens.tsx): type keeps
+   only its outer pair of shadows then, half the drawing for each repaint */
+html[data-lens-busy] [data-vneo] :is(#v7-main h1, #v7-main h2, [data-lens]) {
+  text-shadow:
+    calc(var(--lx, 0) * 1px) calc(var(--ly, 0) * 1px) 0 rgba(var(--fr-g), 0.7),
     calc(var(--lx, 0) * -1px) calc(var(--ly, 0) * -1px) 0 rgba(var(--fr-m), 0.7);
 }
 /* type that also fringes on its own (--ca, an entrance) takes both */
