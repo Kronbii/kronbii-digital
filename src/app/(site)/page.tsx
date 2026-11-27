@@ -1,9 +1,7 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
-import { preload } from 'react-dom'
 
 import { SignOff } from '@/components/v2/home/sign-off'
-import { INTRO_MODEL } from '@/components/v2/intro/timing'
 import { JsonLd } from '@/components/v2/json-ld'
 import { Build } from '@/components/vneo/build'
 import { Community } from '@/components/vneo/community'
@@ -52,12 +50,6 @@ const homeJsonLd = {
 }
 
 export default function Vneo() {
-  // the E58 stands in the hero: ask for it first, ahead of everything below the fold
-  preload(INTRO_MODEL, {
-    as: 'fetch',
-    crossOrigin: 'anonymous',
-    fetchPriority: 'high',
-  })
   const c = vneo
   return (
     <>

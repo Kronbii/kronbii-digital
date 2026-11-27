@@ -1,0 +1,407 @@
+/*
+ * Hero v7, "Cedars, matched" (hero-v7.tsx): v2's name column, and beside it
+ * the two cedar photographs as a matched pair, with the correspondences drawn
+ * across them and the ID lock closing on him in both.
+ */
+[data-vneo] .vn-h7 {
+  /* the pair: half the width beside the name, shorter on a short screen; --h7-ar (its aspect) comes from the tsx */
+  --h7-pair-w: min(50vw, calc((100svh - 230px) * var(--h7-ar, 1.5429)), 860px);
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(28px, 4vw, 72px);
+  padding: clamp(92px, 12.5vh, 128px) var(--gutter) clamp(24px, 4.5vh, 48px);
+  overflow: clip;
+}
+[data-vneo] .vn-h7-glow {
+  position: absolute;
+  left: 2%;
+  top: 12%;
+  width: 62%;
+  height: 52%;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgba(var(--sage-rgb), 0.16),
+    rgba(var(--sage-rgb), 0)
+  );
+  pointer-events: none;
+}
+
+/* ---------- the name column, as v2's ---------- */
+[data-vneo] .vn-h7-text {
+  position: relative;
+  min-width: 0;
+}
+[data-vneo] .vn-h7-id {
+  margin: 0 0 calc(1.8vh + 14px);
+  color: var(--sage);
+  font-family: var(--f-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+[data-vneo] .vn-h7-name {
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+  max-width: 100%;
+  font-weight: 700;
+  /* a little smaller than v2's, so KRONBI. (about 3.4em wide) fits beside a pair at half the width */
+  font-size: min(10.2vw, 21svh);
+  line-height: 0.86;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  font-variation-settings: 'opsz' 96;
+  white-space: nowrap;
+}
+[data-vneo] .vn-h7-name > span {
+  display: block;
+  width: max-content;
+  transform-origin: 0% 60%;
+}
+[data-vneo] .vn-h7-name > span > span {
+  display: inline-block;
+  color: var(--sage);
+}
+[data-vneo] .vn-h7-sub {
+  margin-top: clamp(26px, 4.4vh, 44px);
+  font-weight: 600;
+  font-size: clamp(1.4rem, 2.3vw, 2.25rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+[data-vneo] .vn-h7-cred {
+  margin-top: 12px;
+  color: var(--ink2);
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+}
+[data-vneo] .vn-h7-cred a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--hair2);
+  text-underline-offset: 0.22em;
+  transition: text-decoration-color 0.3s;
+}
+[data-vneo] .vn-h7-cred a:hover {
+  text-decoration-color: var(--sage);
+}
+[data-vneo] .vn-h7-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: clamp(22px, 3.6vh, 34px);
+}
+[data-vneo] .vn-h7-chip {
+  padding: 9px 18px;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1.5px rgba(var(--sage-rgb), 0.6);
+  font-weight: 600;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+[data-vneo] .vn-h7-chip:first-child {
+  background: var(--sage);
+  color: var(--sage-ink);
+}
+[data-vneo] .vn-h7-chip:hover {
+  background: var(--sage2);
+  color: var(--sage-ink);
+}
+[data-vneo] .vn-h7-where {
+  margin-left: 8px;
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.8rem;
+}
+
+/* ---------- the pair: two frames in one box, the overlays in the same box ---------- */
+[data-vneo] .vn-h7-fig {
+  position: relative;
+  width: var(--h7-pair-w);
+  min-width: 0;
+  margin: 0;
+}
+[data-vneo] .vn-h7-pair {
+  /* the scrim over the photos: a touch of dark so the thin lines hold over bright sky */
+  --h7-scrim: 0.12;
+  position: relative;
+  width: 100%;
+  /* the aspect ratio (2160 / 1400) is set inline from the same numbers the overlays use */
+  border-radius: 16px;
+}
+[data-vneo] .vn-h7-pair:focus-visible {
+  outline: 2px solid var(--sage);
+  outline-offset: 6px;
+}
+/* each frame: absolutely placed by percent (inline), exactly the photo's 3:4 */
+[data-vneo] .vn-h7-frame {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--surface);
+  /* the hairline, and during the entrance the frame's own colour fringe (--ca) converging */
+  box-shadow:
+    0 0 0 1px var(--hair),
+    calc(var(--ca, 0) * -1px) 0 0 0 rgba(var(--fr-m), 0.5),
+    calc(var(--ca, 0) * 1px) 0 0 0 rgba(var(--fr-g), 0.5);
+}
+[data-vneo] .vn-h7-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgb(var(--bg-rgb));
+  opacity: var(--h7-scrim);
+  pointer-events: none;
+  transition: opacity 0.35s var(--ease);
+}
+[data-vneo] .vn-h7-photo {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* the overlays: every one spans the whole pair in the same viewBox, so its pixels are the photos' pixels */
+[data-vneo] .vn-h7-pair > svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+[data-vneo] .vn-h7-pair line,
+[data-vneo] .vn-h7-pair path {
+  fill: none;
+  stroke-linecap: butt;
+}
+
+/* detection: thin rings, receding once matching starts (--lift 1 → 0 in the entrance) */
+[data-vneo] .vn-h7-kp {
+  opacity: calc(0.45 + 0.55 * var(--lift, 0));
+  transition: opacity 0.35s var(--ease);
+}
+[data-vneo] .vn-h7-kp circle {
+  fill: none;
+  stroke: rgba(var(--ink-rgb), 0.5);
+  stroke-width: 1px;
+}
+
+/* the trees' matches: faint Sage on a dark halo */
+[data-vneo] .vn-h7-scene {
+  transition: opacity 0.35s var(--ease);
+}
+[data-vneo] .vn-h7-scene .vn-h7-halo line {
+  stroke: rgba(var(--bg-rgb), 0.22);
+  stroke-width: 3px;
+}
+[data-vneo] .vn-h7-scene .vn-h7-core line {
+  stroke: rgba(var(--sage-rgb), 0.4);
+  stroke-width: 1px;
+}
+[data-vneo] .vn-h7-scene circle {
+  fill: rgba(var(--sage-rgb), 0.7);
+}
+
+/* the matches on him: brighter, on a firmer halo, in the green/magenta fringe */
+[data-vneo] .vn-h7-him-halo line {
+  stroke: rgba(var(--bg-rgb), 0.45);
+  stroke-width: 3px;
+}
+[data-vneo] .vn-h7-him-halo circle {
+  fill: rgba(var(--bg-rgb), 0.45);
+}
+[data-vneo] .vn-h7-him {
+  /* the fringe's offset and strength; --ca widens it while the lines land */
+  --h7-fx: 0.5px;
+  --h7-fy: 0.8px;
+  --h7-fa: 0.6;
+  filter: drop-shadow(
+      calc(var(--h7-fx) * -1 - var(--ca, 0) * 1px)
+        calc(var(--h7-fy) + var(--ca, 0) * 1px) 0
+        rgba(var(--fr-m), var(--h7-fa))
+    )
+    drop-shadow(
+      calc(var(--h7-fx) + var(--ca, 0) * 1px)
+        calc(var(--h7-fy) * -1 - var(--ca, 0) * 1px) 0
+        rgba(var(--fr-g), var(--h7-fa))
+    );
+}
+[data-vneo] .vn-h7-him line {
+  stroke: var(--sage2);
+  stroke-width: 1px;
+  transition: stroke 0.35s var(--ease);
+}
+[data-vneo] .vn-h7-him circle {
+  fill: var(--sage2);
+  transition: fill 0.35s var(--ease);
+}
+
+/* the lock: brackets and the join, Sage on a dark halo, as v2's brackets */
+[data-vneo] .vn-h7-lock path {
+  stroke: var(--sage);
+  stroke-width: 2.5px;
+  stroke-linejoin: miter;
+}
+[data-vneo] .vn-h7-lock path.vn-h7-bar {
+  stroke-width: 1.25px;
+}
+[data-vneo] .vn-h7-lock path.vn-h7-lock-halo {
+  stroke: rgba(var(--bg-rgb), 0.5);
+  stroke-width: 4.5px;
+}
+[data-vneo] .vn-h7-lock path.vn-h7-bar.vn-h7-lock-halo {
+  stroke-width: 3.25px;
+}
+/* one tag over the join, in the lock-on cursor's pill */
+[data-vneo] .vn-h7-tag {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  padding: 2px 7px 3px;
+  border-radius: 4px;
+  background: var(--sage);
+  color: var(--sage-ink);
+  font-family: var(--f-mono);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* with a mouse, pointing at the pair (or focusing it) brings the matches on him forward */
+@media (hover: hover) and (pointer: fine) {
+  [data-vneo] .vn-h7-him {
+    transition: filter 0.35s var(--ease);
+  }
+  [data-vneo] .vn-h7-pair:is(:hover, :focus-visible) {
+    --h7-scrim: 0.28;
+  }
+  [data-vneo] .vn-h7-pair:is(:hover, :focus-visible) .vn-h7-kp {
+    opacity: 0.18;
+  }
+  [data-vneo] .vn-h7-pair:is(:hover, :focus-visible) .vn-h7-scene {
+    opacity: 0.32;
+  }
+  [data-vneo] .vn-h7-pair:is(:hover, :focus-visible) .vn-h7-him {
+    --h7-fx: 0.7px;
+    --h7-fy: 1.1px;
+    --h7-fa: 0.95;
+  }
+  [data-vneo] .vn-h7-pair:is(:hover, :focus-visible) .vn-h7-him line {
+    stroke: var(--ink);
+  }
+  [data-vneo] .vn-h7-pair:is(:hover, :focus-visible) .vn-h7-him circle {
+    fill: var(--ink);
+  }
+}
+
+/* the figure caption, as the drone plate's */
+[data-vneo] .vn-h7-cap {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  margin-top: 12px;
+  color: var(--ink3);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+[data-vneo] .vn-h7-fig-no {
+  flex: none;
+  color: var(--ink2);
+  font-family: var(--f-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ---------- stacked: the name, then the pair side by side at the full width ---------- */
+@media (max-width: 900px) {
+  [data-vneo] .vn-h7 {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(30px, 5vh, 48px);
+    padding-bottom: 48px;
+  }
+  [data-vneo] .vn-h7-name {
+    font-size: min(18vw, 20svh);
+  }
+  [data-vneo] .vn-h7-fig {
+    width: 100%;
+    max-width: 620px;
+  }
+  [data-vneo] .vn-h7-pair,
+  [data-vneo] .vn-h7-frame {
+    border-radius: 12px;
+  }
+}
+@media (max-width: 640px) {
+  [data-vneo] .vn-h7-where {
+    flex-basis: 100%;
+    margin: 4px 0 0 2px;
+  }
+  [data-vneo] .vn-h7-pair,
+  [data-vneo] .vn-h7-frame {
+    border-radius: 10px;
+  }
+  [data-vneo] .vn-h7-pair:focus-visible {
+    outline-offset: 4px;
+  }
+  [data-vneo] .vn-h7-lock path {
+    stroke-width: 2px;
+  }
+  [data-vneo] .vn-h7-lock path.vn-h7-lock-halo {
+    stroke-width: 3.75px;
+  }
+  [data-vneo] .vn-h7-tag {
+    padding: 1px 5px 2px;
+    font-size: 9px;
+    letter-spacing: 0.06em;
+  }
+}
+
+/* ---------- the entrance waits for its script (with no script, everything is simply there) ---------- */
+@media (scripting: enabled) {
+  [data-vneo]
+    .vn-h7:not([data-rolled])
+    :is(
+      .vn-h7-glow,
+      .vn-h7-id,
+      .vn-h7-n1,
+      .vn-h7-n2,
+      .vn-h7-cred,
+      .vn-h7-chip,
+      .vn-h7-frame,
+      .vn-h7-kp,
+      .vn-h7-scene,
+      .vn-h7-him-halo,
+      .vn-h7-him,
+      .vn-h7-lock,
+      .vn-h7-tag,
+      .vn-h7-cap
+    ) {
+    opacity: 0;
+    animation: vn-h7-failsafe 0.4s ease 3s forwards;
+  }
+}
+@keyframes vn-h7-failsafe {
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-vneo] .vn-h7-pair *,
+  [data-vneo] .vn-h7-frame::after {
+    transition: none !important;
+  }
+}

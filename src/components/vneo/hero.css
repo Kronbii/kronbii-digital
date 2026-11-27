@@ -1,0 +1,585 @@
+/*
+ * Hero v6, "Cedars, open" (hero-v6.tsx): v2's name column, and no plate. The
+ * cedar photograph bleeds in from the right edge, runs off the top under the
+ * header and fades into the page's dark toward the name; the ID lock and the
+ * patch callouts sit on him, placed in percent of the photo.
+ */
+[data-vneo] .vn-h6 {
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: clamp(92px, 12.5svh, 128px) var(--gutter) clamp(24px, 4.5svh, 48px);
+  overflow: clip;
+}
+
+/* ---------- the name column: v2's, over the faded side ---------- */
+[data-vneo] .vn-h6-text {
+  position: relative;
+  z-index: 2;
+  /* the name sets the column; the title wraps within it, so the photo's fade always starts past the text */
+  width: min(44vw, 680px);
+  min-width: 0;
+}
+[data-vneo] .vn-h6-id {
+  margin: 0 0 calc(1.8svh + 14px);
+  color: var(--sage);
+  font-family: var(--f-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+[data-vneo] .vn-h6-name {
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+  max-width: 100%;
+  font-weight: 700;
+  font-size: min(11.6vw, 23svh);
+  line-height: 0.86;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  font-variation-settings: 'opsz' 96;
+  white-space: nowrap;
+}
+[data-vneo] .vn-h6-name > span {
+  display: block;
+  width: max-content;
+  transform-origin: 0% 60%;
+}
+[data-vneo] .vn-h6-name > span > span {
+  display: inline-block;
+  color: var(--sage);
+}
+[data-vneo] .vn-h6-sub {
+  margin-top: clamp(26px, 4.4svh, 44px);
+  font-weight: 600;
+  font-size: clamp(1.4rem, 2.3vw, 2.25rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+[data-vneo] .vn-h6-cred {
+  margin-top: 12px;
+  color: var(--ink2);
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+}
+[data-vneo] .vn-h6-cred a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--hair2);
+  text-underline-offset: 0.22em;
+  transition: text-decoration-color 0.3s;
+}
+[data-vneo] .vn-h6-cred a:hover {
+  text-decoration-color: var(--sage);
+}
+[data-vneo] .vn-h6-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: clamp(22px, 3.6svh, 34px);
+}
+[data-vneo] .vn-h6-chip {
+  padding: 9px 18px;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1.5px rgba(var(--sage-rgb), 0.6);
+  font-weight: 600;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+[data-vneo] .vn-h6-chip:first-child {
+  background: var(--sage);
+  color: var(--sage-ink);
+}
+[data-vneo] .vn-h6-chip:hover {
+  background: var(--sage2);
+  color: var(--sage-ink);
+}
+[data-vneo] .vn-h6-where {
+  margin-left: 8px;
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.8rem;
+}
+
+/* ---------- the clearing: the photograph, with no plate ---------- */
+/* the hero's whole box, so the photo can be sized from the hero's height and width */
+[data-vneo] .vn-h6-bleed {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  container-type: size;
+  pointer-events: none;
+}
+/* the photo at its 3:4, anchored bottom right: 1.3 × the hero's height, so the canopy runs off
+   the top and he stands whole at the lower right, but never wider than 62% of the hero, so the
+   fade on its left half always starts past the text (82.6cqw = 62cqw ÷ 0.75) */
+[data-vneo] .vn-h6-fig {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: min(97.5cqh, 61.95cqw);
+  height: min(130cqh, 82.6cqw);
+  margin: 0;
+  container-type: size;
+}
+/* the photo at its own 3:4, covering the figure (which is already 3:4 here; on the stacked
+   layout it is wider or taller): keep him, lose canopy and the left edge */
+[data-vneo] .vn-h6-stage {
+  --px: 0.9;
+  --py: 1;
+  --sw: max(100cqw, 75cqh);
+  --sh: max(100cqh, calc(100cqw * 4 / 3));
+  position: absolute;
+  left: calc((100cqw - var(--sw)) * var(--px));
+  top: calc((100cqh - var(--sh)) * var(--py));
+  width: var(--sw);
+  height: var(--sh);
+}
+/* the breath scales everything on the photo together, round him */
+[data-vneo] .vn-h6-air {
+  position: absolute;
+  inset: 0;
+  transform-origin: 73% 66%;
+}
+/* the fade: transparent at the photo's left edge (the big trunk), eased up to full before his arm
+   at 54%, and down into the page over the last 14% */
+[data-vneo] .vn-h6-veil {
+  --h6-fade-x: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0, 0, 0, 0.03) 8%,
+    rgba(0, 0, 0, 0.12) 18%,
+    rgba(0, 0, 0, 0.3) 28%,
+    rgba(0, 0, 0, 0.58) 38%,
+    rgba(0, 0, 0, 0.84) 46%,
+    #000 53%
+  );
+  --h6-fade-y: linear-gradient(
+    #000 86%,
+    rgba(0, 0, 0, 0.55) 93%,
+    transparent 100%
+  );
+  position: absolute;
+  inset: 0;
+  -webkit-mask-image: var(--h6-fade-x), var(--h6-fade-y);
+  -webkit-mask-composite: source-in;
+  mask-image: var(--h6-fade-x), var(--h6-fade-y);
+  mask-composite: intersect;
+}
+[data-vneo] .vn-h6-veil > .vn-lens-img {
+  position: absolute;
+  inset: 0;
+}
+/* the lens's two layers also take the entrance's fringe (--ca), so the photo comes into focus the way type does */
+[data-vneo] .vn-h6-photo .vn-li-g {
+  transform: translate3d(
+      calc((var(--lx, 0) + var(--ca, 0)) * 1px),
+      calc(var(--ly, 0) * 1px),
+      0
+    )
+    scale(1.01);
+}
+[data-vneo] .vn-h6-photo .vn-li-m {
+  transform: translate3d(
+      calc((var(--lx, 0) + var(--ca, 0)) * -1px),
+      calc(var(--ly, 0) * -1px),
+      0
+    )
+    scale(1.01);
+}
+/* the second focus: during the entrance only, a blur over him and the branches near him that
+   clears a beat after the canopy has, so the eye goes from the trees to him */
+[data-vneo] .vn-h6-rack {
+  --h6-rack-edge:
+    linear-gradient(to right, transparent, #000 16%),
+    linear-gradient(transparent, #000 18%);
+  display: none;
+  position: absolute;
+  left: 38%;
+  top: 38%;
+  right: 0;
+  bottom: 0;
+  -webkit-backdrop-filter: blur(calc(var(--rack, 0) * 1px));
+  backdrop-filter: blur(calc(var(--rack, 0) * 1px));
+  -webkit-mask-image: var(--h6-rack-edge);
+  -webkit-mask-composite: source-in;
+  mask-image: var(--h6-rack-edge);
+  mask-composite: intersect;
+}
+
+/* where a pointer (or the keyboard) brings up the patches: him, and the labels round him */
+[data-vneo] .vn-h6-hit {
+  position: absolute;
+  left: 42%;
+  top: 44%;
+  right: 2%;
+  bottom: 8%;
+  border-radius: 24px;
+  pointer-events: auto;
+}
+[data-vneo] .vn-h6-hit:focus-visible {
+  outline: 2px solid var(--sage);
+  outline-offset: 0;
+  border-radius: 24px;
+}
+
+/* the ID lock, on him (placed by hero-v6.tsx's LOCK) */
+[data-vneo] .vn-h6-lock {
+  position: absolute;
+  pointer-events: none;
+}
+[data-vneo] .vn-h6-lock i {
+  position: absolute;
+  width: clamp(14px, 5.2cqw, 28px);
+  height: clamp(14px, 5.2cqw, 28px);
+  border: 0 solid var(--sage);
+  filter: drop-shadow(0 0 1.5px rgba(var(--bg-rgb), 0.7));
+}
+[data-vneo] .vn-h6-lock i:nth-child(1) {
+  left: 0;
+  top: 0;
+  border-top-width: 2.5px;
+  border-left-width: 2.5px;
+}
+[data-vneo] .vn-h6-lock i:nth-child(2) {
+  right: 0;
+  top: 0;
+  border-top-width: 2.5px;
+  border-right-width: 2.5px;
+}
+[data-vneo] .vn-h6-lock i:nth-child(3) {
+  left: 0;
+  bottom: 0;
+  border-bottom-width: 2.5px;
+  border-left-width: 2.5px;
+}
+[data-vneo] .vn-h6-lock i:nth-child(4) {
+  right: 0;
+  bottom: 0;
+  border-bottom-width: 2.5px;
+  border-right-width: 2.5px;
+}
+/* the lock-on cursor's tag, in the same pill */
+[data-vneo] .vn-h6-tag {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 6px);
+  padding: 2px 7px 3px;
+  border-radius: 4px;
+  background: var(--sage);
+  color: var(--sage-ink);
+  font-family: var(--f-mono);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ---------- the patches: the drone plate's callouts (thin leader, small circle, mono label) ---------- */
+[data-vneo] .vn-h6-spots,
+[data-vneo] .vn-h6-spot {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+[data-vneo] .vn-h6-lead {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+[data-vneo] .vn-h6-lead line {
+  fill: none;
+  stroke-linecap: round;
+}
+/* a dark halo under each line keeps it readable over bright sky */
+[data-vneo] .vn-h6-halo line {
+  stroke: rgba(var(--bg-rgb), 0.5);
+  stroke-width: 3;
+}
+[data-vneo] .vn-h6-line line {
+  stroke: rgba(var(--ink-rgb), 0.9);
+  stroke-width: 1;
+}
+[data-vneo] .vn-h6-dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 50%;
+  background: var(--bg);
+  box-shadow:
+    inset 0 0 0 1.5px var(--sage),
+    0 0 0 1.5px rgba(var(--bg-rgb), 0.45);
+}
+[data-vneo] .vn-h6-label {
+  position: absolute;
+  padding: 3px 7px 2px;
+  border-radius: 4px;
+  background: rgba(var(--bg-rgb), 0.74);
+  color: var(--ink);
+  font-family: var(--f-mono);
+  font-size: 0.6875rem;
+  line-height: 1.3;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+/* with a mouse they wait to be pointed at (or him focused), and come in on a short ease */
+@media (hover: hover) and (pointer: fine) {
+  [data-vneo] .vn-h6-spot {
+    opacity: 0;
+    transition: opacity 0.22s var(--ease);
+  }
+  [data-vneo] .vn-h6-spot :is(.vn-h6-dot, .vn-h6-label) {
+    transition: transform 0.22s var(--ease);
+  }
+  [data-vneo] .vn-h6-spot .vn-h6-dot {
+    transform: scale(0.3);
+  }
+  [data-vneo] .vn-h6-spot .vn-h6-label {
+    transform: translateY(-4px);
+  }
+  [data-vneo] .vn-h6-hit:is(:hover, :focus-visible) ~ .vn-h6-spots .vn-h6-spot {
+    opacity: 1;
+    transition-duration: 0.38s;
+  }
+  [data-vneo]
+    .vn-h6-hit:is(:hover, :focus-visible)
+    ~ .vn-h6-spots
+    .vn-h6-spot
+    :is(.vn-h6-dot, .vn-h6-label) {
+    transform: none;
+    transition-duration: 0.38s;
+  }
+  [data-vneo]
+    .vn-h6-hit:is(:hover, :focus-visible)
+    ~ .vn-h6-spots
+    .vn-h6-spot
+    + .vn-h6-spot,
+  [data-vneo]
+    .vn-h6-hit:is(:hover, :focus-visible)
+    ~ .vn-h6-spots
+    .vn-h6-spot
+    + .vn-h6-spot
+    :is(.vn-h6-dot, .vn-h6-label) {
+    transition-delay: 0.08s;
+  }
+}
+/* on touch they are simply there, smaller */
+@media (hover: none), (pointer: coarse) {
+  [data-vneo] .vn-h6-dot {
+    width: 6px;
+    height: 6px;
+    margin: -3px 0 0 -3px;
+  }
+  [data-vneo] .vn-h6-label {
+    padding: 2px 5px 1px;
+    font-size: 0.5625rem;
+    letter-spacing: 0.08em;
+  }
+}
+
+/* the figure caption, as the drone plate's, low in the faded canopy left of him */
+[data-vneo] .vn-h6-cap {
+  position: absolute;
+  right: 58%;
+  top: 92%;
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  color: var(--ink2);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  white-space: nowrap;
+  text-shadow: 0 0 10px rgba(var(--bg-rgb), 0.9);
+}
+[data-vneo] .vn-h6-fig-no {
+  flex: none;
+  color: var(--ink);
+  font-family: var(--f-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+/* a short landscape window: the chips run down into the caption's place */
+@media (max-height: 520px) and (orientation: landscape) {
+  [data-vneo] .vn-h6-cap {
+    display: none;
+  }
+}
+
+/* ---------- stacked (phones, and tablets held upright): the photo across the top, the name over its canopy ---------- */
+@media (orientation: portrait) and (max-width: 1100px) {
+  [data-vneo] .vn-h6 {
+    /* where the ID label starts, under the bar */
+    --h6-pt: 88px;
+    --h6-ns: min(18vw, 20svh);
+    /* where the name ends: the label's line and margin, then two lines of the name */
+    --h6-nb: calc(var(--h6-pt) + 1.28rem + 1.8svh + 14px + 1.72 * var(--h6-ns));
+    --h6-n: calc(var(--h6-nb) + 40px);
+    /* the photo's height: about the top three quarters of a phone, and never so short that the
+       lock on him (half-way down the photo) rises into the name; on a wide screen the photo
+       is taller than it is wide (3:4), so it is cropped from the top and he sits lower */
+    --h6-ph: max(
+      min(154vw, 74svh),
+      calc(var(--h6-n) + max(var(--h6-n), 66.667vw))
+    );
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: var(--h6-ph) auto;
+    align-items: start;
+    min-height: 0;
+    padding: 0 var(--gutter) 48px;
+  }
+  [data-vneo] .vn-h6-text {
+    display: contents;
+  }
+  [data-vneo] .vn-h6-head {
+    position: relative;
+    z-index: 2;
+    grid-area: 1 / 1;
+    padding-top: var(--h6-pt);
+  }
+  [data-vneo] .vn-h6-more {
+    position: relative;
+    z-index: 2;
+    grid-area: 2 / 1;
+    padding-top: 6px;
+  }
+  [data-vneo] .vn-h6-name {
+    font-size: var(--h6-ns);
+  }
+  [data-vneo] .vn-h6-sub {
+    margin-top: 0;
+  }
+  /* edge to edge, under the header */
+  [data-vneo] .vn-h6-bleed {
+    position: relative;
+    inset: auto;
+    grid-area: 1 / 1;
+    height: var(--h6-ph);
+    margin: 0 calc(-1 * var(--gutter));
+  }
+  [data-vneo] .vn-h6-fig {
+    inset: 0;
+    width: auto;
+    height: auto;
+  }
+  /* full width now: no side fade, only into the page at the bottom */
+  [data-vneo] .vn-h6-veil {
+    --h6-fade-x: linear-gradient(#000, #000);
+    --h6-fade-y: linear-gradient(
+      #000 76%,
+      rgba(0, 0, 0, 0.5) 88%,
+      transparent 100%
+    );
+  }
+  /* the canopy darkens behind the name, enough for the label and the name to read */
+  [data-vneo] .vn-h6-bleed::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        75% 30% at 26% calc((var(--h6-pt) + var(--h6-nb)) / 2),
+        rgba(var(--bg-rgb), 0.78),
+        rgba(var(--bg-rgb), 0.5) 50%,
+        rgba(var(--bg-rgb), 0)
+      ),
+      linear-gradient(
+        rgba(var(--bg-rgb), 0.62),
+        rgba(var(--bg-rgb), 0.3) calc(var(--h6-nb) * 0.7),
+        rgba(var(--bg-rgb), 0) calc(var(--h6-nb) + 48px)
+      );
+  }
+  [data-vneo] .vn-h6-cap {
+    z-index: 1;
+    left: var(--gutter);
+    right: auto;
+    top: auto;
+    bottom: 10px;
+  }
+}
+@media (max-width: 640px) {
+  [data-vneo] .vn-h6-where {
+    flex-basis: 100%;
+    margin: 4px 0 0 2px;
+  }
+  [data-vneo] .vn-h6-cap {
+    gap: 10px;
+    font-size: 0.75rem;
+  }
+  [data-vneo] .vn-h6-lock i:nth-child(1) {
+    border-top-width: 2px;
+    border-left-width: 2px;
+  }
+  [data-vneo] .vn-h6-lock i:nth-child(2) {
+    border-top-width: 2px;
+    border-right-width: 2px;
+  }
+  [data-vneo] .vn-h6-lock i:nth-child(3) {
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+  }
+  [data-vneo] .vn-h6-lock i:nth-child(4) {
+    border-bottom-width: 2px;
+    border-right-width: 2px;
+  }
+  [data-vneo] .vn-h6-tag {
+    padding: 1px 5px 2px;
+    font-size: 9px;
+  }
+}
+
+/* ---------- the entrance waits for its script (with no script, everything is simply there) ---------- */
+@media (scripting: enabled) {
+  [data-vneo]
+    .vn-h6:not([data-rolled])
+    :is(
+      .vn-h6-id,
+      .vn-h6-n1,
+      .vn-h6-n2,
+      .vn-h6-cred,
+      .vn-h6-chip,
+      .vn-h6-veil,
+      .vn-h6-lock i,
+      .vn-h6-tag,
+      .vn-h6-spots,
+      .vn-h6-cap
+    ) {
+    opacity: 0;
+    animation: vn-h6-failsafe 0.4s ease 3s forwards;
+  }
+}
+@keyframes vn-h6-failsafe {
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-vneo] .vn-h6-spot,
+  [data-vneo] .vn-h6-spot :is(.vn-h6-dot, .vn-h6-label) {
+    transition: none !important;
+  }
+}
+
+/* on a touch screen there is no pointer to steer the lens, and the split turns the canopy to
+   green and magenta grain: the photograph shows plain there */
+@media (pointer: coarse) {
+  [data-vneo] .vn-h6-photo :is(.vn-li-g, .vn-li-m) {
+    display: none;
+  }
+  [data-vneo] .vn-h6-photo .vn-li-base {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,637 @@
+/*
+ * Hero v5, "Specimen: Rami" (hero-v5.tsx). The current hero's layout and
+ * name, and its instrument plate with Rami as the specimen: the drone plate's
+ * grid, leader lines with a ringed point, mono labels and readout row, drawn
+ * in HTML, SVG and CSS. On the Sage of the portrait the plate's marks are set
+ * in Sage's own ink; the picture fades into the dark plate where the readouts sit.
+ */
+
+/* ---------- the first screen: name beside the plate ---------- */
+[data-vneo] .vn-h5 {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 72px);
+  padding: clamp(96px, 14vh, 140px) var(--gutter) clamp(40px, 7vh, 72px);
+  overflow: hidden;
+}
+[data-vneo] .vn-h5-glow {
+  position: absolute;
+  left: 2%;
+  top: 12%;
+  width: 62%;
+  height: 52%;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgba(var(--sage-rgb), 0.16),
+    rgba(var(--sage-rgb), 0)
+  );
+  pointer-events: none;
+}
+
+/* ---------- the name (as the current hero sets it) ---------- */
+[data-vneo] .vn-h5-text {
+  position: relative;
+  min-width: 0;
+}
+[data-vneo] .vn-h5-id {
+  margin: 0 0 calc(1.8vh + 14px);
+  color: var(--sage);
+  font-family: var(--f-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+[data-vneo] .vn-h5-namebox {
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+}
+[data-vneo] .vn-h5-name {
+  display: flex;
+  flex-direction: column;
+  font-weight: 700;
+  font-size: min(11.6vw, 23svh);
+  line-height: 0.86;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  font-variation-settings: 'opsz' 96;
+  white-space: nowrap;
+}
+[data-vneo] .vn-h5-name > span {
+  display: block;
+  width: max-content;
+  transform-origin: 0% 60%;
+}
+[data-vneo] .vn-h5-stop {
+  display: inline-block;
+  color: var(--sage);
+}
+[data-vneo] .vn-h5-lock {
+  position: absolute;
+  inset: -1.8vh -1.4vw -2.2vh -1.4vw;
+  pointer-events: none;
+}
+[data-vneo] .vn-h5-lock i {
+  position: absolute;
+  width: clamp(24px, 3vw, 54px);
+  height: clamp(24px, 3vw, 54px);
+  border: 0 solid var(--sage);
+}
+[data-vneo] .vn-h5-lock i:nth-child(1) {
+  left: 0;
+  top: 0;
+  border-top-width: 3px;
+  border-left-width: 3px;
+}
+[data-vneo] .vn-h5-lock i:nth-child(2) {
+  right: 0;
+  top: 0;
+  border-top-width: 3px;
+  border-right-width: 3px;
+}
+[data-vneo] .vn-h5-lock i:nth-child(3) {
+  left: 0;
+  bottom: 0;
+  border-bottom-width: 3px;
+  border-left-width: 3px;
+}
+[data-vneo] .vn-h5-lock i:nth-child(4) {
+  right: 0;
+  bottom: 0;
+  border-bottom-width: 3px;
+  border-right-width: 3px;
+}
+[data-vneo] .vn-h5-sub {
+  margin-top: clamp(26px, 4.4vh, 44px);
+  font-weight: 600;
+  font-size: clamp(1.4rem, 2.3vw, 2.25rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+[data-vneo] .vn-h5-cred {
+  margin-top: 12px;
+  color: var(--ink2);
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+}
+[data-vneo] .vn-h5-cred a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--hair2);
+  text-underline-offset: 0.22em;
+  transition: text-decoration-color 0.3s;
+}
+[data-vneo] .vn-h5-cred a:hover {
+  text-decoration-color: var(--sage);
+}
+[data-vneo] .vn-h5-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: clamp(22px, 3.6vh, 34px);
+}
+[data-vneo] .vn-h5-chip {
+  padding: 9px 18px;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1.5px rgba(var(--sage-rgb), 0.6);
+  font-weight: 600;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+[data-vneo] .vn-h5-chip:first-child {
+  background: var(--sage);
+  color: var(--sage-ink);
+}
+[data-vneo] .vn-h5-chip:hover {
+  background: var(--sage2);
+  color: var(--sage-ink);
+}
+[data-vneo] .vn-h5-where {
+  margin-left: 8px;
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.8rem;
+}
+
+/* ---------- the plate: it stands tall beside the name ---------- */
+[data-vneo] .vn-h5-fig {
+  position: relative;
+  min-width: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  height: clamp(480px, 74svh, 820px);
+}
+[data-vneo] .vn-h5-plate {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  /* the plate is the frame its marks measure against (cqw / cqh) */
+  container-type: size;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 32px;
+  border: 1px solid var(--hair);
+  background:
+    linear-gradient(rgba(var(--ink-rgb), 0.06) 1px, transparent 1px) 0 0 / 80px
+      80px,
+    linear-gradient(90deg, rgba(var(--ink-rgb), 0.06) 1px, transparent 1px) 0
+      0 / 80px 80px,
+    radial-gradient(
+      120% 90% at 50% 100%,
+      rgba(var(--sage-rgb), 0.12),
+      transparent 60%
+    ),
+    var(--sunk);
+}
+
+/*
+ * The picture's own frame (1200 × 1500), covering the plate from its top-left
+ * corner: as wide as the plate, or as tall when the plate is the narrower
+ * shape. Anything placed in it by percent lands on the same spot of the
+ * portrait at every size.
+ */
+[data-vneo] .vn-h5-geo {
+  position: absolute;
+  left: 0;
+  top: calc((100cqh - max(125cqw, 100cqh)) * 0.08);
+  width: max(100cqw, 80cqh);
+  aspect-ratio: 4 / 5;
+}
+
+/* the portrait fades into the dark plate below his chin, where the readouts sit */
+[data-vneo] .vn-h5-photo {
+  position: absolute;
+  inset: 0;
+  -webkit-mask-image: linear-gradient(to bottom, #000 66%, transparent 94%);
+  mask-image: linear-gradient(to bottom, #000 66%, transparent 94%);
+}
+/* the plate's grid, carried over the Sage in Sage's ink, clear of his face */
+[data-vneo] .vn-h5-photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(16, 24, 13, 0.08) 1px, transparent 1px) 0 0 / 80px 80px,
+    linear-gradient(90deg, rgba(16, 24, 13, 0.08) 1px, transparent 1px) 0 0 /
+      80px 80px;
+  -webkit-mask-image: radial-gradient(
+    30% 24% at 40% 43%,
+    transparent 45%,
+    #000 100%
+  );
+  mask-image: radial-gradient(30% 24% at 40% 43%, transparent 45%, #000 100%);
+  pointer-events: none;
+}
+/* the Sage the portrait is shot on, so the plate reads before the picture arrives */
+[data-vneo] .vn-h5-box {
+  background: radial-gradient(
+    90% 60% at 55% 28%,
+    #c0dcb1,
+    #aac99c 70%,
+    #95b585
+  );
+}
+[data-vneo] .vn-h5-box .vn-h5-img {
+  position: absolute;
+  inset: 0;
+}
+/* the lens's channel split, plus the entrance's own (--ca) */
+[data-vneo] .vn-h5-img .vn-li-g {
+  transform: translate3d(
+      calc((var(--lx, 0) + var(--ca, 0)) * 1px),
+      calc(var(--ly, 0) * 1px),
+      0
+    )
+    scale(1.01);
+}
+[data-vneo] .vn-h5-img .vn-li-m {
+  transform: translate3d(
+      calc((var(--lx, 0) + var(--ca, 0)) * -1px),
+      calc(var(--ly, 0) * -1px),
+      0
+    )
+    scale(1.01);
+}
+
+/* ---------- the callouts: leader, ringed point, label ---------- */
+[data-vneo] .vn-h5-marks {
+  z-index: 1;
+  pointer-events: none;
+}
+[data-vneo] .vn-h5-leaders {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+[data-vneo] .vn-h5-leaders line {
+  fill: none;
+  stroke-linecap: round;
+  transition:
+    stroke 0.25s var(--ease),
+    stroke-width 0.25s var(--ease);
+}
+/* a light casing under the ink line, so it reads over his hair as well as the Sage */
+[data-vneo] .vn-h5-case line {
+  stroke: rgba(208, 230, 196, 0.62);
+  stroke-width: 3;
+}
+[data-vneo] .vn-h5-core line {
+  stroke: rgba(16, 24, 13, 0.72);
+  stroke-width: 1;
+}
+[data-vneo] .vn-h5-dot {
+  fill: var(--sage);
+  stroke: var(--sage-ink);
+  stroke-width: 1.5;
+  transition:
+    fill 0.25s var(--ease),
+    stroke 0.25s var(--ease);
+}
+[data-vneo] .vn-h5-halo {
+  fill: none;
+  stroke: var(--sage2);
+  stroke-width: 1.5;
+  opacity: 0;
+  transition: opacity 0.25s var(--ease);
+}
+[data-vneo] .vn-h5-leader[data-on] .vn-h5-case line {
+  stroke: rgba(208, 230, 196, 0.95);
+  stroke-width: 3.5;
+}
+[data-vneo] .vn-h5-leader[data-on] .vn-h5-core line {
+  stroke: var(--sage-ink);
+  stroke-width: 1.5;
+}
+[data-vneo] .vn-h5-leader[data-on] .vn-h5-dot {
+  fill: var(--sage-ink);
+  stroke: var(--sage2);
+}
+[data-vneo] .vn-h5-leader[data-on] .vn-h5-halo {
+  opacity: 1;
+}
+
+/* the label stands on its leader's run (or hangs under it), a button in Sage's ink */
+[data-vneo] .vn-h5-tag {
+  position: absolute;
+  left: var(--x);
+  bottom: calc(100% - var(--y) + 2px);
+  margin-left: -8px;
+  padding: 6px 8px;
+  display: grid;
+  justify-items: start;
+  gap: 2px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--sage-ink);
+  text-align: left;
+  pointer-events: auto;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color 0.25s var(--ease),
+    color 0.25s var(--ease);
+}
+[data-vneo] .vn-h5-tag[data-hang] {
+  bottom: auto;
+  top: calc(var(--y) + 2px);
+}
+/* a larger target than the type */
+[data-vneo] .vn-h5-tag::before {
+  content: '';
+  position: absolute;
+  inset: -6px -4px;
+}
+[data-vneo] .vn-h5-k {
+  font-family: var(--f-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+[data-vneo] .vn-h5-k::after {
+  content: '+';
+  display: inline-block;
+  margin-left: 0.55em;
+  font-weight: 500;
+  transition: transform 0.25s var(--ease);
+}
+[data-vneo] .vn-h5-s {
+  max-width: 9.5em;
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-size: clamp(0.8rem, 2.6cqw, 0.95rem);
+  line-height: 1.15;
+  color: rgba(16, 24, 13, 0.78);
+  transition: color 0.25s var(--ease);
+}
+@media (hover: hover) {
+  [data-vneo] .vn-h5-tag:hover {
+    background: var(--sage-ink);
+    color: var(--sage);
+  }
+  [data-vneo] .vn-h5-tag:hover .vn-h5-s {
+    color: rgba(208, 230, 196, 0.85);
+  }
+}
+[data-vneo] .vn-h5-tag[aria-expanded='true'] {
+  background: var(--sage-ink);
+  color: var(--sage);
+}
+[data-vneo] .vn-h5-tag[aria-expanded='true'] .vn-h5-s {
+  color: rgba(208, 230, 196, 0.85);
+}
+[data-vneo] .vn-h5-tag[aria-expanded='true'] .vn-h5-k::after {
+  transform: rotate(45deg);
+}
+/* the site's Sage focus ring would vanish on the Sage */
+[data-vneo] .vn-h5-tag:focus-visible {
+  outline: 2px solid var(--sage-ink);
+  outline-offset: 2px;
+  border-radius: 10px;
+}
+
+/* ---------- a callout's card: three examples, where the readouts were ---------- */
+[data-vneo] .vn-h5-card {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 3;
+  padding: 12px 16px 14px;
+  border-radius: 20px;
+  background: rgba(18, 22, 20, 0.95);
+  box-shadow:
+    0 0 0 1px var(--hair2),
+    0 24px 48px -24px rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition:
+    opacity 0.3s var(--ease),
+    transform 0.3s var(--ease),
+    visibility 0s linear 0.3s;
+}
+[data-vneo] .vn-h5-card[data-open] {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 0s;
+}
+[data-vneo] .vn-h5-card-k {
+  margin: 0 0 8px;
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+[data-vneo] .vn-h5-card-k b {
+  color: var(--sage);
+  font-weight: 600;
+}
+[data-vneo] .vn-h5-card ol {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+[data-vneo] .vn-h5-card li {
+  padding-top: 8px;
+  border-top: 1px solid var(--hair2);
+  color: var(--ink);
+  font-size: 0.875rem;
+  line-height: 1.3;
+}
+[data-vneo] .vn-h5-card li i {
+  margin-right: 8px;
+  color: var(--sage);
+  font-family: var(--f-mono);
+  font-style: normal;
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+}
+
+/* ---------- the readout row and caption ---------- */
+[data-vneo] .vn-h5-hud {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 18px;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  transition: opacity 0.25s var(--ease);
+}
+[data-vneo] .vn-h5-plate[data-card] .vn-h5-hud {
+  opacity: 0;
+}
+[data-vneo] .vn-h5-read {
+  display: flex;
+  gap: clamp(14px, 2.4vw, 28px);
+}
+[data-vneo] .vn-h5-read > div {
+  display: grid;
+  gap: 6px;
+}
+[data-vneo] .vn-h5-read dt {
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+[data-vneo] .vn-h5-read dd {
+  color: var(--ink2);
+  font-family: var(--f-mono);
+  font-size: clamp(0.8125rem, 1.2vw, 0.9375rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+[data-vneo] .vn-h5-read b {
+  display: inline-block;
+  min-width: calc(var(--d, 1) * 1ch);
+  color: var(--ink);
+  font-size: clamp(0.9375rem, 1.5vw, 1.125rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+[data-vneo] .vn-h5-pin {
+  flex: none;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--sage);
+  color: var(--sage);
+  font-family: var(--f-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+[data-vneo] .vn-h5-cap {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  margin-top: 12px;
+  color: var(--ink3);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+[data-vneo] .vn-h5-figno {
+  flex: none;
+  color: var(--ink2);
+  font-family: var(--f-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ---------- a narrow plate: short labels, a stacked card ---------- */
+@container (max-width: 440px) {
+  [data-vneo] .vn-h5-s {
+    display: none;
+  }
+  [data-vneo] .vn-h5-tag {
+    margin-left: -10px;
+    padding: 8px 10px;
+  }
+  [data-vneo] .vn-h5-card ol {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  [data-vneo] .vn-h5-card li {
+    padding: 7px 0;
+    font-size: 0.9375rem;
+  }
+  [data-vneo] .vn-h5-hud {
+    left: 14px;
+    right: 14px;
+    bottom: 12px;
+  }
+  [data-vneo] .vn-h5-read {
+    gap: 14px;
+  }
+}
+
+/* ---------- smaller screens ---------- */
+@media (max-width: 900px) {
+  [data-vneo] .vn-h5 {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+  [data-vneo] .vn-h5-name {
+    font-size: min(18vw, 20svh);
+  }
+  [data-vneo] .vn-h5-fig {
+    width: 100%;
+    max-width: 600px;
+    height: clamp(440px, 62svh, 640px);
+  }
+}
+@media (max-width: 640px) {
+  [data-vneo] .vn-h5-fig {
+    height: clamp(420px, 60svh, 500px);
+  }
+  [data-vneo] .vn-h5-plate {
+    border-radius: 24px;
+  }
+  [data-vneo] .vn-h5-card {
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    border-radius: 18px;
+  }
+  [data-vneo] .vn-h5-where {
+    flex-basis: 100%;
+    margin: 4px 0 0 2px;
+  }
+}
+
+/* ---------- the entrance waits for its script (with none, all is simply there) ---------- */
+@media (scripting: enabled) {
+  [data-vneo]
+    .vn-h5:not([data-rolled])
+    :is(
+      .vn-h5-n1,
+      .vn-h5-n2,
+      .vn-h5-cred,
+      .vn-h5-chip,
+      .vn-h5-plate,
+      .vn-h5-cap
+    ) {
+    opacity: 0;
+    animation: v7-failsafe 0.4s ease 3s forwards;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-vneo]
+    :is(
+      .vn-h5-tag,
+      .vn-h5-s,
+      .vn-h5-card,
+      .vn-h5-hud,
+      .vn-h5-leaders line,
+      .vn-h5-dot,
+      .vn-h5-halo
+    ),
+  [data-vneo] .vn-h5-k::after {
+    transition: none;
+  }
+  [data-vneo] .vn-h5-card {
+    transform: none;
+  }
+}

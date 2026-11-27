@@ -1,0 +1,448 @@
+/*
+ * Hero v2, "Under the cedars" (hero-v2.tsx): the current hero's name column,
+ * and beside it a tall photo plate of Rami under the cedars, with the ID-lock
+ * brackets on him instead of on the name.
+ */
+[data-vneo] .vn-h2 {
+  /* the plate fills the first screen under the header, at the photo's 3:4 where it can */
+  --h2-plate-h: clamp(400px, calc(100svh - 210px), 820px);
+  --h2-plate-w: min(calc(var(--h2-plate-h) * 0.75), 40vw, 600px);
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(28px, 4.5vw, 84px);
+  padding: clamp(92px, 12.5vh, 128px) var(--gutter) clamp(24px, 4.5vh, 48px);
+  overflow: clip;
+}
+[data-vneo] .vn-h2-glow {
+  position: absolute;
+  left: 2%;
+  top: 12%;
+  width: 62%;
+  height: 52%;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgba(var(--sage-rgb), 0.16),
+    rgba(var(--sage-rgb), 0)
+  );
+  pointer-events: none;
+}
+
+/* ---------- the name column: the current hero's, without the brackets ---------- */
+[data-vneo] .vn-h2-text {
+  position: relative;
+  min-width: 0;
+}
+[data-vneo] .vn-h2-id {
+  margin: 0 0 calc(1.8vh + 14px);
+  color: var(--sage);
+  font-family: var(--f-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+[data-vneo] .vn-h2-name {
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+  max-width: 100%;
+  font-weight: 700;
+  font-size: min(11.6vw, 23svh);
+  line-height: 0.86;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  font-variation-settings: 'opsz' 96;
+  white-space: nowrap;
+}
+[data-vneo] .vn-h2-name > span {
+  display: block;
+  width: max-content;
+  transform-origin: 0% 60%;
+}
+[data-vneo] .vn-h2-name > span > span {
+  display: inline-block;
+  color: var(--sage);
+}
+[data-vneo] .vn-h2-sub {
+  margin-top: clamp(26px, 4.4vh, 44px);
+  font-weight: 600;
+  font-size: clamp(1.4rem, 2.3vw, 2.25rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+[data-vneo] .vn-h2-cred {
+  margin-top: 12px;
+  color: var(--ink2);
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+}
+[data-vneo] .vn-h2-cred a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--hair2);
+  text-underline-offset: 0.22em;
+  transition: text-decoration-color 0.3s;
+}
+[data-vneo] .vn-h2-cred a:hover {
+  text-decoration-color: var(--sage);
+}
+[data-vneo] .vn-h2-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: clamp(22px, 3.6vh, 34px);
+}
+[data-vneo] .vn-h2-chip {
+  padding: 9px 18px;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1.5px rgba(var(--sage-rgb), 0.6);
+  font-weight: 600;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+[data-vneo] .vn-h2-chip:first-child {
+  background: var(--sage);
+  color: var(--sage-ink);
+}
+[data-vneo] .vn-h2-chip:hover {
+  background: var(--sage2);
+  color: var(--sage-ink);
+}
+[data-vneo] .vn-h2-where {
+  margin-left: 8px;
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.8rem;
+}
+
+/* ---------- the plate: Rami under the cedars ---------- */
+[data-vneo] .vn-h2-fig {
+  position: relative;
+  width: var(--h2-plate-w);
+  min-width: 0;
+  margin: 0;
+}
+[data-vneo] .vn-h2-plate {
+  /* where the photo sits when the plate is narrower or wider than it: keep him, lose trunk and sky */
+  --px: 0.85;
+  --py: 0.6;
+  position: relative;
+  height: min(var(--h2-plate-h), calc(var(--h2-plate-w) / 0.68));
+  container-type: size;
+  overflow: hidden;
+  border-radius: 28px;
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--hair);
+}
+[data-vneo] .vn-h2-plate:focus-visible {
+  outline: 2px solid var(--sage);
+  outline-offset: 4px;
+  border-radius: 28px;
+}
+/* the photo at its own 3:4, covering the plate, so everything on it is placed in the photo's percent */
+[data-vneo] .vn-h2-stage {
+  --sw: max(100cqw, 75cqh);
+  --sh: max(100cqh, calc(100cqw * 4 / 3));
+  position: absolute;
+  left: calc((100cqw - var(--sw)) * var(--px));
+  top: calc((100cqh - var(--sh)) * var(--py));
+  width: var(--sw);
+  height: var(--sh);
+}
+[data-vneo] .vn-h2-stage > .vn-lens-img {
+  position: absolute;
+  inset: 0;
+}
+/* the lens's two layers also take the entrance's fringe (--ca), so the photo comes into focus the way type does */
+[data-vneo] .vn-h2-photo .vn-li-g {
+  transform: translate3d(
+      calc((var(--lx, 0) + var(--ca, 0)) * 1px),
+      calc(var(--ly, 0) * 1px),
+      0
+    )
+    scale(1.01);
+}
+[data-vneo] .vn-h2-photo .vn-li-m {
+  transform: translate3d(
+      calc((var(--lx, 0) + var(--ca, 0)) * -1px),
+      calc(var(--ly, 0) * -1px),
+      0
+    )
+    scale(1.01);
+}
+
+/* the ID lock, on him: head to the bottom of the backpack (x 611–893, y 638–1131 of 1050 × 1400) */
+[data-vneo] .vn-h2-lock {
+  position: absolute;
+  left: 58.2%;
+  top: 45.6%;
+  width: 26.8%;
+  height: 35.2%;
+  pointer-events: none;
+}
+[data-vneo] .vn-h2-lock i {
+  position: absolute;
+  width: clamp(14px, 5.2cqw, 28px);
+  height: clamp(14px, 5.2cqw, 28px);
+  border: 0 solid var(--sage);
+  filter: drop-shadow(0 0 1.5px rgba(var(--bg-rgb), 0.7));
+}
+[data-vneo] .vn-h2-lock i:nth-child(1) {
+  left: 0;
+  top: 0;
+  border-top-width: 2.5px;
+  border-left-width: 2.5px;
+}
+[data-vneo] .vn-h2-lock i:nth-child(2) {
+  right: 0;
+  top: 0;
+  border-top-width: 2.5px;
+  border-right-width: 2.5px;
+}
+[data-vneo] .vn-h2-lock i:nth-child(3) {
+  left: 0;
+  bottom: 0;
+  border-bottom-width: 2.5px;
+  border-left-width: 2.5px;
+}
+[data-vneo] .vn-h2-lock i:nth-child(4) {
+  right: 0;
+  bottom: 0;
+  border-bottom-width: 2.5px;
+  border-right-width: 2.5px;
+}
+/* the lock-on cursor's tag, in the same pill */
+[data-vneo] .vn-h2-tag {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 6px);
+  padding: 2px 7px 3px;
+  border-radius: 4px;
+  background: var(--sage);
+  color: var(--sage-ink);
+  font-family: var(--f-mono);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ---------- the patches: the drone plate's callouts (thin leader, small circle, mono label) ---------- */
+[data-vneo] .vn-h2-spots,
+[data-vneo] .vn-h2-spot {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+[data-vneo] .vn-h2-lead {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+[data-vneo] .vn-h2-lead line {
+  fill: none;
+  stroke-linecap: round;
+}
+/* a dark halo under each line keeps it readable over bright sky */
+[data-vneo] .vn-h2-halo line {
+  stroke: rgba(var(--bg-rgb), 0.5);
+  stroke-width: 3;
+}
+[data-vneo] .vn-h2-line line {
+  stroke: rgba(var(--ink-rgb), 0.9);
+  stroke-width: 1;
+}
+[data-vneo] .vn-h2-dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 50%;
+  background: var(--bg);
+  box-shadow:
+    inset 0 0 0 1.5px var(--sage),
+    0 0 0 1.5px rgba(var(--bg-rgb), 0.45);
+}
+[data-vneo] .vn-h2-label {
+  position: absolute;
+  padding: 3px 7px 2px;
+  border-radius: 4px;
+  background: rgba(var(--bg-rgb), 0.74);
+  color: var(--ink);
+  font-family: var(--f-mono);
+  font-size: 0.6875rem;
+  line-height: 1.3;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+/* with a mouse they wait to be pointed at (or the photo focused), and come in on a short ease */
+@media (hover: hover) and (pointer: fine) {
+  [data-vneo] .vn-h2-spot {
+    opacity: 0;
+    transition: opacity 0.22s var(--ease);
+  }
+  [data-vneo] .vn-h2-spot :is(.vn-h2-dot, .vn-h2-label) {
+    transition: transform 0.22s var(--ease);
+  }
+  [data-vneo] .vn-h2-spot .vn-h2-dot {
+    transform: scale(0.3);
+  }
+  [data-vneo] .vn-h2-spot .vn-h2-label {
+    transform: translateY(-4px);
+  }
+  [data-vneo] .vn-h2-plate:is(:hover, :focus-visible) .vn-h2-spot {
+    opacity: 1;
+    transition-duration: 0.38s;
+  }
+  [data-vneo]
+    .vn-h2-plate:is(:hover, :focus-visible)
+    .vn-h2-spot
+    :is(.vn-h2-dot, .vn-h2-label) {
+    transform: none;
+    transition-duration: 0.38s;
+  }
+  [data-vneo] .vn-h2-plate:is(:hover, :focus-visible) .vn-h2-spot + .vn-h2-spot,
+  [data-vneo]
+    .vn-h2-plate:is(:hover, :focus-visible)
+    .vn-h2-spot
+    + .vn-h2-spot
+    :is(.vn-h2-dot, .vn-h2-label) {
+    transition-delay: 0.08s;
+  }
+}
+/* on touch they are simply there, smaller */
+@media (hover: none), (pointer: coarse) {
+  [data-vneo] .vn-h2-dot {
+    width: 6px;
+    height: 6px;
+    margin: -3px 0 0 -3px;
+  }
+  [data-vneo] .vn-h2-label {
+    padding: 2px 5px 1px;
+    font-size: 0.5625rem;
+    letter-spacing: 0.08em;
+  }
+}
+
+/* the figure caption, as the drone plate's */
+[data-vneo] .vn-h2-cap {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  margin-top: 12px;
+  color: var(--ink3);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+[data-vneo] .vn-h2-fig-no {
+  flex: none;
+  color: var(--ink2);
+  font-family: var(--f-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ---------- stacked: the name, then the plate at 4:5 ---------- */
+@media (max-width: 900px) {
+  [data-vneo] .vn-h2 {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(30px, 5vh, 48px);
+    padding-bottom: 48px;
+  }
+  [data-vneo] .vn-h2-name {
+    font-size: min(18vw, 20svh);
+  }
+  [data-vneo] .vn-h2-fig {
+    width: 100%;
+    max-width: 560px;
+  }
+  [data-vneo] .vn-h2-plate {
+    height: auto;
+    aspect-ratio: 4 / 5;
+  }
+}
+@media (max-width: 640px) {
+  [data-vneo] .vn-h2-where {
+    flex-basis: 100%;
+    margin: 4px 0 0 2px;
+  }
+  [data-vneo] .vn-h2-plate,
+  [data-vneo] .vn-h2-plate:focus-visible {
+    border-radius: 22px;
+  }
+  [data-vneo] .vn-h2-lock i:nth-child(1) {
+    border-top-width: 2px;
+    border-left-width: 2px;
+  }
+  [data-vneo] .vn-h2-lock i:nth-child(2) {
+    border-top-width: 2px;
+    border-right-width: 2px;
+  }
+  [data-vneo] .vn-h2-lock i:nth-child(3) {
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+  }
+  [data-vneo] .vn-h2-lock i:nth-child(4) {
+    border-bottom-width: 2px;
+    border-right-width: 2px;
+  }
+  [data-vneo] .vn-h2-tag {
+    padding: 1px 5px 2px;
+    font-size: 9px;
+  }
+}
+
+/* ---------- the entrance waits for its script (with no script, everything is simply there) ---------- */
+@media (scripting: enabled) {
+  [data-vneo]
+    .vn-h2:not([data-rolled])
+    :is(
+      .vn-h2-glow,
+      .vn-h2-id,
+      .vn-h2-n1,
+      .vn-h2-n2,
+      .vn-h2-cred,
+      .vn-h2-chip,
+      .vn-h2-plate,
+      .vn-h2-lock i,
+      .vn-h2-tag,
+      .vn-h2-spots,
+      .vn-h2-cap
+    ) {
+    opacity: 0;
+    animation: vn-h2-failsafe 0.4s ease 3s forwards;
+  }
+}
+@keyframes vn-h2-failsafe {
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-vneo] .vn-h2-spot,
+  [data-vneo] .vn-h2-spot :is(.vn-h2-dot, .vn-h2-label) {
+    transition: none !important;
+  }
+}
+
+/* on a touch screen there is no pointer to steer the lens, and the split turns the canopy to
+   green and magenta grain: the photograph shows plain there */
+@media (pointer: coarse) {
+  [data-vneo] .vn-h2-photo :is(.vn-li-g, .vn-li-m) {
+    display: none;
+  }
+  [data-vneo] .vn-h2-photo .vn-li-base {
+    opacity: 1;
+  }
+}

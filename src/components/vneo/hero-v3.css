@@ -1,0 +1,533 @@
+/*
+ * Hero v3, "Contact sheet" (hero-v3.tsx). The name as the big type, and a
+ * contact sheet of nine frames: three strips of film on a dark sheet, every
+ * frame in the Sage duotone at rest. Phones (and touch screens, and narrow
+ * windows) write each frame's note under it; a desktop with a pointer
+ * writes the note of the frame under the loupe in the sheet's margin.
+ */
+
+[data-vneo] .vn-h3 {
+  --h3-paper: #d8ded2;
+  --h3-strip: #040504;
+  --h3-sprocket: 9px;
+  --h3-rebate: 15px;
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  gap: 40px;
+  padding: clamp(92px, 13vh, 128px) var(--gutter) 48px;
+  overflow: hidden;
+}
+@media (min-width: 901px) {
+  [data-vneo] .vn-h3 {
+    --h3-sprocket: 13px;
+    --h3-rebate: 18px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.86fr);
+    align-content: center;
+    align-items: center;
+    gap: clamp(28px, 4vw, 64px);
+    padding: clamp(96px, 13vh, 124px) var(--gutter) clamp(32px, 6vh, 64px);
+  }
+}
+[data-vneo] .vn-h3-glow {
+  position: absolute;
+  left: 2%;
+  top: 12%;
+  width: 56%;
+  height: 50%;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgba(var(--sage-rgb), 0.14),
+    rgba(var(--sage-rgb), 0)
+  );
+  pointer-events: none;
+}
+
+/* ---------- the name, as it has always looked ---------- */
+[data-vneo] .vn-h3-text {
+  position: relative;
+  min-width: 0;
+}
+[data-vneo] .vn-h3-id {
+  margin: 0 0 calc(1.8vh + 14px);
+  color: var(--sage);
+  font-family: var(--f-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+[data-vneo] .vn-h3-namebox {
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+}
+[data-vneo] .vn-h3-name {
+  display: flex;
+  flex-direction: column;
+  font-weight: 700;
+  font-size: min(18vw, 20svh);
+  line-height: 0.86;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  font-variation-settings: 'opsz' 96;
+  white-space: nowrap;
+}
+@media (min-width: 901px) {
+  [data-vneo] .vn-h3-name {
+    font-size: min(11.6vw, 23svh);
+  }
+}
+[data-vneo] .vn-h3-name > span {
+  display: block;
+  width: max-content;
+  transform-origin: 0% 60%;
+}
+[data-vneo] .vn-h3-dot {
+  display: inline-block;
+  color: var(--sage);
+}
+[data-vneo] .vn-h3-lock {
+  position: absolute;
+  inset: -1.8vh -1.4vw -2.2vh -1.4vw;
+  pointer-events: none;
+}
+[data-vneo] .vn-h3-lock i {
+  position: absolute;
+  width: clamp(24px, 3vw, 54px);
+  height: clamp(24px, 3vw, 54px);
+  border: 0 solid var(--sage);
+}
+[data-vneo] .vn-h3-lock i:nth-child(1) {
+  left: 0;
+  top: 0;
+  border-top-width: 3px;
+  border-left-width: 3px;
+}
+[data-vneo] .vn-h3-lock i:nth-child(2) {
+  right: 0;
+  top: 0;
+  border-top-width: 3px;
+  border-right-width: 3px;
+}
+[data-vneo] .vn-h3-lock i:nth-child(3) {
+  left: 0;
+  bottom: 0;
+  border-bottom-width: 3px;
+  border-left-width: 3px;
+}
+[data-vneo] .vn-h3-lock i:nth-child(4) {
+  right: 0;
+  bottom: 0;
+  border-bottom-width: 3px;
+  border-right-width: 3px;
+}
+[data-vneo] .vn-h3-sub {
+  margin-top: clamp(26px, 4.4vh, 44px);
+  font-weight: 600;
+  font-size: clamp(1.4rem, 2.3vw, 2.25rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+[data-vneo] .vn-h3-cred {
+  margin-top: 12px;
+  color: var(--ink2);
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+}
+[data-vneo] .vn-h3-cred a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--hair2);
+  text-underline-offset: 0.22em;
+  transition: text-decoration-color 0.3s;
+}
+[data-vneo] .vn-h3-cred a:hover {
+  text-decoration-color: var(--sage);
+}
+[data-vneo] .vn-h3-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: clamp(22px, 3.6vh, 34px);
+}
+[data-vneo] .vn-h3-chip {
+  padding: 9px 18px;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1.5px rgba(var(--sage-rgb), 0.6);
+  font-weight: 600;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+[data-vneo] .vn-h3-chip:first-child {
+  background: var(--sage);
+  color: var(--sage-ink);
+}
+[data-vneo] .vn-h3-chip:hover {
+  background: var(--sage2);
+  color: var(--sage-ink);
+}
+[data-vneo] .vn-h3-where {
+  margin-left: 8px;
+  color: var(--ink3);
+  font-family: var(--f-mono);
+  font-size: 0.8rem;
+}
+@media (max-width: 640px) {
+  [data-vneo] .vn-h3-where {
+    flex-basis: 100%;
+    margin: 4px 0 0 2px;
+  }
+}
+
+/* ---------- the sheet: three strips of film on dark paper ---------- */
+[data-vneo] .vn-h3-board {
+  position: relative;
+  width: 100%;
+  max-width: 620px;
+  min-width: 0;
+  padding: 12px 10px 14px;
+  border-radius: 6px;
+  background: var(--surface);
+  box-shadow:
+    0 0 0 1px var(--hair),
+    0 30px 60px -34px rgba(0, 0, 0, 0.9);
+  isolation: isolate;
+}
+@media (min-width: 901px) {
+  [data-vneo] .vn-h3-board {
+    justify-self: end;
+    /* a short screen narrows the sheet, so the first screen holds it whole */
+    width: min(100%, max(360px, calc(133svh - 460px)));
+    max-width: none;
+    padding: 18px;
+  }
+}
+[data-vneo] .vn-h3-sheet {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  row-gap: 16px;
+}
+[data-vneo] .vn-h3-frame {
+  display: block;
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+[data-vneo] .vn-h3-frame:focus-visible {
+  outline: none;
+}
+/* a strip: the frames abut, so a row reads as one length of film, its
+   sprocket holes along the top edge and its frame numbers along the bottom */
+[data-vneo] .vn-h3-film {
+  display: block;
+  padding: var(--h3-sprocket) 4px 0;
+  background:
+    repeating-linear-gradient(
+        90deg,
+        rgba(var(--ink-rgb), 0.15) 0 4px,
+        transparent 4px 10px
+      )
+      3px calc(var(--h3-sprocket) * 0.36) / calc(100% - 6px)
+      calc(var(--h3-sprocket) * 0.32) no-repeat,
+    var(--h3-strip);
+}
+@media (min-width: 901px) {
+  [data-vneo] .vn-h3-film {
+    padding-inline: 5px;
+  }
+}
+[data-vneo] .vn-h3-cell:nth-child(3n + 1) .vn-h3-film {
+  border-radius: 3px 0 0 3px;
+}
+[data-vneo] .vn-h3-cell:nth-child(3n) .vn-h3-film {
+  border-radius: 0 3px 3px 0;
+}
+[data-vneo] .vn-h3-pic {
+  position: relative;
+  display: block;
+  transition:
+    transform 0.45s var(--ease),
+    box-shadow 0.45s var(--ease);
+}
+/* one lens for every picture: grayscale under a Sage multiply, colour under the loupe */
+[data-vneo] .vn-h3-win {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--ground);
+  isolation: isolate;
+}
+[data-vneo] .vn-h3-win > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.1) brightness(0.8);
+  transition: filter 0.6s var(--ease);
+}
+[data-vneo] .vn-h3-win::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--sage);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  transition: opacity 0.6s var(--ease);
+}
+/* the blank paper a frame develops out of */
+[data-vneo] .vn-h3-dev {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--h3-paper);
+  opacity: 0;
+  pointer-events: none;
+}
+[data-vneo] .vn-h3-num {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: var(--h3-rebate);
+  padding-left: 1px;
+  color: rgba(var(--ink-rgb), 0.5);
+  font-family: var(--f-mono);
+  font-size: 0.52rem;
+  line-height: 1;
+  letter-spacing: 0.08em;
+}
+@media (min-width: 901px) {
+  [data-vneo] .vn-h3-num {
+    font-size: 0.62rem;
+  }
+}
+[data-vneo] .vn-h3-num::before {
+  content: '';
+  border-left: 4px solid currentColor;
+  border-block: 2.5px solid transparent;
+}
+[data-vneo] [data-pick] .vn-h3-num {
+  color: var(--sage);
+}
+
+/* the pick: a grease-pencil loop, with a green and a magenta copy that close
+   on it as it is drawn, and a fainter second pass for the wax */
+[data-vneo] .vn-h3-loop {
+  position: absolute;
+  left: -10%;
+  top: -14%;
+  z-index: 1;
+  width: 120%;
+  height: calc(114% + var(--h3-rebate) + 6px);
+  overflow: visible;
+  pointer-events: none;
+}
+[data-vneo] .vn-h3-loop path {
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1 1.1;
+  stroke-dashoffset: calc(var(--draw, 0) * 1px);
+}
+@media (min-width: 901px) {
+  [data-vneo] .vn-h3-loop path {
+    stroke-width: 1.6;
+  }
+}
+[data-vneo] .vn-h3-loop .vn-h3-loop-c {
+  stroke: var(--sage);
+}
+[data-vneo] .vn-h3-loop .vn-h3-loop-w {
+  stroke: var(--sage2);
+  stroke-width: 0.9;
+  opacity: 0.45;
+  transform: translate(0.7px, 0.8px);
+}
+[data-vneo] .vn-h3-loop .vn-h3-loop-m {
+  stroke: rgba(var(--fr-m), 0.85);
+  transform: translateX(calc(var(--ca, 0) * -1px));
+}
+[data-vneo] .vn-h3-loop .vn-h3-loop-g {
+  stroke: rgba(var(--fr-g), 0.85);
+  transform: translateX(calc(var(--ca, 0) * 1px));
+}
+
+/* ---------- the notes: under each frame, by default ---------- */
+[data-vneo] .vn-h3-cap {
+  display: block;
+  padding: 7px 4px 0;
+}
+[data-vneo] .vn-h3-cap .vn-h3-verb {
+  display: block;
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--sage);
+}
+[data-vneo] .vn-h3-line {
+  display: block;
+  margin-top: 2px;
+  color: var(--ink2);
+  font-size: 0.7rem;
+  line-height: 1.3;
+}
+@media (min-width: 901px) {
+  [data-vneo] .vn-h3-cap .vn-h3-verb {
+    font-size: 1.15rem;
+  }
+  [data-vneo] .vn-h3-line {
+    font-size: 0.78rem;
+  }
+}
+
+/* ---------- the loupe: a frame lifts, finds its colour, and fringes at the edge ---------- */
+@media (hover: hover) {
+  [data-vneo] .vn-h3-frame:hover .vn-h3-pic {
+    z-index: 2;
+    transform: translateY(-4px) scale(1.06);
+    box-shadow:
+      -1.5px 0 0 rgba(var(--fr-m), 0.75),
+      1.5px 0 0 rgba(var(--fr-g), 0.75),
+      0 18px 32px -10px rgba(0, 0, 0, 0.85);
+  }
+  [data-vneo] .vn-h3-frame:hover .vn-h3-win::after {
+    opacity: 0;
+  }
+  [data-vneo] .vn-h3-frame:hover .vn-h3-win > img {
+    filter: none;
+  }
+}
+[data-vneo] .vn-h3-frame:focus-visible .vn-h3-pic {
+  z-index: 2;
+  transform: translateY(-4px) scale(1.06);
+  outline: 2px solid var(--sage);
+  outline-offset: 3px;
+  box-shadow:
+    -1.5px 0 0 rgba(var(--fr-m), 0.75),
+    1.5px 0 0 rgba(var(--fr-g), 0.75),
+    0 18px 32px -10px rgba(0, 0, 0, 0.85);
+}
+[data-vneo] .vn-h3-frame:focus-visible .vn-h3-win::after {
+  opacity: 0;
+}
+[data-vneo] .vn-h3-frame:focus-visible .vn-h3-win > img {
+  filter: none;
+}
+
+/*
+ * A desktop with a pointer: the notes leave the frames and are written in the
+ * sheet's margin, one at a time, under the frame's column, as a grease-pencil
+ * note. With nothing under the loupe, the margin holds the pick's note.
+ */
+@media (min-width: 901px) and (hover: hover) {
+  [data-vneo] .vn-h3-board {
+    padding-bottom: 92px;
+  }
+  [data-vneo] .vn-h3-sheet {
+    row-gap: 12px;
+  }
+  [data-vneo] .vn-h3-cap {
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    bottom: 18px;
+    padding: 0;
+    opacity: 0;
+    transform: translateY(6px) rotate(-1.5deg);
+    transform-origin: 0% 100%;
+    transition:
+      opacity 0.3s var(--ease),
+      transform 0.45s var(--ease);
+    pointer-events: none;
+  }
+  [data-vneo] .vn-h3-cell:nth-child(3n + 2) .vn-h3-cap {
+    text-align: center;
+    transform-origin: 50% 100%;
+  }
+  [data-vneo] .vn-h3-cell:nth-child(3n) .vn-h3-cap {
+    text-align: right;
+    transform-origin: 100% 100%;
+  }
+  [data-vneo] .vn-h3-cap .vn-h3-verb {
+    font-size: 2rem;
+    line-height: 1;
+  }
+  [data-vneo] .vn-h3-line {
+    margin-top: 6px;
+    font-size: 1rem;
+  }
+  [data-vneo] .vn-h3-frame:is(:hover, :focus-visible) .vn-h3-cap {
+    opacity: 1;
+    transform: rotate(-1.5deg);
+  }
+  /* the pick's note waits a moment, so crossing between strips doesn't flash it */
+  [data-vneo]
+    .vn-h3:not([data-rolling])
+    .vn-h3-board:not(:has(.vn-h3-frame:is(:hover, :focus-visible)))
+    [data-pick]
+    .vn-h3-cap {
+    opacity: 1;
+    transform: rotate(-1.5deg);
+    transition-delay: 0.25s;
+  }
+}
+
+/* ---------- the entrance waits for its script (with no script, all is simply there) ---------- */
+@media (scripting: enabled) {
+  [data-vneo]
+    .vn-h3:not([data-rolled])
+    :is(
+      .vn-h3-n1,
+      .vn-h3-n2,
+      .vn-h3-id,
+      .vn-h3-sub,
+      .vn-h3-cred,
+      .vn-h3-chips > *,
+      .vn-h3-board
+    ) {
+    opacity: 0;
+    animation: vn-h3-show 0.4s ease 3s forwards;
+  }
+  [data-vneo] .vn-h3:not([data-rolled]) .vn-h3-dev {
+    opacity: 1;
+    animation: vn-h3-hide 0.6s ease 3s forwards;
+  }
+  [data-vneo] .vn-h3:not([data-rolled]) .vn-h3-loop {
+    --draw: 1.02;
+    animation: vn-h3-drawn 0.1s linear 3.4s forwards;
+  }
+}
+@keyframes vn-h3-show {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes vn-h3-hide {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vn-h3-drawn {
+  to {
+    --draw: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-vneo] :is(.vn-h3-pic, .vn-h3-cap) {
+    transition: none;
+  }
+  [data-vneo] .vn-h3-frame:is(:hover, :focus-visible) .vn-h3-pic {
+    transform: none;
+  }
+}
