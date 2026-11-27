@@ -7,7 +7,7 @@ import { INTRO_MODEL } from '@/components/v2/intro/timing'
 import { JsonLd } from '@/components/v2/json-ld'
 import { Build } from '@/components/vneo/build'
 import { Community } from '@/components/vneo/community'
-import { ExperienceSection } from '@/components/vneo/experience-variants'
+import { ExperienceV3 } from '@/components/vneo/experience-v3'
 import { Glance } from '@/components/vneo/glance'
 import { Hero } from '@/components/vneo/hero'
 import { Loop } from '@/components/vneo/loop'
@@ -71,7 +71,7 @@ export default function Vneo() {
         <Build />
       </Suspense>
       <Suspense>
-        <ExperienceSection roles={experienceBoard()} now={nowYear()} />
+        <ExperienceV3 roles={experienceBoard()} now={nowYear()} />
       </Suspense>
       <Suspense>
         <Work />

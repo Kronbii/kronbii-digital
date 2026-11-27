@@ -191,7 +191,7 @@ export const roles: Role[] = [
     note: 'Took two school healthcare teams from first idea to award-winning prototypes.',
     more: 'LumiScan (Ahliah School), a melanoma-detection device, and Dosely (Saint Joseph School), an elderly-care set of a wearable bracelet, a pillbox, and an app. Both teams won awards: Best Community Impact and Best Healthcare Innovation.',
     writing: ['mentoring-two-healthcare-teams-at-injaz'],
-    side: true,
+    // a full entry for now, not the community line (Rami, 2026-11-27); he decides later what stays
     state: 'ready',
   },
   {
@@ -339,7 +339,7 @@ export const roles: Role[] = [
     note: 'Technical bootcamps on NASA data and mentoring, for 250–400 participants a year.',
     more: 'Teams I mentored reached the global top 10 six times. I competed too: our team won a Distinctive Team Award in 2021. Space Apps Beirut gave me its Exceptional Volunteering Certification in 2024.',
     writing: ['what-four-years-of-technical-mentoring-taught-me'],
-    side: true,
+    // a full entry for now, not the community line (Rami, 2026-11-27); he decides later what stays
     state: 'ready',
   },
   {

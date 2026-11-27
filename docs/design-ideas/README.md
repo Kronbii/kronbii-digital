@@ -5,7 +5,7 @@ A library of interface ideas built for ramikronbi.com, kept so they can be reuse
 Each idea says what it is, why it works, how it is put together, how it moves, what it does on a phone and under reduced motion, what it is built with, where its code lives, what else it could be used for, and what to watch out for.
 
 - **House style** — the rules every idea follows
-- **Experience section, five takes** (November 2026) — v1 strips, v2 radar, v3 index, v4 passes, v5 departures; v2 and v3 shortlisted, v1, v4 and v5 kept for other sections
+- **Experience section, five takes** (November 2026) — v1 strips, v2 radar, v3 index, v4 passes, v5 departures; v3 is the live one, the other four are kept for other sections
 - **Decluttering patterns** — quieter pages without losing anything
 - **Ways of working** — how to explore options and let Rami decide by looking
 - **Earlier ideas still in the code** — a catalogue from the site's previous versions
@@ -53,9 +53,9 @@ Light theme (apps): brand `#4d6b40` on `#f4f4ef`. Tokens live in `src/components
 
 Built 2026-11-20 for the home page's experience section, from one data set: every role as a record with a callsign, organization, role, dates, a one-line note, more detail, collaborators, and the projects and writing it led to (`src/content/vneo/experience.ts`, resolved in `experience-board.ts`). The same data drives all five, so they can be swapped and combined.
 
-In development, compare them in place on the home page: `?exp=v2` … `?exp=v5`, or the switch in the bottom-right corner (`src/components/vneo/experience-variants.tsx`). Production renders v1 only.
+The home page renders v3 (`src/app/(site)/page.tsx`). The other four stay in the code, unused, with the same props; to see one, render it in v3's place in development. The development switch that compared them in place (`?exp=` and a corner toolbar) was removed when v3 shipped; the pattern is under *Ways of working*.
 
-**Where they stand (2026-11-27).** Rami shortlisted **v2 (radar)** and **v3 (index)** for the experience section. **v1, v4 and v5** are in the backlog: not for experience, but kept, code and all, for another section where they fit better (each says where under *Status*).
+**Where they stand (2026-11-27).** Rami picked **v3 (index)** for the experience section, after a shortlist of v2 and v3. **v1, v2, v4 and v5** are in the backlog: not for experience, but kept, code and all, for another section where they fit better (each says where under *Status*).
 
 All five share three rules worth keeping for any "experience" or "timeline" section:
 1. **Where I work now comes first and largest**, readable without any interaction.
@@ -110,7 +110,7 @@ All five share three rules worth keeping for any "experience" or "timeline" sect
 
 **Watch out.** Old years crowd the outer rings; label sparingly. Don't encode anything on the angle that isn't real (sectors are categories, not values).
 
-**Status.** Shortlisted for the experience section, with v3.
+**Status.** Backlog, kept for another section; it lost to v3 because experience has to be read and the scope has to be decoded. Likely home: a skills and tools radar (adopt, trial, hold), a format people already know how to read.
 
 <img src="img/experience-v2-radar-phone.webp" alt="v2 on a phone" width="260">
 
@@ -138,7 +138,7 @@ All five share three rules worth keeping for any "experience" or "timeline" sect
 
 **Watch out.** Long names break the scale (keep display names short, put long official names in the caption). Hover previews need a touch fallback.
 
-**Status.** Shortlisted for the experience section, with v2.
+**Status.** The live experience section since 2026-11-27. For now INJAZ and NASA Space Apps are full entries in its index rather than the community line, until Rami decides what stays.
 
 <img src="img/experience-v3-index-phone.webp" alt="v3 on a phone" width="260">
 
