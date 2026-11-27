@@ -6,18 +6,16 @@ import { useEffect, useRef } from 'react'
 
 import { FringePath } from '@/components/v7/optic'
 import { B, drawIn, focusIn } from '@/components/v7/tempo'
-import { community, vneo } from '@/content/vneo/site'
+import { community } from '@/content/vneo/site'
 
-import { useChoice } from './compare'
-import { Motion, fitStyle, replayIn } from './motion'
 import { Slate } from './slate'
 
 /*
- * In the community: the work built for people (each with its explainer
- * motion), and the rooms where it is shared: a talk, workshops, mentoring at
- * INJAZ, each a compact tile with one small piece of motion of its own, and
- * four years of NASA Space Apps across the last row. Then the writing, as a
- * slim row. One tight bento, not a chapter each.
+ * In the community, shared in person: a talk and mentoring at INJAZ side by
+ * side, then the workshops beside four years of NASA Space Apps, each a
+ * compact tile with one small piece of motion of its own. The work built for
+ * people is in the projects and the experience section; the writing is in the
+ * menu.
  */
 
 function useOnSight(build: (el: HTMLElement, tl: gsap.core.Timeline) => void) {
@@ -271,9 +269,6 @@ function Organizing() {
 
 export function Community() {
   const c = community
-  // the proposal: only the rooms it is shared in; the work built for people is on the projects
-  // page and in the experience section, and the writing is one click away in the menu
-  const person = useChoice('community') === 'new'
   return (
     <section
       id="community"
@@ -281,71 +276,18 @@ export function Community() {
       aria-labelledby="community-h"
     >
       <Slate
-        // a new key, so the heading plays its entrance again when the side flips
-        key={person ? 'person' : 'all'}
         no={6}
         label={c.label}
-        title={person ? c.person.title : c.title}
-        hot={person ? c.person.hot : c.hot}
+        title={c.title}
+        hot={c.hot}
         id="community-h"
       />
-      <ul className="vn-cbento" data-mode={person ? 'person' : undefined}>
-        {(person ? [] : c.built).map((b) => (
-          <li
-            key={b.id}
-            className={`vn-ctile is-built is-${b.size}`}
-            onPointerEnter={(ev) => replayIn(ev.currentTarget)}
-            onFocusCapture={(ev) => replayIn(ev.currentTarget)}
-          >
-            <Link
-              href={b.link.href}
-              className="vn-tile-link"
-              aria-label={`${b.name}: ${b.title}`}
-            />
-            <div
-              className="vn-tile-media"
-              aria-hidden="true"
-              style={fitStyle({ kind: 'scene', id: b.id })}
-            >
-              <Motion motion={{ kind: 'scene', id: b.id }} label={b.alt} tile />
-            </div>
-            <div className="vn-tile-cap">
-              <span className="vn-tile-kind">{b.label}</span>
-              <h3>
-                {b.name}: {b.title}
-              </h3>
-              {b.size === 'big' ? <p>{b.line}</p> : null}
-            </div>
-          </li>
-        ))}
+      <ul className="vn-cbento">
         <Talk />
-        <Workshops />
         <Mentoring />
+        <Workshops />
         <Organizing />
       </ul>
-
-      {person ? null : (
-        <div className="vn-writing" aria-labelledby="writing-h">
-          <h3 id="writing-h" className="vn-writing-h">
-            {vneo.notes.label}
-          </h3>
-          <ul>
-            {vneo.notes.items.map((n) => (
-              <li key={n.href}>
-                <Link href={n.href}>
-                  <b>{n.title}</b>
-                  <span>{n.dek}</span>
-                </Link>
-              </li>
-            ))}
-            <li className="vn-writing-all">
-              <Link className="v7-go quiet" href={vneo.notes.all.href}>
-                {vneo.notes.all.label} →
-              </Link>
-            </li>
-          </ul>
-        </div>
-      )}
     </section>
   )
 }

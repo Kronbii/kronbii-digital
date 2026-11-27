@@ -311,10 +311,9 @@ export const showcase = shelf.filter((t) => t.home !== false)
 const scene = (id: Chapter['id']) => chapters.find((c) => c.id === id)!
 export const community = {
   label: 'In the community',
-  title: 'Built for people, and shared in person.',
-  hot: 'people',
-  /** the section with only the rooms it is shared in (compare.tsx: community) */
-  person: { title: 'Shared in person.', hot: 'person' },
+  title: 'Shared in person.',
+  hot: 'person',
+  /** the work built for people, benched from this section on 2026-11-27 (kept for reuse) */
   built: [
     { ...scene('families'), size: 'big' as const },
     { ...scene('clinics'), size: 'tall' as const },
@@ -435,7 +434,7 @@ export const vneo = {
     first: 'Rami',
     last: 'Kronbi',
     sub: 'Robotics, vision & embedded systems engineer',
-    /** under the title, when the at-a-glance row is gone (compare.tsx: glance) */
+    /** under the title: the one fact the at-a-glance row held that nothing else on the page says */
     cred: {
       text: 'Valedictorian in mechatronics engineering, RHU 2025, with a 4.0/4.0',
       href: 'https://www.rhu.edu.lb/media-room/news/rhu-commencement-2025-a-tribute-to-legacy-learning-and-new-beginnings',

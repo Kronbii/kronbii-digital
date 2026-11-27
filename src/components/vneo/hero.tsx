@@ -8,8 +8,6 @@ import { decode, driver } from '@/components/v6/armed'
 import { B } from '@/components/v7/tempo'
 import { vneo } from '@/content/vneo/site'
 
-import { useChoice } from './compare'
-
 /*
  * The first screen: v6's name slam, at Vneo's calmer tempo, beside v2's
  * drone. RAMI drops in out of a colour fringe, KRONBI slides in on the next
@@ -22,8 +20,6 @@ const LOCK = 2 * B
 export function Hero() {
   const root = useRef<HTMLElement>(null)
   const c = vneo.hero
-  // with the at-a-glance row gone, its one fact found nowhere else sits under the title
-  const cred = useChoice('glance') === 'new'
 
   useEffect(() => {
     const el = root.current
@@ -109,14 +105,12 @@ export function Hero() {
         },
         3 * B
       )
-      const credLine = el.querySelectorAll('.vn-hero-cred')
-      if (credLine.length)
-        tl.fromTo(
-          credLine,
-          { opacity: 0, y: 10 },
-          { opacity: 1, y: 0, duration: 0.7 * B, ease: 'power2.out' },
-          3 * B - B / 3
-        )
+      tl.fromTo(
+        '.vn-hero-cred',
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.7 * B, ease: 'power2.out' },
+        3 * B - B / 3
+      )
       tl.fromTo(
         '.vn-hero-drone',
         { opacity: 0, y: 24, filter: 'blur(12px)' },
@@ -174,13 +168,12 @@ export function Hero() {
         <p className="vn-hero-sub" aria-label={c.sub}>
           {c.sub}
         </p>
-        {cred ? (
-          <p className="vn-hero-cred">
-            <a href={c.cred.href} target="_blank" rel="noopener">
-              {c.cred.text}
-            </a>
-          </p>
-        ) : null}
+        {/* the one fact the at-a-glance row held that nothing else on the page says */}
+        <p className="vn-hero-cred">
+          <a href={c.cred.href} target="_blank" rel="noopener">
+            {c.cred.text}
+          </a>
+        </p>
         <nav className="vn-chips" aria-label="On this page">
           {c.chips.map((ch) => (
             <a key={ch.href} className="vn-chip" href={ch.href}>

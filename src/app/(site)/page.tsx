@@ -7,11 +7,8 @@ import { INTRO_MODEL } from '@/components/v2/intro/timing'
 import { JsonLd } from '@/components/v2/json-ld'
 import { Build } from '@/components/vneo/build'
 import { Community } from '@/components/vneo/community'
-import { Choose, ComparePanel } from '@/components/vneo/compare'
 import { ExperienceV3 } from '@/components/vneo/experience-v3'
-import { Glance } from '@/components/vneo/glance'
 import { Hero } from '@/components/vneo/hero'
-import { Loop } from '@/components/vneo/loop'
 import { Laps } from '@/components/vneo/machines'
 import { Near } from '@/components/vneo/near'
 import { pageMeta } from '@/components/vneo/meta'
@@ -66,11 +63,6 @@ export default function Vneo() {
     <>
       <JsonLd data={[homeJsonLd]} />
       <Hero />
-      <Choose
-        id="glance"
-        old={<Glance items={c.glance} label="At a glance" />}
-        neu={null}
-      />
       {/* each section hydrates as its own unit, so the hero's entrance keeps the main thread between them */}
       <Suspense>
         <Build />
@@ -88,20 +80,9 @@ export default function Vneo() {
         <Community />
       </Suspense>
 
-      <Choose
-        id="loop"
-        old={
-          <Suspense>
-            <Loop />
-          </Suspense>
-        }
-        neu={null}
-      />
-
       <Near className="vn-signoff">
         <SignOff copy={c.signOff} warm />
       </Near>
-      <ComparePanel />
     </>
   )
 }
