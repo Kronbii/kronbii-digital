@@ -1,13 +1,12 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
-import { preload } from 'react-dom'
 
 import { SignOff } from '@/components/v2/home/sign-off'
-import { INTRO_MODEL } from '@/components/v2/intro/timing'
 import { JsonLd } from '@/components/v2/json-ld'
+import { Build } from '@/components/vneo/build'
 import { Community } from '@/components/vneo/community'
 import { ExperienceV3 } from '@/components/vneo/experience-v3'
-import { HeroSection } from '@/components/vneo/hero-variants'
+import { Hero } from '@/components/vneo/hero'
 import { Laps } from '@/components/vneo/machines'
 import { Near } from '@/components/vneo/near'
 import { pageMeta } from '@/components/vneo/meta'
@@ -51,18 +50,15 @@ const homeJsonLd = {
 }
 
 export default function Vneo() {
-  // the E58 stands in the hero: ask for it first, ahead of everything below the fold
-  preload(INTRO_MODEL, {
-    as: 'fetch',
-    crossOrigin: 'anonymous',
-    fetchPriority: 'high',
-  })
   const c = vneo
   return (
     <>
       <JsonLd data={[homeJsonLd]} />
-      <HeroSection />
+      <Hero />
       {/* each section hydrates as its own unit, so the hero's entrance keeps the main thread between them */}
+      <Suspense>
+        <Build />
+      </Suspense>
       <Suspense>
         <ExperienceV3 roles={experienceBoard()} now={nowYear()} />
       </Suspense>

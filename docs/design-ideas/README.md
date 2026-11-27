@@ -6,7 +6,7 @@ Each idea says what it is, why it works, how it is put together, how it moves, w
 
 - **House style** — the rules every idea follows
 - **Experience section, five takes** (November 2026) — v1 strips, v2 radar, v3 index, v4 passes, v5 departures; v3 is the live one, the other four are kept for other sections
-- **The first screen, eight takes** (November 2026) — v1 drone, v2 cedars, v3 contact sheet, v4 sentence, v5 specimen; then v6 cedars open, v7 cedars matched, v8 cedars specimen, each paired with the section under it
+- **The first screen, eight takes** (November 2026) — v1 drone, v2 cedars, v3 contact sheet, v4 sentence, v5 specimen; then v6 cedars open, v7 cedars matched, v8 cedars specimen, each paired with the section under it; v6 is the hero
 - **Decluttering patterns** — quieter pages without losing anything
 - **Ways of working** — how to explore options and let Rami decide by looking
 - **Earlier ideas still in the code** — a catalogue from the site's previous versions
@@ -201,7 +201,7 @@ All five share three rules worth keeping for any "experience" or "timeline" sect
 
 ## The first screen, eight takes
 
-Built 2026-11-27. Rami felt the hero (his name beside a 3D drone) made him look like one niche: "I'm more than a niche, I am Rami". All five keep his name as the headline, in the same type, with the title, the valedictorian line, the three buttons and "Beirut · Lebanon". They differ in what stands beside the name. In development, compare them in place: `?hero=v2` … `?hero=v5`, or the switch in the bottom-right corner (`src/components/vneo/hero-variants.tsx`); production renders v1 until one is picked.
+Built 2026-11-27. Rami felt the hero (his name beside a 3D drone) made him look like one niche: "I'm more than a niche, I am Rami". All of them keep his name as the headline, in the same type, with the title, the valedictorian line, the three buttons and "Beirut · Lebanon". They differ in what stands beside the name. Rami compared them in place with a development-only switch (`?hero=…` and a corner toolbar, deleted once he picked). **v6, "Cedars, open", is the hero** (`src/components/vneo/hero.tsx`). The others stay in the code, unused: `hero-v2.tsx` … `hero-v8.tsx`, and the drone as `hero-drone.tsx`.
 
 New photographs: two of Rami from behind under Lebanon's cedars, with a tan backpack carrying a Lebanese flag patch and a "DRONE PILOT" patch (`public/images/vneo/rami-cedars-1.webp`, `-2.webp`, and `-sm` versions for phones). They were converted from the iPhone's HEIC with the location metadata stripped (`convert … -strip`).
 
@@ -211,7 +211,7 @@ New photographs: two of Rami from behind under Lebanon's cedars, with a tan back
 
 The E58 in WebGL over a contour terrain, with callouts and live readouts. It's beautiful, but it says "drones".
 
-**Status.** Benched as the hero (2026-11-27); the live site keeps it until a cedars hero ships. Rami may use it in another section: it would suit the FPV drone's project page, or the drone-control bootcamp page, where "drones" is the point (`src/components/v2/home/specimen.tsx`).
+**Status.** Benched as the hero (2026-11-27), now `src/components/vneo/hero-drone.tsx` (`HeroDrone`, the drone itself in `src/components/v2/home/specimen.tsx`). Rami may use it in another section: it would suit the FPV drone's project page, or the drone-control bootcamp page, where "drones" is the point.
 
 ### v2 · Under the cedars
 
@@ -265,9 +265,9 @@ The E58 in WebGL over a contour terrain, with callouts and live readouts. It's b
 
 ### Round two: the cedars and the specimen, as pairs
 
-**Still in the running (2026-11-27):** v2 Cedars, v6 Cedars open, v8 Cedars specimen. The switch shows only these three, with v2 as the default.
+**Picked (2026-11-27): v6, Cedars, open.** It said "I am Rami" most directly, with no frame or instrument panel between the visitor and him. It was the calmest of the three, the best on a phone, and it pairs with the portrait plate below without two frames in a row. v2 and v8 were the other finalists and are benched. The photo ships as AVIF at 600, 1050 and 1500 wide (77, 220 and 400 KB at quality 30, indistinguishable at 1:1 on the foliage), with WebP as the fallback.
 
-Rami liked v2 (cedars, his favourite) and v5 (specimen), and dropped v3 and v4 (benched in the code). He also noticed that v5 and the "What I build" section under it clashed: the same studio portrait twice in a row. So the hero and that section are now designed as **one pair**. A hero that shows the studio portrait pairs with the section showing him under the cedars, and every cedars hero pairs with the portrait: outdoors, then the studio. `Build` takes `photo="portrait" | "field"`, and `hero-variants.tsx` maps each hero to its section (`ABOUT`), so the switch flips both.
+Rami liked v2 (cedars, his favourite) and v5 (specimen), and dropped v3 and v4 (benched in the code). He also noticed that v5 and the "What I build" section under it clashed: the same studio portrait twice in a row. So the hero and that section are now designed as **one pair**. A hero that shows the studio portrait pairs with the section showing him under the cedars, and every cedars hero pairs with the portrait: outdoors, then the studio. `Build` takes `photo="portrait" | "field"`; the comparison switch mapped each hero to its section, so it flipped both. With the cedars hero, the section shows the portrait (the default).
 
 ![the section under v5: the field plate, the lock on him](img/hero-v5-build-field.webp)
 
@@ -275,7 +275,7 @@ Rami liked v2 (cedars, his favourite) and v5 (specimen), and dropped v3 and v4 (
 
 ![v6, the cedars opening up the whole hero](img/hero-v6-desktop.webp)
 
-**The idea.** No frame: the cedars open up the whole hero. The photograph bleeds in from the right and fades into the page toward the name; he stands whole at the lower right with the ID lock on him, and the name sits over the shade of the big trunk. The photo arrives with one slow "breath", like a camera finding focus: the canopy sharpens first, then him. **Phone:** the cedars fill the screen behind the name, with the lock and the patch callouts on him. It is the strongest of the set on a phone. **Code.** `hero-v6.tsx`, `hero-v6.css`.
+**The idea.** No frame: the cedars open up the whole hero. The photograph bleeds in from the right and fades into the page toward the name; he stands whole at the lower right with the ID lock on him, and the name sits over the shade of the big trunk. The photo arrives with one slow "breath", like a camera finding focus: the canopy sharpens first, then him. **Phone:** the cedars fill the screen behind the name, with the lock and the patch callouts on him. It is the strongest of the set on a phone. **Code.** `src/components/vneo/hero.tsx`, `hero.css` (the hero since 2026-11-27).
 
 <img src="img/hero-v6-phone.webp" alt="v6 on a phone" width="260">
 
