@@ -414,6 +414,13 @@ const build = {
     alt: 'Rami Kronbi in profile, in black and white.',
     tag: 'ID lock · Rami',
   },
+  /** the same plate in the field, when the hero above uses the portrait (hero-variants.tsx) */
+  field: {
+    src: '/images/vneo/rami-cedars-1.webp',
+    small: '/images/vneo/rami-cedars-1-sm.webp',
+    alt: 'Rami Kronbi seen from behind under the cedars in Lebanon, a tan backpack with a Lebanese flag patch and a drone pilot patch.',
+    tag: 'ID lock · Rami',
+  },
 }
 
 const note = (slug: string) => {

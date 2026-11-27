@@ -6,7 +6,7 @@ Each idea says what it is, why it works, how it is put together, how it moves, w
 
 - **House style** — the rules every idea follows
 - **Experience section, five takes** (November 2026) — v1 strips, v2 radar, v3 index, v4 passes, v5 departures; v3 is the live one, the other four are kept for other sections
-- **The first screen, five takes** (November 2026) — v1 drone, v2 cedars, v3 contact sheet, v4 sentence, v5 specimen
+- **The first screen, eight takes** (November 2026) — v1 drone, v2 cedars, v3 contact sheet, v4 sentence, v5 specimen; then v6 cedars open, v7 cedars matched, v8 cedars specimen, each paired with the section under it
 - **Decluttering patterns** — quieter pages without losing anything
 - **Ways of working** — how to explore options and let Rami decide by looking
 - **Earlier ideas still in the code** — a catalogue from the site's previous versions
@@ -199,7 +199,7 @@ All five share three rules worth keeping for any "experience" or "timeline" sect
 
 ---
 
-## The first screen, five takes
+## The first screen, eight takes
 
 Built 2026-11-27. Rami felt the hero (his name beside a 3D drone) made him look like one niche: "I'm more than a niche, I am Rami". All five keep his name as the headline, in the same type, with the title, the valedictorian line, the three buttons and "Beirut · Lebanon". They differ in what stands beside the name. In development, compare them in place: `?hero=v2` … `?hero=v5`, or the switch in the bottom-right corner (`src/components/vneo/hero-variants.tsx`); production renders v1 until one is picked.
 
@@ -258,6 +258,40 @@ The E58 in WebGL over a contour terrain, with callouts and live readouts. It's b
 **Motion.** The portrait focus-pulls in; the three leaders draw one per beat, their labels decoding out of glyph noise; the readouts count up once. **Code.** `hero-v5.tsx`, `hero-v5.css`. **Reuse it for** an "about me" that explains a person the way a spec sheet explains a machine.
 
 <img src="img/hero-v5-phone.webp" alt="v5 on a phone" width="260">
+
+### Round two: the cedars and the specimen, as pairs
+
+Rami liked v2 (cedars, his favourite) and v5 (specimen), and dropped v3 and v4 (benched in the code). He also noticed that v5 and the "What I build" section under it clashed: the same studio portrait twice in a row. So the hero and that section are now designed as **one pair**. A hero that shows the studio portrait pairs with the section showing him under the cedars, and every cedars hero pairs with the portrait: outdoors, then the studio. `Build` takes `photo="portrait" | "field"`, and `hero-variants.tsx` maps each hero to its section (`ABOUT`), so the switch flips both.
+
+![the section under v5: the field plate, the lock on him](img/hero-v5-build-field.webp)
+
+#### v6 · Cedars, open
+
+![v6, the cedars opening up the whole hero](img/hero-v6-desktop.webp)
+
+**The idea.** No frame: the cedars open up the whole hero. The photograph bleeds in from the right and fades into the page toward the name; he stands whole at the lower right with the ID lock on him, and the name sits over the shade of the big trunk. The photo arrives with one slow "breath", like a camera finding focus: the canopy sharpens first, then him. **Phone:** the cedars fill the screen behind the name, with the lock and the patch callouts on him. It is the strongest of the set on a phone. **Code.** `hero-v6.tsx`, `hero-v6.css`.
+
+<img src="img/hero-v6-phone.webp" alt="v6 on a phone" width="260">
+
+#### v7 · Cedars, matched
+
+![v7, two frames matched by SIFT](img/hero-v7-desktop.webp)
+
+**The idea.** Identity the way a vision system establishes it. Both cedar photos sit side by side, with real correspondences between them: SIFT, a ratio test and RANSAC, run on the photos (`tmp/cedars-match.py`, output in `src/content/vneo/cedars-matches.json`: 23,414 and 22,451 keypoints, 685 matches, 491 kept). Faint Sage lines on the trees, brighter fringed lines on him, then one ID lock closes on him in both frames at once. His own field, applied to himself. **Code.** `hero-v7.tsx`, `hero-v7.css`. **Watch out.** Re-run the script if the photos change.
+
+<img src="img/hero-v7-phone.webp" alt="v7 on a phone" width="260">
+
+#### v8 · Cedars specimen
+
+![v8, the cedars on the instrument plate](img/hero-v8-desktop.webp)
+
+**The idea.** v2 and v5 combined: the cedar photo on the specimen's instrument plate, with callouts for what you can see from behind. SENSE marks his eyes (looking up at the canopy), LEBANON the flag patch ("where I build"), and FLY the drone-pilot patch ("a 5-inch FPV I built and tuned"). Each opens three examples. The readouts are NOW 3 roles, PROJECTS 19, TOP 10 6× and BEIRUT; the caption is "Rami Kronbi, in the field."
+
+![v8, a callout opened](img/hero-v8-desktop-point.webp)
+
+**Code.** `hero-v8.tsx`, `hero-v8.css`.
+
+<img src="img/hero-v8-phone.webp" alt="v8 on a phone" width="260">
 
 ---
 

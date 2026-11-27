@@ -16,8 +16,14 @@ import { SlateMark } from './slate'
  * section down. Beside it, my portrait, seen through the page's lens, with
  * the ID lock closing on it once, on first sight.
  */
-export function Build() {
+export function Build({
+  photo = 'portrait',
+}: {
+  /** which picture of me stands beside the sentence: the studio portrait, or under the cedars */
+  photo?: 'portrait' | 'field'
+} = {}) {
   const c = vneo.build
+  const pic = photo === 'field' ? c.field : c.portrait
   const plate = useRef<HTMLDivElement>(null)
   const sentence = useRef<HTMLParagraphElement>(null)
 
@@ -110,13 +116,14 @@ export function Build() {
           </p>
         </div>
 
-        <figure className="vn-portrait">
+        <figure className="vn-portrait" data-photo={photo}>
           <div ref={plate} className="vn-portrait-plate">
             <LensImage
-              src={c.portrait.src}
-              alt={c.portrait.alt}
+              src={pic.src}
+              alt={pic.alt}
               position="50% 100%"
               className="vn-portrait-img"
+              weight={photo === 'field' ? 0.4 : undefined}
             />
             <span className="vn-plock" aria-hidden="true">
               <i />
@@ -125,7 +132,7 @@ export function Build() {
               <i />
             </span>
             <span className="vn-ptag" aria-hidden="true">
-              {c.portrait.tag}
+              {pic.tag}
             </span>
           </div>
         </figure>

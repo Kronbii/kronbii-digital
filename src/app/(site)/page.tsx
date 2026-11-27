@@ -5,7 +5,6 @@ import { preload } from 'react-dom'
 import { SignOff } from '@/components/v2/home/sign-off'
 import { INTRO_MODEL } from '@/components/v2/intro/timing'
 import { JsonLd } from '@/components/v2/json-ld'
-import { Build } from '@/components/vneo/build'
 import { Community } from '@/components/vneo/community'
 import { ExperienceV3 } from '@/components/vneo/experience-v3'
 import { HeroSection } from '@/components/vneo/hero-variants'
@@ -64,9 +63,6 @@ export default function Vneo() {
       <JsonLd data={[homeJsonLd]} />
       <HeroSection />
       {/* each section hydrates as its own unit, so the hero's entrance keeps the main thread between them */}
-      <Suspense>
-        <Build />
-      </Suspense>
       <Suspense>
         <ExperienceV3 roles={experienceBoard()} now={nowYear()} />
       </Suspense>

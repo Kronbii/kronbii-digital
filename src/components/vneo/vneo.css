@@ -2420,6 +2420,40 @@ html[data-lens-busy] [data-vneo] :is(#v7-main h1, #v7-main h2, [data-lens]) {
   text-transform: uppercase;
 }
 
+/* the plate in the field (build.tsx, photo="field"): the lock closes on me under the cedars */
+[data-vneo] .vn-portrait[data-photo='field'] .vn-portrait-plate {
+  background: var(--surface);
+}
+[data-vneo] .vn-portrait[data-photo='field'] .vn-plock {
+  left: 59%;
+  top: 48%;
+  width: 28%;
+  height: 41%;
+}
+[data-vneo] .vn-portrait[data-photo='field'] .vn-plock i {
+  width: 20px;
+  height: 20px;
+  border-color: var(--sage);
+  filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.55));
+}
+[data-vneo] .vn-portrait[data-photo='field'] .vn-ptag {
+  left: 59%;
+  top: calc(48% - 30px);
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--sage);
+  color: var(--sage-ink);
+  font-size: 0.66rem;
+}
+@media (pointer: coarse) {
+  [data-vneo] .vn-portrait[data-photo='field'] :is(.vn-li-g, .vn-li-m) {
+    display: none;
+  }
+  [data-vneo] .vn-portrait[data-photo='field'] .vn-li-base {
+    opacity: 1;
+  }
+}
+
 @media (max-width: 760px) {
   [data-vneo] .vn-build-top {
     grid-template-columns: 1fr;
