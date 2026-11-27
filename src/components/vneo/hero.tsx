@@ -106,6 +106,12 @@ export function Hero() {
         3 * B
       )
       tl.fromTo(
+        '.vn-hero-cred',
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.7 * B, ease: 'power2.out' },
+        3 * B - B / 3
+      )
+      tl.fromTo(
         '.vn-hero-drone',
         { opacity: 0, y: 24, filter: 'blur(12px)' },
         {
@@ -161,6 +167,12 @@ export function Hero() {
         </div>
         <p className="vn-hero-sub" aria-label={c.sub}>
           {c.sub}
+        </p>
+        {/* the one fact the at-a-glance row held that nothing else on the page says */}
+        <p className="vn-hero-cred">
+          <a href={c.cred.href} target="_blank" rel="noopener">
+            {c.cred.text}
+          </a>
         </p>
         <nav className="vn-chips" aria-label="On this page">
           {c.chips.map((ch) => (

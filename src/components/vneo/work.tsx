@@ -75,11 +75,7 @@ export function Work() {
         title={c.title}
         hot={c.hot}
         id="work-h"
-      >
-        <Link className="v7-go" href={`${VN}/projects`}>
-          {c.all} →
-        </Link>
-      </Slate>
+      />
 
       <ul
         ref={grid}
@@ -90,7 +86,6 @@ export function Work() {
           <li
             key={item.slug}
             className={`vn-tile is-${item.size}`}
-            style={{ '--area': item.area } as React.CSSProperties}
             onPointerEnter={(ev) => playIn(ev.currentTarget)}
             onPointerLeave={(ev) => restIn(ev.currentTarget)}
             onFocusCapture={(ev) => playIn(ev.currentTarget)}

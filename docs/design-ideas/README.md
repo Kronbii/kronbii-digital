@@ -216,6 +216,14 @@ From the same day's pass over the projects section, which felt overwhelming.
 
 **Don't say it twice.** A section that repeated another ("More of the work" repeated All projects) goes. Community work lives in the community section and gets one line elsewhere.
 
+**The second pass (2026-11-27)** took the home page from 12.3 to 9.7 screens on a laptop, and from 10.4 to 8.7 on a phone. Rami picked all four changes after comparing them in place (see *Before and after in place* below):
+- *A row of facts that the sections already say goes.* The at-a-glance row (Now, 4×, 2025, Mentor) repeated the experience section and had gone stale. Its one fact found nowhere else (valedictorian, RHU 2025, 4.0/4.0) became a single line under the hero's title.
+- *One card format.* Selected projects lost its bento of mixed shapes (picture on top, picture beside, tall) for an even three-by-two grid. Every card is picture, name and one sentence, with one way to all projects (the button under the grid).
+- *A section does one job.* Community was doing two: projects built for people, and the rooms where work is shared. It keeps only the second, as "Shared in *person*.": the talk, INJAZ, the workshops and Space Apps. The projects live in the projects and experience sections, and the writing row left too.
+- *Tell the idea once.* Two sections told sense, decide, act: three real machines, then a simulated 3D quad. The simulation went. That is one less 3D scene for slow laptops, and the page ends on the community and the sign-off.
+
+The benched pieces stay in the code: `glance.tsx`, `loop.tsx` (with `gl/quad.tsx`), and the community's `built` scenes in `src/content/vneo/site.ts`.
+
 ---
 
 ## Ways of working
@@ -227,6 +235,8 @@ From the same day's pass over the projects section, which felt overwhelming.
 **Variants in place.** Build each option as its own component with the same props; a development-only switch (`?exp=v2`) swaps them on the real page, in context, between the real neighbours. Production imports only the chosen one: dynamic imports inside a `NODE_ENV === 'development'` branch never reach the production bundle (check with a build and a search of `.next/static`).
 
 **Build options in parallel safely.** When several people or agents build variants at once, give each one its own files and its own temporary development-only route (`/lab/...`), so a half-finished variant cannot break the page the others are checking. Wire the shared switch only after all of them are done, then delete the temporary routes.
+
+**Before and after in place.** For changes to sections that already exist, one development-only panel in the corner flips each proposal between "old" (the page as it is) and "new". There is a switch per change, plus "All old" and "All new". Clicking a change's name scrolls to it. Picks persist in `localStorage` and in the address (`?old=cards,loop`), and the panel folds to a pill on phones. Each changed spot reads its side with a small hook (`useChoice('cards')`) or wraps both sides (`<Choose old={…} neu={…} />`); production renders "new". Once picked, the losing sides and the panel are deleted. Used for the second declutter pass; recover it with `git show fac3d6a:src/components/vneo/compare.tsx`.
 
 **Unsettled facts wait in review.** A record in `review` renders in development and in a preview built with `AUTHORITY_INCLUDE_REVIEW=1`, never in production; `hold` never renders. New roles, titles or dates go in as `review` until confirmed.
 

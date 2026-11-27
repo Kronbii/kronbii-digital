@@ -6,17 +6,16 @@ import { useEffect, useRef } from 'react'
 
 import { FringePath } from '@/components/v7/optic'
 import { B, drawIn, focusIn } from '@/components/v7/tempo'
-import { community, vneo } from '@/content/vneo/site'
+import { community } from '@/content/vneo/site'
 
-import { Motion, fitStyle, replayIn } from './motion'
 import { Slate } from './slate'
 
 /*
- * In the community: the work built for people (each with its explainer
- * motion), and the rooms where it is shared: a talk, workshops, mentoring at
- * INJAZ, each a compact tile with one small piece of motion of its own, and
- * four years of NASA Space Apps across the last row. Then the writing, as a
- * slim row. One tight bento, not a chapter each.
+ * In the community, shared in person: a talk and mentoring at INJAZ side by
+ * side, then the workshops beside four years of NASA Space Apps, each a
+ * compact tile with one small piece of motion of its own. The work built for
+ * people is in the projects and the experience section; the writing is in the
+ * menu.
  */
 
 function useOnSight(build: (el: HTMLElement, tl: gsap.core.Timeline) => void) {
@@ -284,60 +283,11 @@ export function Community() {
         id="community-h"
       />
       <ul className="vn-cbento">
-        {c.built.map((b) => (
-          <li
-            key={b.id}
-            className={`vn-ctile is-built is-${b.size}`}
-            onPointerEnter={(ev) => replayIn(ev.currentTarget)}
-            onFocusCapture={(ev) => replayIn(ev.currentTarget)}
-          >
-            <Link
-              href={b.link.href}
-              className="vn-tile-link"
-              aria-label={`${b.name}: ${b.title}`}
-            />
-            <div
-              className="vn-tile-media"
-              aria-hidden="true"
-              style={fitStyle({ kind: 'scene', id: b.id })}
-            >
-              <Motion motion={{ kind: 'scene', id: b.id }} label={b.alt} tile />
-            </div>
-            <div className="vn-tile-cap">
-              <span className="vn-tile-kind">{b.label}</span>
-              <h3>
-                {b.name}: {b.title}
-              </h3>
-              {b.size === 'big' ? <p>{b.line}</p> : null}
-            </div>
-          </li>
-        ))}
         <Talk />
-        <Workshops />
         <Mentoring />
+        <Workshops />
         <Organizing />
       </ul>
-
-      <div className="vn-writing" aria-labelledby="writing-h">
-        <h3 id="writing-h" className="vn-writing-h">
-          {vneo.notes.label}
-        </h3>
-        <ul>
-          {vneo.notes.items.map((n) => (
-            <li key={n.href}>
-              <Link href={n.href}>
-                <b>{n.title}</b>
-                <span>{n.dek}</span>
-              </Link>
-            </li>
-          ))}
-          <li className="vn-writing-all">
-            <Link className="v7-go quiet" href={vneo.notes.all.href}>
-              {vneo.notes.all.label} →
-            </Link>
-          </li>
-        </ul>
-      </div>
     </section>
   )
 }
